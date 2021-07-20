@@ -1,0 +1,41 @@
+name: EcoWeapons
+version: ${projectVersion}
+main: com.willfp.ecoweapons.EcoWeaponsPlugin
+api-version: 1.16
+authors: [ Auxilor ]
+website: willfp.com
+load: STARTUP
+depend:
+  - eco
+  - ProtocolLib
+softdepend: []
+
+commands:
+  ecoweapons:
+    description: Base Command
+    permission: ecoweapons.command.ecoweapons
+
+permissions:
+  ecoweapons.*:
+    description: All ecoweapons permissions
+    default: op
+    children:
+      ecoweapons.command.*: true
+      ecoweapons.noflydisable: true
+  ecoweapons.command.*:
+    description: All commands
+    default: op
+    children:
+      ecoweapons.command.reload: true
+      ecoweapons.command.ecoweapons: true
+      ecoweapons.command.give: true
+
+  ecoweapons.command.reload:
+    description: Allows reloading the config
+    default: op
+  ecoweapons.command.give:
+    description: Allows the use of /ecoweapons give
+    default: op
+  ecoweapons.command.ecoweapons:
+    description: Allows the user of /ecoweapons.
+    default: true

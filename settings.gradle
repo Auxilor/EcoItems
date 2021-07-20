@@ -1,0 +1,5 @@
+rootProject.name = 'EcoWeapons'
+
+// Core
+include ':eco-core'
+include ':eco-core:core-plugin'
