@@ -1,4 +1,4 @@
-package com.willfp.ecoweapons.sets;
+package com.willfp.ecoweapons.weapons;
 
 
 import com.google.common.collect.BiMap;

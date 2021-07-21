@@ -1,8 +1,8 @@
 package com.willfp.ecoweapons.conditions.conditions;
 
 import com.willfp.ecoweapons.conditions.Condition;
-import com.willfp.ecoweapons.sets.Weapon;
-import com.willfp.ecoweapons.sets.util.WeaponUtils;
+import com.willfp.ecoweapons.weapons.Weapon;
+import com.willfp.ecoweapons.weapons.util.WeaponUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

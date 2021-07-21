@@ -1,9 +1,9 @@
-package com.willfp.ecoweapons.sets.util;
+package com.willfp.ecoweapons.weapons.util;
 
 import com.willfp.ecoweapons.EcoWeaponsPlugin;
 import com.willfp.ecoweapons.conditions.Condition;
-import com.willfp.ecoweapons.sets.Weapon;
-import com.willfp.ecoweapons.sets.Weapons;
+import com.willfp.ecoweapons.weapons.Weapon;
+import com.willfp.ecoweapons.weapons.Weapons;
 import lombok.experimental.UtilityClass;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

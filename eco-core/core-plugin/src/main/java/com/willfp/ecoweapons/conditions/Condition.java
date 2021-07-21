@@ -2,7 +2,7 @@ package com.willfp.ecoweapons.conditions;
 
 import com.willfp.ecoweapons.EcoWeaponsPlugin;
 import com.willfp.ecoweapons.effects.Effect;
-import com.willfp.ecoweapons.sets.Weapon;
+import com.willfp.ecoweapons.weapons.Weapon;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.bukkit.entity.Player;

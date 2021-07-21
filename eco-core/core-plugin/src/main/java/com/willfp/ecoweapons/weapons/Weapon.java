@@ -1,4 +1,4 @@
-package com.willfp.ecoweapons.sets;
+package com.willfp.ecoweapons.weapons;
 
 import com.willfp.eco.core.EcoPlugin;
 import com.willfp.eco.core.config.interfaces.JSONConfig;
@@ -11,7 +11,7 @@ import com.willfp.ecoweapons.conditions.Condition;
 import com.willfp.ecoweapons.conditions.Conditions;
 import com.willfp.ecoweapons.effects.Effect;
 import com.willfp.ecoweapons.effects.Effects;
-import com.willfp.ecoweapons.sets.util.WeaponUtils;
+import com.willfp.ecoweapons.weapons.util.WeaponUtils;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.bukkit.Material;
