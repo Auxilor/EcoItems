@@ -99,6 +99,12 @@ public class Weapon {
             effects.put(triggerType, triggerEffects);
         }
 
+        for (TriggerType value : TriggerType.values()) {
+            if (!effects.containsKey(value)) {
+                effects.put(value, new HashMap<>());
+            }
+        }
+
         item = construct((JSONConfig) this.getConfig().getSubsection("item"));
     }
 
@@ -162,7 +168,7 @@ public class Weapon {
             Recipes.createAndRegisterRecipe(
                     this.getPlugin(),
                     this.getName(),
-                    item,
+                    itemStack,
                     itemConfig.getStrings("recipe")
             );
         }

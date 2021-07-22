@@ -87,13 +87,15 @@ public abstract class Effect {
     /**
      * Handle {@link TriggerType#ALT_CLICK} and {@link TriggerType#SHIFT_ALT_CLICK}.
      *
-     * @param player   The player.
-     * @param rayTrace The ray trace.
-     * @param event    The event.
-     * @param args     The effect args.
+     * @param player    The player.
+     * @param blockRay       The block ray.
+     * @param entityRay The entity ray.
+     * @param event     The event.
+     * @param args      The effect args.
      */
     public void handleAltClick(@NotNull final Player player,
-                               @NotNull final RayTraceResult rayTrace,
+                               @NotNull final RayTraceResult blockRay,
+                               @NotNull final RayTraceResult entityRay,
                                @NotNull final PlayerInteractEvent event,
                                @NotNull final JSONConfig args) {
         // Override when needed.

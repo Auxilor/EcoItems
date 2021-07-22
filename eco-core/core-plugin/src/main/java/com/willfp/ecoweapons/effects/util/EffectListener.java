@@ -6,9 +6,9 @@ import com.willfp.ecoweapons.effects.TriggerType;
 import com.willfp.ecoweapons.weapons.Weapon;
 import com.willfp.ecoweapons.weapons.util.WeaponUtils;
 import org.bukkit.FluidCollisionMode;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Tag;
+import org.bukkit.World;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -159,21 +159,16 @@ public class EffectListener implements Listener {
             }
         }
     }
+
     /**
      * Handle {@link TriggerType#ALT_CLICK} and {@link TriggerType#SHIFT_ALT_CLICK}.
      *
      * @param event The event.
      */
-    @EventHandler(
-            ignoreCancelled = true
-    )
+    @EventHandler
     public void altClickListener(@NotNull final PlayerInteractEvent event) {
         Player player = event.getPlayer();
-        ItemStack itemStack = event.getItem();
-
-        if (itemStack == null) {
-            return;
-        }
+        ItemStack itemStack = player.getInventory().getItemInMainHand();
 
         Weapon weapon = WeaponUtils.getWeaponFromItem(itemStack);
         if (weapon == null) {
@@ -205,13 +200,24 @@ public class EffectListener implements Listener {
             return;
         }
 
+        World world = player.getLocation().getWorld();
+        assert world != null;
+
+        RayTraceResult entityResult = world.rayTraceEntities(
+                player.getEyeLocation(),
+                player.getEyeLocation().getDirection(),
+                50,
+                3,
+                entity -> entity instanceof LivingEntity
+        );
+
         if (player.isSneaking()) {
             for (Effect effect : weapon.getEffects(TriggerType.SHIFT_ALT_CLICK)) {
-                effect.handleAltClick(player, result, event, weapon.getEffectArgs(effect, TriggerType.SHIFT_ALT_CLICK));
+                effect.handleAltClick(player, result, entityResult, event, weapon.getEffectArgs(effect, TriggerType.SHIFT_ALT_CLICK));
             }
         } else {
             for (Effect effect : weapon.getEffects(TriggerType.ALT_CLICK)) {
-                effect.handleAltClick(player, result, event, weapon.getEffectArgs(effect, TriggerType.ALT_CLICK));
+                effect.handleAltClick(player, result, entityResult, event, weapon.getEffectArgs(effect, TriggerType.ALT_CLICK));
             }
         }
     }

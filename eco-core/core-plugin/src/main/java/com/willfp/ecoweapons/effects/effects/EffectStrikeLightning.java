@@ -45,10 +45,11 @@ public class EffectStrikeLightning extends Effect {
 
     @Override
     public void handleAltClick(@NotNull final Player player,
-                               @NotNull final RayTraceResult rayTrace,
+                               @NotNull final RayTraceResult blockRay,
+                               @NotNull final RayTraceResult entityRay,
                                @NotNull final PlayerInteractEvent event,
                                @NotNull final JSONConfig args) {
-        handle(rayTrace.getHitPosition().toLocation(player.getWorld()), args);
+        handle(entityRay.getHitPosition().toLocation(player.getWorld()), args);
     }
 
     private void handle(@NotNull final Location location,

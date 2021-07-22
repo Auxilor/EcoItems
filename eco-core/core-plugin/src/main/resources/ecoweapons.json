@@ -46,6 +46,49 @@
           "redstone_block"
         ]
       }
+    },
+    {
+      "name": "railgun",
+      "conditions": [],
+      "effects": [
+        {
+          "id": "railgun",
+          "args": {
+            "damage": 4,
+            "sound": "entity_llama_spit",
+            "particle": "smoke_normal"
+          },
+          "trigger": "alt_click"
+        }
+      ],
+      "item": {
+        "material": "iron_hoe",
+        "displayName": "&aRailgun",
+        "lore": [
+          "railgun innit"
+        ],
+        "attributes": [
+        ],
+        "unbreakable": true,
+        "flags": [],
+        "customModelData": -1,
+        "enchants": [
+        ],
+        "craftable": false,
+        "recipe": [
+          "redstone_block",
+          "glowstone_block",
+          "redstone_block",
+
+          "glowstone_block",
+          "iron_hoe",
+          "glowstone_block",
+
+          "redstone_block",
+          "glowstone_block",
+          "redstone_block"
+        ]
+      }
     }
   ]
 }

@@ -36,16 +36,16 @@ public class WeaponsDisplay extends DisplayModule {
             return;
         }
 
-        ItemMeta slotMeta = weapon.getItem().getItemMeta();
-        assert slotMeta != null;
+        ItemMeta weaponMeta = weapon.getItem().getItemMeta();
+        assert weaponMeta != null;
 
-        List<String> lore = new ArrayList<>(slotMeta.getLore());
+        List<String> lore = new ArrayList<>(weaponMeta.getLore());
 
         if (meta.hasLore()) {
             lore.addAll(meta.getLore());
         }
         meta.setLore(lore);
-        meta.setDisplayName(slotMeta.getDisplayName());
+        meta.setDisplayName(weaponMeta.getDisplayName());
 
         itemStack.setItemMeta(meta);
     }
