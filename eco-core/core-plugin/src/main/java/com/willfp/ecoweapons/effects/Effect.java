@@ -5,7 +5,9 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class Effect {
@@ -24,7 +26,7 @@ public abstract class Effect {
     /**
      * Create a new effect.
      *
-     * @param name      The effect name.
+     * @param name The effect name.
      */
     protected Effect(@NotNull final String name) {
         this.name = name;
@@ -44,6 +46,21 @@ public abstract class Effect {
                                   @NotNull final LivingEntity victim,
                                   @NotNull final EntityDamageByEntityEvent event,
                                   @NotNull final Object args) {
+        // Override when needed.
+    }
+
+    /**
+     * Handle {@link TriggerType#PROJECTILE_HIT}.
+     *
+     * @param player     The player.
+     * @param projectile The projectile.
+     * @param event      The event.
+     * @param args       The effect args.
+     */
+    public void handleProjectileHit(@NotNull final Player player,
+                                    @NotNull final Projectile projectile,
+                                    @NotNull final ProjectileHitEvent event,
+                                    @NotNull final Object args) {
         // Override when needed.
     }
 }

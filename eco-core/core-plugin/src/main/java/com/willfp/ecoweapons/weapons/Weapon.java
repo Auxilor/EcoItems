@@ -168,7 +168,6 @@ public class Weapon {
      * @param triggerType The trigger type.
      * @return The strength.
      */
-    @Nullable
     public Object getEffectStrength(@NotNull final Effect effect,
                                    @NotNull final TriggerType triggerType) {
         return effects.get(triggerType).get(effect);

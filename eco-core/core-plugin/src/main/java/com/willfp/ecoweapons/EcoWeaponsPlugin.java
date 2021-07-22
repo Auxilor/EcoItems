@@ -1,11 +1,16 @@
 package com.willfp.ecoweapons;
 
 import com.willfp.eco.core.EcoPlugin;
+import com.willfp.eco.core.command.impl.PluginCommand;
+import com.willfp.eco.core.display.DisplayModule;
+import com.willfp.ecoweapons.commands.CommandEcoweapons;
 import com.willfp.ecoweapons.config.EcoWeaponsJson;
+import com.willfp.ecoweapons.display.WeaponsDisplay;
 import com.willfp.ecoweapons.effects.util.EffectListener;
 import com.willfp.ecoweapons.util.DiscoverRecipeListener;
 import lombok.Getter;
 import org.bukkit.event.Listener;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.List;
@@ -39,5 +44,17 @@ public class EcoWeaponsPlugin extends EcoPlugin {
                 new EffectListener(),
                 new DiscoverRecipeListener(this)
         );
+    }
+
+    @Override
+    protected List<PluginCommand> loadPluginCommands() {
+        return Arrays.asList(
+                new CommandEcoweapons(this)
+        );
+    }
+
+    @Override
+    protected @Nullable DisplayModule createDisplayModule() {
+        return new WeaponsDisplay(this);
     }
 }

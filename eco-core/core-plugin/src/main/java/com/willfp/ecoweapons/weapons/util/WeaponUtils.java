@@ -61,14 +61,11 @@ public class WeaponUtils {
      * Get if all conditions are met for a player.
      *
      * @param player The player.
-     * @return If conditions are men.
+     * @param weapon The weapon.
+     * @return If conditions are met.
      */
-    public boolean areConditionsMet(@NotNull final Player player) {
-        Weapon weapon = getWeaponFromItem(player.getInventory().getItemInMainHand());
-        if (weapon == null) {
-            return true;
-        }
-
+    public boolean areConditionsMet(@NotNull final Player player,
+                                    @NotNull final Weapon weapon) {
         for (Map.Entry<Condition<?>, Object> entry : weapon.getConditions().entrySet()) {
             if (!entry.getKey().isMet(player, entry.getValue())) {
                 return false;
