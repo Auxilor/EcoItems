@@ -5,19 +5,76 @@ import com.willfp.ecoweapons.effects.Effect;
 import com.willfp.ecoweapons.effects.TriggerType;
 import com.willfp.ecoweapons.weapons.Weapon;
 import com.willfp.ecoweapons.weapons.util.WeaponUtils;
+import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Trident;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class EffectListener implements Listener {
+    /**
+     * Items that must be left-clicked to activate spells for.
+     */
+    private static final List<Material> LEFT_CLICK_ITEMS = Arrays.asList(
+            Material.FISHING_ROD,
+            Material.BOW,
+            Material.CROSSBOW,
+            Material.TRIDENT
+    );
+
+    /**
+     * Items that don't cause spells to activate when right clicked.
+     */
+    private static final List<Material> BLACKLIST_CLICKED_BLOCKS = new ArrayList<>(Arrays.asList(
+            Material.CRAFTING_TABLE,
+            Material.GRINDSTONE,
+            Material.ENCHANTING_TABLE,
+            Material.FURNACE,
+            Material.SMITHING_TABLE,
+            Material.LEVER,
+            Material.REPEATER,
+            Material.COMPARATOR,
+            Material.RESPAWN_ANCHOR,
+            Material.NOTE_BLOCK,
+            Material.ITEM_FRAME,
+            Material.CHEST,
+            Material.BARREL,
+            Material.BEACON,
+            Material.LECTERN,
+            Material.FLETCHING_TABLE,
+            Material.SMITHING_TABLE,
+            Material.STONECUTTER,
+            Material.SMOKER,
+            Material.BLAST_FURNACE,
+            Material.BREWING_STAND,
+            Material.DISPENSER,
+            Material.DROPPER
+    ));
+
+    static {
+        BLACKLIST_CLICKED_BLOCKS.addAll(Tag.BUTTONS.getValues());
+        BLACKLIST_CLICKED_BLOCKS.addAll(Tag.BEDS.getValues());
+        BLACKLIST_CLICKED_BLOCKS.addAll(Tag.DOORS.getValues());
+        BLACKLIST_CLICKED_BLOCKS.addAll(Tag.FENCE_GATES.getValues());
+        BLACKLIST_CLICKED_BLOCKS.addAll(Tag.TRAPDOORS.getValues());
+        BLACKLIST_CLICKED_BLOCKS.addAll(Tag.ANVIL.getValues());
+        BLACKLIST_CLICKED_BLOCKS.addAll(Tag.SHULKER_BOXES.getValues());
+    }
+
+
     /**
      * Handle {@link TriggerType#MELEE_ATTACK}.
      *
@@ -111,9 +168,29 @@ public class EffectListener implements Listener {
         Player player = event.getPlayer();
         ItemStack itemStack = event.getItem();
 
+        if (itemStack == null) {
+            return;
+        }
+
         Weapon weapon = WeaponUtils.getWeaponFromItem(itemStack);
         if (weapon == null) {
             return;
+        }
+
+        if (LEFT_CLICK_ITEMS.contains(itemStack.getType())) {
+            if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                return;
+            }
+        } else {
+            if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK) {
+                return;
+            }
+        }
+
+        if (event.getClickedBlock() != null) {
+            if (BLACKLIST_CLICKED_BLOCKS.contains(event.getClickedBlock().getType())) {
+                return;
+            }
         }
 
         if (!WeaponUtils.areConditionsMet(player, weapon)) {
