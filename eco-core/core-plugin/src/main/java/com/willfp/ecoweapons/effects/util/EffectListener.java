@@ -1,5 +1,6 @@
 package com.willfp.ecoweapons.effects.util;
 
+import com.willfp.eco.core.integrations.antigrief.AntigriefManager;
 import com.willfp.eco.util.ArrowUtils;
 import com.willfp.ecoweapons.effects.Effect;
 import com.willfp.ecoweapons.effects.TriggerType;
@@ -104,8 +105,10 @@ public class EffectListener implements Listener {
         }
 
         for (Effect effect : weapon.getEffects(TriggerType.MELEE_ATTACK)) {
-            if (effect.isCooldownOver(player, weapon, TriggerType.MELEE_ATTACK)) {
-                effect.handleMeleeAttack(player, victim, event, weapon.getEffectArgs(effect, TriggerType.MELEE_ATTACK));
+            if (AntigriefManager.canInjure(player, victim)) {
+                if (effect.isCooldownOver(player, weapon, TriggerType.MELEE_ATTACK)) {
+                    effect.handleMeleeAttack(player, victim, event, weapon.getEffectArgs(effect, TriggerType.MELEE_ATTACK));
+                }
             }
         }
     }
@@ -157,8 +160,10 @@ public class EffectListener implements Listener {
         } else {
             if (event.getHitEntity() instanceof LivingEntity victim) {
                 for (Effect effect : weapon.getEffects(TriggerType.PROJECTILE_HIT_ENTITY)) {
-                    if (effect.isCooldownOver(player, weapon, TriggerType.PROJECTILE_HIT_ENTITY)) {
-                        effect.handleProjectileHitEntity(player, victim, event.getEntity(), event, weapon.getEffectArgs(effect, TriggerType.PROJECTILE_HIT_ENTITY));
+                    if (AntigriefManager.canInjure(player, victim)) {
+                        if (effect.isCooldownOver(player, weapon, TriggerType.PROJECTILE_HIT_ENTITY)) {
+                            effect.handleProjectileHitEntity(player, victim, event.getEntity(), event, weapon.getEffectArgs(effect, TriggerType.PROJECTILE_HIT_ENTITY));
+                        }
                     }
                 }
             }
