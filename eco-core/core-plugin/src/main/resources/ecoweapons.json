@@ -31,15 +31,15 @@
             "level": 5
           }
         ],
-        "craftable": false,
+        "craftable": true,
         "recipe": [
           "redstone_block",
           "glowstone_block",
           "redstone_block",
 
-          "redstone_block",
+          "glowstone_block",
           "bow",
-          "redstone_block",
+          "glowstone_block",
 
           "redstone_block",
           "glowstone_block",

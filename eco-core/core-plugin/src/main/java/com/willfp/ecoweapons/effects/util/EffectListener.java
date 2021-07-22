@@ -13,6 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -95,6 +96,37 @@ public class EffectListener implements Listener {
                 for (Effect effect : weapon.getEffects(TriggerType.PROJECTILE_HIT)) {
                     effect.handleProjectileHitEntity(player, victim, event.getEntity(), event, weapon.getEffectStrength(effect, TriggerType.PROJECTILE_HIT));
                 }
+            }
+        }
+    }
+    /**
+     * Handle {@link TriggerType#ALT_CLICK} and {@link TriggerType#SHIFT_ALT_CLICK}.
+     *
+     * @param event The event.
+     */
+    @EventHandler(
+            ignoreCancelled = true
+    )
+    public void altClickListener(@NotNull final PlayerInteractEvent event) {
+        Player player = event.getPlayer();
+        ItemStack itemStack = event.getItem();
+
+        Weapon weapon = WeaponUtils.getWeaponFromItem(itemStack);
+        if (weapon == null) {
+            return;
+        }
+
+        if (!WeaponUtils.areConditionsMet(player, weapon)) {
+            return;
+        }
+
+        if (player.isSneaking()) {
+            for (Effect effect : weapon.getEffects(TriggerType.SHIFT_ALT_CLICK)) {
+                effect.handleAltClick(player, event, weapon.getEffectStrength(effect, TriggerType.SHIFT_ALT_CLICK));
+            }
+        } else {
+            for (Effect effect : weapon.getEffects(TriggerType.ALT_CLICK)) {
+                effect.handleAltClick(player, event, weapon.getEffectStrength(effect, TriggerType.ALT_CLICK));
             }
         }
     }

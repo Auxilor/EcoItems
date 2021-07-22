@@ -7,6 +7,7 @@ import com.willfp.eco.core.items.CustomItem;
 import com.willfp.eco.core.items.builder.ItemBuilder;
 import com.willfp.eco.core.items.builder.ItemStackBuilder;
 import com.willfp.eco.core.recipe.Recipes;
+import com.willfp.eco.util.NumberUtils;
 import com.willfp.ecoweapons.conditions.Condition;
 import com.willfp.ecoweapons.conditions.Conditions;
 import com.willfp.ecoweapons.effects.Effect;
@@ -17,17 +18,20 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @SuppressWarnings("unchecked")
@@ -135,6 +139,23 @@ public class Weapon {
 
         ItemStack itemStack = builder.build();
 
+        ItemMeta meta = itemStack.getItemMeta();
+        assert meta != null;
+
+        for (JSONConfig attribute : itemConfig.getSubsections("attributes")) {
+            meta.addAttributeModifier(
+                    Attribute.valueOf(attribute.getString("id").toUpperCase()),
+                    new AttributeModifier(
+                            UUID.randomUUID(),
+                            String.valueOf(NumberUtils.randInt(0, 10000000)),
+                            Double.parseDouble(attribute.getString("amount")),
+                            AttributeModifier.Operation.valueOf(attribute.getString("operation").toUpperCase())
+                    )
+            );
+        }
+
+        itemStack.setItemMeta(meta);
+
         new CustomItem(this.getPlugin().getNamespacedKeyFactory().create(name.toLowerCase()), test -> Objects.equals(this, WeaponUtils.getWeaponFromItem(test)), itemStack).register();
 
         if (itemConfig.getBool("craftable")) {
@@ -147,18 +168,6 @@ public class Weapon {
         }
 
         return itemStack;
-    }
-
-    /**
-     * Get condition value of effect.
-     *
-     * @param condition The condition to query.
-     * @param <T>       The type of the condition value.
-     * @return The value.
-     */
-    @Nullable
-    public <T> T getConditionValue(@NotNull final Condition<T> condition) {
-        return (T) conditions.get(condition);
     }
 
     /**

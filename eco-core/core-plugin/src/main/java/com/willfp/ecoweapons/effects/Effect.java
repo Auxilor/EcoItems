@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class Effect {
@@ -78,6 +79,19 @@ public abstract class Effect {
                                     @NotNull final Projectile projectile,
                                     @NotNull final ProjectileHitEvent event,
                                     @NotNull final Object args) {
+        // Override when needed.
+    }
+
+    /**
+     * Handle {@link TriggerType#ALT_CLICK} and {@link TriggerType#SHIFT_ALT_CLICK}.
+     *
+     * @param player The player.
+     * @param event  The event.
+     * @param args   The effect args.
+     */
+    public void handleAltClick(@NotNull final Player player,
+                               @NotNull final PlayerInteractEvent event,
+                               @NotNull final Object args) {
         // Override when needed.
     }
 }
