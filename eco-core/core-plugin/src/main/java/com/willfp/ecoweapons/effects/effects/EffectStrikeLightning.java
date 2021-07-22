@@ -1,6 +1,5 @@
 package com.willfp.ecoweapons.effects.effects;
 
-import com.willfp.eco.util.LightningUtils;
 import com.willfp.ecoweapons.effects.Effect;
 import org.bukkit.World;
 import org.bukkit.entity.LivingEntity;
@@ -23,10 +22,14 @@ public class EffectStrikeLightning extends Effect {
                                   @NotNull final LivingEntity victim,
                                   @NotNull final EntityDamageByEntityEvent event,
                                   @NotNull final Object args) {
-        Map<String, Integer> argMap = (Map<String, Integer>) args;
+        Map<String, Double> argMap = (Map<String, Double>) args;
+        World world = victim.getLocation().getWorld();
+        assert world != null;
 
         for (int i = 0; i < argMap.get("amount"); i++) {
-            LightningUtils.strike(victim, argMap.get("damage"));
+            this.getPlugin().getScheduler().runLater(() -> {
+                world.strikeLightning(victim.getLocation());
+            }, i);
         }
     }
 
@@ -35,12 +38,14 @@ public class EffectStrikeLightning extends Effect {
                                     @NotNull final Projectile projectile,
                                     @NotNull final ProjectileHitEvent event,
                                     @NotNull final Object args) {
-        Map<String, Integer> argMap = (Map<String, Integer>) args;
+        Map<String, Double> argMap = (Map<String, Double>) args;
+        World world = projectile.getLocation().getWorld();
+        assert world != null;
 
         for (int i = 0; i < argMap.get("amount"); i++) {
-            World world = projectile.getLocation().getWorld();
-            assert world != null;
-            world.strikeLightning(projectile.getLocation());
+            this.getPlugin().getScheduler().runLater(() -> {
+                world.strikeLightning(projectile.getLocation());
+            }, i);
         }
     }
 }

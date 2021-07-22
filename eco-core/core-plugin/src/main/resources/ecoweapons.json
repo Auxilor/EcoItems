@@ -7,7 +7,6 @@
         {
           "id": "strike-lightning",
           "args": {
-            "damage": 4,
             "amount": 5
           },
           "trigger": "projectile_hit"
@@ -32,7 +31,20 @@
             "level": 5
           }
         ],
-        "craftable": false
+        "craftable": false,
+        "recipe": [
+          "redstone_block",
+          "glowstone_block",
+          "redstone_block",
+
+          "redstone_block",
+          "bow",
+          "redstone_block",
+
+          "redstone_block",
+          "glowstone_block",
+          "redstone_block"
+        ]
       }
     }
   ]

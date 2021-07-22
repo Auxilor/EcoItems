@@ -50,6 +50,23 @@ public abstract class Effect {
     }
 
     /**
+     * Handle {@link TriggerType#PROJECTILE_HIT_ENTITY}.
+     *
+     * @param player     The player.
+     * @param victim     The victim.
+     * @param projectile The projectile.
+     * @param event      The event.
+     * @param args       The effect args.
+     */
+    public void handleProjectileHitEntity(@NotNull final Player player,
+                                          @NotNull final LivingEntity victim,
+                                          @NotNull final Projectile projectile,
+                                          @NotNull final ProjectileHitEvent event,
+                                          @NotNull final Object args) {
+        // Override when needed.
+    }
+
+    /**
      * Handle {@link TriggerType#PROJECTILE_HIT}.
      *
      * @param player     The player.

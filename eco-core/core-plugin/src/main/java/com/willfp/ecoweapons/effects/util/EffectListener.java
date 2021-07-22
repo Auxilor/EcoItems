@@ -5,7 +5,6 @@ import com.willfp.ecoweapons.effects.Effect;
 import com.willfp.ecoweapons.effects.TriggerType;
 import com.willfp.ecoweapons.weapons.Weapon;
 import com.willfp.ecoweapons.weapons.util.WeaponUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -50,7 +49,7 @@ public class EffectListener implements Listener {
     }
 
     /**
-     * Handle {@link TriggerType#MELEE_ATTACK}.
+     * Handle {@link TriggerType#PROJECTILE_HIT} and {@link TriggerType#PROJECTILE_HIT_ENTITY}.
      *
      * @param event The event.
      */
@@ -58,8 +57,6 @@ public class EffectListener implements Listener {
             ignoreCancelled = true
     )
     public void projectileHitListener(@NotNull final ProjectileHitEvent event) {
-        Bukkit.getLogger().info("Here?");
-
         if (!(event.getEntity() instanceof Trident || event.getEntity() instanceof Arrow)) {
             return;
         }
@@ -72,35 +69,33 @@ public class EffectListener implements Listener {
             item = ArrowUtils.getBow((Arrow) event.getEntity());
         }
 
-        Bukkit.getLogger().info("2");
-
         if (item == null) {
             return;
         }
 
-        Bukkit.getLogger().info("3");
-
         if (!(event.getEntity().getShooter() instanceof Player player)) {
             return;
         }
-
-        Bukkit.getLogger().info("hoo");
 
         Weapon weapon = WeaponUtils.getWeaponFromItem(item);
         if (weapon == null) {
             return;
         }
 
-        Bukkit.getLogger().info("nayan");
-
         if (!WeaponUtils.areConditionsMet(player, weapon)) {
             return;
         }
 
-        Bukkit.getLogger().info("here!");
-
-        for (Effect effect : weapon.getEffects(TriggerType.PROJECTILE_HIT)) {
-            effect.handleProjectileHit(player, event.getEntity(), event, weapon.getEffectStrength(effect, TriggerType.PROJECTILE_HIT));
+        if (event.getHitEntity() == null) {
+            for (Effect effect : weapon.getEffects(TriggerType.PROJECTILE_HIT)) {
+                effect.handleProjectileHit(player, event.getEntity(), event, weapon.getEffectStrength(effect, TriggerType.PROJECTILE_HIT));
+            }
+        } else {
+            if (event.getHitEntity() instanceof LivingEntity victim) {
+                for (Effect effect : weapon.getEffects(TriggerType.PROJECTILE_HIT)) {
+                    effect.handleProjectileHitEntity(player, victim, event.getEntity(), event, weapon.getEffectStrength(effect, TriggerType.PROJECTILE_HIT));
+                }
+            }
         }
     }
 }
