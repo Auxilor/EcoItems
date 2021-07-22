@@ -56,8 +56,10 @@ public class EffectArrowStorm extends Effect {
     private void handle(@NotNull final Location location,
                         @NotNull final JSONConfig args) {
         int amount = args.getInt("amount");
+        double height = args.getDouble("height");
+        double radius = args.getDouble("radius");
 
-        Location apex = location.clone().add(0, 5, 0);
+        Location apex = location.clone().add(0, height, 0);
 
         World world = location.getWorld();
         assert world != null;
@@ -68,9 +70,9 @@ public class EffectArrowStorm extends Effect {
             Location spawn = apex.clone();
 
             spawn.add(
-                    Math.sin(angle),
+                    Math.sin(angle * i) * radius,
                     0,
-                    Math.cos(angle)
+                    Math.cos(angle * i) * radius
             );
 
             world.spawn(

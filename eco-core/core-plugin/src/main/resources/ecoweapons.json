@@ -7,7 +7,9 @@
         {
           "id": "arrow-storm",
           "args": {
-            "amount": 5
+            "amount": 5,
+            "height": 5,
+            "radius": 2
           },
           "trigger": "projectile_hit"
         }
