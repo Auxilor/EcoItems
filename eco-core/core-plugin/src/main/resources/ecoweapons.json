@@ -9,7 +9,8 @@
           "args": {
             "amount": 5,
             "height": 5,
-            "radius": 2
+            "radius": 2,
+            "cooldown": 20
           },
           "trigger": "projectile_hit"
         }
@@ -57,7 +58,8 @@
           "args": {
             "damage": 4,
             "sound": "entity_llama_spit",
-            "particle": "smoke_normal"
+            "particle": "smoke_normal",
+            "cooldown": 15
           },
           "trigger": "alt_click"
         }
