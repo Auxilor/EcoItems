@@ -1,5 +1,6 @@
 package com.willfp.ecoweapons.effects;
 
+import com.willfp.eco.core.config.interfaces.JSONConfig;
 import com.willfp.ecoweapons.EcoWeaponsPlugin;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -9,6 +10,7 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.util.RayTraceResult;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class Effect {
@@ -46,7 +48,7 @@ public abstract class Effect {
     public void handleMeleeAttack(@NotNull final Player player,
                                   @NotNull final LivingEntity victim,
                                   @NotNull final EntityDamageByEntityEvent event,
-                                  @NotNull final Object args) {
+                                  @NotNull final JSONConfig args) {
         // Override when needed.
     }
 
@@ -63,7 +65,7 @@ public abstract class Effect {
                                           @NotNull final LivingEntity victim,
                                           @NotNull final Projectile projectile,
                                           @NotNull final ProjectileHitEvent event,
-                                          @NotNull final Object args) {
+                                          @NotNull final JSONConfig args) {
         // Override when needed.
     }
 
@@ -78,20 +80,22 @@ public abstract class Effect {
     public void handleProjectileHit(@NotNull final Player player,
                                     @NotNull final Projectile projectile,
                                     @NotNull final ProjectileHitEvent event,
-                                    @NotNull final Object args) {
+                                    @NotNull final JSONConfig args) {
         // Override when needed.
     }
 
     /**
      * Handle {@link TriggerType#ALT_CLICK} and {@link TriggerType#SHIFT_ALT_CLICK}.
      *
-     * @param player The player.
-     * @param event  The event.
-     * @param args   The effect args.
+     * @param player   The player.
+     * @param rayTrace The ray trace.
+     * @param event    The event.
+     * @param args     The effect args.
      */
     public void handleAltClick(@NotNull final Player player,
+                               @NotNull final RayTraceResult rayTrace,
                                @NotNull final PlayerInteractEvent event,
-                               @NotNull final Object args) {
+                               @NotNull final JSONConfig args) {
         // Override when needed.
     }
 }

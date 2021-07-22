@@ -3,6 +3,7 @@ package com.willfp.ecoweapons.effects;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableList;
+import com.willfp.ecoweapons.effects.effects.EffectRailgun;
 import com.willfp.ecoweapons.effects.effects.EffectStrikeLightning;
 import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
@@ -19,6 +20,7 @@ public class Effects {
     private static final BiMap<String, Effect> BY_NAME = HashBiMap.create();
 
     public static final Effect STRIKE_LIGHTNING = new EffectStrikeLightning();
+    public static final Effect RAILGUN = new EffectRailgun();
 
     /**
      * Get effect matching name.

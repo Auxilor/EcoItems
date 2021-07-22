@@ -63,7 +63,7 @@ public class Weapon {
     /**
      * Effects and their strengths.
      */
-    private final Map<TriggerType, Map<Effect, Object>> effects = new HashMap<>();
+    private final Map<TriggerType, Map<Effect, JSONConfig>> effects = new HashMap<>();
 
     /**
      * Weapon item.
@@ -91,10 +91,10 @@ public class Weapon {
 
         for (JSONConfig cfg : this.getConfig().getSubsections("effects")) {
             Effect effect = Effects.getByName(cfg.getString("id"));
-            Object value = cfg.get("args");
+            JSONConfig value = (JSONConfig) cfg.getSubsection("args");
             TriggerType triggerType = TriggerType.getByName(cfg.getString("trigger"));
             effects.computeIfAbsent(triggerType, k -> new HashMap<>());
-            Map<Effect, Object> triggerEffects = effects.get(triggerType);
+            Map<Effect, JSONConfig> triggerEffects = effects.get(triggerType);
             triggerEffects.put(effect, value);
             effects.put(triggerType, triggerEffects);
         }
@@ -177,8 +177,8 @@ public class Weapon {
      * @param triggerType The trigger type.
      * @return The strength.
      */
-    public Object getEffectStrength(@NotNull final Effect effect,
-                                   @NotNull final TriggerType triggerType) {
+    public JSONConfig getEffectArgs(@NotNull final Effect effect,
+                                    @NotNull final TriggerType triggerType) {
         return effects.get(triggerType).get(effect);
     }
 

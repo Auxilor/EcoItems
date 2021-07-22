@@ -5,6 +5,8 @@ import com.willfp.ecoweapons.effects.Effect;
 import com.willfp.ecoweapons.effects.TriggerType;
 import com.willfp.ecoweapons.weapons.Weapon;
 import com.willfp.ecoweapons.weapons.util.WeaponUtils;
+import org.bukkit.FluidCollisionMode;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.entity.Arrow;
@@ -18,6 +20,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.RayTraceResult;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -102,7 +105,7 @@ public class EffectListener implements Listener {
         }
 
         for (Effect effect : weapon.getEffects(TriggerType.MELEE_ATTACK)) {
-            effect.handleMeleeAttack(player, victim, event, weapon.getEffectStrength(effect, TriggerType.MELEE_ATTACK));
+            effect.handleMeleeAttack(player, victim, event, weapon.getEffectArgs(effect, TriggerType.MELEE_ATTACK));
         }
     }
 
@@ -146,12 +149,12 @@ public class EffectListener implements Listener {
 
         if (event.getHitEntity() == null) {
             for (Effect effect : weapon.getEffects(TriggerType.PROJECTILE_HIT)) {
-                effect.handleProjectileHit(player, event.getEntity(), event, weapon.getEffectStrength(effect, TriggerType.PROJECTILE_HIT));
+                effect.handleProjectileHit(player, event.getEntity(), event, weapon.getEffectArgs(effect, TriggerType.PROJECTILE_HIT));
             }
         } else {
             if (event.getHitEntity() instanceof LivingEntity victim) {
                 for (Effect effect : weapon.getEffects(TriggerType.PROJECTILE_HIT)) {
-                    effect.handleProjectileHitEntity(player, victim, event.getEntity(), event, weapon.getEffectStrength(effect, TriggerType.PROJECTILE_HIT));
+                    effect.handleProjectileHitEntity(player, victim, event.getEntity(), event, weapon.getEffectArgs(effect, TriggerType.PROJECTILE_HIT));
                 }
             }
         }
@@ -197,13 +200,18 @@ public class EffectListener implements Listener {
             return;
         }
 
+        RayTraceResult result = player.rayTraceBlocks(50, FluidCollisionMode.NEVER);
+        if (result == null) {
+            return;
+        }
+
         if (player.isSneaking()) {
             for (Effect effect : weapon.getEffects(TriggerType.SHIFT_ALT_CLICK)) {
-                effect.handleAltClick(player, event, weapon.getEffectStrength(effect, TriggerType.SHIFT_ALT_CLICK));
+                effect.handleAltClick(player, result, event, weapon.getEffectArgs(effect, TriggerType.SHIFT_ALT_CLICK));
             }
         } else {
             for (Effect effect : weapon.getEffects(TriggerType.ALT_CLICK)) {
-                effect.handleAltClick(player, event, weapon.getEffectStrength(effect, TriggerType.ALT_CLICK));
+                effect.handleAltClick(player, result, event, weapon.getEffectArgs(effect, TriggerType.ALT_CLICK));
             }
         }
     }
