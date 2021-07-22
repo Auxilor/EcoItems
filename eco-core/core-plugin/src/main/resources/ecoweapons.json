@@ -1,7 +1,12 @@
 {
   "weapons": [
     {
-      "name": ""
+      "name": "",
+      "conditions": [],
+      "item": {
+        "material": "",
+        "displayName": ""
+      }
     }
   ]
 }

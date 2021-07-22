@@ -90,26 +90,26 @@ public class Weapon {
             effects.put(effect, value);
         }
 
-        item = construct();
+        item = construct((JSONConfig) this.getConfig().getSubsection("item"));
     }
 
-    private ItemStack construct() {
-        Material material = Material.getMaterial(config.getString("material").toUpperCase());
+    private ItemStack construct(@NotNull final JSONConfig itemConfig) {
+        Material material = Material.getMaterial(itemConfig.getString("material").toUpperCase());
 
         assert material != null;
 
         ItemBuilder builder = new ItemStackBuilder(material);
 
-        builder.setDisplayName(config.getString("displayName"))
+        builder.setDisplayName(itemConfig.getString("displayName"))
                 .addItemFlag(
-                        config.getStrings("flags").stream()
+                        itemConfig.getStrings("flags").stream()
                                 .map(s -> ItemFlag.valueOf(s.toUpperCase()))
                                 .toArray(ItemFlag[]::new)
                 )
-                .setUnbreakable(config.getBool("unbreakable"))
-                .addLoreLines(config.getStrings("lore").stream().map(s -> Display.PREFIX + s).collect(Collectors.toList()))
+                .setUnbreakable(itemConfig.getBool("unbreakable"))
+                .addLoreLines(itemConfig.getStrings("lore").stream().map(s -> Display.PREFIX + s).collect(Collectors.toList()))
                 .setCustomModelData(() -> {
-                    int data = config.getInt("customModelData");
+                    int data = itemConfig.getInt("customModelData");
                     return data != -1 ? data : null;
                 })
                 .writeMetaKey(
@@ -120,7 +120,7 @@ public class Weapon {
 
         Map<Enchantment, Integer> enchants = new HashMap<>();
 
-        for (JSONConfig enchantSection : config.getSubsections("enchants")) {
+        for (JSONConfig enchantSection : itemConfig.getSubsections("enchants")) {
             Enchantment enchantment = Enchantment.getByKey(NamespacedKey.minecraft(enchantSection.getString("id")));
             int level = enchantSection.getInt("level");
             enchants.put(enchantment, level);
@@ -132,12 +132,12 @@ public class Weapon {
 
         new CustomItem(this.getPlugin().getNamespacedKeyFactory().create(name.toLowerCase()), test -> Objects.equals(this, WeaponUtils.getWeaponFromItem(test)), itemStack).register();
 
-        if (config.getBool("craftable")) {
+        if (itemConfig.getBool("craftable")) {
             Recipes.createAndRegisterRecipe(
                     this.getPlugin(),
                     this.getName(),
                     item,
-                    config.getStrings("recipe")
+                    itemConfig.getStrings("recipe")
             );
         }
 
