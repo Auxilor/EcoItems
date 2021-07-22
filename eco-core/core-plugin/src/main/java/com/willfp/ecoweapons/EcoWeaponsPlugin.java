@@ -2,13 +2,14 @@ package com.willfp.ecoweapons;
 
 import com.willfp.eco.core.EcoPlugin;
 import com.willfp.ecoweapons.config.EcoWeaponsJson;
+import com.willfp.ecoweapons.effects.util.EffectListener;
+import com.willfp.ecoweapons.util.DiscoverRecipeListener;
 import lombok.Getter;
 import org.bukkit.event.Listener;
 
 import java.util.Arrays;
 import java.util.List;
 
-@SuppressWarnings("unused")
 public class EcoWeaponsPlugin extends EcoPlugin {
     /**
      * Instance of EcoWeapons.
@@ -35,7 +36,8 @@ public class EcoWeaponsPlugin extends EcoPlugin {
     @Override
     protected List<Listener> loadListeners() {
         return Arrays.asList(
-
+                new EffectListener(),
+                new DiscoverRecipeListener(this)
         );
     }
 }

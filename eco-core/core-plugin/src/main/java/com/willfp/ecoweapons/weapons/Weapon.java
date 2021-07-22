@@ -11,6 +11,7 @@ import com.willfp.ecoweapons.conditions.Condition;
 import com.willfp.ecoweapons.conditions.Conditions;
 import com.willfp.ecoweapons.effects.Effect;
 import com.willfp.ecoweapons.effects.Effects;
+import com.willfp.ecoweapons.effects.TriggerType;
 import com.willfp.ecoweapons.weapons.util.WeaponUtils;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -26,6 +27,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @SuppressWarnings("unchecked")
@@ -57,8 +59,7 @@ public class Weapon {
     /**
      * Effects and their strengths.
      */
-    @Getter
-    private final Map<Effect<?>, Object> effects = new HashMap<>();
+    private final Map<TriggerType, Map<Effect, Object>> effects = new HashMap<>();
 
     /**
      * Weapon item.
@@ -85,9 +86,13 @@ public class Weapon {
         }
 
         for (JSONConfig cfg : this.getConfig().getSubsections("effects")) {
-            Effect<?> effect = Effects.getByName(cfg.getString("id"));
+            Effect effect = Effects.getByName(cfg.getString("id"));
             Object value = cfg.get("args");
-            effects.put(effect, value);
+            TriggerType triggerType = TriggerType.getByName(cfg.getString("trigger"));
+            effects.computeIfAbsent(triggerType, k -> new HashMap<>());
+            Map<Effect, Object> triggerEffects = effects.get(triggerType);
+            triggerEffects.put(effect, value);
+            effects.put(triggerType, triggerEffects);
         }
 
         item = construct((JSONConfig) this.getConfig().getSubsection("item"));
@@ -159,13 +164,24 @@ public class Weapon {
     /**
      * Get effect strength of effect.
      *
-     * @param effect The effect to query.
-     * @param <T>    The type of the effect value.
+     * @param effect      The effect to query.
+     * @param triggerType The trigger type.
      * @return The strength.
      */
     @Nullable
-    public <T> T getEffectStrength(@NotNull final Effect<T> effect) {
-        return (T) effects.get(effect);
+    public Object getEffectStrength(@NotNull final Effect effect,
+                                   @NotNull final TriggerType triggerType) {
+        return effects.get(triggerType).get(effect);
+    }
+
+    /**
+     * Get all effects for a trigger type.
+     *
+     * @param triggerType The type.
+     * @return The effects.
+     */
+    public Set<Effect> getEffects(@NotNull final TriggerType triggerType) {
+        return effects.get(triggerType).keySet();
     }
 
     @Override

@@ -1,11 +1,38 @@
 {
   "weapons": [
     {
-      "name": "",
+      "name": "storm_bow",
       "conditions": [],
+      "effects": [
+        {
+          "id": "strike-lightning",
+          "args": {
+            "damage": 4,
+            "amount": 5
+          },
+          "trigger": "projectile_hit"
+        }
+      ],
       "item": {
-        "material": "",
-        "displayName": ""
+        "material": "bow",
+        "displayName": "&9&l▶ &r&fStorm Bow &9&l◀",
+        "lore": [
+          "",
+          "&fStrike Lightning wherever",
+          "&fyour arrow lands!"
+        ],
+        "attributes": [
+        ],
+        "unbreakable": true,
+        "flags": [],
+        "customModelData": -1,
+        "enchants": [
+          {
+            "id": "power",
+            "level": 5
+          }
+        ],
+        "craftable": false
       }
     }
   ]
