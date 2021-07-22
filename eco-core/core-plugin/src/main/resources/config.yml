@@ -4,3 +4,4 @@
 #
 
 discover-recipes: true # If all recipes should be automatically discovered.
+cooldown-in-actionbar: true # If effect cooldown messages should be shown in the actionbar rather than in chat.

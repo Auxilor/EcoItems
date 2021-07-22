@@ -189,6 +189,18 @@ public class Weapon {
     }
 
     /**
+     * Get cooldown time.
+     *
+     * @param effect      The effect.
+     * @param triggerType The trigger type.
+     * @return The time.
+     */
+    public double getCooldownTime(@NotNull final Effect effect,
+                                  @NotNull final TriggerType triggerType) {
+        return getEffectArgs(effect, triggerType).getDouble("cooldown");
+    }
+
+    /**
      * Get all effects for a trigger type.
      *
      * @param triggerType The type.

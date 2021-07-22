@@ -77,7 +77,6 @@ public class EffectListener implements Listener {
         BLACKLIST_CLICKED_BLOCKS.addAll(Tag.SHULKER_BOXES.getValues());
     }
 
-
     /**
      * Handle {@link TriggerType#MELEE_ATTACK}.
      *
@@ -105,7 +104,9 @@ public class EffectListener implements Listener {
         }
 
         for (Effect effect : weapon.getEffects(TriggerType.MELEE_ATTACK)) {
-            effect.handleMeleeAttack(player, victim, event, weapon.getEffectArgs(effect, TriggerType.MELEE_ATTACK));
+            if (effect.isCooldownOver(player, weapon, TriggerType.MELEE_ATTACK)) {
+                effect.handleMeleeAttack(player, victim, event, weapon.getEffectArgs(effect, TriggerType.MELEE_ATTACK));
+            }
         }
     }
 
@@ -149,12 +150,16 @@ public class EffectListener implements Listener {
 
         if (event.getHitEntity() == null) {
             for (Effect effect : weapon.getEffects(TriggerType.PROJECTILE_HIT)) {
-                effect.handleProjectileHit(player, event.getEntity(), event, weapon.getEffectArgs(effect, TriggerType.PROJECTILE_HIT));
+                if (effect.isCooldownOver(player, weapon, TriggerType.PROJECTILE_HIT)) {
+                    effect.handleProjectileHit(player, event.getEntity(), event, weapon.getEffectArgs(effect, TriggerType.PROJECTILE_HIT));
+                }
             }
         } else {
             if (event.getHitEntity() instanceof LivingEntity victim) {
-                for (Effect effect : weapon.getEffects(TriggerType.PROJECTILE_HIT)) {
-                    effect.handleProjectileHitEntity(player, victim, event.getEntity(), event, weapon.getEffectArgs(effect, TriggerType.PROJECTILE_HIT));
+                for (Effect effect : weapon.getEffects(TriggerType.PROJECTILE_HIT_ENTITY)) {
+                    if (effect.isCooldownOver(player, weapon, TriggerType.PROJECTILE_HIT_ENTITY)) {
+                        effect.handleProjectileHitEntity(player, victim, event.getEntity(), event, weapon.getEffectArgs(effect, TriggerType.PROJECTILE_HIT_ENTITY));
+                    }
                 }
             }
         }
@@ -213,11 +218,15 @@ public class EffectListener implements Listener {
 
         if (player.isSneaking()) {
             for (Effect effect : weapon.getEffects(TriggerType.SHIFT_ALT_CLICK)) {
-                effect.handleAltClick(player, result, entityResult, event, weapon.getEffectArgs(effect, TriggerType.SHIFT_ALT_CLICK));
+                if (effect.isCooldownOver(player, weapon, TriggerType.SHIFT_ALT_CLICK)) {
+                    effect.handleAltClick(player, result, entityResult, event, weapon.getEffectArgs(effect, TriggerType.SHIFT_ALT_CLICK));
+                }
             }
         } else {
             for (Effect effect : weapon.getEffects(TriggerType.ALT_CLICK)) {
-                effect.handleAltClick(player, result, entityResult, event, weapon.getEffectArgs(effect, TriggerType.ALT_CLICK));
+                if (effect.isCooldownOver(player, weapon, TriggerType.ALT_CLICK)) {
+                    effect.handleAltClick(player, result, entityResult, event, weapon.getEffectArgs(effect, TriggerType.ALT_CLICK));
+                }
             }
         }
     }
