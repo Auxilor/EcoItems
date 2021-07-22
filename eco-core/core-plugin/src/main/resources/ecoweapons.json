@@ -1,11 +1,11 @@
 {
   "weapons": [
     {
-      "name": "storm_bow",
+      "name": "test_bow",
       "conditions": [],
       "effects": [
         {
-          "id": "strike-lightning",
+          "id": "arrow-storm",
           "args": {
             "amount": 5
           },
@@ -14,11 +14,10 @@
       ],
       "item": {
         "material": "bow",
-        "displayName": "&9&l▶ &r&fStorm Bow &9&l◀",
+        "displayName": "&9&l▶ &r&fTest Bow &9&l◀",
         "lore": [
           "",
-          "&fStrike Lightning wherever",
-          "&fyour arrow lands!"
+          "amogus"
         ],
         "attributes": [
         ],
