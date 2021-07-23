@@ -6,6 +6,8 @@ import com.willfp.eco.core.display.DisplayModule;
 import com.willfp.ecoweapons.commands.CommandEcoweapons;
 import com.willfp.ecoweapons.config.EcoWeaponsJson;
 import com.willfp.ecoweapons.display.WeaponsDisplay;
+import com.willfp.ecoweapons.effects.Effect;
+import com.willfp.ecoweapons.effects.Effects;
 import com.willfp.ecoweapons.effects.util.EffectListener;
 import com.willfp.ecoweapons.util.DiscoverRecipeListener;
 import lombok.Getter;
@@ -36,6 +38,15 @@ public class EcoWeaponsPlugin extends EcoPlugin {
         instance = this;
 
         this.ecoWeaponsJson = new EcoWeaponsJson(this);
+    }
+
+    @Override
+    protected void handleEnable() {
+        for (Effect effect : Effects.values()) {
+            if (effect instanceof Listener) {
+                this.getEventManager().registerListener((Listener) effect);
+            }
+        }
     }
 
     @Override

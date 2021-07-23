@@ -27,6 +27,7 @@ public class Effects {
     public static final Effect ARROW_STORM = new EffectArrowStorm();
     public static final Effect WARP = new EffectWarp();
     public static final Effect CONSOLE_COMMAND = new EffectConsoleCommand();
+    public static final Effect SPAWN_HELPER = new EffectConsoleCommand();
 
     /**
      * Get effect matching name.
