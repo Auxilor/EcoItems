@@ -13,6 +13,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class EffectRailgun extends Effect {
     public EffectRailgun() {
@@ -22,7 +23,7 @@ public class EffectRailgun extends Effect {
     @Override
     public void handleAltClick(@NotNull final Player player,
                                @NotNull final RayTraceResult blockRay,
-                               @NotNull final RayTraceResult entityRay,
+                               @Nullable final RayTraceResult entityRay,
                                @NotNull final PlayerInteractEvent event,
                                @NotNull final JSONConfig args) {
         double damage = args.getDouble("damage");

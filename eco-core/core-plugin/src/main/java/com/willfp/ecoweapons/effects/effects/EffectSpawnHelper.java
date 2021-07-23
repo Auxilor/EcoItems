@@ -57,7 +57,7 @@ public class EffectSpawnHelper extends Effect implements Listener {
     @Override
     public void handleAltClick(@NotNull final Player player,
                                @NotNull final RayTraceResult blockRay,
-                               @NotNull final RayTraceResult entityRay,
+                               @Nullable final RayTraceResult entityRay,
                                @NotNull final PlayerInteractEvent event,
                                @NotNull final JSONConfig args) {
         doSpawn(entityRay.getHitEntity(), blockRay.getHitPosition().toLocation(player.getWorld()), args);
@@ -66,12 +66,6 @@ public class EffectSpawnHelper extends Effect implements Listener {
     private void doSpawn(@Nullable final Entity victim,
                          @NotNull final Location location,
                          @NotNull final JSONConfig args) {
-        double chance = args.getDouble("chance");
-
-        if (NumberUtils.randInt(0, 100) > chance) {
-            return;
-        }
-
         if (victim != null) {
             if (!victim.getMetadata("eco-target").isEmpty()) {
                 return;

@@ -14,6 +14,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class EffectArrowStorm extends Effect {
     public EffectArrowStorm() {
@@ -47,7 +48,7 @@ public class EffectArrowStorm extends Effect {
     @Override
     public void handleAltClick(@NotNull final Player player,
                                @NotNull final RayTraceResult blockRay,
-                               @NotNull final RayTraceResult entityRay,
+                               @Nullable final RayTraceResult entityRay,
                                @NotNull final PlayerInteractEvent event,
                                @NotNull final JSONConfig args) {
         handle(blockRay.getHitPosition().toLocation(player.getWorld()), args);

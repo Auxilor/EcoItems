@@ -12,6 +12,7 @@ import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.RayTraceResult;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class EffectStrikeLightning extends Effect {
     public EffectStrikeLightning() {
@@ -46,7 +47,7 @@ public class EffectStrikeLightning extends Effect {
     @Override
     public void handleAltClick(@NotNull final Player player,
                                @NotNull final RayTraceResult blockRay,
-                               @NotNull final RayTraceResult entityRay,
+                               @Nullable final RayTraceResult entityRay,
                                @NotNull final PlayerInteractEvent event,
                                @NotNull final JSONConfig args) {
         handle(entityRay.getHitPosition().toLocation(player.getWorld()), args);

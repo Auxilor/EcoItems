@@ -4,8 +4,10 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableList;
 import com.willfp.ecoweapons.effects.effects.EffectArrowStorm;
+import com.willfp.ecoweapons.effects.effects.EffectBleed;
 import com.willfp.ecoweapons.effects.effects.EffectConsoleCommand;
 import com.willfp.ecoweapons.effects.effects.EffectRailgun;
+import com.willfp.ecoweapons.effects.effects.EffectSpawnHelper;
 import com.willfp.ecoweapons.effects.effects.EffectStrikeLightning;
 import com.willfp.ecoweapons.effects.effects.EffectWarp;
 import lombok.experimental.UtilityClass;
@@ -27,7 +29,8 @@ public class Effects {
     public static final Effect ARROW_STORM = new EffectArrowStorm();
     public static final Effect WARP = new EffectWarp();
     public static final Effect CONSOLE_COMMAND = new EffectConsoleCommand();
-    public static final Effect SPAWN_HELPER = new EffectConsoleCommand();
+    public static final Effect SPAWN_HELPER = new EffectSpawnHelper();
+    public static final Effect BLEED = new EffectBleed();
 
     /**
      * Get effect matching name.

@@ -1,7 +1,9 @@
 package com.willfp.ecoweapons.effects.util;
 
+import com.willfp.eco.core.config.interfaces.JSONConfig;
 import com.willfp.eco.core.integrations.antigrief.AntigriefManager;
 import com.willfp.eco.util.ArrowUtils;
+import com.willfp.eco.util.NumberUtils;
 import com.willfp.ecoweapons.effects.Effect;
 import com.willfp.ecoweapons.effects.TriggerType;
 import com.willfp.ecoweapons.weapons.Weapon;
@@ -104,10 +106,20 @@ public class EffectListener implements Listener {
             return;
         }
 
+
         for (Effect effect : weapon.getEffects(TriggerType.MELEE_ATTACK)) {
             if (AntigriefManager.canInjure(player, victim)) {
                 if (effect.isCooldownOver(player, weapon, TriggerType.MELEE_ATTACK)) {
-                    effect.handleMeleeAttack(player, victim, event, weapon.getEffectArgs(effect, TriggerType.MELEE_ATTACK));
+                    JSONConfig args = weapon.getEffectArgs(effect, TriggerType.MELEE_ATTACK);
+                    Double chance = args.getDoubleOrNull("chance");
+
+                    if (chance != null) {
+                        if (NumberUtils.randInt(0, 100) > chance) {
+                            continue;
+                        }
+                    }
+
+                    effect.handleMeleeAttack(player, victim, event, args);
                 }
             }
         }
@@ -154,7 +166,15 @@ public class EffectListener implements Listener {
         if (event.getHitEntity() == null) {
             for (Effect effect : weapon.getEffects(TriggerType.PROJECTILE_HIT)) {
                 if (effect.isCooldownOver(player, weapon, TriggerType.PROJECTILE_HIT)) {
-                    effect.handleProjectileHit(player, event.getEntity(), event, weapon.getEffectArgs(effect, TriggerType.PROJECTILE_HIT));
+                    JSONConfig args = weapon.getEffectArgs(effect, TriggerType.PROJECTILE_HIT);
+                    Double chance = args.getDoubleOrNull("chance");
+
+                    if (chance != null) {
+                        if (NumberUtils.randInt(0, 100) > chance) {
+                            continue;
+                        }
+                    }
+                    effect.handleProjectileHit(player, event.getEntity(), event, args);
                 }
             }
         } else {
@@ -162,7 +182,15 @@ public class EffectListener implements Listener {
                 for (Effect effect : weapon.getEffects(TriggerType.PROJECTILE_HIT_ENTITY)) {
                     if (AntigriefManager.canInjure(player, victim)) {
                         if (effect.isCooldownOver(player, weapon, TriggerType.PROJECTILE_HIT_ENTITY)) {
-                            effect.handleProjectileHitEntity(player, victim, event.getEntity(), event, weapon.getEffectArgs(effect, TriggerType.PROJECTILE_HIT_ENTITY));
+                            JSONConfig args = weapon.getEffectArgs(effect, TriggerType.PROJECTILE_HIT_ENTITY);
+                            Double chance = args.getDoubleOrNull("chance");
+
+                            if (chance != null) {
+                                if (NumberUtils.randInt(0, 100) > chance) {
+                                    continue;
+                                }
+                            }
+                            effect.handleProjectileHitEntity(player, victim, event.getEntity(), event, args);
                         }
                     }
                 }
@@ -224,13 +252,29 @@ public class EffectListener implements Listener {
         if (player.isSneaking()) {
             for (Effect effect : weapon.getEffects(TriggerType.SHIFT_ALT_CLICK)) {
                 if (effect.isCooldownOver(player, weapon, TriggerType.SHIFT_ALT_CLICK)) {
-                    effect.handleAltClick(player, result, entityResult, event, weapon.getEffectArgs(effect, TriggerType.SHIFT_ALT_CLICK));
+                    JSONConfig args = weapon.getEffectArgs(effect, TriggerType.SHIFT_ALT_CLICK);
+                    Double chance = args.getDoubleOrNull("chance");
+
+                    if (chance != null) {
+                        if (NumberUtils.randInt(0, 100) > chance) {
+                            continue;
+                        }
+                    }
+                    effect.handleAltClick(player, result, entityResult, event, args);
                 }
             }
         } else {
             for (Effect effect : weapon.getEffects(TriggerType.ALT_CLICK)) {
                 if (effect.isCooldownOver(player, weapon, TriggerType.ALT_CLICK)) {
-                    effect.handleAltClick(player, result, entityResult, event, weapon.getEffectArgs(effect, TriggerType.ALT_CLICK));
+                    JSONConfig args = weapon.getEffectArgs(effect, TriggerType.ALT_CLICK);
+                    Double chance = args.getDoubleOrNull("chance");
+
+                    if (chance != null) {
+                        if (NumberUtils.randInt(0, 100) > chance) {
+                            continue;
+                        }
+                    }
+                    effect.handleAltClick(player, result, entityResult, event, args);
                 }
             }
         }

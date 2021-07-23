@@ -17,6 +17,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.NumberConversions;
 import org.bukkit.util.RayTraceResult;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -109,7 +110,7 @@ public abstract class Effect {
      */
     public void handleAltClick(@NotNull final Player player,
                                @NotNull final RayTraceResult blockRay,
-                               @NotNull final RayTraceResult entityRay,
+                               @Nullable final RayTraceResult entityRay,
                                @NotNull final PlayerInteractEvent event,
                                @NotNull final JSONConfig args) {
         // Override when needed.
