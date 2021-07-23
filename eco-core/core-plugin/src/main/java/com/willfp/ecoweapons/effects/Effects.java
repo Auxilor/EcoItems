@@ -6,6 +6,7 @@ import com.google.common.collect.ImmutableList;
 import com.willfp.ecoweapons.effects.effects.EffectArrowStorm;
 import com.willfp.ecoweapons.effects.effects.EffectBleed;
 import com.willfp.ecoweapons.effects.effects.EffectConsoleCommand;
+import com.willfp.ecoweapons.effects.effects.EffectGivePotionEffect;
 import com.willfp.ecoweapons.effects.effects.EffectRailgun;
 import com.willfp.ecoweapons.effects.effects.EffectSpawnHelper;
 import com.willfp.ecoweapons.effects.effects.EffectStrikeLightning;
@@ -31,6 +32,7 @@ public class Effects {
     public static final Effect CONSOLE_COMMAND = new EffectConsoleCommand();
     public static final Effect SPAWN_HELPER = new EffectSpawnHelper();
     public static final Effect BLEED = new EffectBleed();
+    public static final Effect GIVE_POTION_EFFECT = new EffectGivePotionEffect();
 
     /**
      * Get effect matching name.
