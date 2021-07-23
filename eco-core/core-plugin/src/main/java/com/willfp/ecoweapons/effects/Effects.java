@@ -4,6 +4,7 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableList;
 import com.willfp.ecoweapons.effects.effects.EffectArrowStorm;
+import com.willfp.ecoweapons.effects.effects.EffectConsoleCommand;
 import com.willfp.ecoweapons.effects.effects.EffectRailgun;
 import com.willfp.ecoweapons.effects.effects.EffectStrikeLightning;
 import com.willfp.ecoweapons.effects.effects.EffectWarp;
@@ -25,6 +26,7 @@ public class Effects {
     public static final Effect RAILGUN = new EffectRailgun();
     public static final Effect ARROW_STORM = new EffectArrowStorm();
     public static final Effect WARP = new EffectWarp();
+    public static final Effect CONSOLE_COMMAND = new EffectConsoleCommand();
 
     /**
      * Get effect matching name.
