@@ -6,6 +6,7 @@ import com.google.common.collect.ImmutableList;
 import com.willfp.ecoweapons.effects.effects.EffectArrowStorm;
 import com.willfp.ecoweapons.effects.effects.EffectRailgun;
 import com.willfp.ecoweapons.effects.effects.EffectStrikeLightning;
+import com.willfp.ecoweapons.effects.effects.EffectWarp;
 import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -23,6 +24,7 @@ public class Effects {
     public static final Effect STRIKE_LIGHTNING = new EffectStrikeLightning();
     public static final Effect RAILGUN = new EffectRailgun();
     public static final Effect ARROW_STORM = new EffectArrowStorm();
+    public static final Effect WARP = new EffectWarp();
 
     /**
      * Get effect matching name.
