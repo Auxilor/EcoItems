@@ -39,7 +39,6 @@ public class EffectBleed extends Effect implements Listener {
                         @NotNull final JSONConfig args) {
         double bleedDamage = args.getDouble("damage");
 
-
         int bleedCount = args.getInt("amount");
 
         AtomicInteger currentBleedCount = new AtomicInteger(0);

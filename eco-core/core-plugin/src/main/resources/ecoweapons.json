@@ -1,95 +1,133 @@
 {
   "weapons": [
     {
-      "name": "test_bow",
-      "conditions": [],
+      "name": "scythe",
+      "conditions": [
+        {
+          "id": "above-health-percent",
+          "args": 98
+        }
+      ],
+      "effects": [
+        {
+          "id": "bleed",
+          "args": {
+            "damage": 4,
+            "amount": 5,
+            "chance": 25
+          },
+          "trigger": "melee_attack"
+        }
+      ],
+      "item": {
+        "material": "golden_hoe",
+        "displayName": "&cReaper Scythe",
+        "lore": [
+          "&c&oCut straight through your opponents",
+          "&c&ofaster and stronger.",
+          "",
+          "&8» &cDeal 20% more damage",
+          "&8» &cAttack 15% faster",
+          "&8» &c25% chance to bleed enemies",
+          "",
+          "&8&oYou must be on full health to activate bleed"
+        ],
+        "attributes": [
+          {
+            "id": "generic_attack_speed",
+            "amount": 0.15,
+            "operation": "multiply_scalar_1"
+          },
+          {
+            "id": "generic_attack_damage",
+            "amount": 0.2,
+            "operation": "multiply_scalar_1"
+          }
+        ],
+        "unbreakable": false,
+        "flags": [],
+        "customModelData": -1,
+        "enchants": [
+          {
+            "id": "sharpness",
+            "level": 5
+          },
+          {
+            "id": "fire_aspect",
+            "level": 2
+          }
+        ],
+        "craftable": true,
+        "recipe": [
+          "nether_star",
+          "netherite_sword",
+          "nether_star",
+          "netherite_sword",
+          "golden_hoe",
+          "netherite_sword",
+          "nether_star",
+          "netherite_sword",
+          "nether_star"
+        ]
+      }
+    },
+    {
+      "name": "maelstrom_trident",
+      "conditions": [
+      ],
       "effects": [
         {
           "id": "arrow-storm",
           "args": {
-            "amount": 5,
-            "height": 5,
-            "radius": 2,
-            "cooldown": 20
+            "amount": 18,
+            "height": 8,
+            "radius": 3
+          },
+          "trigger": "projectile_hit"
+        },
+        {
+          "id": "strike-lightning",
+          "args": {
+            "amount": 3,
+            "chance": 10
           },
           "trigger": "projectile_hit"
         }
       ],
       "item": {
-        "material": "bow",
-        "displayName": "&9&l▶ &r&fTest Bow &9&l◀",
+        "material": "trident",
+        "displayName": "<gradient:11998e>Maelstrom Trident</gradient:38ef7d>",
         "lore": [
+          "&3&oBox in your opponents by",
+          "&3&osending a swarm of arrows.",
           "",
-          "amogus"
+          "&8» &c10% chance to summon lightning",
+          "&8» &cSurround your opponent with arrows"
         ],
         "attributes": [
         ],
-        "unbreakable": true,
+        "unbreakable": false,
         "flags": [],
         "customModelData": -1,
         "enchants": [
           {
-            "id": "power",
+            "id": "impaling",
             "level": 5
           }
         ],
         "craftable": true,
         "recipe": [
-          "redstone_block",
-          "glowstone_block",
-          "redstone_block",
+          "trident",
+          "spectral_arrow",
+          "trident",
 
-          "glowstone_block",
-          "bow",
-          "glowstone_block",
+          "spectral_arrow",
+          "trident",
+          "spectral_arrow",
 
-          "redstone_block",
-          "glowstone_block",
-          "redstone_block"
-        ]
-      }
-    },
-    {
-      "name": "railgun",
-      "conditions": [],
-      "effects": [
-        {
-          "id": "railgun",
-          "args": {
-            "damage": 4,
-            "sound": "entity_llama_spit",
-            "particle": "smoke_normal",
-            "cooldown": 15
-          },
-          "trigger": "alt_click"
-        }
-      ],
-      "item": {
-        "material": "iron_hoe",
-        "displayName": "&aRailgun",
-        "lore": [
-          "railgun innit"
-        ],
-        "attributes": [
-        ],
-        "unbreakable": true,
-        "flags": [],
-        "customModelData": -1,
-        "enchants": [
-        ],
-        "craftable": false,
-        "recipe": [
-          "redstone_block",
-          "glowstone_block",
-          "redstone_block",
-
-          "glowstone_block",
-          "iron_hoe",
-          "glowstone_block",
-
-          "redstone_block",
-          "glowstone_block",
-          "redstone_block"
+          "trident",
+          "spectral_arrow",
+          "trident"
         ]
       }
     }
