@@ -45,7 +45,9 @@
           }
         ],
         "unbreakable": false,
-        "flags": [],
+        "flags": [
+          "hide_attributes"
+        ],
         "customModelData": -1,
         "enchants": [
           {
