@@ -8,7 +8,6 @@ load: STARTUP
 depend:
   - eco
   - ProtocolLib
-softdepend: []
 
 commands:
   ecoweapons:
