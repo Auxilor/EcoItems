@@ -1,7 +1,7 @@
 {
   "weapons": [
     {
-      "name": "scythe",
+      "name": "reaper_scythe",
       "conditions": [
         {
           "id": "above-health-percent",
@@ -55,6 +55,10 @@
           {
             "id": "fire_aspect",
             "level": 2
+          },
+          {
+            "id": "unbreaking",
+            "level": 3
           }
         ],
         "craftable": true,
