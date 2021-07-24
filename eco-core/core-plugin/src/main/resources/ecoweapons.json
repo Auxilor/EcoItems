@@ -101,8 +101,8 @@
           "&3&oBox in your opponents by",
           "&3&osending a swarm of arrows.",
           "",
-          "&8» &c10% chance to summon lightning",
-          "&8» &cSurround your opponent with arrows"
+          "&8» &310% chance to summon lightning",
+          "&8» &3Surround your opponent with arrows"
         ],
         "attributes": [
         ],
@@ -128,6 +128,77 @@
           "trident",
           "spectral_arrow",
           "trident"
+        ]
+      }
+    },
+    {
+      "name": "shock_sword",
+      "conditions": [
+      ],
+      "effects": [
+        {
+          "id": "give-potion-effect",
+          "args": {
+            "potion": "confusion",
+            "duration": 100,
+            "strength": 3,
+            "chance": 10
+          },
+          "trigger": "projectile_hit"
+        },
+        {
+          "id": "give-potion-effect",
+          "args": {
+            "potion": "blindness",
+            "duration": 100,
+            "strength": 3,
+            "chance": 5
+          },
+          "trigger": "projectile_hit"
+        }
+      ],
+      "item": {
+        "material": "golden_sword",
+        "displayName": "<gradient:CAC531>Shock Sword</gradient:F3F9A7>",
+        "lore": [
+          "&e&oDazzle your enemies",
+          "&e&oto gain a quick advantage.",
+          "",
+          "&8» &e10% chance to give nausea",
+          "&8» &e5% chance to give blindness"
+        ],
+        "attributes": [
+        ],
+        "unbreakable": false,
+        "flags": [],
+        "customModelData": -1,
+        "enchants": [
+          {
+            "id": "knockback",
+            "level": 2
+          },
+          {
+            "id": "unbreaking",
+            "level": 3
+          },
+          {
+            "id": "mending",
+            "level": 1
+          }
+        ],
+        "craftable": true,
+        "recipe": [
+          "",
+          "beacon",
+          "",
+
+          "",
+          "golden_sword",
+          "",
+
+          "iron_block",
+          "iron_block",
+          "iron_block"
         ]
       }
     }
