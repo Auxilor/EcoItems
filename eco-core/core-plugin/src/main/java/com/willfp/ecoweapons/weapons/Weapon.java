@@ -154,7 +154,7 @@ public class Weapon {
                     new AttributeModifier(
                             UUID.randomUUID(),
                             String.valueOf(NumberUtils.randInt(0, 10000000)),
-                            Double.parseDouble(attribute.getString("amount")),
+                            attribute.getDouble("amount"),
                             AttributeModifier.Operation.valueOf(attribute.getString("operation").toUpperCase())
                     )
             );
