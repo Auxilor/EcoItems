@@ -12,7 +12,7 @@
         {
           "id": "bleed",
           "args": {
-            "damage": 4,
+            "damage": 2,
             "amount": 5,
             "chance": 25
           },
