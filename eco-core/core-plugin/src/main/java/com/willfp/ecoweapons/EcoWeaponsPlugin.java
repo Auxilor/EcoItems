@@ -34,7 +34,7 @@ public class EcoWeaponsPlugin extends EcoPlugin {
      * Internal constructor called by bukkit on plugin load.
      */
     public EcoWeaponsPlugin() {
-        super(88246, 12134, "&#ff0000");
+        super(94601, 12134, "&#ff0000");
         instance = this;
 
         this.ecoWeaponsJson = new EcoWeaponsJson(this);
