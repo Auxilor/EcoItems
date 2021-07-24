@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class EffectBleed extends Effect implements Listener {
     public EffectBleed() {
-        super("spawn-helper");
+        super("bleed");
     }
 
     @Override

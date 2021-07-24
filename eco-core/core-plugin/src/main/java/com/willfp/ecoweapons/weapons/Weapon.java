@@ -91,6 +91,10 @@ public class Weapon {
 
         for (JSONConfig cfg : this.getConfig().getSubsections("effects")) {
             Effect effect = Effects.getByName(cfg.getString("id"));
+            if (effect == null) {
+                this.getPlugin().getLogger().warning("Invalid effect " + cfg.getString("id") + " specified in " + this.getName());
+            }
+
             JSONConfig value = (JSONConfig) cfg.getSubsection("args");
             TriggerType triggerType = TriggerType.getByName(cfg.getString("trigger"));
             effects.computeIfAbsent(triggerType, k -> new HashMap<>());
