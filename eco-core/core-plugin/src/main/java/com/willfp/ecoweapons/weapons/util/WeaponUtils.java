@@ -29,7 +29,11 @@ public class WeaponUtils {
      * @return The weapon, or null if no weapon is found.
      */
     @Nullable
-    public Weapon getWeaponFromItem(@NotNull final ItemStack itemStack) {
+    public Weapon getWeaponFromItem(@Nullable final ItemStack itemStack) {
+        if (itemStack == null) {
+            return null;
+        }
+
         ItemMeta meta = itemStack.getItemMeta();
 
         if (meta == null) {
