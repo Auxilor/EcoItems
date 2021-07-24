@@ -5,6 +5,7 @@ import com.willfp.eco.core.display.DisplayModule;
 import com.willfp.eco.core.display.DisplayPriority;
 import com.willfp.ecoweapons.weapons.Weapon;
 import com.willfp.ecoweapons.weapons.util.WeaponUtils;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
@@ -46,6 +47,7 @@ public class WeaponsDisplay extends DisplayModule {
         }
         meta.setLore(lore);
         meta.setDisplayName(weaponMeta.getDisplayName());
+        meta.addItemFlags(weaponMeta.getItemFlags().toArray(new ItemFlag[0]));
 
         itemStack.setItemMeta(meta);
     }
