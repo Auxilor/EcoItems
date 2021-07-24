@@ -25,10 +25,10 @@
 </p>
 
 
-[![Title](https://i.imgur.com/jcBbZhG.png)]()
-[![Features](https://i.imgur.com/ikQaAHr.png)]()
-[![Docs](https://i.imgur.com/oXdVuIw.png)](https://ecoweapons.willfp.com/)
-[![Compatibility](https://i.imgur.com/Q9Gko0q.png)]()
+[![Title](https://i.imgur.com/nWTUjFy.png)]()
+[![Features](https://i.imgur.com/5PCshi2.png)]()
+[![Docs](https://i.imgur.com/qtLAaxj.png)](https://ecoweapons.willfp.com/)
+[![Compatibility](https://i.imgur.com/iOkT5bR.png)]()
 
 ## License
 *Click here to read [the entire license](https://github.com/Auxilor/EcoWeapons/blob/master/LICENSE.md).*
