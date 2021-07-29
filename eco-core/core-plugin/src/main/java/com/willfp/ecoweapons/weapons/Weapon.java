@@ -93,6 +93,7 @@ public class Weapon {
             Effect effect = Effects.getByName(cfg.getString("id"));
             if (effect == null) {
                 this.getPlugin().getLogger().warning("Invalid effect " + cfg.getString("id") + " specified in " + this.getName());
+                continue;
             }
 
             JSONConfig value = (JSONConfig) cfg.getSubsection("args");
