@@ -34,6 +34,9 @@ public class EffectRailgun extends Effect {
         showBeam(player.getLocation().add(0, player.getEyeHeight(), 0), blockRay, particle);
 
         if (entityRay.getHitEntity() instanceof LivingEntity victim) {
+            if (victim.equals(player)) {
+                return;
+            }
             victim.damage(damage, player);
         } else {
             Location location = blockRay.getHitPosition().toLocation(player.getWorld());
