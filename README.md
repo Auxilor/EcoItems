@@ -32,3 +32,14 @@
 
 ## License
 *Click here to read [the entire license](https://github.com/Auxilor/EcoWeapons/blob/master/LICENSE.md).*
+
+<h1 align="center">
+  <br>
+    <a href="http://gamersupps.gg/discount/Auxilor?afmc=Auxilor" target="_blank">
+      <img src="https://i.imgur.com/uFDpBAC.png" alt="supps banner">
+    </a>
+    <a href="https://dedimc.promo/Auxilor" target="_blank">
+      <img src="https://i.imgur.com/zdDLhFA.png" alt="dedimc banner">
+    </a>
+  <br>
+</h1>
