@@ -12,8 +12,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
-
 public class EffectGivePotionEffect extends Effect implements Listener {
     public EffectGivePotionEffect() {
         super("give-potion-effect");
@@ -43,8 +41,7 @@ public class EffectGivePotionEffect extends Effect implements Listener {
         int duration = args.getInt("duration");
         int strength = args.getInt("strength") - 1;
 
-
-        if ("player".equalsIgnoreCase(Objects.requireNonNullElse(args.getString("target"),"victim"))) {
+        if (args.getString("target").equalsIgnoreCase("player")) {
             player.addPotionEffect(
                     new PotionEffect(
                             type,
