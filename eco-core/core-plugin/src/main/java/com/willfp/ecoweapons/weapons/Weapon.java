@@ -169,9 +169,7 @@ public class Weapon {
 
         itemStack.setItemMeta(meta);
 
-        plugin.getScheduler().runLater(() -> {
-            new CustomItem(this.getPlugin().getNamespacedKeyFactory().create(name.toLowerCase()), test -> Objects.equals(this, WeaponUtils.getWeaponFromItem(test)), itemStack).register();
-        }, 1);
+        new CustomItem(this.getPlugin().getNamespacedKeyFactory().create(name.toLowerCase()), test -> Objects.equals(this, WeaponUtils.getWeaponFromItem(test)), itemStack).register();
 
         if (itemConfig.getBool("craftable")) {
             Recipes.createAndRegisterRecipe(
