@@ -72,6 +72,13 @@ public class EffectSpawnHelper extends Effect implements Listener {
             }
         }
 
+        Double chance = args.getDoubleOrNull("chance");
+        if (chance != null) {
+            if (NumberUtils.randInt(0, 100) > chance) {
+                return;
+            }
+        }
+
         World world = location.getWorld();
         assert world != null;
 
