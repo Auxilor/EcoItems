@@ -32,18 +32,7 @@
           "",
           "&8&oYou must be on full health to activate bleed"
         ],
-        "attributes": [
-          {
-            "id": "generic_attack_speed",
-            "amount": 0.15,
-            "operation": "multiply_scalar_1"
-          },
-          {
-            "id": "generic_attack_damage",
-            "amount": 0.2,
-            "operation": "multiply_scalar_1"
-          }
-        ],
+        "attributes": [],
         "unbreakable": false,
         "flags": [
           "hide_attributes"
@@ -110,8 +99,7 @@
           "&8» &310% chance to summon lightning",
           "&8» &3Surround your opponent with arrows"
         ],
-        "attributes": [
-        ],
+        "attributes": [],
         "unbreakable": false,
         "flags": [],
         "customModelData": -1,
@@ -173,8 +161,7 @@
           "&8» &e10% chance to give nausea",
           "&8» &e5% chance to give blindness"
         ],
-        "attributes": [
-        ],
+        "attributes": [],
         "unbreakable": false,
         "flags": [],
         "customModelData": -1,

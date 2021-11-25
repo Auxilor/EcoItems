@@ -8,6 +8,8 @@ load: STARTUP
 depend:
   - eco
   - ProtocolLib
+libraries:
+  - 'org.jetbrains.kotlin:kotlin-stdlib:1.5.21'
 
 commands:
   ecoweapons:

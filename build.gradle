@@ -1,3 +1,13 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31"
+    }
+}
+
 plugins {
     id 'java-library'
     id 'com.github.johnrengelman.shadow' version '7.0.0'
@@ -13,6 +23,7 @@ allprojects {
     apply plugin: 'java'
     apply plugin: 'maven-publish'
     apply plugin: 'com.github.johnrengelman.shadow'
+    apply plugin: 'kotlin'
 
     repositories {
         mavenCentral()
@@ -45,16 +56,17 @@ allprojects {
         onlyIf { !sourceSets.main.allSource.files.isEmpty() }
     }
 
+    shadowJar {
+        relocate('com.willfp.libreforge', 'com.willfp.ecoweapons.libreforge')
+    }
+
     dependencies {
-        compileOnly 'com.willfp:eco:6.8.1'
+        compileOnly 'com.willfp:eco:6.13.11'
+        implementation 'com.willfp:libreforge:1.1.0'
 
-        compileOnly 'org.jetbrains:annotations:19.0.0'
+        compileOnly 'org.jetbrains:annotations:23.0.0'
 
-        compileOnly 'org.projectlombok:lombok:1.18.20'
-        annotationProcessor 'org.projectlombok:lombok:1.18.20'
-
-        testCompileOnly 'org.projectlombok:lombok:1.18.20'
-        testAnnotationProcessor 'org.projectlombok:lombok:1.18.20'
+        compileOnly 'org.jetbrains.kotlin:kotlin-stdlib:1.5.21'
     }
 
     tasks.withType(JavaCompile) {

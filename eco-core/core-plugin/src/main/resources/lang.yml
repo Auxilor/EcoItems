@@ -9,4 +9,4 @@ messages:
   needs-item: "&cYou must specify an item!"
   invalid-item: "&cInvalid item!"
   give-success: "Gave &a%item%&r to &a%recipient%"
-  on-cooldown: "This effect is on cooldown! Wait &a%seconds% seconds&f to use it!"
+  on-cooldown: "&cThis effect is on cooldown! &fTime left: &a%seconds% seconds"

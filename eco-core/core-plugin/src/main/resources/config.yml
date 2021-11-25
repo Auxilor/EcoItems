@@ -4,4 +4,9 @@
 #
 
 discover-recipes: true # If all recipes should be automatically discovered.
-cooldown-in-actionbar: true # If effect cooldown messages should be shown in the actionbar rather than in chat.
+cooldown:
+  in-actionbar: true
+  sound:
+    enabled: true
+    sound: "BLOCK_NOTE_BLOCK_PLING"
+    pitch: 0.5
