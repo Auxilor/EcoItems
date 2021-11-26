@@ -62,7 +62,7 @@ allprojects {
 
     dependencies {
         compileOnly 'com.willfp:eco:6.13.11'
-        implementation 'com.willfp:libreforge:1.1.0'
+        implementation 'com.willfp:libreforge:1.2.0'
 
         compileOnly 'org.jetbrains:annotations:23.0.0'
 
@@ -74,11 +74,20 @@ allprojects {
         options.encoding = 'UTF-8'
     }
 
+    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
+        kotlinOptions {
+            jvmTarget = "16"
+        }
+    }
+
     processResources {
         filesNotMatching(["**/*.png", "**/models/**", "**/textures/**"]) {
             expand projectVersion: project.version
         }
     }
+
+    java.sourceCompatibility = JavaVersion.VERSION_16
+    java.targetCompatibility = JavaVersion.VERSION_16
 
     compileJava.options.encoding = 'UTF-8'
     compileJava.dependsOn clean
@@ -105,7 +114,6 @@ jar {
 group = 'com.willfp'
 archivesBaseName = project.name
 version = findProperty("version")
-java.sourceCompatibility = JavaVersion.VERSION_16
 
 compileJava.options.encoding = 'UTF-8'
 
