@@ -1,5 +1,6 @@
 package com.willfp.ecoweapons.weapons
 
+import com.willfp.ecoweapons.EcoWeaponsPlugin
 import com.willfp.ecoweapons.EcoWeaponsPlugin.Companion.instance
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
@@ -48,4 +49,8 @@ object WeaponUtils {
     fun getWeaponOnPlayer(player: Player): Weapon? {
         return getWeaponFromItem(player.inventory.itemInMainHand)
     }
+}
+
+inline fun <reified T> T?.toSingletonList(): List<T> {
+    return if (this == null) emptyList() else listOf(this)
 }
