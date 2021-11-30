@@ -9,9 +9,11 @@ import com.willfp.ecoweapons.display.WeaponsDisplay
 import com.willfp.ecoweapons.util.DiscoverRecipeListener
 import com.willfp.ecoweapons.weapons.WeaponListener
 import com.willfp.ecoweapons.weapons.WeaponUtils
+import com.willfp.ecoweapons.weapons.toSingletonList
 import com.willfp.libreforge.Holder
 import com.willfp.libreforge.HolderProvider
 import com.willfp.libreforge.LibReforge
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.event.Listener
 
@@ -30,8 +32,7 @@ class EcoWeaponsPlugin : EcoPlugin(1241, 12134, "&#ff0000") {
         LibReforge.init(this)
         LibReforge.registerHolderProvider(object : HolderProvider {
             override fun providerHolders(player: Player): Iterable<Holder> {
-                val weapon = WeaponUtils.getWeaponOnPlayer(player)
-                return if (weapon == null) emptyList() else listOf(weapon)
+                return WeaponUtils.getWeaponOnPlayer(player).toSingletonList()
             }
         })
     }
