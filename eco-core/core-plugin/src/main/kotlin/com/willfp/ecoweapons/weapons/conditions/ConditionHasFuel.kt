@@ -16,7 +16,7 @@ class ConditionHasFuel: Condition("has_fuel") {
     override fun validateConfig(config: JSONConfig): List<ConfigViolation> {
         val violations = mutableListOf<ConfigViolation>()
 
-        config.getBoolOrNull("fuel")
+        config.getStringOrNull("fuel")
             ?: violations.add(
                 ConfigViolation(
                     "fuel",
