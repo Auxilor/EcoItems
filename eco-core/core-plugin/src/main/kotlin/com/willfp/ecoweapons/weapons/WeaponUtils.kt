@@ -58,7 +58,7 @@ object WeaponUtils {
     fun getFuelFromItem(itemStack: ItemStack?): Weapon? {
         itemStack ?: return null
         val meta = itemStack.itemMeta ?: return null
-        return getWeaponFromItem(meta)
+        return getFuelFromItem(meta)
     }
 
     /**

@@ -23,13 +23,15 @@ class FuelHandler : Listener {
 
         private fun consumeFuel() {
             for ((player, weapon) in queue.toMap()) {
-                for (itemStack in player.inventory) {
+                for (i in player.inventory.contents.indices) {
+                    val itemStack = player.inventory.getItem(i) ?: continue
                     if (WeaponUtils.getFuelFromItem(itemStack) == weapon) {
                         if (itemStack.amount == 1) {
                             itemStack.type = Material.AIR
                         } else {
                             itemStack.apply { amount-- }
                         }
+                        player.inventory.setItem(i, itemStack)
                     }
                 }
 
