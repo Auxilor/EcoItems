@@ -2,6 +2,7 @@ package com.willfp.ecoweapons.weapons
 
 import com.willfp.eco.core.EcoPlugin
 import com.willfp.libreforge.events.EffectActivateEvent
+import com.willfp.libreforge.updateEffects
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -32,6 +33,7 @@ class FuelHandler : Listener {
                             itemStack.apply { amount-- }
                         }
                         player.inventory.setItem(i, itemStack)
+                        player.updateEffects()
                     }
                 }
 
