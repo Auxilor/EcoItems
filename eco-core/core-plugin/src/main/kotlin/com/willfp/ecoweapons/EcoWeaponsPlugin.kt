@@ -7,13 +7,13 @@ import com.willfp.ecoweapons.commands.CommandEcoweapons
 import com.willfp.ecoweapons.config.EcoWeaponsJson
 import com.willfp.ecoweapons.display.WeaponsDisplay
 import com.willfp.ecoweapons.util.DiscoverRecipeListener
+import com.willfp.ecoweapons.weapons.FuelHandler
 import com.willfp.ecoweapons.weapons.WeaponListener
 import com.willfp.ecoweapons.weapons.WeaponUtils
 import com.willfp.ecoweapons.weapons.toSingletonList
 import com.willfp.libreforge.Holder
 import com.willfp.libreforge.HolderProvider
 import com.willfp.libreforge.LibReforge
-import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.event.Listener
 
@@ -47,12 +47,14 @@ class EcoWeaponsPlugin : EcoPlugin(1241, 12134, "&#ff0000") {
 
     override fun handleReload() {
         LibReforge.reload(this)
+        FuelHandler.createRunnable(this)
     }
 
     override fun loadListeners(): List<Listener> {
         return listOf(
             DiscoverRecipeListener(this),
-            WeaponListener()
+            WeaponListener(),
+            FuelHandler()
         )
     }
 

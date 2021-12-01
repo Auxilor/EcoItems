@@ -5,12 +5,15 @@ import com.google.common.collect.HashBiMap
 import com.google.common.collect.ImmutableList
 import com.willfp.eco.core.config.updating.ConfigUpdater
 import com.willfp.ecoweapons.EcoWeaponsPlugin
+import com.willfp.ecoweapons.weapons.conditions.ConditionHasFuel
 
 object Weapons {
     /**
      * Registered weapons.
      */
     private val BY_ID: BiMap<String, Weapon> = HashBiMap.create()
+
+    val CONDITION_HAS_FUEL = ConditionHasFuel()
 
     /**
      * Get all registered [Weapon]s.

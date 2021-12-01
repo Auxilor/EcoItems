@@ -4,10 +4,10 @@ import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.core.command.CommandHandler
 import com.willfp.eco.core.command.TabCompleteHandler
 import com.willfp.eco.core.command.impl.Subcommand
+import com.willfp.ecoweapons.weapons.Weapons
 import org.bukkit.Bukkit
 import org.bukkit.inventory.ItemStack
 import org.bukkit.util.StringUtil
-import com.willfp.ecoweapons.weapons.Weapons
 
 class CommandGive(plugin: EcoPlugin) : Subcommand(plugin, "give", "ecoweapons.command.give", false) {
     private val numbers = listOf(
@@ -39,7 +39,7 @@ class CommandGive(plugin: EcoPlugin) : Subcommand(plugin, "give", "ecoweapons.co
             }
             val itemID = args[1]
             var amount = 1
-            val weapon = Weapons.getByID(itemID.lowercase())
+            val weapon = Weapons.getByID(itemID.lowercase().replace("_fuel", ""))
             if (weapon == null) {
                 sender.sendMessage(plugin.langYml.getMessage("invalid-item"))
                 return@CommandHandler
@@ -50,7 +50,7 @@ class CommandGive(plugin: EcoPlugin) : Subcommand(plugin, "give", "ecoweapons.co
             if (args.size == 3) {
                 amount = args[2].toIntOrNull() ?: 1
             }
-            val item: ItemStack = weapon.itemStack
+            val item: ItemStack = if (itemID.contains("fuel")) weapon.fuelItem else weapon.itemStack
             item.amount = amount
             receiver.inventory.addItem(item)
         }
@@ -73,7 +73,10 @@ class CommandGive(plugin: EcoPlugin) : Subcommand(plugin, "give", "ecoweapons.co
             }
 
             if (args.size == 2) {
-                StringUtil.copyPartialMatches(args[1], Weapons.values().map { it.id }, completions)
+                val weaponNames = Weapons.values().map { it.id } union
+                        Weapons.values().mapNotNull { if (it.fuelEnabled) "${it.id}_fuel" else null }
+
+                StringUtil.copyPartialMatches(args[1], weaponNames, completions)
                 completions.sort()
                 return@TabCompleteHandler completions
             }
