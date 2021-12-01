@@ -34,6 +34,7 @@ class FuelHandler : Listener {
                         }
                         player.inventory.setItem(i, itemStack)
                         player.updateEffects()
+                        break
                     }
                 }
 
