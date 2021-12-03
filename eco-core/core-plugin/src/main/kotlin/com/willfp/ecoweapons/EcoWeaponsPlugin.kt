@@ -53,7 +53,7 @@ class EcoWeaponsPlugin : EcoPlugin(1241, 12134, "&#ff0000") {
     override fun loadListeners(): List<Listener> {
         return listOf(
             DiscoverRecipeListener(this),
-            WeaponListener(),
+            WeaponListener(this),
             FuelHandler()
         )
     }
