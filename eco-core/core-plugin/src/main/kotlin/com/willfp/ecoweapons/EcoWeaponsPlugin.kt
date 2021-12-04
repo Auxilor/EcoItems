@@ -66,6 +66,10 @@ class EcoWeaponsPlugin : EcoPlugin(1241, 12134, "&#ff0000") {
         return WeaponsDisplay(this)
     }
 
+    override fun getMinimumEcoVersion(): String {
+        return "6.15.0"
+    }
+
     companion object {
         /**
          * Instance of EcoWeapons.
