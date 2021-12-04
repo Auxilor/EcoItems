@@ -5,7 +5,7 @@ import com.willfp.eco.core.command.impl.PluginCommand
 import com.willfp.eco.core.display.DisplayModule
 import com.willfp.eco.core.integrations.IntegrationLoader
 import com.willfp.ecoweapons.commands.CommandEcoweapons
-import com.willfp.ecoweapons.config.EcoWeaponsJson
+import com.willfp.ecoweapons.config.EcoWeaponsYml
 import com.willfp.ecoweapons.display.WeaponsDisplay
 import com.willfp.ecoweapons.util.DiscoverRecipeListener
 import com.willfp.ecoweapons.weapons.FuelHandler
@@ -17,16 +17,16 @@ import org.bukkit.event.Listener
 
 class EcoWeaponsPlugin : EcoPlugin(1241, 12134, "&#ff0000") {
     /**
-     * tiers.json.
+     * ecoweapons.yml.
      */
-    val ecoWeaponsJson: EcoWeaponsJson
+    val ecoWeaponsYml: EcoWeaponsYml
 
     /**
      * Internal constructor called by bukkit on plugin load.
      */
     init {
         instance = this
-        ecoWeaponsJson = EcoWeaponsJson(this)
+        ecoWeaponsYml = EcoWeaponsYml(this)
         LibReforge.init(this)
         LibReforge.registerHolderProvider { WeaponUtils.getWeaponOnPlayer(it).toSingletonList() }
     }

@@ -1,7 +1,7 @@
 package com.willfp.ecoweapons.weapons
 
 import com.willfp.eco.core.EcoPlugin
-import com.willfp.eco.core.config.interfaces.JSONConfig
+import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.eco.core.display.Display
 import com.willfp.eco.core.items.CustomItem
 import com.willfp.eco.core.items.Items
@@ -17,7 +17,7 @@ import org.jetbrains.annotations.NotNull
 import java.util.Objects
 
 class Weapon(
-    private val config: JSONConfig,
+    private val config: Config,
     private val plugin: EcoPlugin
 ) : Holder {
     val id = config.getString("name")

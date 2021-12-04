@@ -47,7 +47,7 @@ object Weapons {
         for (weapon in values()) {
             removeWeapon(weapon)
         }
-        for (setConfig in plugin.ecoWeaponsJson.getSubsections("weapons")) {
+        for (setConfig in plugin.ecoWeaponsYml.getSubsections("weapons")) {
             addNewWeapon(Weapon(setConfig, plugin))
         }
     }
