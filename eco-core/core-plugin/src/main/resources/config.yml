@@ -4,6 +4,7 @@
 #
 
 discover-recipes: true # If all recipes should be automatically discovered.
+
 cooldown:
   in-actionbar: true
   sound:
