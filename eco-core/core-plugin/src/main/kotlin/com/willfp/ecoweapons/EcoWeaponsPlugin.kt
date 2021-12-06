@@ -7,8 +7,8 @@ import com.willfp.eco.core.integrations.IntegrationLoader
 import com.willfp.ecoweapons.commands.CommandEcoweapons
 import com.willfp.ecoweapons.config.EcoWeaponsYml
 import com.willfp.ecoweapons.display.WeaponsDisplay
+import com.willfp.ecoweapons.fuels.FuelHandler
 import com.willfp.ecoweapons.util.DiscoverRecipeListener
-import com.willfp.ecoweapons.weapons.FuelHandler
 import com.willfp.ecoweapons.weapons.WeaponListener
 import com.willfp.ecoweapons.weapons.WeaponUtils
 import com.willfp.ecoweapons.weapons.toSingletonList

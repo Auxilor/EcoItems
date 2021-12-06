@@ -5,7 +5,7 @@ import com.google.common.collect.HashBiMap
 import com.google.common.collect.ImmutableList
 import com.willfp.eco.core.config.updating.ConfigUpdater
 import com.willfp.ecoweapons.EcoWeaponsPlugin
-import com.willfp.ecoweapons.weapons.conditions.ConditionHasFuel
+import com.willfp.ecoweapons.fuels.ConditionHasFuel
 
 object Weapons {
     /**

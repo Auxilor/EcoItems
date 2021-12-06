@@ -1,6 +1,7 @@
-package com.willfp.ecoweapons.weapons
+package com.willfp.ecoweapons.fuels
 
 import com.willfp.eco.core.EcoPlugin
+import com.willfp.ecoweapons.weapons.Weapon
 import com.willfp.libreforge.events.EffectActivateEvent
 import com.willfp.libreforge.updateEffects
 import org.bukkit.Material
@@ -12,7 +13,7 @@ class FuelHandler : Listener {
     @EventHandler
     fun onUseWeapon(event: EffectActivateEvent) {
         val weapon = event.holder as? Weapon ?: return
-        if (!weapon.fuelEnabled) {
+        if (weapon.fuels.isEmpty()) {
             return
         }
 
@@ -24,17 +25,20 @@ class FuelHandler : Listener {
 
         private fun consumeFuel() {
             for ((player, weapon) in queue.toMap()) {
-                for (i in player.inventory.contents.indices) {
-                    val itemStack = player.inventory.getItem(i) ?: continue
-                    if (WeaponUtils.getFuelFromItem(itemStack) == weapon) {
-                        if (itemStack.amount == 1) {
-                            itemStack.type = Material.AIR
-                        } else {
-                            itemStack.apply { amount-- }
+                fuelIter@ for (fuel in weapon.fuels) {
+                    for (i in player.inventory.contents.indices) {
+                        val itemStack = player.inventory.getItem(i) ?: continue
+
+                        if (weapon.fuels.contains(FuelUtils.getFuelFromItem(itemStack))) {
+                            if (itemStack.amount == 1) {
+                                itemStack.type = Material.AIR
+                            } else {
+                                itemStack.apply { amount-- }
+                            }
+                            player.inventory.setItem(i, itemStack)
+                            player.updateEffects()
+                            break@fuelIter
                         }
-                        player.inventory.setItem(i, itemStack)
-                        player.updateEffects()
-                        break
                     }
                 }
 

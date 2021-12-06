@@ -1,4 +1,4 @@
-package com.willfp.ecoweapons.weapons
+package com.willfp.ecoweapons.fuels
 
 import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.core.config.interfaces.Config
@@ -7,7 +7,6 @@ import com.willfp.eco.core.items.CustomItem
 import com.willfp.eco.core.items.Items
 import com.willfp.eco.core.items.builder.ItemStackBuilder
 import com.willfp.eco.core.recipe.Recipes
-import com.willfp.ecoweapons.fuels.Fuels
 import com.willfp.libreforge.Holder
 import com.willfp.libreforge.conditions.Conditions
 import com.willfp.libreforge.effects.Effects
@@ -17,18 +16,18 @@ import org.bukkit.persistence.PersistentDataType
 import org.jetbrains.annotations.NotNull
 import java.util.Objects
 
-class Weapon(
+class Fuel(
     private val config: Config,
     private val plugin: EcoPlugin
 ) : Holder {
-    val id = config.getString("id")
+    val id = config.getString("name")
 
     override val effects = config.getSubsections("effects").mapNotNull {
-        Effects.compile(it, "Weapon ID $id")
+        Effects.compile(it, "Fuel ID $id")
     }.toSet()
 
     override val conditions = config.getSubsections("conditions").mapNotNull {
-        Conditions.compile(it, "Weapon ID $id")
+        Conditions.compile(it, "Fuel ID $id")
     }.toSet()
 
     val itemStack: ItemStack = run {
@@ -44,16 +43,16 @@ class Weapon(
             addLoreLines(
                 itemConfig.getFormattedStrings("lore").map { "${Display.PREFIX}$it" })
             writeMetaKey(
-                this@Weapon.plugin.namespacedKeyFactory.create("weapon"),
+                this@Fuel.plugin.namespacedKeyFactory.create("weapon"),
                 PersistentDataType.STRING,
-                this@Weapon.id
+                this@Fuel.id
             )
         }.build()
     }
 
     val customItem = CustomItem(
         plugin.namespacedKeyFactory.create(id),
-        { test -> WeaponUtils.getWeaponFromItem(test) == this },
+        { test -> FuelUtils.getFuelFromItem(test) == this },
         itemStack
     ).apply { register() }
 
@@ -61,15 +60,13 @@ class Weapon(
         Recipes.createAndRegisterRecipe(
             plugin,
             id,
-            itemStack,
+            itemStack.clone().apply { amount = config.getInt("item.recipeGiveAmount") },
             config.getStrings("item.recipe")
         )
     } else null
 
-    val fuels = config.getStrings("fuels").mapNotNull { Fuels.getByID(it) }
-
     override fun equals(other: Any?): Boolean {
-        if (other !is Weapon) {
+        if (other !is Fuel) {
             return false
         }
 
