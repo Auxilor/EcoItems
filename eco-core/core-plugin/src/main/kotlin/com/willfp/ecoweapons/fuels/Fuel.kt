@@ -7,9 +7,6 @@ import com.willfp.eco.core.items.CustomItem
 import com.willfp.eco.core.items.Items
 import com.willfp.eco.core.items.builder.ItemStackBuilder
 import com.willfp.eco.core.recipe.Recipes
-import com.willfp.libreforge.Holder
-import com.willfp.libreforge.conditions.Conditions
-import com.willfp.libreforge.effects.Effects
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
 import java.util.Objects
@@ -17,16 +14,8 @@ import java.util.Objects
 class Fuel(
     private val config: Config,
     private val plugin: EcoPlugin
-) : Holder {
+) {
     val id = config.getString("name")
-
-    override val effects = config.getSubsections("effects").mapNotNull {
-        Effects.compile(it, "Fuel ID $id")
-    }.toSet()
-
-    override val conditions = config.getSubsections("conditions").mapNotNull {
-        Conditions.compile(it, "Fuel ID $id")
-    }.toSet()
 
     val itemStack: ItemStack = run {
         val itemConfig = config.getSubsection("item")
