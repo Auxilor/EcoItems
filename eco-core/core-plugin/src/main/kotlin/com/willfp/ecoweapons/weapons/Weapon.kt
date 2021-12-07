@@ -11,10 +11,8 @@ import com.willfp.ecoweapons.fuels.Fuels
 import com.willfp.libreforge.Holder
 import com.willfp.libreforge.conditions.Conditions
 import com.willfp.libreforge.effects.Effects
-import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
-import org.jetbrains.annotations.NotNull
 import java.util.Objects
 
 class Weapon(
@@ -35,12 +33,6 @@ class Weapon(
         val itemConfig = config.getSubsection("item")
         ItemStackBuilder(Items.lookup(itemConfig.getString("item")).item).apply {
             setDisplayName(itemConfig.getFormattedString("displayName"))
-            addItemFlag(
-                *itemConfig.getStrings("flags")
-                    .mapNotNull { ItemFlag.valueOf(it.uppercase()) }
-                    .toTypedArray<@NotNull ItemFlag>()
-            )
-            setUnbreakable(itemConfig.getBool("unbreakable"))
             addLoreLines(
                 itemConfig.getFormattedStrings("lore").map { "${Display.PREFIX}$it" })
             writeMetaKey(

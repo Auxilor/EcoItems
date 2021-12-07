@@ -39,9 +39,6 @@ weapons:
         - ''
         - "&8&oYou must have <g:#870000>&oReaper Souls</g:#7a2828>&8&o to fuel the scythe"
       attributes: []
-      unbreakable: false
-      flags:
-        - hide_attributes
       craftable: true
       recipe:
         - nether_star
@@ -53,6 +50,7 @@ weapons:
         - nether_star
         - netherite_sword
         - nether_star
+
 fuels:
   - id: reaper_soul
     item:
