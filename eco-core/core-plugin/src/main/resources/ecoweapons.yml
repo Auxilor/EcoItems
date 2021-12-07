@@ -20,8 +20,6 @@ weapons:
       item: iron_sword hide_attributes
       displayName: "<g:#FDC830>Rogue Zweihänder</g:#F37335>"
       lore:
-        - "&7Damage: &c8"
-        - ""
         - "&7Deals &a50%&7 more damage against"
         - "&7zombies but reduces attack speed"
         - "&7by &a25%"
@@ -68,8 +66,6 @@ weapons:
       item: netherite_sword hide_attributes
       displayName: "<g:#870000>Reaper Scythe</g:#7a2828>"
       lore:
-        - "&7Damage: &c8"
-        - ""
         - "&7Deals &a20%&7 more damage, increases"
         - "&7attack speed by &a15%&7, and gives"
         - "&7a &a25%&7 chance to bleed enemies."
