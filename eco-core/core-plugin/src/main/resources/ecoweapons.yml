@@ -1,4 +1,42 @@
 weapons:
+  - id: rogue_zweihander
+    conditions: []
+    effects:
+      - id: damage_multiplier
+        args:
+          multiplier: 1.5
+        filters:
+          entities:
+            - zombie
+            - husk
+            - drowned
+        triggers:
+          - melee_attack
+      - id: attack_speed_multiplier
+        args:
+          multiplier: 0.75
+    fuels: []
+    item:
+      item: iron_sword
+      displayName: "<g:#FDC830>Rogue Zweihänder</g:#F37335>"
+      lore:
+        - "&7Deals &a50%&7 more damage against"
+        - "&7zombies but reduces attack speed"
+        - "&7by &a25%"
+      attackDamage: 7
+      attackSpeed: 1.6
+      craftable: false
+      recipe:
+        - nether_star
+        - netherite_sword
+        - nether_star
+        - netherite_sword
+        - golden_hoe
+        - netherite_sword
+        - nether_star
+        - netherite_sword
+        - nether_star
+
   - id: reaper_scythe
     conditions:
       - id: above_health_percent
@@ -30,15 +68,13 @@ weapons:
       item: netherite_sword
       displayName: "<g:#870000>Reaper Scythe</g:#7a2828>"
       lore:
-        - "&c&oCut straight through your opponents"
-        - "&c&ofaster and stronger."
-        - ''
-        - "&8» &cDeal 20% more damage"
-        - "&8» &cAttack 15% faster"
-        - "&8» &c25% chance to bleed enemies"
-        - ''
-        - "&8&oYou must have <g:#870000>&oReaper Souls</g:#7a2828>&8&o to fuel the scythe"
-      attributes: []
+        - "&7Deals &a20%&7 more damage, increases"
+        - "&7attack speed by &a15%&7, and gives"
+        - "&7a &a25%&7 chance to bleed enemies."
+        - ""
+        - "&cRequires <g:#870000>&oReaper Souls</g:#7a2828>"
+      attackDamage: 8
+      attackSpeed: 1.6
       craftable: true
       recipe:
         - nether_star
@@ -57,16 +93,16 @@ fuels:
       item: player_head texture:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDc3NGU1ZWYzZDhiY2RlOWVhMjFjMzRiODQ4MjdkMzQ1MzFlNjhmMTExNTEwZjMzODMwNTVlY2FhNzRiZWJjYyJ9fX0=
       displayName: "<g:#870000>Reaper Soul</g:#7a2828>"
       lore:
-        - "&fFuel for the <g:#870000>Reaper Scythe</g:#7a2828>&f."
-        - "&8&oConsumed while using the weapon"
+        - "&7Fuel for the <g:#870000>Reaper Scythe</g:#7a2828>"
+        - "&7Consumed while using the weapon"
       craftable: true
       recipe:
-        - ''
+        - ""
         - gold_ingot
-        - ''
-        - ''
+        - ""
+        - ""
         - iron_ingot
-        - ''
+        - ""
         - soul_soil
         - soul_sand
         - soul_soil
