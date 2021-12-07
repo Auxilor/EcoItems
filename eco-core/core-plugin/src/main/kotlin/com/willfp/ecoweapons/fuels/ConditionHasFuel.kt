@@ -7,7 +7,7 @@ import org.bukkit.entity.Player
 
 class ConditionHasFuel: Condition("has_fuel") {
     override fun isConditionMet(player: Player, config: Config): Boolean {
-        val fuel = Fuels.getByID(config.getString("fuel")) ?: return true
+        val fuel = Fuels.getByID(config.getString("fuel")) ?: return false
         return FuelUtils.hasFuel(player, fuel)
     }
 
