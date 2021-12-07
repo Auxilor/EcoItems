@@ -15,7 +15,7 @@ class Fuel(
     private val config: Config,
     private val plugin: EcoPlugin
 ) {
-    val id = config.getString("name")
+    val id = config.getString("id")
 
     val itemStack: ItemStack = run {
         val itemConfig = config.getSubsection("item")

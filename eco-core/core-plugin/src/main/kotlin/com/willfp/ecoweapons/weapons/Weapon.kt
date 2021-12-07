@@ -11,12 +11,9 @@ import com.willfp.ecoweapons.fuels.Fuels
 import com.willfp.libreforge.Holder
 import com.willfp.libreforge.conditions.Conditions
 import com.willfp.libreforge.effects.Effects
-import org.bukkit.attribute.Attribute
-import org.bukkit.attribute.AttributeModifier
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
 import java.util.Objects
-import java.util.UUID
 
 class Weapon(
     private val config: Config,
@@ -34,7 +31,7 @@ class Weapon(
 
     val itemStack: ItemStack = run {
         val itemConfig = config.getSubsection("item")
-        val item = ItemStackBuilder(Items.lookup(itemConfig.getString("item")).item).apply {
+        ItemStackBuilder(Items.lookup(itemConfig.getString("item")).item).apply {
             setDisplayName(itemConfig.getFormattedString("displayName"))
             addLoreLines(
                 itemConfig.getFormattedStrings("lore").map { "${Display.PREFIX}$it" })
@@ -44,28 +41,6 @@ class Weapon(
                 this@Weapon.id
             )
         }.build()
-        val meta = item.itemMeta!!
-        meta.addAttributeModifier(
-            Attribute.GENERIC_ATTACK_DAMAGE,
-            AttributeModifier(
-                UUID.nameUUIDFromBytes("${this.id}_ad".toByteArray()),
-                "${this.id}_ad",
-                itemConfig.getDouble("attackDamage"),
-                AttributeModifier.Operation.ADD_NUMBER
-            )
-        )
-        meta.addAttributeModifier(
-            Attribute.GENERIC_ATTACK_SPEED,
-            AttributeModifier(
-                UUID.nameUUIDFromBytes("${this.id}_as".toByteArray()),
-                "${this.id}_as",
-                itemConfig.getDouble("attackDamage"),
-                AttributeModifier.Operation.ADD_NUMBER
-            )
-        )
-        item.itemMeta = meta
-
-        item
     }
 
     val customItem = CustomItem(
@@ -84,6 +59,8 @@ class Weapon(
     } else null
 
     val fuels = config.getStrings("fuels").mapNotNull { Fuels.getByID(it) }
+
+    val baseDamage = config.getDouble("item.baseDamage")
 
     override fun equals(other: Any?): Boolean {
         if (other !is Weapon) {

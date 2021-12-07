@@ -10,6 +10,7 @@ import com.willfp.ecoweapons.display.WeaponsDisplay
 import com.willfp.ecoweapons.fuels.FuelHandler
 import com.willfp.ecoweapons.util.DiscoverRecipeListener
 import com.willfp.ecoweapons.weapons.WeaponListener
+import com.willfp.ecoweapons.weapons.WeaponModifierListener
 import com.willfp.ecoweapons.weapons.WeaponUtils
 import com.willfp.ecoweapons.weapons.toSingletonList
 import com.willfp.libreforge.LibReforge
@@ -48,7 +49,8 @@ class EcoWeaponsPlugin : EcoPlugin(1241, 12134, "&#ff0000") {
         return listOf(
             DiscoverRecipeListener(this),
             WeaponListener(this),
-            FuelHandler()
+            FuelHandler(),
+            WeaponModifierListener(this)
         )
     }
 

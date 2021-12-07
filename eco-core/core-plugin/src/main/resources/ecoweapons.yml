@@ -17,14 +17,15 @@ weapons:
           multiplier: 0.75
     fuels: []
     item:
-      item: iron_sword
+      item: iron_sword hide_attributes
       displayName: "<g:#FDC830>Rogue Zweihänder</g:#F37335>"
       lore:
+        - "&7Damage: &c8"
+        - ""
         - "&7Deals &a50%&7 more damage against"
         - "&7zombies but reduces attack speed"
         - "&7by &a25%"
-      attackDamage: 7
-      attackSpeed: 1.6
+      baseDamage: 8
       craftable: false
       recipe:
         - nether_star
@@ -65,17 +66,18 @@ weapons:
     fuels:
       - reaper_soul
     item:
-      item: netherite_sword
+      item: netherite_sword hide_attributes
       displayName: "<g:#870000>Reaper Scythe</g:#7a2828>"
       lore:
+        - "&7Damage: &c8"
+        - ""
         - "&7Deals &a20%&7 more damage, increases"
         - "&7attack speed by &a15%&7, and gives"
         - "&7a &a25%&7 chance to bleed enemies."
         - ""
-        - "&cRequires <g:#870000>&oReaper Souls</g:#7a2828>"
-      attackDamage: 8
-      attackSpeed: 1.6
+        - "&eConsumes <g:#870000>Reaper Souls</g:#7a2828>"
       craftable: true
+      baseDamage: 8
       recipe:
         - nether_star
         - netherite_sword
