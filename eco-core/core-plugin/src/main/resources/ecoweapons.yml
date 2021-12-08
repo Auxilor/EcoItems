@@ -82,6 +82,30 @@ weapons:
         - netherite_sword
         - nether_star
 
+  - id: hardened_netherite_sword
+    baseDamage: 9
+    baseAttackSpeed: 1.6
+    effects: []
+    conditions: []
+    fuels: []
+    item:
+      item: netherite_sword hide_attributes
+      displayName: "&bHardened Netherite Sword"
+      lore:
+        - "&7Damage: &c9❤"
+        - "&7Attack Speed: &c1.6"
+      craftable: true
+      recipe:
+        - ""
+        - netherite_ingot
+        - ""
+        - ""
+        - netherite_ingot
+        - ""
+        - ""
+        - stick
+        - ""
+
 fuels:
   - id: reaper_soul
     item:
