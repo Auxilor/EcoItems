@@ -1,7 +1,6 @@
 package com.willfp.ecoweapons.weapons
 
 import com.willfp.eco.core.EcoPlugin
-import org.bukkit.Bukkit
 import org.bukkit.attribute.Attribute
 import org.bukkit.attribute.AttributeModifier
 import org.bukkit.entity.Player
@@ -45,8 +44,5 @@ class WeaponModifierListener(private val plugin: EcoPlugin) : Listener {
                 )
             )
         }
-
-        Bukkit.getLogger().info("Damage: ${damageInst.value}")
-
     }
 }
