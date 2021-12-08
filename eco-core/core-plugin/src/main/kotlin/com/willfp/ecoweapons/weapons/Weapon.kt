@@ -60,6 +60,8 @@ class Weapon(
 
     val fuels = config.getStrings("fuels").mapNotNull { Fuels.getByID(it) }
 
+    val baseDamage = config.getDouble("baseDamage")
+
     override fun equals(other: Any?): Boolean {
         if (other !is Weapon) {
             return false

@@ -1,6 +1,6 @@
 weapons:
   - id: rogue_zweihander
-    conditions: []
+    baseDamage: 8
     effects:
       - id: damage_multiplier
         args:
@@ -15,11 +15,14 @@ weapons:
       - id: attack_speed_multiplier
         args:
           multiplier: 0.75
+    conditions: []
     fuels: []
     item:
       item: iron_sword hide_attributes
       displayName: "<g:#FDC830>Rogue Zweihänder</g:#F37335>"
       lore:
+        - "&7Damage: &c4❤"
+        - ""
         - "&7Deals &a50%&7 more damage against"
         - "&7zombies but reduces attack speed"
         - "&7by &a25%"
@@ -36,13 +39,7 @@ weapons:
         - nether_star
 
   - id: reaper_scythe
-    conditions:
-      - id: above_health_percent
-        args:
-          percent: 98
-      - id: has_fuel
-        args:
-          fuel: reaper_soul
+    baseDamage: 8
     effects:
       - id: bleed
         args:
@@ -60,12 +57,21 @@ weapons:
       - id: attack_speed_multiplier
         args:
           multiplier: 1.15
+    conditions:
+      - id: above_health_percent
+        args:
+          percent: 98
+      - id: has_fuel
+        args:
+          fuel: reaper_soul
     fuels:
       - reaper_soul
     item:
       item: netherite_sword hide_attributes
       displayName: "<g:#870000>Reaper Scythe</g:#7a2828>"
       lore:
+        - "&7Damage: &c4❤"
+        - ""
         - "&7Deals &a20%&7 more damage, increases"
         - "&7attack speed by &a15%&7, and gives"
         - "&7a &a25%&7 chance to bleed enemies."
