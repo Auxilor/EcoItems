@@ -22,9 +22,9 @@ weapons:
         - "&7Damage: &c7❤"
         - "&7Attack Speed: &c1.5"
         - ""
-        - "&7Deals &a50%&7 more damage against"
-        - "&7zombies but reduces attack speed"
-        - "&7by &a25%"
+        - "<g:#FDC830>&lROGUE ZWEIHÄNDER BONUS</g:#F37335>"
+        - "&8» &#FDC830Deal 50% more damage against"
+        - "&#FDC830zombies"
       craftable: false
       recipe:
         -
@@ -65,9 +65,11 @@ weapons:
         - "&7Damage: &c12❤"
         - "&7Attack Speed: &c2.0"
         - ""
-        - "&7Gives a &a25%&7 chance to bleed enemies."
+        - "<g:#870000>&lREAPER SCYTHE BONUS</g:#7a2828>"
+        - "&8» &#87000025% chance to bleed enemies"
         - ""
-        - "&7Consumes <g:#870000>Reaper Souls</g:#7a2828>"
+        - "&4❣ &cMust be on full health for bonus"
+        - "&4❣ &cConsumes <g:#870000>Reaper Souls</g:#7a2828>"
       craftable: true
       recipe:
         - nether_star
