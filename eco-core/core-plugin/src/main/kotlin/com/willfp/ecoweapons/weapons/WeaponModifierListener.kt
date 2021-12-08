@@ -24,11 +24,20 @@ class WeaponModifierListener(private val plugin: EcoPlugin) : Listener {
         val weapon = WeaponUtils.getWeaponOnPlayer(player)
 
         val damageInst = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE) ?: return
+        val speedInst = player.getAttribute(Attribute.GENERIC_ATTACK_SPEED) ?: return
 
         damageInst.removeModifier(
             AttributeModifier(
                 UUID.nameUUIDFromBytes("ecoweapons_ad".toByteArray()),
-                "EcoWeapons Calibration",
+                "EcoWeapons Damage",
+                1.0, // Irrelevant
+                AttributeModifier.Operation.ADD_NUMBER
+            )
+        )
+        speedInst.removeModifier(
+            AttributeModifier(
+                UUID.nameUUIDFromBytes("ecoweapons_as".toByteArray()),
+                "EcoWeapons Speed",
                 1.0, // Irrelevant
                 AttributeModifier.Operation.ADD_NUMBER
             )
@@ -38,8 +47,17 @@ class WeaponModifierListener(private val plugin: EcoPlugin) : Listener {
             damageInst.addModifier(
                 AttributeModifier(
                     UUID.nameUUIDFromBytes("ecoweapons_ad".toByteArray()),
-                    "EcoWeapons Calibration",
+                    "EcoWeapons Damage",
                     weapon.baseDamage - player.inventory.itemInMainHand.type.getBaseDamage(),
+                    AttributeModifier.Operation.ADD_NUMBER
+                )
+            )
+
+            speedInst.addModifier(
+                AttributeModifier(
+                    UUID.nameUUIDFromBytes("ecoweapons_as".toByteArray()),
+                    "EcoWeapons Speed",
+                    weapon.baseAttackSpeed - player.inventory.itemInMainHand.type.getBaseAttackSpeed(),
                     AttributeModifier.Operation.ADD_NUMBER
                 )
             )

@@ -62,6 +62,8 @@ class Weapon(
 
     val baseDamage = config.getDouble("baseDamage")
 
+    val baseAttackSpeed = config.getDouble("baseAttackSpeed")
+
     override fun equals(other: Any?): Boolean {
         if (other !is Weapon) {
             return false

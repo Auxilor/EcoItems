@@ -1,6 +1,7 @@
 weapons:
   - id: rogue_zweihander
-    baseDamage: 8
+    baseDamage: 7
+    baseAttackSpeed: 1.6
     effects:
       - id: damage_multiplier
         args:
@@ -21,14 +22,14 @@ weapons:
       item: iron_sword hide_attributes
       displayName: "<g:#FDC830>Rogue Zweihänder</g:#F37335>"
       lore:
-        - "&7Damage: &c4❤"
+        - "&7Damage: &c7❤"
         - ""
         - "&7Deals &a50%&7 more damage against"
         - "&7zombies but reduces attack speed"
         - "&7by &a25%"
       craftable: false
       recipe:
-        - nether_star
+        -
         - netherite_sword
         - nether_star
         - netherite_sword
@@ -40,6 +41,7 @@ weapons:
 
   - id: reaper_scythe
     baseDamage: 8
+    baseAttackSpeed: 1.6
     effects:
       - id: bleed
         args:
@@ -70,7 +72,7 @@ weapons:
       item: netherite_sword hide_attributes
       displayName: "<g:#870000>Reaper Scythe</g:#7a2828>"
       lore:
-        - "&7Damage: &c4❤"
+        - "&7Damage: &c8❤"
         - ""
         - "&7Deals &a20%&7 more damage, increases"
         - "&7attack speed by &a15%&7, and gives"

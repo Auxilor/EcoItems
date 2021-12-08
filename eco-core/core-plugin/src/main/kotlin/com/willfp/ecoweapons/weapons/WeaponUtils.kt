@@ -92,3 +92,46 @@ fun Material.getBaseDamage(): Double {
         else -> 1.0
     }
 }
+
+fun Material.getBaseAttackSpeed(): Double {
+    return when(this) {
+        Material.WOODEN_SWORD -> 1.6
+        Material.STONE_SWORD -> 1.6
+        Material.IRON_SWORD -> 1.6
+        Material.GOLDEN_SWORD -> 1.6
+        Material.DIAMOND_SWORD -> 1.6
+        Material.NETHERITE_SWORD -> 1.6
+
+        Material.TRIDENT -> 1.1
+
+        Material.WOODEN_SHOVEL -> 1.0
+        Material.STONE_SHOVEL -> 1.0
+        Material.IRON_SHOVEL -> 1.0
+        Material.GOLDEN_SHOVEL -> 1.0
+        Material.DIAMOND_SHOVEL -> 1.0
+        Material.NETHERITE_SHOVEL -> 1.0
+
+        Material.WOODEN_PICKAXE -> 1.2
+        Material.STONE_PICKAXE -> 1.2
+        Material.IRON_PICKAXE -> 1.2
+        Material.GOLDEN_PICKAXE -> 1.2
+        Material.DIAMOND_PICKAXE -> 1.2
+        Material.NETHERITE_PICKAXE -> 1.2
+
+        Material.WOODEN_AXE -> 0.8
+        Material.STONE_AXE -> 0.8
+        Material.IRON_AXE -> 0.9
+        Material.GOLDEN_AXE -> 1.0
+        Material.DIAMOND_AXE -> 1.0
+        Material.NETHERITE_AXE -> 1.0
+
+        Material.WOODEN_HOE -> 1.0
+        Material.STONE_HOE -> 2.0
+        Material.IRON_HOE -> 3.0
+        Material.GOLDEN_HOE -> 1.0
+        Material.DIAMOND_HOE -> 4.0
+        Material.NETHERITE_HOE -> 4.0
+
+        else -> 4.0
+    }
+}
