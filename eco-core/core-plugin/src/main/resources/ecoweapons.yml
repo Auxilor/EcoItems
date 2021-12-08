@@ -1,7 +1,7 @@
 weapons:
   - id: rogue_zweihander
     baseDamage: 7
-    baseAttackSpeed: 1.6
+    baseAttackSpeed: 1.2
     effects:
       - id: damage_multiplier
         args:
@@ -13,9 +13,6 @@ weapons:
             - drowned
         triggers:
           - melee_attack
-      - id: attack_speed_multiplier
-        args:
-          multiplier: 0.75
     conditions: []
     fuels: []
     item:
@@ -23,6 +20,7 @@ weapons:
       displayName: "<g:#FDC830>Rogue Zweihänder</g:#F37335>"
       lore:
         - "&7Damage: &c7❤"
+        - "&7Attack Speed: &c1.5"
         - ""
         - "&7Deals &a50%&7 more damage against"
         - "&7zombies but reduces attack speed"
@@ -40,8 +38,8 @@ weapons:
         - nether_star
 
   - id: reaper_scythe
-    baseDamage: 8
-    baseAttackSpeed: 1.6
+    baseDamage: 12
+    baseAttackSpeed: 2.0
     effects:
       - id: bleed
         args:
@@ -51,14 +49,6 @@ weapons:
           chance: 25
         triggers:
           - melee_attack
-      - id: damage_multiplier
-        args:
-          multiplier: 1.2
-        triggers:
-          - melee_attack
-      - id: attack_speed_multiplier
-        args:
-          multiplier: 1.15
     conditions:
       - id: above_health_percent
         args:
@@ -72,13 +62,12 @@ weapons:
       item: netherite_sword hide_attributes
       displayName: "<g:#870000>Reaper Scythe</g:#7a2828>"
       lore:
-        - "&7Damage: &c8❤"
+        - "&7Damage: &c12❤"
+        - "&7Attack Speed: &c2.0"
         - ""
-        - "&7Deals &a20%&7 more damage, increases"
-        - "&7attack speed by &a15%&7, and gives"
-        - "&7a &a25%&7 chance to bleed enemies."
+        - "&7Gives a &a25%&7 chance to bleed enemies."
         - ""
-        - "&eConsumes <g:#870000>Reaper Souls</g:#7a2828>"
+        - "&7Consumes <g:#870000>Reaper Souls</g:#7a2828>"
       craftable: true
       recipe:
         - nether_star
