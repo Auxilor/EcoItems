@@ -82,7 +82,7 @@ fun Material.getBaseDamage(): Double {
         Material.DIAMOND_PICKAXE -> 5.0
         Material.DIAMOND_AXE -> 9.0
 
-        Material.NETHERITE_SWORD -> 7.0
+        Material.NETHERITE_SWORD -> 8.0
         Material.NETHERITE_SHOVEL -> 6.5
         Material.NETHERITE_PICKAXE -> 6.0
         Material.NETHERITE_AXE -> 10.0
