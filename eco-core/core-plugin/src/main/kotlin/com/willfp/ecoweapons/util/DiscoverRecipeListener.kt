@@ -6,22 +6,19 @@ import org.bukkit.Keyed
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
+import org.bukkit.inventory.Recipe
 
 class DiscoverRecipeListener(private val plugin: EcoPlugin) : Listener {
     @EventHandler
     fun onJoin(event: PlayerJoinEvent) {
-        val player = event.player
-        if (plugin.configYml.getBool("discover-recipes")) {
-            Bukkit.getServer().recipeIterator().forEachRemaining {
-                if (it is Keyed) {
-                    val key = it.key
-                    if (key.namespace == plugin.name.lowercase()) {
-                        if (!key.key.contains("displayed")) {
-                            player.discoverRecipe(key)
-                        }
-                    }
-                }
-            }
+        if (!plugin.configYml.getBool("discover-recipes")) {
+            return
         }
+        mutableListOf<Recipe>()
+            .apply { Bukkit.getServer().recipeIterator().forEachRemaining(this::add) }
+            .filterIsInstance<Keyed>().map { it.key }
+            .filter { it.namespace == plugin.name.lowercase() }
+            .filter { !it.key.contains("displayed") }
+            .forEach { event.player.discoverRecipe(it) }
     }
 }
