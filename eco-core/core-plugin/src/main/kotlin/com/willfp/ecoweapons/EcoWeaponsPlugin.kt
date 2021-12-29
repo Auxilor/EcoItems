@@ -16,7 +16,7 @@ import com.willfp.ecoweapons.weapons.toSingletonList
 import com.willfp.libreforge.LibReforge
 import org.bukkit.event.Listener
 
-class EcoWeaponsPlugin : EcoPlugin(1241, 12134, "&#ff0000") {
+class EcoWeaponsPlugin : EcoPlugin(1241, 12134, "&#ff0000", true) {
     /**
      * ecoweapons.yml.
      */
