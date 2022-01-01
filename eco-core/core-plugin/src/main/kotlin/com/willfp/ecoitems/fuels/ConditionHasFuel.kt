@@ -1,4 +1,4 @@
-package com.willfp.ecoweapons.fuels
+package com.willfp.ecoitems.fuels
 
 import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.libreforge.ConfigViolation

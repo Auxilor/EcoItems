@@ -1,35 +1,35 @@
-package com.willfp.ecoweapons
+package com.willfp.ecoitems
 
 import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.core.command.impl.PluginCommand
 import com.willfp.eco.core.display.DisplayModule
 import com.willfp.eco.core.integrations.IntegrationLoader
-import com.willfp.ecoweapons.commands.CommandEcoweapons
-import com.willfp.ecoweapons.config.EcoWeaponsYml
-import com.willfp.ecoweapons.display.WeaponsDisplay
-import com.willfp.ecoweapons.fuels.FuelHandler
-import com.willfp.ecoweapons.util.DiscoverRecipeListener
-import com.willfp.ecoweapons.weapons.WeaponListener
-import com.willfp.ecoweapons.weapons.WeaponModifierListener
-import com.willfp.ecoweapons.weapons.WeaponUtils
-import com.willfp.ecoweapons.weapons.toSingletonList
+import com.willfp.ecoitems.commands.CommandEcoItems
+import com.willfp.ecoitems.config.ItemsYml
+import com.willfp.ecoitems.display.ItemsDisplay
+import com.willfp.ecoitems.fuels.FuelHandler
+import com.willfp.ecoitems.util.DiscoverRecipeListener
+import com.willfp.ecoitems.items.ItemListener
+import com.willfp.ecoitems.items.ItemAttributeListener
+import com.willfp.ecoitems.items.ItemUtils
+import com.willfp.ecoitems.items.toSingletonList
 import com.willfp.libreforge.LibReforge
 import org.bukkit.event.Listener
 
-class EcoWeaponsPlugin : EcoPlugin(1241, 12134, "&#ff0000", true) {
+class EcoItemsPlugin : EcoPlugin(1241, 12205, "&#ff0000", true) {
     /**
-     * ecoweapons.yml.
+     * items.yml.
      */
-    val ecoWeaponsYml: EcoWeaponsYml
+    val itemsYml: ItemsYml
 
     /**
      * Internal constructor called by bukkit on plugin load.
      */
     init {
         instance = this
-        ecoWeaponsYml = EcoWeaponsYml(this)
+        itemsYml = ItemsYml(this)
         LibReforge.init(this)
-        LibReforge.registerHolderProvider { WeaponUtils.getWeaponOnPlayer(it).toSingletonList() }
+        LibReforge.registerHolderProvider { ItemUtils.getEcoItemOnPlayer(it).toSingletonList() }
     }
 
     override fun handleEnable() {
@@ -48,9 +48,9 @@ class EcoWeaponsPlugin : EcoPlugin(1241, 12134, "&#ff0000", true) {
     override fun loadListeners(): List<Listener> {
         return listOf(
             DiscoverRecipeListener(this),
-            WeaponListener(this),
+            ItemListener(this),
             FuelHandler(),
-            WeaponModifierListener(this)
+            ItemAttributeListener(this)
         )
     }
 
@@ -60,12 +60,12 @@ class EcoWeaponsPlugin : EcoPlugin(1241, 12134, "&#ff0000", true) {
 
     override fun loadPluginCommands(): List<PluginCommand> {
         return listOf(
-            CommandEcoweapons(this)
+            CommandEcoItems(this)
         )
     }
 
     override fun createDisplayModule(): DisplayModule {
-        return WeaponsDisplay(this)
+        return ItemsDisplay(this)
     }
 
     override fun getMinimumEcoVersion(): String {
@@ -74,9 +74,9 @@ class EcoWeaponsPlugin : EcoPlugin(1241, 12134, "&#ff0000", true) {
 
     companion object {
         /**
-         * Instance of EcoWeapons.
+         * Instance of EcoItems.
          */
         @JvmStatic
-        lateinit var instance: EcoWeaponsPlugin
+        lateinit var instance: EcoItemsPlugin
     }
 }

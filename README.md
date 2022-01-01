@@ -1,22 +1,22 @@
 <h1 align="center">
   <br>
-  <img src="https://i.imgur.com/Zy0MpbE.png" alt="EcoWeapons logo" width="256">
+  <img src="https://i.imgur.com/Zy0MpbE.png" alt="EcoItems logo" width="256">
   <br>
 </h1>
 
-<h4 align="center">Source code for EcoWeapons, a premium spigot plugin.</h4>
+<h4 align="center">Source code for EcoItems, a premium spigot plugin.</h4>
 
 <p align="center">
-    <a href="https://polymart.org/resource/1-16-1-17-ecoweapons.1241">
-        <img alt="spigot" src="https://img.shields.io/badge/polymart-ecoweapons-ff0000?style=for-the-badge"/>
+    <a href="https://polymart.org/resource/ecoitems.1241">
+        <img alt="spigot" src="https://img.shields.io/badge/polymart-ecoitems-ff0000?style=for-the-badge"/>
     </a>
-    <a href="https://bstats.org/plugin/bukkit/EcoWeapons" alt="bstats servers">
-        <img src="https://img.shields.io/bstats/servers/12134?color=ff0000&style=for-the-badge"/>
+    <a href="https://bstats.org/plugin/bukkit/EcoItems" alt="bstats servers">
+        <img src="https://img.shields.io/bstats/servers/12205?color=ff0000&style=for-the-badge"/>
     </a>
-    <a href="https://bstats.org/plugin/bukkit/EcoWeapons" alt="bstats players">
-        <img src="https://img.shields.io/bstats/players/12134?color=ff0000&style=for-the-badge"/>
+    <a href="https://bstats.org/plugin/bukkit/EcoItems" alt="bstats players">
+        <img src="https://img.shields.io/bstats/players/12205?color=ff0000&style=for-the-badge"/>
     </a>
-    <a href="https://ecoweapons.willfp.com/" alt="Docs (gitbook)">
+    <a href="https://plugins.auxilor.io/ecoitems/" alt="Docs (gitbook)">
         <img src="https://img.shields.io/badge/docs-gitbook-ff0000?style=for-the-badge&logo=appveyor"/>
     </a>
     <a href="https://discord.gg/ZcwpSsE/" alt="Discord">
@@ -25,13 +25,10 @@
 </p>
 
 
-[![Title](https://i.imgur.com/nWTUjFy.png)]()
-[![Features](https://i.imgur.com/5PCshi2.png)]()
-[![Docs](https://i.imgur.com/qtLAaxj.png)](https://ecoweapons.willfp.com/)
-[![Compatibility](https://i.imgur.com/iOkT5bR.png)]()
+[![Picture](https://i.imgur.com/nWTUjFy.png)]()
 
 ## License
-*Click here to read [the entire license](https://github.com/Auxilor/EcoWeapons/blob/master/LICENSE.md).*
+*Click here to read [the entire license](https://github.com/Auxilor/EcoItems/blob/master/LICENSE.md).*
 
 <h1 align="center">
   <br>

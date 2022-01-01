@@ -1,4 +1,4 @@
-package com.willfp.ecoweapons.fuels
+package com.willfp.ecoitems.items
 
 import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.core.config.interfaces.Config
@@ -7,15 +7,27 @@ import com.willfp.eco.core.items.CustomItem
 import com.willfp.eco.core.items.Items
 import com.willfp.eco.core.items.builder.ItemStackBuilder
 import com.willfp.eco.core.recipe.Recipes
+import com.willfp.ecoitems.fuels.Fuels
+import com.willfp.libreforge.Holder
+import com.willfp.libreforge.conditions.Conditions
+import com.willfp.libreforge.effects.Effects
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
 import java.util.Objects
 
-class Fuel(
+class EcoItem(
     private val config: Config,
     private val plugin: EcoPlugin
-) {
+) : Holder {
     val id = config.getString("id")
+
+    override val effects = config.getSubsections("effects").mapNotNull {
+        Effects.compile(it, "Item ID $id")
+    }.toSet()
+
+    override val conditions = config.getSubsections("conditions").mapNotNull {
+        Conditions.compile(it, "Item ID $id")
+    }.toSet()
 
     val itemStack: ItemStack = run {
         val itemConfig = config.getSubsection("item")
@@ -24,16 +36,16 @@ class Fuel(
             addLoreLines(
                 itemConfig.getFormattedStrings("lore").map { "${Display.PREFIX}$it" })
             writeMetaKey(
-                this@Fuel.plugin.namespacedKeyFactory.create("fuel"),
+                this@EcoItem.plugin.namespacedKeyFactory.create("item"),
                 PersistentDataType.STRING,
-                this@Fuel.id
+                this@EcoItem.id
             )
         }.build()
     }
 
     val customItem = CustomItem(
         plugin.namespacedKeyFactory.create(id),
-        { test -> FuelUtils.getFuelFromItem(test) == this },
+        { test -> ItemUtils.getEcoItem(test) == this },
         itemStack
     ).apply { register() }
 
@@ -41,13 +53,19 @@ class Fuel(
         Recipes.createAndRegisterRecipe(
             plugin,
             id,
-            itemStack.clone().apply { amount = config.getInt("item.recipeGiveAmount") },
+            itemStack,
             config.getStrings("item.recipe")
         )
     } else null
 
+    val fuels = config.getStrings("fuels").mapNotNull { Fuels.getByID(it) }
+
+    val baseDamage = config.getDouble("baseDamage")
+
+    val baseAttackSpeed = config.getDouble("baseAttackSpeed")
+
     override fun equals(other: Any?): Boolean {
-        if (other !is Fuel) {
+        if (other !is EcoItem) {
             return false
         }
 
@@ -59,6 +77,6 @@ class Fuel(
     }
 
     override fun toString(): String {
-        return "Weapon{$id}"
+        return "EcoItem{$id}"
     }
 }

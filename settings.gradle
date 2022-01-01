@@ -1,4 +1,4 @@
-rootProject.name = 'EcoWeapons'
+rootProject.name = 'EcoItems'
 
 // Core
 include ':eco-core'

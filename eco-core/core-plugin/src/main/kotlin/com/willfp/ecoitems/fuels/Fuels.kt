@@ -1,10 +1,10 @@
-package com.willfp.ecoweapons.fuels
+package com.willfp.ecoitems.fuels
 
 import com.google.common.collect.BiMap
 import com.google.common.collect.HashBiMap
 import com.google.common.collect.ImmutableList
 import com.willfp.eco.core.config.updating.ConfigUpdater
-import com.willfp.ecoweapons.EcoWeaponsPlugin
+import com.willfp.ecoitems.EcoItemsPlugin
 
 object Fuels {
     /**
@@ -38,21 +38,21 @@ object Fuels {
     /**
      * Update all [Fuel]s.
      *
-     * @param plugin Instance of EcoWeapons.
+     * @param plugin Instance of EcoItems.
      */
     @ConfigUpdater
     @JvmStatic
-    fun update(plugin: EcoWeaponsPlugin) {
+    fun update(plugin: EcoItemsPlugin) {
         for (fuel in values()) {
             removeFuel(fuel)
         }
-        for (setConfig in plugin.ecoWeaponsYml.getSubsections("fuels")) {
+        for (setConfig in plugin.itemsYml.getSubsections("fuels")) {
             addNewFuel(Fuel(setConfig, plugin))
         }
     }
 
     /**
-     * Add new [Fuel] to EcoWeapons.
+     * Add new [Fuel] to EcoItems.
      *
      * @param fuel The [Fuel] to add.
      */
@@ -63,9 +63,9 @@ object Fuels {
     }
 
     /**
-     * Remove [Fuel] from EcoWeapons.
+     * Remove [Fuel] from EcoItems.
      *
-     * @param weapon The [Fuel] to remove.
+     * @param fuel The [Fuel] to remove.
      */
     @JvmStatic
     fun removeFuel(fuel: Fuel) {

@@ -1,4 +1,4 @@
-package com.willfp.ecoweapons.util
+package com.willfp.ecoitems.util
 
 import com.willfp.eco.core.EcoPlugin
 import org.bukkit.Bukkit

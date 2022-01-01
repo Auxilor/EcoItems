@@ -1,6 +1,6 @@
-name: EcoWeapons
+name: EcoItems
 version: ${projectVersion}
-main: com.willfp.ecoweapons.EcoWeaponsPlugin
+main: com.willfp.ecoitems.EcoItemsPlugin
 api-version: 1.16
 authors: [ Auxilor ]
 website: willfp.com
@@ -15,31 +15,30 @@ libraries:
   - 'org.jetbrains.kotlin:kotlin-stdlib:1.6.0'
 
 commands:
-  ecoweapons:
+  ecoitems:
     description: Base Command
-    permission: ecoweapons.command.ecoweapons
+    permission: ecoitems.command.ecoitems
 
 permissions:
-  ecoweapons.*:
-    description: All ecoweapons permissions
+  ecoitems.*:
+    description: All ecoitems permissions
     default: op
     children:
-      ecoweapons.command.*: true
-      ecoweapons.noflydisable: true
-  ecoweapons.command.*:
+      ecoitems.command.*: true
+  ecoitems.command.*:
     description: All commands
     default: op
     children:
-      ecoweapons.command.reload: true
-      ecoweapons.command.ecoweapons: true
-      ecoweapons.command.give: true
+      ecoitems.command.reload: true
+      ecoitems.command.ecoitems: true
+      ecoitems.command.give: true
 
-  ecoweapons.command.reload:
+  ecoitems.command.reload:
     description: Allows reloading the config
     default: op
-  ecoweapons.command.give:
-    description: Allows the use of /ecoweapons give
+  ecoitems.command.give:
+    description: Allows the use of /ecoitems give
     default: op
-  ecoweapons.command.ecoweapons:
-    description: Allows the user of /ecoweapons.
+  ecoitems.command.ecoitems:
+    description: Allows the user of /ecoitems.
     default: true

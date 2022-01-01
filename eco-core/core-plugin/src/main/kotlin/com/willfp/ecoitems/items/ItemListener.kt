@@ -1,4 +1,4 @@
-package com.willfp.ecoweapons.weapons
+package com.willfp.ecoitems.items
 
 import com.willfp.eco.core.EcoPlugin
 import com.willfp.libreforge.updateEffects
@@ -6,7 +6,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerItemHeldEvent
 
-class WeaponListener(
+class ItemListener(
     private val plugin: EcoPlugin
 ): Listener {
     @EventHandler

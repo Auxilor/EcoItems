@@ -1,7 +1,7 @@
-package com.willfp.ecoweapons.fuels
+package com.willfp.ecoitems.fuels
 
-import com.willfp.ecoweapons.EcoWeaponsPlugin.Companion.instance
-import com.willfp.ecoweapons.weapons.Weapon
+import com.willfp.ecoitems.EcoItemsPlugin.Companion.instance
+import com.willfp.ecoitems.items.EcoItem
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
@@ -9,15 +9,15 @@ import org.bukkit.persistence.PersistentDataType
 
 object FuelUtils {
     /**
-     * Instance of EcoWeapons.
+     * Instance of EcoItems.
      */
     private val PLUGIN = instance
 
     /**
-     * Get fuel weapon from an item.
+     * Get fuel from an item.
      *
      * @param itemStack The itemStack to check.
-     * @return The weapon, or null if no weapon is found.
+     * @return The fuel, or null if no fuel is found.
      */
     fun getFuelFromItem(itemStack: ItemStack?): Fuel? {
         itemStack ?: return null
@@ -26,10 +26,10 @@ object FuelUtils {
     }
 
     /**
-     * Get fuel weapon on an item.
+     * Get fuel on an item.
      *
      * @param meta The itemStack to check.
-     * @return The weapon, or null if no weapon is found.
+     * @return The fuel, or null if no fuel is found.
      */
     fun getFuelFromItem(meta: ItemMeta): Fuel? {
         val container = meta.persistentDataContainer
@@ -41,17 +41,17 @@ object FuelUtils {
     }
 
     /**
-     * If player has fuel for a weapon.
+     * If player has fuel for an item.
      *
      * @param player The player to check.
-     * @param weapon The weapon.
+     * @param item The item.
      * @return If the player has fuel for it.
      */
-    fun hasFuelFor(player: Player, weapon: Weapon): Boolean {
-        if (weapon.fuels.isEmpty()) {
+    fun hasFuelFor(player: Player, item: EcoItem): Boolean {
+        if (item.fuels.isEmpty()) {
             return true
         }
-        for (fuel in weapon.fuels) {
+        for (fuel in item.fuels) {
             if (hasFuel(player, fuel)) {
                 return true
             }

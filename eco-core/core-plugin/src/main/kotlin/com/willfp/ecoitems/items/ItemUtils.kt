@@ -1,53 +1,70 @@
-package com.willfp.ecoweapons.weapons
+package com.willfp.ecoitems.items
 
-import com.willfp.ecoweapons.EcoWeaponsPlugin.Companion.instance
+import com.willfp.ecoitems.EcoItemsPlugin.Companion.instance
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
 import org.bukkit.persistence.PersistentDataType
 
-object WeaponUtils {
+object ItemUtils {
     /**
-     * Instance of EcoWeapons.
+     * Instance of EcoItems.
      */
     private val PLUGIN = instance
 
     /**
-     * Get weapon from an item.
+     * Get EcoItem from an item.
      *
      * @param itemStack The itemStack to check.
-     * @return The weapon, or null if no weapon is found.
+     * @return The EcoItem, or null if no EcoItem is found.
      */
-    fun getWeaponFromItem(itemStack: ItemStack?): Weapon? {
+    fun getEcoItem(itemStack: ItemStack?): EcoItem? {
         itemStack ?: return null
         val meta = itemStack.itemMeta ?: return null
-        return getWeaponFromItem(meta)
+        val item = getEcoItem(meta)
+        itemStack.itemMeta = meta
+        return item
     }
 
     /**
-     * Get weapon on an item.
+     * Get EcoItem from an item.
      *
      * @param meta The itemStack to check.
-     * @return The weapon, or null if no weapon is found.
+     * @return The EcoItem, or null if no EcoItem is found.
      */
-    fun getWeaponFromItem(meta: ItemMeta): Weapon? {
+    fun getEcoItem(meta: ItemMeta): EcoItem? {
         val container = meta.persistentDataContainer
-        val weaponName = container.get(
+        val legacy = container.get(
             PLUGIN.namespacedKeyFactory.create("weapon"),
             PersistentDataType.STRING
+        )
+
+        if (legacy != null) {
+            container.set(
+                PLUGIN.namespacedKeyFactory.create("item"),
+                PersistentDataType.STRING,
+                legacy
+            )
+            container.remove(PLUGIN.namespacedKeyFactory.create("weapon"))
+        }
+
+        val id = container.get(
+            PLUGIN.namespacedKeyFactory.create("item"),
+            PersistentDataType.STRING
         ) ?: return null
-        return Weapons.getByID(weaponName)
+
+        return EcoItems.getByID(id)
     }
 
     /**
-     * Get weapon on a player.
+     * Get EcoItem on a player.
      *
      * @param player The player to check.
-     * @return The weapon, or null if no weapon is found.
+     * @return The EcoItem, or null if no EcoItem is found.
      */
-    fun getWeaponOnPlayer(player: Player): Weapon? {
-        return getWeaponFromItem(player.inventory.itemInMainHand)
+    fun getEcoItemOnPlayer(player: Player): EcoItem? {
+        return getEcoItem(player.inventory.itemInMainHand)
     }
 }
 
@@ -56,7 +73,7 @@ inline fun <reified T> T?.toSingletonList(): List<T> {
 }
 
 fun Material.getBaseDamage(): Double {
-    return when(this) {
+    return when (this) {
         Material.WOODEN_SWORD -> 4.0
         Material.WOODEN_SHOVEL -> 2.5
         Material.WOODEN_PICKAXE -> 2.0
@@ -94,7 +111,7 @@ fun Material.getBaseDamage(): Double {
 }
 
 fun Material.getBaseAttackSpeed(): Double {
-    return when(this) {
+    return when (this) {
         Material.WOODEN_SWORD -> 1.6
         Material.STONE_SWORD -> 1.6
         Material.IRON_SWORD -> 1.6

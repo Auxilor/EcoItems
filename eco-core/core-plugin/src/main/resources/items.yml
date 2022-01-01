@@ -1,4 +1,4 @@
-weapons:
+items:
   - id: rogue_zweihander
     baseDamage: 7
     baseAttackSpeed: 1.2

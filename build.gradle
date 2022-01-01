@@ -57,12 +57,12 @@ allprojects {
     }
 
     shadowJar {
-        relocate('com.willfp.libreforge', 'com.willfp.ecoweapons.libreforge')
+        relocate('com.willfp.libreforge', 'com.willfp.ecoitems.libreforge')
     }
 
     dependencies {
-        compileOnly 'com.willfp:eco:6.15.0'
-        implementation 'com.willfp:libreforge:2.6.2'
+        compileOnly 'com.willfp:eco:6.17.1'
+        implementation 'com.willfp:libreforge:2.7.0'
 
         compileOnly 'org.jetbrains:annotations:23.0.0'
 
