@@ -25,7 +25,7 @@
 </p>
 
 
-[![Picture](https://i.imgur.com/nWTUjFy.png)]()
+[![Picture](https://i.imgur.com/z37jIZt.png)]()
 
 ## License
 *Click here to read [the entire license](https://github.com/Auxilor/EcoItems/blob/master/LICENSE.md).*
