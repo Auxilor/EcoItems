@@ -10,6 +10,7 @@ import com.willfp.eco.core.recipe.Recipes
 import com.willfp.eco.util.NumberUtils
 import com.willfp.ecoitems.EcoItemsPlugin
 import com.willfp.ecoitems.fuels.ConditionHasFuel
+import java.util.*
 
 object EcoItems {
     /**
@@ -71,7 +72,7 @@ object EcoItems {
         item.amount = config.getInt("recipeGiveAmount")
         Recipes.createAndRegisterRecipe(
             EcoItemsPlugin.instance,
-            NumberUtils.randInt(0, 10_000_000).toString(),
+            Objects.hash(config.getStrings("recipe", false)).toString(),
             item,
             config.getStrings("recipe"),
             config.getStringOrNull("permission")
