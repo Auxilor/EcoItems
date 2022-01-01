@@ -12,13 +12,13 @@ items:
       craftable: true
       recipe:
         - ""
-        - ender_eye:4
+        - ender_eye 4
         - ""
-        - ender_eye:4
-        - ender_eye:4
-        - ender_eye:4
+        - ender_eye 4
+        - ender_eye 4
+        - ender_eye 4
         - ""
-        - ender_eye:4
+        - ender_eye 4
         - ""
 
   - id: enchanted_ender_pearl
@@ -34,13 +34,13 @@ items:
       craftable: true
       recipe:
         - ""
-        - ender_pearl:4
+        - ender_pearl 4
         - ""
-        - ender_pearl:4
-        - ender_pearl:4
-        - ender_pearl:4
+        - ender_pearl 4
+        - ender_pearl 4
+        - ender_pearl 4
         - ""
-        - ender_pearl:4
+        - ender_pearl 4
         - ""
 
   - id: enchanted_emerald
@@ -56,13 +56,13 @@ items:
       craftable: true
       recipe:
         - ""
-        - emerald:32
+        - emerald 32
         - ""
-        - emerald:32
-        - emerald:32
-        - emerald:32
+        - emerald 32
+        - emerald 32
+        - emerald 32
         - ""
-        - emerald:32
+        - emerald 32
         - ""
 
   - id: enchanted_iron_ingot
@@ -78,13 +78,13 @@ items:
       craftable: true
       recipe:
         - ""
-        - iron_ingot:32
+        - iron_ingot 32
         - ""
-        - iron_ingot:32
-        - iron_ingot:32
-        - iron_ingot:32
+        - iron_ingot 32
+        - iron_ingot 32
+        - iron_ingot 32
         - ""
-        - iron_ingot:32
+        - iron_ingot 32
         - ""
 
   - id: enchanted_diamond
@@ -100,13 +100,13 @@ items:
       craftable: true
       recipe:
         - ""
-        - diamond:32
+        - diamond 32
         - ""
-        - diamond:32
-        - diamond:32
-        - diamond:32
+        - diamond 32
+        - diamond 32
+        - diamond 32
         - ""
-        - diamond:32
+        - diamond 32
         - ""
 
   - id: enchanted_cobblestone
@@ -122,13 +122,13 @@ items:
       craftable: true
       recipe:
         - ""
-        - cobblestone:32
+        - cobblestone 32
         - ""
-        - cobblestone:32
-        - cobblestone:32
-        - cobblestone:32
+        - cobblestone 32
+        - cobblestone 32
+        - cobblestone 32
         - ""
-        - cobblestone:32
+        - cobblestone 32
         - ""
 
   - id: talisman_core_1
@@ -470,23 +470,23 @@ recipes:
     recipeGiveAmount: 9
     recipe:
       - ""
-      - emerald_block:32
+      - emerald_block 32
       - ""
-      - emerald_block:32
-      - emerald_block:32
-      - emerald_block:32
+      - emerald_block 32
+      - emerald_block 32
+      - emerald_block 32
       - ""
-      - emerald_block:32
+      - emerald_block 32
       - ""
   - result: ecoitems:enchanted_diamond
     recipeGiveAmount: 9
     recipe:
       - ""
-      - diamond_block:32
+      - diamond_block 32
       - ""
-      - diamond_block:32
-      - diamond_block:32
-      - diamond_block:32
+      - diamond_block 32
+      - diamond_block 32
+      - diamond_block 32
       - ""
-      - diamond_block:32
+      - diamond_block 32
       - ""
