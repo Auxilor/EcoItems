@@ -43,6 +43,8 @@ class EcoItem(
         }.build()
     }
 
+    val effectiveDurability = config.getIntOrNull("item.effectiveDurability") ?: itemStack.type.maxDurability.toInt()
+
     val customItem = CustomItem(
         plugin.namespacedKeyFactory.create(id),
         { test -> ItemUtils.getEcoItem(test) == this },

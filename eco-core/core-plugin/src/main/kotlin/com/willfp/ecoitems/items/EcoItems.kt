@@ -3,7 +3,11 @@ package com.willfp.ecoitems.items
 import com.google.common.collect.BiMap
 import com.google.common.collect.HashBiMap
 import com.google.common.collect.ImmutableList
+import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.eco.core.config.updating.ConfigUpdater
+import com.willfp.eco.core.items.Items
+import com.willfp.eco.core.recipe.Recipes
+import com.willfp.eco.util.NumberUtils
 import com.willfp.ecoitems.EcoItemsPlugin
 import com.willfp.ecoitems.fuels.ConditionHasFuel
 
@@ -50,6 +54,28 @@ object EcoItems {
         for (setConfig in plugin.itemsYml.getSubsections("items")) {
             addNewItem(EcoItem(setConfig, plugin))
         }
+        for (recipeConfig in plugin.itemsYml.getSubsections("recipes")) {
+            addNewRecipeFromConfig(recipeConfig)
+        }
+    }
+
+    /**
+     * Add new recipe to EcoItems.
+     *
+     * @param config The config for the recipe.
+     */
+    @JvmStatic
+    fun addNewRecipeFromConfig(config: Config) {
+        val result = Items.lookup(config.getString("result"))
+        val item = result.item
+        item.amount = config.getInt("recipeGiveAmount")
+        Recipes.createAndRegisterRecipe(
+            EcoItemsPlugin.instance,
+            NumberUtils.randInt(0, 10_000_000).toString(),
+            item,
+            config.getStrings("recipe"),
+            config.getStringOrNull("permission")
+        )
     }
 
     /**
