@@ -31,13 +31,13 @@ class ItemListener(
         val ratio = maxDurability / ecoItem.effectiveDurability
         val inverse = ecoItem.effectiveDurability / maxDurability
 
-        if (ratio > 1) {
+        if (ratio < 1) {
             if (NumberUtils.randFloat(0.0, 1.0) > inverse) {
                 event.isCancelled = true
             }
         }
 
-        if (ratio < 1) {
+        if (ratio > 1) {
             event.damage *= inverse
         }
     }
