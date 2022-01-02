@@ -11,6 +11,11 @@ depend:
 softdepend:
   - EcoSkills
   - AureliumSkills
+loadbefore:
+  - EcoArmor
+  - Talismans
+  - EcoBosses
+  - Reforges
 libraries:
   - 'org.jetbrains.kotlin:kotlin-stdlib:1.6.0'
 
