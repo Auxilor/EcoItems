@@ -62,7 +62,7 @@ allprojects {
 
     dependencies {
         compileOnly 'com.willfp:eco:6.17.1'
-        implementation 'com.willfp:libreforge:2.7.2'
+        implementation 'com.willfp:libreforge:2.8.0'
 
         compileOnly 'org.jetbrains:annotations:23.0.0'
 
@@ -81,7 +81,7 @@ allprojects {
     }
 
     processResources {
-        filesNotMatching(["**/*.png", "**/models/**", "**/textures/**"]) {
+        filesNotMatching(["**/*.png", "**/models/**", "**/textures/**", "**lang.yml"]) {
             expand projectVersion: project.version
         }
     }

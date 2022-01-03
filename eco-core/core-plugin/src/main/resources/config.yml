@@ -11,3 +11,10 @@ cooldown:
     enabled: true
     sound: "BLOCK_NOTE_BLOCK_PLING"
     pitch: 0.5
+
+cannot-afford:
+  in-actionbar: true
+  sound:
+    enabled: true
+    sound: "BLOCK_NOTE_BLOCK_PLING"
+    pitch: 0.5
