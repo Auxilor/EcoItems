@@ -72,7 +72,7 @@ object EcoItems {
         item.amount = config.getInt("recipeGiveAmount")
         Recipes.createAndRegisterRecipe(
             EcoItemsPlugin.instance,
-            Objects.hash(config.getStrings("recipe", false)).toString(),
+            Objects.hash(config.getStrings("recipe")).toString(),
             item,
             config.getStrings("recipe"),
             config.getStringOrNull("permission")
