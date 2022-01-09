@@ -11,6 +11,8 @@ depend:
 softdepend:
   - EcoSkills
   - AureliumSkills
+  - mcMMO
+  - Jobs
 loadbefore:
   - EcoArmor
   - Talismans
