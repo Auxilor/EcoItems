@@ -58,12 +58,11 @@ allprojects {
 
     shadowJar {
         relocate('com.willfp.libreforge', 'com.willfp.ecoitems.libreforge')
-        relocate('redempt.crunch', 'com.willfp.ecoitems.libreforge.crunch')
     }
 
     dependencies {
         compileOnly 'com.willfp:eco:6.18.1'
-        implementation 'com.willfp:libreforge:2.18.1'
+        implementation 'com.willfp:libreforge:3.0.0'
 
         compileOnly 'org.jetbrains:annotations:23.0.0'
 

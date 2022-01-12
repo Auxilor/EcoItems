@@ -1,22 +1,20 @@
 package com.willfp.ecoitems
 
-import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.core.command.impl.PluginCommand
 import com.willfp.eco.core.display.DisplayModule
-import com.willfp.eco.core.integrations.IntegrationLoader
 import com.willfp.ecoitems.commands.CommandEcoItems
 import com.willfp.ecoitems.config.ItemsYml
 import com.willfp.ecoitems.display.ItemsDisplay
 import com.willfp.ecoitems.fuels.FuelHandler
-import com.willfp.ecoitems.util.DiscoverRecipeListener
-import com.willfp.ecoitems.items.ItemListener
 import com.willfp.ecoitems.items.ItemAttributeListener
+import com.willfp.ecoitems.items.ItemListener
 import com.willfp.ecoitems.items.ItemUtils
 import com.willfp.ecoitems.items.toSingletonList
-import com.willfp.libreforge.LibReforge
+import com.willfp.ecoitems.util.DiscoverRecipeListener
+import com.willfp.libreforge.LibReforgePlugin
 import org.bukkit.event.Listener
 
-class EcoItemsPlugin : EcoPlugin(1241, 12205, "&#ff0000", true) {
+class EcoItemsPlugin : LibReforgePlugin(1241, 12205, "&#ff0000") {
     /**
      * items.yml.
      */
@@ -28,20 +26,10 @@ class EcoItemsPlugin : EcoPlugin(1241, 12205, "&#ff0000", true) {
     init {
         instance = this
         itemsYml = ItemsYml(this)
-        LibReforge.init(this)
-        LibReforge.registerHolderProvider { ItemUtils.getEcoItemOnPlayer(it).toSingletonList() }
+        registerHolderProvider { ItemUtils.getEcoItemOnPlayer(it).toSingletonList() }
     }
 
-    override fun handleEnable() {
-        LibReforge.enable(this)
-    }
-
-    override fun handleDisable() {
-        LibReforge.disable(this)
-    }
-
-    override fun handleReload() {
-        LibReforge.reload(this)
+    override fun handleReloadAdditional() {
         FuelHandler.createRunnable(this)
     }
 
@@ -52,10 +40,6 @@ class EcoItemsPlugin : EcoPlugin(1241, 12205, "&#ff0000", true) {
             FuelHandler(),
             ItemAttributeListener(this)
         )
-    }
-
-    override fun loadIntegrationLoaders(): List<IntegrationLoader> {
-        return LibReforge.getIntegrationLoaders()
     }
 
     override fun loadPluginCommands(): List<PluginCommand> {
@@ -69,7 +53,7 @@ class EcoItemsPlugin : EcoPlugin(1241, 12205, "&#ff0000", true) {
     }
 
     override fun getMinimumEcoVersion(): String {
-        return "6.15.0"
+        return "6.19.0"
     }
 
     companion object {
