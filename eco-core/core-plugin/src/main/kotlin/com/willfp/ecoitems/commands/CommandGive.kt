@@ -6,7 +6,6 @@ import com.willfp.ecoitems.fuels.Fuels
 import com.willfp.ecoitems.items.EcoItems
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
-import org.bukkit.inventory.ItemStack
 import org.bukkit.util.StringUtil
 
 class CommandGive(plugin: EcoPlugin) : Subcommand(plugin, "give", "ecoitems.command.give", false) {
@@ -50,7 +49,7 @@ class CommandGive(plugin: EcoPlugin) : Subcommand(plugin, "give", "ecoitems.comm
         if (args.size == 3) {
             amount = args[2].toIntOrNull() ?: 1
         }
-        val item: ItemStack = ecoItem?.itemStack ?: fuel?.itemStack!!
+        val item = (ecoItem?.itemStack ?: fuel?.itemStack!!).clone()
         item.amount = amount
         receiver.inventory.addItem(item)
     }
