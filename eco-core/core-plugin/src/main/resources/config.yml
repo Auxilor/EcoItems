@@ -18,3 +18,5 @@ cannot-afford:
     enabled: true
     sound: "BLOCK_NOTE_BLOCK_PLING"
     pitch: 0.5
+
+use-faster-move-trigger: true # Disable if you want move trigger to detect sub-1-block movements
