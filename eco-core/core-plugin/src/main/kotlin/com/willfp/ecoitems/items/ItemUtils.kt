@@ -1,5 +1,6 @@
 package com.willfp.ecoitems.items
 
+import com.willfp.eco.util.NamespacedKeyUtils
 import com.willfp.ecoitems.EcoItemsPlugin.Companion.instance
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -12,6 +13,8 @@ object ItemUtils {
      * Instance of EcoItems.
      */
     private val PLUGIN = instance
+
+    private val legacyKey = NamespacedKeyUtils.create("ecoweapons", "weapon")
 
     /**
      * Get EcoItem from an item.
@@ -36,7 +39,7 @@ object ItemUtils {
     fun getEcoItem(meta: ItemMeta): EcoItem? {
         val container = meta.persistentDataContainer
         val legacy = container.get(
-            PLUGIN.namespacedKeyFactory.create("weapon"),
+            legacyKey,
             PersistentDataType.STRING
         )
 
@@ -46,7 +49,7 @@ object ItemUtils {
                 PersistentDataType.STRING,
                 legacy
             )
-            container.remove(PLUGIN.namespacedKeyFactory.create("weapon"))
+            container.remove(legacyKey)
         }
 
         val id = container.get(
