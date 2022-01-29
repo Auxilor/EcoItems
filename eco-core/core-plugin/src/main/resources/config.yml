@@ -20,3 +20,4 @@ cannot-afford:
     pitch: 0.5
 
 use-faster-move-trigger: true # Disable if you want move trigger to detect sub-1-block movements
+raytrace-distance: 80 # The distance that alt_click should check for a location
