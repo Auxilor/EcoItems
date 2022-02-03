@@ -11,3 +11,4 @@ messages:
   give-success: "Gave &a%item%&r to &a%recipient%"
   on-cooldown: "&cThis effect is on cooldown! &fTime left: &a%seconds% seconds"
   cannot-afford: "&cYou can't afford to do this! &fCost: &a$$%cost%"
+  cannot-afford-type: "&cYou can't afford to do this! &fCost: &a%cost% %type%"
