@@ -31,7 +31,7 @@ class EcoItemsPlugin : LibReforgePlugin(1241, 12205, "&#ff0000") {
     }
 
     override fun handleEnableAdditional() {
-        itemsYml.getSubsections("effects").mapNotNull {
+        itemsYml.getSubsections("chains").mapNotNull {
             EffectChains.compile(it, "Chains")
         }
     }
