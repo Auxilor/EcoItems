@@ -12,6 +12,7 @@ import com.willfp.ecoitems.items.ItemUtils
 import com.willfp.ecoitems.items.toSingletonList
 import com.willfp.ecoitems.util.DiscoverRecipeListener
 import com.willfp.libreforge.LibReforgePlugin
+import com.willfp.libreforge.chains.EffectChains
 import org.bukkit.event.Listener
 
 class EcoItemsPlugin : LibReforgePlugin(1241, 12205, "&#ff0000") {
@@ -27,6 +28,12 @@ class EcoItemsPlugin : LibReforgePlugin(1241, 12205, "&#ff0000") {
         instance = this
         itemsYml = ItemsYml(this)
         registerHolderProvider { ItemUtils.getEcoItemOnPlayer(it).toSingletonList() }
+    }
+
+    override fun handleEnableAdditional() {
+        itemsYml.getSubsections("effects").mapNotNull {
+            EffectChains.compile(it, "Chains")
+        }
     }
 
     override fun handleReloadAdditional() {
