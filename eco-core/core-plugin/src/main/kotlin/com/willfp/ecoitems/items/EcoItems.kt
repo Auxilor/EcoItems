@@ -10,6 +10,7 @@ import com.willfp.eco.core.recipe.Recipes
 import com.willfp.eco.util.NumberUtils
 import com.willfp.ecoitems.EcoItemsPlugin
 import com.willfp.ecoitems.fuels.ConditionHasFuel
+import com.willfp.libreforge.chains.EffectChains
 import java.util.*
 
 object EcoItems {
@@ -49,6 +50,9 @@ object EcoItems {
     @ConfigUpdater
     @JvmStatic
     fun update(plugin: EcoItemsPlugin) {
+        plugin.itemsYml.getSubsections("chains").mapNotNull {
+            EffectChains.compile(it, "Chains")
+        }
         for (item in values()) {
             removeItem(item)
         }

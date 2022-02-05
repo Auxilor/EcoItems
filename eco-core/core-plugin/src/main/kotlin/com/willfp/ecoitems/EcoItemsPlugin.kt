@@ -30,12 +30,6 @@ class EcoItemsPlugin : LibReforgePlugin(1241, 12205, "&#ff0000") {
         registerHolderProvider { ItemUtils.getEcoItemOnPlayer(it).toSingletonList() }
     }
 
-    override fun handleEnableAdditional() {
-        itemsYml.getSubsections("chains").mapNotNull {
-            EffectChains.compile(it, "Chains")
-        }
-    }
-
     override fun handleReloadAdditional() {
         FuelHandler.createRunnable(this)
     }
