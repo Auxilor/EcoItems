@@ -19,6 +19,7 @@ loadbefore:
   - Talismans
   - EcoBosses
   - Reforges
+  - EcoBosses
 
 commands:
   ecoitems:
