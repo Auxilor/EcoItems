@@ -24,8 +24,11 @@ class EcoItemsPlugin : LibReforgePlugin(1241, 12205, "&#ff0000") {
     init {
         instance = this
         itemsYml = ItemsYml(this)
-        EcoItems.update(this) // Preliminary update
         registerHolderProvider { ItemUtils.getEcoItemOnPlayer(it).toSingletonList() }
+    }
+
+    override fun handleEnableAdditional() {
+        EcoItems.update(this) // Preliminary update
     }
 
     override fun handleReloadAdditional() {
