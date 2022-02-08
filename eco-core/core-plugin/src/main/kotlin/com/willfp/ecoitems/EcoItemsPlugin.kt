@@ -6,10 +6,7 @@ import com.willfp.ecoitems.commands.CommandEcoItems
 import com.willfp.ecoitems.config.ItemsYml
 import com.willfp.ecoitems.display.ItemsDisplay
 import com.willfp.ecoitems.fuels.FuelHandler
-import com.willfp.ecoitems.items.ItemAttributeListener
-import com.willfp.ecoitems.items.ItemListener
-import com.willfp.ecoitems.items.ItemUtils
-import com.willfp.ecoitems.items.toSingletonList
+import com.willfp.ecoitems.items.*
 import com.willfp.ecoitems.util.DiscoverRecipeListener
 import com.willfp.libreforge.LibReforgePlugin
 import com.willfp.libreforge.chains.EffectChains
@@ -27,6 +24,7 @@ class EcoItemsPlugin : LibReforgePlugin(1241, 12205, "&#ff0000") {
     init {
         instance = this
         itemsYml = ItemsYml(this)
+        EcoItems.update(this) // Preliminary update
         registerHolderProvider { ItemUtils.getEcoItemOnPlayer(it).toSingletonList() }
     }
 
