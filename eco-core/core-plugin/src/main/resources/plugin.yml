@@ -14,6 +14,8 @@ softdepend:
   - mcMMO
   - Jobs
   - Vault
+  - ShopGUIPlus
+  - DeluxeSellwands
 loadbefore:
   - EcoArmor
   - Talismans
