@@ -2,6 +2,7 @@ package com.willfp.ecoitems.commands
 
 import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.core.command.impl.Subcommand
+import com.willfp.eco.core.drops.DropQueue
 import com.willfp.ecoitems.fuels.Fuels
 import com.willfp.ecoitems.items.EcoItems
 import org.bukkit.Bukkit
@@ -51,7 +52,10 @@ class CommandGive(plugin: EcoPlugin) : Subcommand(plugin, "give", "ecoitems.comm
         }
         val item = (ecoItem?.itemStack ?: fuel?.itemStack!!).clone()
         item.amount = amount
-        receiver.inventory.addItem(item)
+        DropQueue(receiver)
+            .addItem(item)
+            .forceTelekinesis()
+            .push()
     }
 
     override fun tabComplete(sender: CommandSender, args: List<String>): List<String> {
