@@ -3,6 +3,7 @@ package com.willfp.ecoitems.items
 import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.util.NumberUtils
 import com.willfp.libreforge.updateEffects
+import org.bukkit.Tag
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.BlockPlaceEvent
@@ -21,6 +22,9 @@ class ItemListener(
     @EventHandler
     fun onPlaceItem(event: BlockPlaceEvent) {
         ItemUtils.getEcoItem(event.itemInHand) ?: return
+        if (event.itemInHand.type.isItem) {
+            return
+        }
         event.isCancelled = true
     }
 
