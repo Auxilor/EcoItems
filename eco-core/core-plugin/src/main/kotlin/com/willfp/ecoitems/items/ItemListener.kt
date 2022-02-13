@@ -22,10 +22,9 @@ class ItemListener(
     @EventHandler
     fun onPlaceItem(event: BlockPlaceEvent) {
         ItemUtils.getEcoItem(event.itemInHand) ?: return
-        if (event.itemInHand.type.isItem) {
-            return
+        if (event.itemInHand.type.isBlock) {
+            event.isCancelled = true
         }
-        event.isCancelled = true
     }
 
     @EventHandler
