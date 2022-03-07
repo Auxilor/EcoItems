@@ -7,11 +7,10 @@ import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.eco.core.config.updating.ConfigUpdater
 import com.willfp.eco.core.items.Items
 import com.willfp.eco.core.recipe.Recipes
-import com.willfp.eco.util.NumberUtils
 import com.willfp.ecoitems.EcoItemsPlugin
 import com.willfp.ecoitems.fuels.ConditionHasFuel
 import com.willfp.libreforge.chains.EffectChains
-import java.util.*
+import java.util.Objects
 
 object EcoItems {
     /**

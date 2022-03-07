@@ -453,6 +453,7 @@ items:
         - "&7Damage: &c6❤"
         - "&7Attack Speed: &c1.3"
       craftable: true
+      craftingPermission:
       recipe:
         - netherite_ingot
         - netherite_ingot

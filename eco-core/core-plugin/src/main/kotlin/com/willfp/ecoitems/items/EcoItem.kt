@@ -56,7 +56,8 @@ class EcoItem(
             plugin,
             id,
             itemStack,
-            config.getStrings("item.recipe")
+            config.getStrings("item.recipe"),
+            config.getStringOrNull("item.craftingPermission")
         )
     } else null
 
