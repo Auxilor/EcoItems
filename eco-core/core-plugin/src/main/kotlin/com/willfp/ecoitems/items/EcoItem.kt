@@ -29,6 +29,8 @@ class EcoItem(
         Conditions.compile(it, "Item ID $id")
     }.toSet()
 
+    val lore: List<String> = config.getStrings("item.lore")
+
     val itemStack: ItemStack = run {
         val itemConfig = config.getSubsection("item")
         ItemStackBuilder(Items.lookup(itemConfig.getString("item")).item).apply {
