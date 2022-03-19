@@ -52,9 +52,7 @@ object EcoItems {
         plugin.itemsYml.getSubsections("chains").mapNotNull {
             EffectChains.compile(it, "Chains")
         }
-        for (item in values()) {
-            removeItem(item)
-        }
+        BY_ID.clear()
         for (setConfig in plugin.itemsYml.getSubsections("items")) {
             addNewItem(EcoItem(setConfig, plugin))
         }

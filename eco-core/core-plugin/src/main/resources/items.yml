@@ -408,25 +408,18 @@ items:
     baseDamage: 1
     baseAttackSpeed: 4
     effects:
-      - id: run_chain_inline
+      - id: shoot_arrow
         args:
           every: 3
-          chain:
-            effects:
-              - id: shoot_arrow
-                args:
-                  inherit_velocity: true
-                mutators:
-                  - id: spin_velocity
-                    args:
-                      angle: 11
-              - id: shoot_arrow
-                args:
-                  inherit_velocity: true
-                mutators:
-                  - id: spin_velocity
-                    args:
-                      angle: -11
+          repeat:
+            times: 2
+            start: -11
+            increment: 22
+          inherit_velocity: true
+        mutators:
+          - id: spin_velocity
+            args:
+              angle: '%repeat_count%'
         triggers:
           - shoot_bow
     conditions: [ ]
