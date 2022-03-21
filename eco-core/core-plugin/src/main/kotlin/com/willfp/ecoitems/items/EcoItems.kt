@@ -71,13 +71,15 @@ object EcoItems {
         val result = Items.lookup(config.getString("result"))
         val item = result.item
         item.amount = config.getInt("recipeGiveAmount")
-        Recipes.createAndRegisterRecipe(
-            EcoItemsPlugin.instance,
-            Objects.hash(config.getStrings("recipe")).toString(),
-            item,
-            config.getStrings("recipe"),
-            config.getStringOrNull("permission")
-        )
+        EcoItemsPlugin.instance.scheduler.run {
+            Recipes.createAndRegisterRecipe(
+                EcoItemsPlugin.instance,
+                Objects.hash(config.getStrings("recipe")).toString(),
+                item,
+                config.getStrings("recipe"),
+                config.getStringOrNull("permission")
+            )
+        }
     }
 
     /**
