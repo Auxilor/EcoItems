@@ -66,13 +66,23 @@ object ItemUtils {
      * @param player The player to check.
      * @return The EcoItem, or null if no EcoItem is found.
      */
-    fun getEcoItemOnPlayer(player: Player): EcoItem? {
-        return getEcoItem(player.inventory.itemInMainHand)
-    }
-}
+    fun getEcoItemsOnPlayer(player: Player): List<EcoItem> {
+        val list = mutableListOf<EcoItem>()
 
-inline fun <reified T> T?.toSingletonList(): List<T> {
-    return if (this == null) emptyList() else listOf(this)
+        val mainhand = getEcoItem(player.inventory.itemInMainHand)
+        if (mainhand != null) {
+            list.add(mainhand)
+        }
+
+        if (PLUGIN.configYml.getBool("check-offhand")) {
+            val offhand = getEcoItem(player.inventory.itemInOffHand)
+            if (offhand != null) {
+                list.add(offhand)
+            }
+        }
+
+        return list
+    }
 }
 
 fun Material.getBaseDamage(): Double {
