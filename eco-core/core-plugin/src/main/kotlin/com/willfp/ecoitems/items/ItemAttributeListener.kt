@@ -21,7 +21,7 @@ class ItemAttributeListener(private val plugin: EcoPlugin) : Listener {
     }
 
     private fun apply(player: Player) {
-        val item = ItemUtils.getEcoItemOnPlayer(player)
+        val items = ItemUtils.getEcoItemsOnPlayer(player)
 
         val damageInst = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE) ?: return
         val speedInst = player.getAttribute(Attribute.GENERIC_ATTACK_SPEED) ?: return
@@ -61,7 +61,7 @@ class ItemAttributeListener(private val plugin: EcoPlugin) : Listener {
             )
         )
 
-        if (item != null) {
+        for (item in items) {
             damageInst.addModifier(
                 AttributeModifier(
                     UUID.nameUUIDFromBytes("ecoitems_ad".toByteArray()),
