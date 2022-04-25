@@ -1,11 +1,13 @@
 package com.willfp.ecoitems.items
 
+import com.willfp.eco.core.fast.FastItemStack
 import com.willfp.eco.util.NamespacedKeyUtils
 import com.willfp.ecoitems.EcoItemsPlugin.Companion.instance
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
+import org.bukkit.persistence.PersistentDataContainer
 import org.bukkit.persistence.PersistentDataType
 
 object ItemUtils {
@@ -24,10 +26,8 @@ object ItemUtils {
      */
     fun getEcoItem(itemStack: ItemStack?): EcoItem? {
         itemStack ?: return null
-        val meta = itemStack.itemMeta ?: return null
-        val item = getEcoItem(meta)
-        itemStack.itemMeta = meta
-        return item
+        val container = FastItemStack.wrap(itemStack).persistentDataContainer
+        return getEcoItem(container)
     }
 
     /**
@@ -38,6 +38,10 @@ object ItemUtils {
      */
     fun getEcoItem(meta: ItemMeta): EcoItem? {
         val container = meta.persistentDataContainer
+        return getEcoItem(container)
+    }
+
+    private fun getEcoItem(container: PersistentDataContainer): EcoItem? {
         val legacy = container.get(
             legacyKey,
             PersistentDataType.STRING
