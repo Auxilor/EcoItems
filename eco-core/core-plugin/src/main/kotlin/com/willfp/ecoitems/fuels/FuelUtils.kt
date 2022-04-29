@@ -1,10 +1,12 @@
 package com.willfp.ecoitems.fuels
 
+import com.willfp.eco.core.fast.FastItemStack
 import com.willfp.ecoitems.EcoItemsPlugin.Companion.instance
 import com.willfp.ecoitems.items.EcoItem
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
+import org.bukkit.persistence.PersistentDataContainer
 import org.bukkit.persistence.PersistentDataType
 
 object FuelUtils {
@@ -21,8 +23,8 @@ object FuelUtils {
      */
     fun getFuelFromItem(itemStack: ItemStack?): Fuel? {
         itemStack ?: return null
-        val meta = itemStack.itemMeta ?: return null
-        return getFuelFromItem(meta)
+        val container = FastItemStack.wrap(itemStack).persistentDataContainer
+        return getFuelFromItem(container)
     }
 
     /**
@@ -33,6 +35,10 @@ object FuelUtils {
      */
     fun getFuelFromItem(meta: ItemMeta): Fuel? {
         val container = meta.persistentDataContainer
+        return getFuelFromItem(container)
+    }
+
+    private fun getFuelFromItem(container: PersistentDataContainer): Fuel? {
         val fuelName = container.get(
             PLUGIN.namespacedKeyFactory.create("fuel"),
             PersistentDataType.STRING

@@ -5,6 +5,7 @@ import com.willfp.eco.core.display.Display
 import com.willfp.eco.core.display.DisplayModule
 import com.willfp.eco.core.display.DisplayPriority
 import com.willfp.eco.core.fast.FastItemStack
+import com.willfp.eco.core.fast.fast
 import com.willfp.eco.util.StringUtils
 import com.willfp.ecoitems.fuels.FuelUtils
 import com.willfp.ecoitems.items.ItemUtils
@@ -18,32 +19,27 @@ class ItemsDisplay(plugin: EcoPlugin) : DisplayModule(plugin, DisplayPriority.LO
         vararg args: Any
     ) {
         val fis = FastItemStack.wrap(itemStack)
-        val meta = itemStack.itemMeta ?: return
-        val ecoItem = ItemUtils.getEcoItem(meta)
-        val fuel = FuelUtils.getFuelFromItem(meta)
+        val ecoItem = ItemUtils.getEcoItem(itemStack)
+        val fuel = FuelUtils.getFuelFromItem(itemStack)
 
         if (fuel != null) {
-            val fuelMeta = fuel.itemStack.itemMeta ?: return
-            val lore: MutableList<String> = fuelMeta.lore?.toMutableList() ?: return
-
-            if (meta.hasLore()) {
-                lore.addAll(meta.lore ?: return)
-            }
-
-            meta.lore = lore
-            meta.setDisplayName(fuelMeta.displayName)
-            itemStack.itemMeta = meta
-        }
-
-        if (ecoItem != null) {
-            val ecoItemMeta = ecoItem.itemStack.itemMeta ?: return
-            val lore = ecoItem.lore.map { "${Display.PREFIX}${StringUtils.format(it, player)}" }.toMutableList()
+            val lore = fuel.itemStack.fast().lore
 
             lore.addAll(fis.lore)
 
-            meta.setDisplayName(ecoItemMeta.displayName)
-            meta.addItemFlags(*ecoItemMeta.itemFlags.toTypedArray())
-            itemStack.itemMeta = meta
+            fis.lore = lore
+            fis.displayName = fuel.itemStack.fast().displayName
+        }
+
+        if (ecoItem != null) {
+            val itemFast = FastItemStack.wrap(ecoItem.itemStack)
+
+            val lore = itemFast.lore.map { "${Display.PREFIX}${StringUtils.format(it, player)}" }.toMutableList()
+
+            lore.addAll(fis.lore)
+
+            fis.displayName = itemFast.displayName
+            fis.addItemFlags(*itemFast.itemFlags.toTypedArray())
             fis.lore = lore
         }
     }
