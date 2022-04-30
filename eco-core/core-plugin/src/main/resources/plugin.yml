@@ -14,14 +14,13 @@ softdepend:
   - mcMMO
   - Jobs
   - Vault
-  - ShopGUIPlus
-  - DeluxeSellwands
 loadbefore:
   - EcoArmor
   - Talismans
   - EcoBosses
   - Reforges
-  - EcoBosses
+  - EcoCrates
+  - StatTrackers
 
 commands:
   ecoitems:

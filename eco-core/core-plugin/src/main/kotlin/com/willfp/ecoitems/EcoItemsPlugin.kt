@@ -55,7 +55,7 @@ class EcoItemsPlugin : LibReforgePlugin(1241, 12205, "&#ff0000") {
     }
 
     override fun getMinimumEcoVersion(): String {
-        return "6.19.0"
+        return "6.35.1"
     }
 
     companion object {
