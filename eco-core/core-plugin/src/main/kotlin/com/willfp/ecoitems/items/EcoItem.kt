@@ -19,7 +19,7 @@ class EcoItem(
     private val config: Config,
     private val plugin: EcoPlugin
 ) : Holder {
-    val id = config.getString("id")
+    override val id = config.getString("id")
 
     override val effects = config.getSubsections("effects").mapNotNull {
         Effects.compile(it, "Item ID $id")
