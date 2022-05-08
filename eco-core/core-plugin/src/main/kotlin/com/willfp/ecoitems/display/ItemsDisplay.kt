@@ -36,6 +36,15 @@ class ItemsDisplay(plugin: EcoPlugin) : DisplayModule(plugin, DisplayPriority.LO
 
             val lore = itemFast.lore.map { "${Display.PREFIX}${StringUtils.format(it, player)}" }.toMutableList()
 
+            if (player != null) {
+                val lines = ecoItem.getNotMetLines(player)
+
+                if (lines.isNotEmpty()) {
+                    lore.add("")
+                    lore.addAll(lines)
+                }
+            }
+
             lore.addAll(fis.lore)
 
             fis.displayName = itemFast.displayName
