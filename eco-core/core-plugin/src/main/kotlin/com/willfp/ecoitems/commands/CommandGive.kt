@@ -50,7 +50,7 @@ class CommandGive(plugin: EcoPlugin) : Subcommand(plugin, "give", "ecoitems.comm
         if (args.size == 3) {
             amount = args[2].toIntOrNull() ?: 1
         }
-        val item = (ecoItem?.itemStack ?: fuel?.itemStack!!).clone()
+        val item = ecoItem?.itemStack ?: fuel?.itemStack!!
         item.amount = amount
         DropQueue(receiver)
             .addItem(item)

@@ -17,19 +17,22 @@ class Fuel(
 ) {
     val id = config.getString("id")
 
-    val itemStack: ItemStack = run {
+    private val _itemStack: ItemStack = run {
         val itemConfig = config.getSubsection("item")
         ItemStackBuilder(Items.lookup(itemConfig.getString("item")).item).apply {
             setDisplayName(itemConfig.getFormattedString("displayName"))
             addLoreLines(
                 itemConfig.getFormattedStrings("lore").map { "${Display.PREFIX}$it" })
             writeMetaKey(
-                this@Fuel.plugin.namespacedKeyFactory.create("fuel"),
+                plugin.namespacedKeyFactory.create("fuel"),
                 PersistentDataType.STRING,
-                this@Fuel.id
+                id
             )
         }.build()
     }
+
+    val itemStack: ItemStack
+        get() = _itemStack.clone()
 
     val customItem = CustomItem(
         plugin.namespacedKeyFactory.create(id),

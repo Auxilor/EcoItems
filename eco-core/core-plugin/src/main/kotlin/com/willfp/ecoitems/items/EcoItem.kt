@@ -31,19 +31,22 @@ class EcoItem(
 
     val lore: List<String> = config.getStrings("item.lore")
 
-    val itemStack: ItemStack = run {
+    private val _itemStack: ItemStack = run {
         val itemConfig = config.getSubsection("item")
         ItemStackBuilder(Items.lookup(itemConfig.getString("item")).item).apply {
             setDisplayName(itemConfig.getFormattedString("displayName"))
             addLoreLines(
                 itemConfig.getFormattedStrings("lore").map { "${Display.PREFIX}$it" })
             writeMetaKey(
-                this@EcoItem.plugin.namespacedKeyFactory.create("item"),
+                plugin.namespacedKeyFactory.create("item"),
                 PersistentDataType.STRING,
-                this@EcoItem.id
+                id
             )
         }.build()
     }
+
+    val itemStack: ItemStack
+        get() = _itemStack.clone()
 
     val effectiveDurability = config.getIntOrNull("item.effectiveDurability") ?: itemStack.type.maxDurability.toInt()
 
