@@ -14,6 +14,7 @@ softdepend:
   - mcMMO
   - Jobs
   - Vault
+  - TMMobcoins
 loadbefore:
   - EcoArmor
   - Talismans
