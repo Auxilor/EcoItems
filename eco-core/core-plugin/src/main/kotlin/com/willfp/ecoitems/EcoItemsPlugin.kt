@@ -12,7 +12,7 @@ import com.willfp.libreforge.LibReforgePlugin
 import com.willfp.libreforge.chains.EffectChains
 import org.bukkit.event.Listener
 
-class EcoItemsPlugin : LibReforgePlugin(1241, 12205, "&#ff0000") {
+class EcoItemsPlugin : LibReforgePlugin() {
     /**
      * items.yml.
      */
