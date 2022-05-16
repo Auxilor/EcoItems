@@ -44,7 +44,6 @@ allprojects {
         maven { url 'https://repo.dustplanet.de/artifactory/ext-release-local/' }
         maven { url 'https://libraries.minecraft.net/' }
         maven { url 'https://repo.spongepowered.org/maven/' }
-        maven { url 'https://org.kitteh.pastegg' }
         maven { url 'https://repo.mikeprimm.com/' }
         maven { url 'https://maven.sk89q.com/repo/' }
         maven { url 'https://github.com/factions-site/repo/raw/public/' }
