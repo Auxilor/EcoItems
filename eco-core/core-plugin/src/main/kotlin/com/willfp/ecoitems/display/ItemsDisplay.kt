@@ -41,7 +41,7 @@ class ItemsDisplay(plugin: EcoPlugin) : DisplayModule(plugin, DisplayPriority.LO
 
                 if (lines.isNotEmpty()) {
                     lore.add("")
-                    lore.addAll(lines)
+                    lore.addAll(lines.map { Display.PREFIX + it })
                 }
             }
 
