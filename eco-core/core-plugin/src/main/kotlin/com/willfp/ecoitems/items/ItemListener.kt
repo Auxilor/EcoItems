@@ -31,17 +31,9 @@ class ItemListener(
     fun effectiveDurabilityListener(event: PlayerItemDamageEvent) {
         val ecoItem = ItemUtils.getEcoItem(event.item) ?: return
         val maxDurability = event.item.type.maxDurability.toInt()
-        val ratio = maxDurability / ecoItem.effectiveDurability
-        val inverse = ecoItem.effectiveDurability / maxDurability
-
-        if (ratio < 1) {
-            if (NumberUtils.randFloat(0.0, 1.0) > inverse) {
-                event.isCancelled = true
-            }
-        }
-
-        if (ratio > 1) {
-            event.damage *= inverse
+        val inverse = ecoItem.effectiveDurability.toDouble() / maxDurability
+        if (NumberUtils.randInt(0, Math.round(inverse).toInt()) < Math.round(inverse).toInt()){
+            event.isCancelled = true
         }
     }
 }
