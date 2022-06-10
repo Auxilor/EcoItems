@@ -9,6 +9,7 @@ import org.bukkit.event.Listener
 import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.event.player.PlayerItemDamageEvent
 import org.bukkit.event.player.PlayerItemHeldEvent
+import kotlin.math.roundToInt
 
 class ItemListener(
     private val plugin: EcoPlugin
@@ -32,16 +33,13 @@ class ItemListener(
         val ecoItem = ItemUtils.getEcoItem(event.item) ?: return
         val maxDurability = event.item.type.maxDurability.toInt()
         val ratio = maxDurability / ecoItem.effectiveDurability
-        val inverse = ecoItem.effectiveDurability / maxDurability
-
+        val inverse = ecoItem.effectiveDurability.toDouble() / maxDurability
         if (ratio < 1) {
-            if (NumberUtils.randFloat(0.0, 1.0) > inverse) {
+            if (NumberUtils.randInt(0, inverse.roundToInt()) < inverse.roundToInt()) {
                 event.isCancelled = true
             }
-        }
-
-        if (ratio > 1) {
-            event.damage *= inverse
+        } else if(ratio > 1){
+            event.damage *= ratio
         }
     }
 }
