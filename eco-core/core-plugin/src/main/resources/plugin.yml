@@ -10,6 +10,7 @@ depend:
   - ProtocolLib
 softdepend:
   - EcoSkills
+  - EcoEnchants
   - AureliumSkills
   - mcMMO
   - Jobs
@@ -22,6 +23,7 @@ loadbefore:
   - Reforges
   - EcoCrates
   - StatTrackers
+  - EcoPets
 
 commands:
   ecoitems:
