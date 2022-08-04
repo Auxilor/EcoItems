@@ -5,7 +5,6 @@ messages:
   invalid-command: "&cUnknown subcommand!"
   reloaded: "Reloaded!"
   needs-player: "&cYou must specify a player"
-  requires-player: "&cYou must specify a player"
   invalid-player: "&cInvalid player!"
   needs-item: "&cYou must specify an item!"
   invalid-item: "&cInvalid item!"
@@ -14,4 +13,3 @@ messages:
   cannot-afford: "&cYou can't afford to do this! &fCost: &a$$%cost%"
   cannot-afford-type: "&cYou can't afford to do this! &fCost: &a%cost% %type%"
   cannot-transmit: "&cYou can't transmit here!"
-  repaired-effects: "Fixed lingering effects for %player%!&f They have been kicked to prevent effect mismatch."
