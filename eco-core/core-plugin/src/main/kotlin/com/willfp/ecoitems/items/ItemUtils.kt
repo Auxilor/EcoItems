@@ -3,6 +3,8 @@ package com.willfp.ecoitems.items
 import com.willfp.eco.core.fast.FastItemStack
 import com.willfp.eco.util.NamespacedKeyUtils
 import com.willfp.ecoitems.EcoItemsPlugin.Companion.instance
+import com.willfp.ecoitems.events.HolderProvideEvent
+import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
@@ -71,21 +73,26 @@ object ItemUtils {
      * @return The EcoItem, or null if no EcoItem is found.
      */
     fun getEcoItemsOnPlayer(player: Player): List<EcoItem> {
-        val list = mutableListOf<EcoItem>()
+        val map = mutableMapOf<ItemStack, EcoItem>()
 
         val mainhand = getEcoItem(player.inventory.itemInMainHand)
         if (mainhand != null) {
-            list.add(mainhand)
+            map[player.inventory.itemInMainHand.clone()] = mainhand
         }
 
         if (PLUGIN.configYml.getBool("check-offhand")) {
-            val offhand = getEcoItem(player.inventory.itemInOffHand)
-            if (offhand != null) {
-                list.add(offhand)
-            }
+            getEcoItem(player.inventory.itemInOffHand)?.let { map[player.inventory.itemInOffHand] = it }
         }
 
-        return list
+        val event = HolderProvideEvent(player, map)
+
+        Bukkit.getPluginManager().callEvent(event)
+
+        if (!event.isCancelled) {
+            return event.holders.values.toList()
+        }
+
+        return listOf()
     }
 }
 
