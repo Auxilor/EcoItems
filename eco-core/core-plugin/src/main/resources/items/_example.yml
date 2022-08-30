@@ -1,0 +1,42 @@
+# The ID of the item is the name of the .yml file,
+# for example hardened_netherite_sword.yml has the ID of hardened_netherite_sword
+# You can place items anywhere in this folder,
+# including in subfolders if you want to organize your item configs
+# _example.yml is not loaded.
+
+item:
+  item: blaze_rod hide_attributes
+  displayName: "<g:#FF512F>Infernal Spear</g:#F09819>"
+  lore:
+    - "&7Damage: &c10❤"
+    - "&7Attack Speed: &c1.5"
+    - ""
+    - "<g:#FF512F>&lINFERNAL SPEAR BONUS</g:#F09819>"
+    - "&8» &#FF512FDeal 50% more damage in the nether"
+  craftable: true
+  recipe:
+    - ""
+    - wither_skeleton_skull 16
+    - ""
+    - ""
+    - iron_ingot 16
+    - ""
+    - ""
+    - blaze_rod 16
+    - ""
+
+baseDamage: 10
+baseAttackSpeed: 1.5
+
+effects:
+  - id: damage_multiplier
+    args:
+      multiplier: 1.5
+    triggers:
+      - melee_attack
+conditions:
+  - id: in_world
+    args:
+      world: world_the_nether
+
+fuels: [ ]

@@ -1,0 +1,46 @@
+item:
+  item: netherite_sword hide_attributes
+  displayName: "<g:#870000>Reaper Scythe</g:#7a2828>"
+  lore:
+    - "&7Damage: &c12❤"
+    - "&7Attack Speed: &c2.0"
+    - ""
+    - "<g:#870000>&lREAPER SCYTHE BONUS</g:#7a2828>"
+    - "&8» &#87000025% chance to bleed enemies"
+    - ""
+    - "&4❣ &cMust be on full health for bonus"
+    - "&4❣ &cConsumes <g:#870000>Reaper Souls</g:#7a2828>"
+  craftable: true
+  recipe:
+    - nether_star
+    - netherite_sword
+    - nether_star
+    - netherite_sword
+    - golden_hoe
+    - netherite_sword
+    - nether_star
+    - netherite_sword
+    - nether_star
+
+baseDamage: 12
+baseAttackSpeed: 2.0
+
+effects:
+  - id: bleed
+    args:
+      damage: 2
+      amount: 5
+      interval: 10
+      chance: 25
+    triggers:
+      - melee_attack
+conditions:
+  - id: above_health_percent
+    args:
+      percent: 98
+  - id: has_fuel
+    args:
+      fuel: reaper_soul
+
+fuels:
+  - reaper_soul

@@ -1,0 +1,25 @@
+item:
+  item: lime_glazed_terracotta unbreaking:1 hide_enchants hide_attributes
+  displayName: "<gradient:12c2e9>Talisman Core</gradient:c471ed> &aI"
+  lore:
+    - "&8Required to craft"
+    - "&aTier I&8 Talismans"
+  craftable: true
+  recipe:
+    - ""
+    - ecoitems:enchanted_ender_eye
+    - ""
+    - ecoitems:enchanted_ender_eye
+    - obsidian
+    - ecoitems:enchanted_ender_eye
+    - ""
+    - ecoitems:enchanted_ender_eye
+    - ""
+
+baseDamage: 0
+baseAttackSpeed: 1
+
+effects: [ ]
+conditions: [ ]
+
+fuels: [ ]

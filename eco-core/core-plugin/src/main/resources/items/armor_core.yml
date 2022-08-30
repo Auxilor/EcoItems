@@ -1,0 +1,25 @@
+item:
+  item: sea_lantern unbreaking:1 hide_enchants hide_attributes
+  displayName: "<gradient:11998e>Armor Core</gradient:38ef7d>"
+  lore:
+    - "&8Required to craft"
+    - "&8Armor Sets"
+  craftable: true
+  recipe:
+    - ecoitems:enchanted_emerald
+    - copper_block
+    - amethyst_shard
+    - copper_block
+    - prismarine_crystals
+    - copper_block
+    - amethyst_shard
+    - copper_block
+    - ecoitems:enchanted_emerald
+
+baseDamage: 0
+baseAttackSpeed: 1
+
+effects: [ ]
+conditions: [ ]
+
+fuels: [ ]

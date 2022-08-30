@@ -49,13 +49,17 @@ object EcoItems {
     @ConfigUpdater
     @JvmStatic
     fun update(plugin: EcoItemsPlugin) {
-        plugin.itemsYml.getSubsections("chains").mapNotNull {
-            EffectChains.compile(it, "Chains")
-        }
         BY_ID.clear()
-        for (setConfig in plugin.itemsYml.getSubsections("items")) {
-            addNewItem(EcoItem(setConfig, plugin))
+
+        for ((id, config) in plugin.fetchConfigs("items")) {
+            addNewItem(EcoItem(id, config, plugin))
         }
+
+        // Legacy
+        for (setConfig in plugin.itemsYml.getSubsections("items")) {
+            addNewItem(EcoItem(setConfig.getString("id"), setConfig, plugin))
+        }
+
         for (recipeConfig in plugin.itemsYml.getSubsections("recipes")) {
             addNewRecipeFromConfig(recipeConfig)
         }

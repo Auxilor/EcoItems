@@ -1,0 +1,23 @@
+item:
+  item: ender_eye unbreaking:1 hide_enchants hide_attributes
+  displayName: "&bEnchanted Ender Eye"
+  lore: [ ]
+  craftable: true
+  recipe:
+    - ""
+    - ender_eye 4
+    - ""
+    - ender_eye 4
+    - ender_eye 4
+    - ender_eye 4
+    - ""
+    - ender_eye 4
+    - ""
+
+baseDamage: 0
+baseAttackSpeed: 1
+
+effects: [ ]
+conditions: [ ]
+
+fuels: [ ]

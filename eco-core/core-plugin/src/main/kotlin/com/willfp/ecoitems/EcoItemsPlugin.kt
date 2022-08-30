@@ -28,6 +28,8 @@ class EcoItemsPlugin : LibReforgePlugin() {
     }
 
     override fun handleEnableAdditional() {
+        this.copyConfigs("items")
+
         EcoItems.update(this) // Preliminary update
     }
 

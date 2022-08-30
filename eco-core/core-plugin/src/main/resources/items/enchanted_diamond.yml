@@ -1,0 +1,23 @@
+item:
+  item: diamond unbreaking:1 hide_enchants hide_attributes
+  displayName: "&bEnchanted Diamond"
+  lore: [ ]
+  craftable: true
+  recipe:
+    - ""
+    - diamond 32
+    - ""
+    - diamond 32
+    - diamond 32
+    - diamond 32
+    - ""
+    - diamond 32
+    - ""
+
+baseDamage: 0
+baseAttackSpeed: 1
+
+effects: [ ]
+conditions: [ ]
+
+fuels: [ ]

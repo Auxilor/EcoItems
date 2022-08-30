@@ -1,0 +1,40 @@
+item:
+  item: bow hide_attributes
+  effectiveDurability: 1920
+  displayName: "<gradient:#67B26F>Bow of Thirds</gradient:#4ca2cd>"
+  lore:
+    - "<gradient:#67B26F>&lBOW OF THIRDS BONUS</gradient:#4ca2cd>"
+    - "&8» &#4ca2cdEvery third shot will shoot three arrows"
+  craftable: true
+  recipe:
+    - ""
+    - stick
+    - string
+    - stick
+    - ecoitems:enchanted_ender_eye 16
+    - string
+    - ""
+    - stick
+    - string
+
+baseDamage: 1
+baseAttackSpeed: 4
+
+effects:
+  - id: shoot_arrow
+    args:
+      every: 3
+      repeat:
+        times: 2
+        start: -11
+        increment: 22
+      inherit_velocity: true
+    mutators:
+      - id: spin_velocity
+        args:
+          angle: '%repeat_count%'
+    triggers:
+      - shoot_bow
+conditions: [ ]
+
+fuels: [ ]

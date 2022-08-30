@@ -16,11 +16,10 @@ import org.bukkit.persistence.PersistentDataType
 import java.util.Objects
 
 class EcoItem(
+    override val id: String,
     private val config: Config,
     private val plugin: EcoPlugin
 ) : Holder {
-    override val id = config.getString("id")
-
     override val effects = config.getSubsections("effects").mapNotNull {
         Effects.compile(it, "Item ID $id")
     }.toSet()

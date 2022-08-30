@@ -1,0 +1,25 @@
+item:
+  item: egg unbreaking:1 hide_enchants hide_attributes
+  displayName: "<gradient:#1cefff>Boss Core</gradient:#c0c0aa>"
+  lore:
+    - "&8Required to craft boss"
+    - "&8spawn eggs"
+  craftable: true
+  recipe:
+    - ""
+    - ecoitems:enchanted_ender_pearl
+    - ""
+    - ecoitems:enchanted_ender_pearl
+    - ecoitems:enchanted_diamond
+    - ecoitems:enchanted_ender_pearl
+    - ""
+    - ecoitems:enchanted_ender_pearl
+    - ""
+
+baseDamage: 0
+baseAttackSpeed: 1
+
+effects: [ ]
+conditions: [ ]
+
+fuels: [ ]

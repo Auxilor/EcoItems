@@ -1,0 +1,26 @@
+item:
+  item: player_head texture:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWQ3ZTc3MmM5Mjk1NDUzYzZhYTYyNDVmZmI0MDJmZGY2NzExMWI5NjE3OTE4OWJkMzBlMzY2NmY5NThiOTkifX19
+  displayName: "&fBlank Reforge Stone"
+  lore:
+    - "&8Required to craft reforge"
+    - "&8stones to give rare and powerful"
+    - "&8reforges on your items"
+  craftable: true
+  recipe:
+    - ecoitems:enchanted_iron_ingot
+    - ""
+    - ecoitems:enchanted_iron_ingot
+    - ""
+    - ecoitems:enchanted_cobblestone
+    - ""
+    - ecoitems:enchanted_iron_ingot
+    - ""
+    - ecoitems:enchanted_iron_ingot
+
+baseDamage: 0
+baseAttackSpeed: 1
+
+effects: [ ]
+conditions: [ ]
+
+fuels: [ ]

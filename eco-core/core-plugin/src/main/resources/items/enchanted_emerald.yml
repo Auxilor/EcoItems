@@ -1,0 +1,23 @@
+item:
+  item: emerald unbreaking:1 hide_enchants hide_attributes
+  displayName: "&bEnchanted Emerald"
+  lore: [ ]
+  craftable: true
+  recipe:
+    - ""
+    - emerald 32
+    - ""
+    - emerald 32
+    - emerald 32
+    - emerald 32
+    - ""
+    - emerald 32
+    - ""
+
+baseDamage: 0
+baseAttackSpeed: 1
+
+effects: [ ]
+conditions: [ ]
+
+fuels: [ ]
