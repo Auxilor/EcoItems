@@ -7,6 +7,7 @@ import com.willfp.eco.core.display.DisplayPriority
 import com.willfp.eco.core.fast.FastItemStack
 import com.willfp.eco.core.fast.fast
 import com.willfp.eco.util.StringUtils
+import com.willfp.eco.util.formatEco
 import com.willfp.ecoitems.fuels.FuelUtils
 import com.willfp.ecoitems.items.ItemUtils
 import org.bukkit.entity.Player
@@ -34,7 +35,7 @@ class ItemsDisplay(plugin: EcoPlugin) : DisplayModule(plugin, DisplayPriority.LO
         if (ecoItem != null) {
             val itemFast = FastItemStack.wrap(ecoItem.itemStack)
 
-            val lore = itemFast.lore.map { "${Display.PREFIX}${StringUtils.format(it, player)}" }.toMutableList()
+            val lore = ecoItem.lore.map { "${Display.PREFIX}${StringUtils.format(it, player)}" }.toMutableList()
 
             if (player != null) {
                 val lines = ecoItem.getNotMetLines(player).map { Display.PREFIX + it }
@@ -47,7 +48,7 @@ class ItemsDisplay(plugin: EcoPlugin) : DisplayModule(plugin, DisplayPriority.LO
 
             lore.addAll(fis.lore)
 
-            fis.displayName = itemFast.displayName
+            fis.displayName = ecoItem.name.formatEco(player, true)
             fis.addItemFlags(*itemFast.itemFlags.toTypedArray())
             fis.lore = lore
         }
