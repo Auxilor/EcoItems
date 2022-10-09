@@ -30,6 +30,8 @@ class EcoItem(
 
     val lore: List<String> = config.getStrings("item.lore")
 
+    val name: String = config.getString("item.displayName")
+
     private val _itemStack: ItemStack = run {
         val itemConfig = config.getSubsection("item")
         ItemStackBuilder(Items.lookup(itemConfig.getString("item")).item).apply {
