@@ -17,7 +17,7 @@ import java.util.Objects
 
 class EcoItem(
     override val id: String,
-    private val config: Config,
+    val config: Config,
     private val plugin: EcoPlugin
 ) : Holder {
     override val effects = config.getSubsections("effects").mapNotNull {
