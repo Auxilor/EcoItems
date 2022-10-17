@@ -26,6 +26,7 @@ class ItemAttributeListener(private val plugin: EcoPlugin) : Listener {
         val damageInst = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE) ?: return
         val speedInst = player.getAttribute(Attribute.GENERIC_ATTACK_SPEED) ?: return
 
+        // Legacy (Pre-3.123.2)
         damageInst.removeModifier(
             AttributeModifier(
                 UUID.nameUUIDFromBytes("ecoitems_ad".toByteArray()),
@@ -43,29 +44,30 @@ class ItemAttributeListener(private val plugin: EcoPlugin) : Listener {
             )
         )
 
-        // Legacy
-        damageInst.removeModifier(
-            AttributeModifier(
-                UUID.nameUUIDFromBytes("ecoweapons_ad".toByteArray()),
-                "EcoWeapons Damage",
-                1.0, // Irrelevant
-                AttributeModifier.Operation.ADD_NUMBER
+        for (offset in 0..1) {
+            damageInst.removeModifier(
+                AttributeModifier(
+                    UUID.nameUUIDFromBytes("ecoitems_ad_$offset".toByteArray()),
+                    "EcoItems Damage $offset",
+                    1.0, // Irrelevant
+                    AttributeModifier.Operation.ADD_NUMBER
+                )
             )
-        )
-        speedInst.removeModifier(
-            AttributeModifier(
-                UUID.nameUUIDFromBytes("ecoweapons_as".toByteArray()),
-                "EcoWeapons Speed",
-                1.0, // Irrelevant
-                AttributeModifier.Operation.ADD_NUMBER
+            speedInst.removeModifier(
+                AttributeModifier(
+                    UUID.nameUUIDFromBytes("ecoitems_as_$offset".toByteArray()),
+                    "EcoItems Speed $offset",
+                    1.0, // Irrelevant
+                    AttributeModifier.Operation.ADD_NUMBER
+                )
             )
-        )
+        }
 
-        for (item in items) {
+        for ((offset, item) in items.withIndex()) {
             damageInst.addModifier(
                 AttributeModifier(
-                    UUID.nameUUIDFromBytes("ecoitems_ad".toByteArray()),
-                    "EcoItems Damage",
+                    UUID.nameUUIDFromBytes("ecoitems_ad_$offset".toByteArray()),
+                    "EcoItems Damage $offset",
                     item.baseDamage - player.inventory.itemInMainHand.type.getBaseDamage(),
                     AttributeModifier.Operation.ADD_NUMBER
                 )
@@ -73,8 +75,8 @@ class ItemAttributeListener(private val plugin: EcoPlugin) : Listener {
 
             speedInst.addModifier(
                 AttributeModifier(
-                    UUID.nameUUIDFromBytes("ecoitems_as".toByteArray()),
-                    "EcoItems Speed",
+                    UUID.nameUUIDFromBytes("ecoitems_as_$offset".toByteArray()),
+                    "EcoItems Speed $offset",
                     item.baseAttackSpeed - player.inventory.itemInMainHand.type.getBaseAttackSpeed(),
                     AttributeModifier.Operation.ADD_NUMBER
                 )
