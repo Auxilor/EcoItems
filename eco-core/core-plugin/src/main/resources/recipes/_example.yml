@@ -1,0 +1,12 @@
+result: ecoitems:enchanted_emerald 9 # The item to give
+
+recipe: # The recipe, read here for more: https://plugins.auxilor.io/all-plugins/the-item-lookup-system#crafting-recipes
+  - ""
+  - emerald_block 32
+  - ""
+  - emerald_block 32
+  - emerald_block 32
+  - emerald_block 32
+  - ""
+  - emerald_block 32
+  - ""

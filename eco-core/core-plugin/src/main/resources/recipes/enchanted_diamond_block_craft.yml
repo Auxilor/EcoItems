@@ -1,0 +1,12 @@
+result: ecoitems:enchanted_diamond 9
+
+recipe:
+  - ""
+  - diamond_block 32
+  - ""
+  - diamond_block 32
+  - diamond_block 32
+  - diamond_block 32
+  - ""
+  - diamond_block 32
+  - ""

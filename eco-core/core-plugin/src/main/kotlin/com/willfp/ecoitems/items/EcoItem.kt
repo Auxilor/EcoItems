@@ -7,7 +7,6 @@ import com.willfp.eco.core.items.CustomItem
 import com.willfp.eco.core.items.Items
 import com.willfp.eco.core.items.builder.ItemStackBuilder
 import com.willfp.eco.core.recipe.Recipes
-import com.willfp.ecoitems.fuels.Fuels
 import com.willfp.libreforge.Holder
 import com.willfp.libreforge.conditions.Conditions
 import com.willfp.libreforge.effects.Effects
@@ -66,8 +65,6 @@ class EcoItem(
             config.getStringOrNull("item.craftingPermission")
         )
     } else null
-
-    val fuels = config.getStrings("fuels").mapNotNull { Fuels.getByID(it) }
 
     val baseDamage = config.getDouble("baseDamage")
 

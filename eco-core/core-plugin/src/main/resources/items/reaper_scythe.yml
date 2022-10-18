@@ -26,21 +26,23 @@ baseDamage: 12
 baseAttackSpeed: 2.0
 
 effects:
-  - id: bleed
-    args:
-      damage: 2
-      amount: 5
-      interval: 10
-      chance: 25
+  - effects:
+      - id: bleed
+        args:
+          damage: 2
+          amount: 5
+          interval: 10
+          chance: 25
+      - id: remove_item
+        args:
+          item: ecoitems:reaper_soul
     triggers:
       - melee_attack
+
 conditions:
   - id: above_health_percent
     args:
       percent: 98
-  - id: has_fuel
+  - id: has_item
     args:
-      fuel: reaper_soul
-
-fuels:
-  - reaper_soul
+      item: ecoitems:reaper_soul

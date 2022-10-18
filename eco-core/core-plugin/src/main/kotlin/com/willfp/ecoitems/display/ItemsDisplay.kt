@@ -8,7 +8,6 @@ import com.willfp.eco.core.fast.FastItemStack
 import com.willfp.eco.core.fast.fast
 import com.willfp.eco.util.StringUtils
 import com.willfp.eco.util.formatEco
-import com.willfp.ecoitems.fuels.FuelUtils
 import com.willfp.ecoitems.items.ItemUtils
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
@@ -21,16 +20,6 @@ class ItemsDisplay(plugin: EcoPlugin) : DisplayModule(plugin, DisplayPriority.LO
     ) {
         val fis = FastItemStack.wrap(itemStack)
         val ecoItem = ItemUtils.getEcoItem(itemStack)
-        val fuel = FuelUtils.getFuelFromItem(itemStack)
-
-        if (fuel != null) {
-            val lore = fuel.itemStack.fast().lore
-
-            lore.addAll(fis.lore)
-
-            fis.lore = lore
-            fis.displayName = fuel.itemStack.fast().displayName
-        }
 
         if (ecoItem != null) {
             val itemFast = FastItemStack.wrap(ecoItem.itemStack)

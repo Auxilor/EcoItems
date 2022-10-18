@@ -3,22 +3,19 @@ package com.willfp.ecoitems.items
 import com.google.common.collect.BiMap
 import com.google.common.collect.HashBiMap
 import com.google.common.collect.ImmutableList
+import com.willfp.eco.core.config.ConfigType
+import com.willfp.eco.core.config.TransientConfig
 import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.eco.core.config.updating.ConfigUpdater
 import com.willfp.eco.core.items.Items
 import com.willfp.eco.core.recipe.Recipes
 import com.willfp.ecoitems.EcoItemsPlugin
-import com.willfp.ecoitems.fuels.ConditionHasFuel
-import com.willfp.libreforge.chains.EffectChains
+import java.io.File
 import java.util.Objects
 
 object EcoItems {
-    /**
-     * Registered items.
-     */
+    /** Registered items. */
     private val BY_ID: BiMap<String, EcoItem> = HashBiMap.create()
-
-    val CONDITION_HAS_FUEL = ConditionHasFuel()
 
     /**
      * Get all registered [EcoItem]s.
@@ -55,13 +52,18 @@ object EcoItems {
             addNewItem(EcoItem(id, config, plugin))
         }
 
-        // Legacy
-        for (setConfig in plugin.itemsYml.getSubsections("items")) {
-            addNewItem(EcoItem(setConfig.getString("id"), setConfig, plugin))
+        for ((id, config) in plugin.fetchConfigs("recipes", dontShare = true)) {
+            addNewRecipeFromConfig(id, config)
         }
 
-        for (recipeConfig in plugin.itemsYml.getSubsections("recipes")) {
-            addNewRecipeFromConfig(recipeConfig)
+        val itemsYml = TransientConfig(File(plugin.dataFolder, "items.yml"), ConfigType.YAML)
+
+        // Legacy
+        for (setConfig in itemsYml.getSubsections("items")) {
+            addNewItem(EcoItem(setConfig.getString("id"), setConfig, plugin))
+        }
+        for (recipeConfig in itemsYml.getSubsections("recipes")) {
+            addNewRecipeFromConfig(Objects.hash(recipeConfig.getStrings("recipe")).toString(), recipeConfig)
         }
     }
 
@@ -71,14 +73,14 @@ object EcoItems {
      * @param config The config for the recipe.
      */
     @JvmStatic
-    fun addNewRecipeFromConfig(config: Config) {
+    fun addNewRecipeFromConfig(id: String, config: Config) {
         val result = Items.lookup(config.getString("result"))
         val item = result.item
-        item.amount = config.getInt("recipeGiveAmount")
+        item.amount = config.getInt("recipeGiveAmount") // Legacy
         EcoItemsPlugin.instance.scheduler.run {
             Recipes.createAndRegisterRecipe(
                 EcoItemsPlugin.instance,
-                Objects.hash(config.getStrings("recipe")).toString(),
+                id,
                 item,
                 config.getStrings("recipe"),
                 config.getStringOrNull("permission")

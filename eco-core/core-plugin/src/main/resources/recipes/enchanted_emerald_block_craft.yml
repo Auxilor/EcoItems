@@ -1,0 +1,12 @@
+result: ecoitems:enchanted_emerald 9
+
+recipe:
+  - ""
+  - emerald_block 32
+  - ""
+  - emerald_block 32
+  - emerald_block 32
+  - emerald_block 32
+  - ""
+  - emerald_block 32
+  - ""

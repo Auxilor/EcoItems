@@ -36,5 +36,3 @@ effects:
     triggers:
       - shoot_bow
 conditions: [ ]
-
-fuels: [ ]

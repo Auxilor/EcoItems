@@ -35,5 +35,3 @@ effects:
     triggers:
       - melee_attack
 conditions: [ ]
-
-fuels: [ ]

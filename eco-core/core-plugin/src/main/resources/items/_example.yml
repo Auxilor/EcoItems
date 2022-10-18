@@ -5,16 +5,16 @@
 # _example.yml is not loaded.
 
 item:
-  item: blaze_rod hide_attributes
-  displayName: "<g:#FF512F>Infernal Spear</g:#F09819>"
-  lore:
+  item: blaze_rod hide_attributes # The item in-game: https://plugins.auxilor.io/all-plugins/the-item-lookup-system
+  displayName: "<g:#FF512F>Infernal Spear</g:#F09819>" # The display name of the item
+  lore: # The item lore
     - "&7Damage: &c10❤"
     - "&7Attack Speed: &c1.5"
     - ""
     - "<g:#FF512F>&lINFERNAL SPEAR BONUS</g:#F09819>"
     - "&8» &#FF512FDeal 50% more damage in the nether"
-  craftable: true
-  recipe:
+  craftable: true # If the item can be crafted
+  recipe: # The recipe, read here for more: https://plugins.auxilor.io/all-plugins/the-item-lookup-system#crafting-recipes
     - ""
     - wither_skeleton_skull 16
     - ""
@@ -24,19 +24,22 @@ item:
     - ""
     - blaze_rod 16
     - ""
+  recipeGiveAmount: 1 # Optional, set the amount of items to give in the recipe
 
-baseDamage: 10
-baseAttackSpeed: 1.5
+baseDamage: 10 # The item base damage
+baseAttackSpeed: 1.5 # The item base attack speed
 
+# The effects of the item (i.e. the functionality)
+# See here: https://plugins.auxilor.io/effects/configuring-an-effect
 effects:
   - id: damage_multiplier
     args:
       multiplier: 1.5
     triggers:
       - melee_attack
+
+# The conditions required for the effects to activate
 conditions:
   - id: in_world
     args:
       world: world_the_nether
-
-fuels: [ ]

@@ -1,0 +1,24 @@
+item:
+  item: player_head texture:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDc3NGU1ZWYzZDhiY2RlOWVhMjFjMzRiODQ4MjdkMzQ1MzFlNjhmMTExNTEwZjMzODMwNTVlY2FhNzRiZWJjYyJ9fX0=
+  displayName: "<g:#870000>Reaper Soul</g:#7a2828>"
+  lore:
+    - "&7Fuel for the <g:#870000>Reaper Scythe</g:#7a2828>"
+    - "&7Consumed while using the weapon"
+  craftable: true
+  recipe:
+    - ""
+    - gold_ingot
+    - ""
+    - ""
+    - iron_ingot
+    - ""
+    - soul_soil
+    - soul_sand
+    - soul_soil
+  recipeGiveAmount: 4
+
+baseDamage: 0
+baseAttackSpeed: 1
+
+effects: [ ]
+conditions: [ ]
