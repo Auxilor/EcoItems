@@ -4,8 +4,8 @@ import com.google.common.collect.BiMap
 import com.google.common.collect.HashBiMap
 import com.google.common.collect.ImmutableList
 import com.willfp.eco.core.config.ConfigType
-import com.willfp.eco.core.config.TransientConfig
 import com.willfp.eco.core.config.interfaces.Config
+import com.willfp.eco.core.config.readConfig
 import com.willfp.eco.core.config.updating.ConfigUpdater
 import com.willfp.eco.core.items.Items
 import com.willfp.eco.core.recipe.Recipes
@@ -56,7 +56,7 @@ object EcoItems {
             addNewRecipeFromConfig(id, config)
         }
 
-        val itemsYml = TransientConfig(File(plugin.dataFolder, "items.yml"), ConfigType.YAML)
+        val itemsYml = File(plugin.dataFolder, "items.yml").readConfig(ConfigType.YAML)
 
         // Legacy
         for (setConfig in itemsYml.getSubsections("items")) {
