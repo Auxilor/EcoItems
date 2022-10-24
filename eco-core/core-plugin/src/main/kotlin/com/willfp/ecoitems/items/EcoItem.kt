@@ -19,13 +19,15 @@ class EcoItem(
     val config: Config,
     private val plugin: EcoPlugin
 ) : Holder {
-    override val effects = config.getSubsections("effects").mapNotNull {
-        Effects.compile(it, "Item ID $id")
-    }.toSet()
+    override val effects = Effects.compile(
+        config.getSubsections("effects"),
+        "Item ID $id"
+    )
 
-    override val conditions = config.getSubsections("conditions").mapNotNull {
-        Conditions.compile(it, "Item ID $id")
-    }.toSet()
+    override val conditions = Conditions.compile(
+        config.getSubsections("conditions"),
+        "Item ID $id"
+    )
 
     val lore: List<String> = config.getStrings("item.lore")
 

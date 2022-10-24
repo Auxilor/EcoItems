@@ -1,6 +1,5 @@
 package com.willfp.ecoitems.commands
 
-import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.core.command.impl.PluginCommand
 import com.willfp.ecoitems.items.EcoItems
 import com.willfp.libreforge.LibReforgePlugin
