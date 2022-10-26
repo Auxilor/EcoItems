@@ -31,12 +31,12 @@ class EcoItem(
 
     val lore: List<String> = config.getStrings("item.lore")
 
-    val displayName: String = config.getString("item.displayName")
+    val displayName: String = config.getString("item.display-name")
 
     private val _itemStack: ItemStack = run {
         val itemConfig = config.getSubsection("item")
         ItemStackBuilder(Items.lookup(itemConfig.getString("item")).item).apply {
-            setDisplayName(itemConfig.getFormattedString("displayName"))
+            setDisplayName(itemConfig.getFormattedString("display-name"))
             addLoreLines(
                 itemConfig.getFormattedStrings("lore").map { "${Display.PREFIX}$it" })
             writeMetaKey(
@@ -50,7 +50,7 @@ class EcoItem(
     val itemStack: ItemStack
         get() = _itemStack.clone()
 
-    val effectiveDurability = config.getIntOrNull("item.effectiveDurability") ?: itemStack.type.maxDurability.toInt()
+    val effectiveDurability = config.getIntOrNull("item.effective-durability") ?: itemStack.type.maxDurability.toInt()
 
     val customItem = CustomItem(
         plugin.namespacedKeyFactory.create(id),
@@ -64,13 +64,13 @@ class EcoItem(
             id,
             itemStack,
             config.getStrings("item.recipe"),
-            config.getStringOrNull("item.craftingPermission")
+            config.getStringOrNull("item.crafting-permission")
         )
     } else null
 
-    val baseDamage = config.getDouble("baseDamage")
+    val baseDamage = config.getDouble("base-damage")
 
-    val baseAttackSpeed = config.getDouble("baseAttackSpeed")
+    val baseAttackSpeed = config.getDouble("base-attack-speed")
 
     override fun equals(other: Any?): Boolean {
         if (other !is EcoItem) {

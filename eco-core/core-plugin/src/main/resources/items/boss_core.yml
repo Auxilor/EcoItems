@@ -1,6 +1,6 @@
 item:
   item: egg unbreaking:1 hide_enchants hide_attributes
-  displayName: "<gradient:#1cefff>Boss Core</gradient:#c0c0aa>"
+  display-name: "<gradient:#1cefff>Boss Core</gradient:#c0c0aa>"
   lore:
     - "&8Required to craft boss"
     - "&8spawn eggs"
@@ -16,8 +16,8 @@ item:
     - ecoitems:enchanted_ender_pearl
     - ""
 
-baseDamage: 0
-baseAttackSpeed: 1
+base-damage: 0
+base-attack-speed: 1
 
 effects: [ ]
 conditions: [ ]

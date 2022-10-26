@@ -1,6 +1,6 @@
 item:
   item: sea_lantern unbreaking:1 hide_enchants hide_attributes
-  displayName: "<gradient:11998e>Armor Core</gradient:38ef7d>"
+  display-name: "<gradient:11998e>Armor Core</gradient:38ef7d>"
   lore:
     - "&8Required to craft"
     - "&8Armor Sets"
@@ -16,8 +16,8 @@ item:
     - copper_block
     - ecoitems:enchanted_emerald
 
-baseDamage: 0
-baseAttackSpeed: 1
+base-damage: 0
+base-attack-speed: 1
 
 effects: [ ]
 conditions: [ ]

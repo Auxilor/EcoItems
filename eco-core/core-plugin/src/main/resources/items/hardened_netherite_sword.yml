@@ -1,7 +1,7 @@
 item:
   item: netherite_sword hide_attributes
-  effectiveDurability: 4096
-  displayName: "&bHardened Netherite Sword"
+  effective-durability: 4096
+  display-name: "&bHardened Netherite Sword"
   lore:
     - "&7Damage: &c9❤"
     - "&7Attack Speed: &c1.6"
@@ -17,8 +17,8 @@ item:
     - stick
     - ""
 
-baseDamage: 9
-baseAttackSpeed: 1.6
+base-damage: 9
+base-attack-speed: 1.6
 
 effects: [ ]
 conditions: [ ]

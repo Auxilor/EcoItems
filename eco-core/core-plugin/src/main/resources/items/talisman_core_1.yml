@@ -1,6 +1,6 @@
 item:
   item: lime_glazed_terracotta unbreaking:1 hide_enchants hide_attributes
-  displayName: "<gradient:12c2e9>Talisman Core</gradient:c471ed> &aI"
+  display-name: "<gradient:12c2e9>Talisman Core</gradient:c471ed> &aI"
   lore:
     - "&8Required to craft"
     - "&aTier I&8 Talismans"
@@ -16,8 +16,8 @@ item:
     - ecoitems:enchanted_ender_eye
     - ""
 
-baseDamage: 0
-baseAttackSpeed: 1
+base-damage: 0
+base-attack-speed: 1
 
 effects: [ ]
 conditions: [ ]

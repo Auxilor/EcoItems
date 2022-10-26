@@ -1,6 +1,6 @@
 item:
   item: iron_sword hide_attributes
-  displayName: "<g:#FDC830>Rogue Zweihänder</g:#F37335>"
+  display-name: "<g:#FDC830>Rogue Zweihänder</g:#F37335>"
   lore:
     - "&7Damage: &c7❤"
     - "&7Attack Speed: &c1.5"
@@ -20,8 +20,8 @@ item:
     - rotten_flesh 64
     - rotten_flesh 64
 
-baseDamage: 7
-baseAttackSpeed: 1.2
+base-damage: 7
+base-attack-speed: 1.2
 
 effects:
   - id: damage_multiplier

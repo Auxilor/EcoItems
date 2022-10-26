@@ -1,7 +1,7 @@
 item:
   item: bow hide_attributes
-  effectiveDurability: 1920
-  displayName: "<gradient:#67B26F>Bow of Thirds</gradient:#4ca2cd>"
+  effective-durability: 1920
+  display-name: "<gradient:#67B26F>Bow of Thirds</gradient:#4ca2cd>"
   lore:
     - "<gradient:#67B26F>&lBOW OF THIRDS BONUS</gradient:#4ca2cd>"
     - "&8» &#4ca2cdEvery third shot will shoot three arrows"
@@ -17,8 +17,8 @@ item:
     - stick
     - string
 
-baseDamage: 1
-baseAttackSpeed: 4
+base-damage: 1
+base-attack-speed: 4
 
 effects:
   - id: shoot_arrow

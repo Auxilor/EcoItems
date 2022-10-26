@@ -1,6 +1,6 @@
 item:
   item: blaze_rod hide_attributes
-  displayName: "<g:#FF512F>Infernal Spear</g:#F09819>"
+  display-name: "<g:#FF512F>Infernal Spear</g:#F09819>"
   lore:
     - "&7Damage: &c10❤"
     - "&7Attack Speed: &c1.5"
@@ -19,8 +19,8 @@ item:
     - blaze_rod 16
     - ""
 
-baseDamage: 10
-baseAttackSpeed: 1.5
+base-damage: 10
+base-attack-speed: 1.5
 
 effects:
   - id: damage_multiplier

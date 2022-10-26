@@ -1,6 +1,6 @@
 item:
   item: netherite_sword hide_attributes
-  displayName: "<g:#870000>Reaper Scythe</g:#7a2828>"
+  display-name: "<g:#870000>Reaper Scythe</g:#7a2828>"
   lore:
     - "&7Damage: &c12❤"
     - "&7Attack Speed: &c2.0"
@@ -22,8 +22,8 @@ item:
     - netherite_sword
     - nether_star
 
-baseDamage: 12
-baseAttackSpeed: 2.0
+base-damage: 12
+base-attack-speed: 2.0
 
 effects:
   - effects:

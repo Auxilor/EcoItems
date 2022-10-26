@@ -5,29 +5,36 @@
 # _example.yml is not loaded.
 
 item:
-  item: blaze_rod hide_attributes # The item in-game: https://plugins.auxilor.io/all-plugins/the-item-lookup-system
-  displayName: "<g:#FF512F>Infernal Spear</g:#F09819>" # The display name of the item
+  item: iron_sword hide_attributes # The item in-game: https://plugins.auxilor.io/all-plugins/the-item-lookup-system
+  display-name: "<g:#f953c6>Mithril Sword</g:#b91d73>" # The display name of the item
   lore: # The item lore
-    - "&7Damage: &c10❤"
+    - "&7Damage: &c12❤"
     - "&7Attack Speed: &c1.5"
     - ""
-    - "<g:#FF512F>&lINFERNAL SPEAR BONUS</g:#F09819>"
-    - "&8» &#FF512FDeal 50% more damage in the nether"
+    - "<g:#f953c6>MITHRIL BONUS</g:#b91d73>"
+    - "&8» &#f953c6Deal 50% more damage in the nether"
   craftable: true # If the item can be crafted
   recipe: # The recipe, read here for more: https://plugins.auxilor.io/all-plugins/the-item-lookup-system#crafting-recipes
     - ""
-    - wither_skeleton_skull 16
+    - ecoitems:mithril 2
     - ""
     - ""
-    - iron_ingot 16
+    - ecoitems:mithril 2
     - ""
     - ""
-    - blaze_rod 16
+    - stick
     - ""
-  recipeGiveAmount: 1 # Optional, set the amount of items to give in the recipe
+  recipe-give-amount: 1 # Optional, set the amount of items to give in the recipe
 
-baseDamage: 10 # The item base damage
-baseAttackSpeed: 1.5 # The item base attack speed
+  # The actual item durability isn't set (because it can't be changed), but instead
+  # this scales how quickly the item wears to act as if it had this durability.
+  # For example, let's say the actual durability is 350, but you set this to 700,
+  # it will wear at half the normal rate.
+
+  effective-durability: 1024 # Optional, set the durability
+
+base-damage: 12 # The item base damage
+base-attack-speed: 1.5 # The item base attack speed
 
 # The effects of the item (i.e. the functionality)
 # See here: https://plugins.auxilor.io/effects/configuring-an-effect

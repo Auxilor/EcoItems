@@ -1,6 +1,6 @@
 item:
   item: light_blue_glazed_terracotta unbreaking:1 hide_enchants hide_attributes
-  displayName: "<gradient:12c2e9>Talisman Core</gradient:c471ed> &eII"
+  display-name: "<gradient:12c2e9>Talisman Core</gradient:c471ed> &eII"
   lore:
     - "&8Required to craft"
     - "&eTier II&8 Talismans"
@@ -16,8 +16,8 @@ item:
     - ""
     - ecoitems:talisman_core_1
 
-baseDamage: 0
-baseAttackSpeed: 1
+base-damage: 0
+base-attack-speed: 1
 
 effects: [ ]
 conditions: [ ]

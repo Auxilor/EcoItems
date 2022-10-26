@@ -1,6 +1,6 @@
 item:
   item: iron_ingot unbreaking:1 hide_enchants hide_attributes
-  displayName: "&bEnchanted Iron Ingot"
+  display-name: "&bEnchanted Iron Ingot"
   lore: [ ]
   craftable: true
   recipe:
@@ -14,8 +14,8 @@ item:
     - iron_ingot 32
     - ""
 
-baseDamage: 0
-baseAttackSpeed: 1
+base-damage: 0
+base-attack-speed: 1
 
 effects: [ ]
 conditions: [ ]
