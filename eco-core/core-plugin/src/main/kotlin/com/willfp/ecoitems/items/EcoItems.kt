@@ -10,6 +10,7 @@ import com.willfp.eco.core.config.updating.ConfigUpdater
 import com.willfp.eco.core.items.Items
 import com.willfp.eco.core.recipe.Recipes
 import com.willfp.ecoitems.EcoItemsPlugin
+import com.willfp.libreforge.separatorAmbivalent
 import java.io.File
 import java.util.Objects
 
@@ -49,21 +50,21 @@ object EcoItems {
         BY_ID.clear()
 
         for ((id, config) in plugin.fetchConfigs("items")) {
-            addNewItem(EcoItem(id, config, plugin))
+            addNewItem(EcoItem(id, config.separatorAmbivalent(), plugin))
         }
 
         for ((id, config) in plugin.fetchConfigs("recipes", dontShare = true)) {
-            addNewRecipeFromConfig(id, config)
+            addNewRecipeFromConfig(id, config.separatorAmbivalent())
         }
 
         val itemsYml = File(plugin.dataFolder, "items.yml").readConfig(ConfigType.YAML)
 
         // Legacy
-        for (setConfig in itemsYml.getSubsections("items")) {
-            addNewItem(EcoItem(setConfig.getString("id"), setConfig, plugin))
+        for (config in itemsYml.getSubsections("items")) {
+            addNewItem(EcoItem(config.getString("id"), config.separatorAmbivalent(), plugin))
         }
-        for (recipeConfig in itemsYml.getSubsections("recipes")) {
-            addNewRecipeFromConfig(Objects.hash(recipeConfig.getStrings("recipe")).toString(), recipeConfig)
+        for (config in itemsYml.getSubsections("recipes")) {
+            addNewRecipeFromConfig(Objects.hash(config.getStrings("recipe")).toString(), config.separatorAmbivalent())
         }
     }
 
@@ -76,7 +77,7 @@ object EcoItems {
     fun addNewRecipeFromConfig(id: String, config: Config) {
         val result = Items.lookup(config.getString("result"))
         val item = result.item
-        item.amount = config.getInt("recipeGiveAmount") // Legacy
+        item.amount = config.getInt("recipe-give-amount") // Legacy
         EcoItemsPlugin.instance.scheduler.run {
             Recipes.createAndRegisterRecipe(
                 EcoItemsPlugin.instance,
