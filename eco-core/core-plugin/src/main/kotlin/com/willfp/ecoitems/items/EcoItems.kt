@@ -3,6 +3,7 @@ package com.willfp.ecoitems.items
 import com.google.common.collect.BiMap
 import com.google.common.collect.HashBiMap
 import com.google.common.collect.ImmutableList
+import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.core.config.ConfigType
 import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.eco.core.config.readConfig
@@ -54,7 +55,7 @@ object EcoItems {
         }
 
         for ((id, config) in plugin.fetchConfigs("recipes", dontShare = true)) {
-            addNewRecipeFromConfig(id, config.separatorAmbivalent())
+            addNewRecipeFromConfig(plugin, id, config.separatorAmbivalent())
         }
 
         val itemsYml = File(plugin.dataFolder, "items.yml").readConfig(ConfigType.YAML)
@@ -64,7 +65,11 @@ object EcoItems {
             addNewItem(EcoItem(config.getString("id"), config.separatorAmbivalent(), plugin))
         }
         for (config in itemsYml.getSubsections("recipes")) {
-            addNewRecipeFromConfig(Objects.hash(config.getStrings("recipe")).toString(), config.separatorAmbivalent())
+            addNewRecipeFromConfig(
+                plugin,
+                Objects.hash(config.getStrings("recipe")).toString(),
+                config.separatorAmbivalent()
+            )
         }
     }
 
@@ -74,13 +79,15 @@ object EcoItems {
      * @param config The config for the recipe.
      */
     @JvmStatic
-    fun addNewRecipeFromConfig(id: String, config: Config) {
+    fun addNewRecipeFromConfig(plugin: EcoPlugin, id: String, config: Config) {
         val result = Items.lookup(config.getString("result"))
         val item = result.item
-        item.amount = config.getInt("recipe-give-amount") // Legacy
-        EcoItemsPlugin.instance.scheduler.run {
+        if (config.has("recipe-give-amount")) {
+            item.amount = config.getInt("recipe-give-amount") // Legacy
+        }
+        plugin.scheduler.run {
             Recipes.createAndRegisterRecipe(
-                EcoItemsPlugin.instance,
+                plugin,
                 id,
                 item,
                 config.getStrings("recipe"),
