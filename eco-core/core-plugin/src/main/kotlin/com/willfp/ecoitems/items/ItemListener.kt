@@ -4,6 +4,7 @@ import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.util.NumberUtils
 import com.willfp.libreforge.updateEffects
 import org.bukkit.event.EventHandler
+import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.event.player.PlayerItemDamageEvent
@@ -19,7 +20,7 @@ class ItemListener(
         plugin.scheduler.run { event.player.updateEffects() }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOW)
     fun onPlaceItem(event: BlockPlaceEvent) {
         ItemUtils.getEcoItem(event.itemInHand) ?: return
         if (event.itemInHand.type.isBlock) {
