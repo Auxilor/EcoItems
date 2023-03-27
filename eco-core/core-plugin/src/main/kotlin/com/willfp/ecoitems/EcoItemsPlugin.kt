@@ -5,14 +5,17 @@ import com.willfp.eco.core.display.DisplayModule
 import com.willfp.ecoitems.commands.CommandEcoItems
 import com.willfp.ecoitems.display.ItemsDisplay
 import com.willfp.ecoitems.items.EcoItems
+import com.willfp.ecoitems.items.EcoItemsRecipes
 import com.willfp.ecoitems.items.ItemAttributeListener
 import com.willfp.ecoitems.items.ItemListener
 import com.willfp.ecoitems.items.ItemUtils
 import com.willfp.ecoitems.util.DiscoverRecipeListener
-import com.willfp.libreforge.LibReforgePlugin
+import com.willfp.libreforge.loader.LibreforgePlugin
+import com.willfp.libreforge.loader.configs.ConfigCategory
+import com.willfp.libreforge.registerHolderProvider
 import org.bukkit.event.Listener
 
-class EcoItemsPlugin : LibReforgePlugin() {
+class EcoItemsPlugin : LibreforgePlugin() {
     /**
      * Internal constructor called by bukkit on plugin load.
      */
@@ -21,16 +24,17 @@ class EcoItemsPlugin : LibReforgePlugin() {
         registerHolderProvider { ItemUtils.getEcoItemsOnPlayer(it) }
     }
 
-    override fun handleEnableAdditional() {
-        this.copyConfigs("items")
-
-        EcoItems.update(this) // Preliminary update
+    override fun loadConfigCategories(): List<ConfigCategory> {
+        return listOf(
+            EcoItems,
+            EcoItemsRecipes
+        )
     }
 
     override fun loadListeners(): List<Listener> {
         return listOf(
             DiscoverRecipeListener(this),
-            ItemListener(this),
+            ItemListener,
             ItemAttributeListener(this)
         )
     }

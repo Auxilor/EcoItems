@@ -22,6 +22,7 @@ class ItemAttributeListener(private val plugin: EcoPlugin) : Listener {
 
     private fun apply(player: Player) {
         val items = ItemUtils.getEcoItemsOnPlayer(player)
+            .map { it.holder as EcoItem }
 
         val damageInst = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE) ?: return
         val speedInst = player.getAttribute(Attribute.GENERIC_ATTACK_SPEED) ?: return
@@ -68,7 +69,7 @@ class ItemAttributeListener(private val plugin: EcoPlugin) : Listener {
                 AttributeModifier(
                     UUID.nameUUIDFromBytes("ecoitems_ad_$offset".toByteArray()),
                     "EcoItems Damage $offset",
-                    item.baseDamage - player.inventory.itemInMainHand.type.getBaseDamage(),
+                    item.baseDamage - player.inventory.itemInMainHand.type.baseDamage,
                     AttributeModifier.Operation.ADD_NUMBER
                 )
             )
@@ -77,7 +78,7 @@ class ItemAttributeListener(private val plugin: EcoPlugin) : Listener {
                 AttributeModifier(
                     UUID.nameUUIDFromBytes("ecoitems_as_$offset".toByteArray()),
                     "EcoItems Speed $offset",
-                    item.baseAttackSpeed - player.inventory.itemInMainHand.type.getBaseAttackSpeed(),
+                    item.baseAttackSpeed - player.inventory.itemInMainHand.type.baseAttackSpeed,
                     AttributeModifier.Operation.ADD_NUMBER
                 )
             )

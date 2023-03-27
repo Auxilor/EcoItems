@@ -1,8 +1,6 @@
 package com.willfp.ecoitems.items
 
-import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.util.NumberUtils
-import com.willfp.libreforge.updateEffects
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
@@ -10,18 +8,9 @@ import org.bukkit.event.block.Action
 import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerItemDamageEvent
-import org.bukkit.event.player.PlayerItemHeldEvent
 import kotlin.math.roundToInt
 
-class ItemListener(
-    private val plugin: EcoPlugin
-) : Listener {
-    @EventHandler
-    fun onHoldItem(event: PlayerItemHeldEvent) {
-        event.player.updateEffects()
-        plugin.scheduler.run { event.player.updateEffects() }
-    }
-
+object ItemListener : Listener {
     @EventHandler(priority = EventPriority.LOW)
     fun onPlaceItem(event: BlockPlaceEvent) {
         ItemUtils.getEcoItem(event.itemInHand) ?: return

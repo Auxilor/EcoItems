@@ -67,7 +67,7 @@ class CommandGive(plugin: EcoPlugin) : Subcommand(plugin, "give", "ecoitems.comm
         val completions = mutableListOf<String>()
 
         if (args.isEmpty()) {
-            return EcoItems.values().map { it.id }
+            return EcoItems.values().map { it.id.key }
         }
 
         if (args.size == 1) {
@@ -80,7 +80,7 @@ class CommandGive(plugin: EcoPlugin) : Subcommand(plugin, "give", "ecoitems.comm
         }
 
         if (args.size == 2) {
-            val itemNames = EcoItems.values().map { it.id }
+            val itemNames = EcoItems.values().map { it.id.key }
 
             StringUtil.copyPartialMatches(args[1], itemNames, completions)
             completions.sort()

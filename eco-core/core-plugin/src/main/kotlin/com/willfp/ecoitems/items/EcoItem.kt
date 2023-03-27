@@ -7,7 +7,9 @@ import com.willfp.eco.core.items.CustomItem
 import com.willfp.eco.core.items.Items
 import com.willfp.eco.core.items.builder.ItemStackBuilder
 import com.willfp.eco.core.recipe.Recipes
+import com.willfp.eco.core.registry.Registrable
 import com.willfp.libreforge.Holder
+import com.willfp.libreforge.ViolationContext
 import com.willfp.libreforge.conditions.Conditions
 import com.willfp.libreforge.effects.Effects
 import org.bukkit.inventory.ItemStack
@@ -15,19 +17,25 @@ import org.bukkit.persistence.PersistentDataType
 import java.util.Objects
 
 class EcoItem(
-    override val id: String,
+    id: String,
     val config: Config,
     private val plugin: EcoPlugin
-) : Holder {
+) : Holder, Registrable {
     override val effects = Effects.compile(
         config.getSubsections("effects"),
-        "Item ID $id"
+        ViolationContext(plugin, "Item ID $id")
     )
 
     override val conditions = Conditions.compile(
         config.getSubsections("conditions"),
-        "Item ID $id"
+        ViolationContext(plugin, "Item ID $id")
     )
+
+    override val id = plugin.createNamespacedKey(id)
+
+    override fun getID(): String {
+        return this.id.key
+    }
 
     val lore: List<String> = config.getStrings("item.lore")
 
