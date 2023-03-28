@@ -9,6 +9,7 @@ publishing {
     publications {
         register("maven", MavenPublication::class) {
             from(components["java"])
+            artifactId = rootProject.name
         }
     }
 }
