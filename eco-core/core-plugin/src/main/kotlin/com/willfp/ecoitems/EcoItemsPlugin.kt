@@ -21,6 +21,9 @@ class EcoItemsPlugin : LibreforgePlugin() {
      */
     init {
         instance = this
+    }
+
+    override fun handleEnable() {
         registerHolderProvider { ItemUtils.getEcoItemsOnPlayer(it) }
     }
 
