@@ -9,7 +9,9 @@ import com.willfp.ecoitems.items.EcoItemsRecipes
 import com.willfp.ecoitems.items.ItemAttributeListener
 import com.willfp.ecoitems.items.ItemListener
 import com.willfp.ecoitems.items.ItemUtils
+import com.willfp.ecoitems.libreforge.ConditionHasEcoItem
 import com.willfp.ecoitems.util.DiscoverRecipeListener
+import com.willfp.libreforge.conditions.Conditions
 import com.willfp.libreforge.loader.LibreforgePlugin
 import com.willfp.libreforge.loader.configs.ConfigCategory
 import com.willfp.libreforge.registerHolderProvider
@@ -24,6 +26,8 @@ class EcoItemsPlugin : LibreforgePlugin() {
     }
 
     override fun handleEnable() {
+        Conditions.register(ConditionHasEcoItem)
+
         registerHolderProvider { ItemUtils.getEcoItemsOnPlayer(it) }
     }
 
