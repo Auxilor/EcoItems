@@ -15,3 +15,28 @@ dependencies:
 load-after:
   - name: eco
     bootstrap: false
+
+
+permissions:
+  ecoitems.*:
+    description: All ecoitems permissions
+    default: op
+    children:
+      ecoitems.command.*: true
+  ecoitems.command.*:
+    description: All commands
+    default: op
+    children:
+      ecoitems.command.reload: true
+      ecoitems.command.ecoitems: true
+      ecoitems.command.give: true
+
+  ecoitems.command.reload:
+    description: Allows reloading the config
+    default: op
+  ecoitems.command.give:
+    description: Allows the use of /ecoitems give
+    default: op
+  ecoitems.command.ecoitems:
+    description: Allows the user of /ecoitems.
+    default: true
