@@ -8,6 +8,7 @@ import com.willfp.eco.core.fast.FastItemStack
 import com.willfp.eco.util.StringUtils
 import com.willfp.eco.util.formatEco
 import com.willfp.ecoitems.items.ItemUtils
+import com.willfp.libreforge.ItemProvidedHolder
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
@@ -21,12 +22,14 @@ class ItemsDisplay(plugin: EcoPlugin) : DisplayModule(plugin, DisplayPriority.LO
         val ecoItem = ItemUtils.getEcoItem(itemStack)
 
         if (ecoItem != null) {
+            val provided = ItemProvidedHolder(ecoItem, itemStack)
+
             val itemFast = FastItemStack.wrap(ecoItem.itemStack)
 
             val lore = ecoItem.lore.map { "${Display.PREFIX}${StringUtils.format(it, player)}" }.toMutableList()
 
             if (player != null) {
-                val lines = ecoItem.conditions.getNotMetLines(player).map { Display.PREFIX + it }
+                val lines = ecoItem.conditions.getNotMetLines(player, provided).map { Display.PREFIX + it }
 
                 if (lines.isNotEmpty()) {
                     lore.add(Display.PREFIX)
