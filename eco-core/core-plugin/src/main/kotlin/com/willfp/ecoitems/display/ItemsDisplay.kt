@@ -5,6 +5,7 @@ import com.willfp.eco.core.display.Display
 import com.willfp.eco.core.display.DisplayModule
 import com.willfp.eco.core.display.DisplayPriority
 import com.willfp.eco.core.fast.FastItemStack
+import com.willfp.eco.core.placeholder.context.placeholderContext
 import com.willfp.eco.util.StringUtils
 import com.willfp.eco.util.formatEco
 import com.willfp.ecoitems.items.ItemUtils
@@ -26,7 +27,12 @@ class ItemsDisplay(plugin: EcoPlugin) : DisplayModule(plugin, DisplayPriority.LO
 
             val itemFast = FastItemStack.wrap(ecoItem.itemStack)
 
-            val lore = ecoItem.lore.map { "${Display.PREFIX}${StringUtils.format(it, player)}" }.toMutableList()
+            val context = placeholderContext(
+                player = player,
+                item = itemStack
+            )
+
+            val lore = ecoItem.lore.map { "${Display.PREFIX}${StringUtils.format(it, context)}" }.toMutableList()
 
             if (player != null) {
                 val lines = ecoItem.conditions.getNotMetLines(player, provided).map { Display.PREFIX + it }
@@ -39,7 +45,7 @@ class ItemsDisplay(plugin: EcoPlugin) : DisplayModule(plugin, DisplayPriority.LO
 
             lore.addAll(fis.lore)
 
-            fis.displayName = ecoItem.displayName.formatEco(player, true)
+            fis.displayName = ecoItem.displayName.formatEco(context)
             fis.addItemFlags(*itemFast.itemFlags.toTypedArray())
             fis.lore = lore
         }
