@@ -13,14 +13,19 @@ import org.bukkit.persistence.PersistentDataType
 private val legacyKey = namespacedKeyOf("ecoweapons", "weapon")
 private val key = namespacedKeyOf("ecoitems", "item")
 
-val ItemStack?.ecoItem: EcoItem?
+var ItemStack?.ecoItem: EcoItem?
     get() {
         this ?: return null
         val fis = this.fast()
         return fis.ecoItem
     }
+    set(value) {
+        this ?: return
+        val fis = this.fast()
+        fis.ecoItem = value
+    }
 
-val FastItemStack.ecoItem: EcoItem?
+var FastItemStack.ecoItem: EcoItem?
     get() {
         val pdc = this.persistentDataContainer
 
@@ -30,6 +35,15 @@ val FastItemStack.ecoItem: EcoItem?
         }
 
         return EcoItems.getByID(pdc.get(key, PersistentDataType.STRING))
+    }
+    set(value) {
+        val pdc = this.persistentDataContainer
+
+        if (value == null) {
+            pdc.remove(key)
+        } else {
+            pdc.set(key, PersistentDataType.STRING, value.id.key)
+        }
     }
 
 val Player.ecoItems: Collection<ItemProvidedHolder>

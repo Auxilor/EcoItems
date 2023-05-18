@@ -23,7 +23,7 @@ object EcoItems : ConfigCategory("item", "items") {
             return null
         }
 
-        return registry[this.id]
+        return registry[id]
     }
 
     fun values(): List<EcoItem> {

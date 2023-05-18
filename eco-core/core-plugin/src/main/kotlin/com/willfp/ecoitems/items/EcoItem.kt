@@ -14,7 +14,6 @@ import com.willfp.libreforge.ViolationContext
 import com.willfp.libreforge.conditions.Conditions
 import com.willfp.libreforge.effects.Effects
 import org.bukkit.inventory.ItemStack
-import org.bukkit.persistence.PersistentDataType
 import java.util.Objects
 
 class EcoItem(
@@ -46,13 +45,11 @@ class EcoItem(
         ItemStackBuilder(Items.lookup(itemConfig.getString("item")).item).apply {
             setDisplayName(itemConfig.getFormattedString("display-name"))
             addLoreLines(
-                itemConfig.getFormattedStrings("lore").map { "${Display.PREFIX}$it" })
-            writeMetaKey(
-                plugin.namespacedKeyFactory.create("item"),
-                PersistentDataType.STRING,
-                id
+                itemConfig.getFormattedStrings("lore").map { "${Display.PREFIX}$it" }
             )
-        }.build()
+        }.build().apply {
+            ecoItem = this@EcoItem
+        }
     }
 
     val itemStack: ItemStack
