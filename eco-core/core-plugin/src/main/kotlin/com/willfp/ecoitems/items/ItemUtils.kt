@@ -23,7 +23,8 @@ val ItemStack?.ecoItem: EcoItem?
 val FastItemStack.ecoItem: EcoItem?
     get() {
         val pdc = this.persistentDataContainer
-        if (pdc.has(legacyKey)) {
+
+        if (pdc.get(legacyKey, PersistentDataType.STRING) != null) {
             pdc.remove(legacyKey)
             pdc.set(key, PersistentDataType.STRING, pdc.get(legacyKey, PersistentDataType.STRING)!!)
         }
