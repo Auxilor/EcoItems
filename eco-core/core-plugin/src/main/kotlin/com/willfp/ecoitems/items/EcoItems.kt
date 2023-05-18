@@ -18,12 +18,12 @@ object EcoItems : ConfigCategory("item", "items") {
         "items"
     )
 
-    fun getByID(ida: String?): EcoItem? {
+    fun getByID(id: String?): EcoItem? {
         if (id == null) {
             return null
         }
 
-        return registry[id]
+        return registry[this.id]
     }
 
     fun values(): List<EcoItem> {
