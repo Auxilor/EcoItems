@@ -13,7 +13,7 @@ import com.willfp.ecoitems.slot.impl.ItemSlotOffhand
 object ItemSlots : Registry<ItemSlot>() {
     fun getByID(id: String?): ItemSlot {
         if (id == null) {
-            return ItemSlotHands // Legacy
+            return ItemSlotMainhand // Legacy
         }
 
         return get(id) ?: ItemSlotMainhand
