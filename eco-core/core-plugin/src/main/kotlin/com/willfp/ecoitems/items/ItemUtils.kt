@@ -32,28 +32,17 @@ val FastItemStack.ecoItem: EcoItem?
     }
 
 val Player.ecoItems: Collection<ItemProvidedHolder>
-    get() {
-        val ecoItems = mutableMapOf<EcoItem, ItemStack>()
-
-        for (slot in ItemSlots) {
-            val items = slot.getItems(this).filterNotNull()
-
-            for (item in items) {
-                val ecoItem = item.ecoItem ?: continue
-                if (ecoItem.slot == slot) {
-                    ecoItems[ecoItem] = item
-                }
+    get() = ItemSlots.flatMap { slot ->
+        slot.getItems(this)
+            .filterNotNull()
+            .mapNotNull { item ->
+                item.ecoItem
+                    ?.takeIf { it.slot == slot }
+                    ?.let { it to item }
             }
-        }
+    }.distinctBy { it.first }
+        .map { (ecoItem, item) -> ItemProvidedHolder(ecoItem, item) }
 
-        val provided = mutableListOf<ItemProvidedHolder>()
-
-        for ((ecoItem, item) in ecoItems) {
-            provided.add(ItemProvidedHolder(ecoItem, item))
-        }
-
-        return provided
-    }
 
 val Material.baseDamage: Double
     get() {
