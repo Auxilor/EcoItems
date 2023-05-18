@@ -36,6 +36,7 @@ item:
 # The slot the item has to be in to activate its effects.
 # Can be mainhand, offhand, hands, helmet, chestplate, leggings, boots, or any.
 # Use to choose weather this is a weapon, tool, armor piece, charm, etc.
+# If you don't specify this, it will default to mainhand.
 slot: mainhand
 
 base-damage: 12 # (Optional) The item base damage
