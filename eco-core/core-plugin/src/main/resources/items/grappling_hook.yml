@@ -1,5 +1,5 @@
 item:
-  item: fishing_rod hide_attributes hide_enchants unbreaking:1
+  item: fishing_rod hide_attributes hide_enchants unbreakable unbreaking:1
   display-name: "&9Grappling Hook"
   lore:
     - "&7Travel in style using"
@@ -20,11 +20,19 @@ item:
 slot: mainhand
 
 effects:
-  - id: pull_to_location
+  - effects:
+      - id: set_velocity
+        args:
+          x: 0
+          y: 0.2
+          z: 0
+      - id: pull_to_location
+        args:
+          send_cooldown_message: true
+          velocity: 1.75
+          jump: 0.5
     args:
-      send_cooldown_message: true
       cooldown: 2.5
-      velocity: 1.5
     triggers:
       - hook_in_ground
 
