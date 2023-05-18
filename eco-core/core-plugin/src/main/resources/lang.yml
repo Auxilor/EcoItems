@@ -5,8 +5,6 @@ messages:
   invalid-command: "&cUnknown subcommand!"
   reloaded: "Reloaded!"
 
-  needs-player: "&cYou must specify a player"
   invalid-player: "&cInvalid player!"
-  needs-item: "&cYou must specify an item!"
   invalid-item: "&cInvalid item!"
-  give-success: "Gave &a%item%&r to &a%recipient%"
+  give-success: "Gave &a%item%&r to &a%recipient%&f!"

@@ -33,8 +33,12 @@ item:
 
   effective-durability: 1024 # Optional, set the durability
 
-base-damage: 12 # The item base damage
-base-attack-speed: 1.5 # The item base attack speed
+# The slot the item has to be in to activate its effects.
+# Can be mainhand, offhand, hands, helmet, chestplate, leggings, boots, or any.
+slot: mainhand
+
+base-damage: 12 # (Optional) The item base damage
+base-attack-speed: 1.5 # (Optional) The item base attack speed
 
 # The effects of the item (i.e. the functionality)
 # See here: https://plugins.auxilor.io/effects/configuring-an-effect

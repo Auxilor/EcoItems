@@ -21,43 +21,23 @@ class CommandGive(plugin: EcoPlugin) : Subcommand(plugin, "give", "ecoitems.comm
     )
 
     override fun onExecute(sender: CommandSender, args: List<String>) {
-        if (args.isEmpty()) {
-            sender.sendMessage(plugin.langYml.getMessage("needs-player"))
-            return
-        }
-        if (args.size == 1) {
-            sender.sendMessage(plugin.langYml.getMessage("needs-item"))
-            return
-        }
-        val receiverName = args[0]
-        val receiver = Bukkit.getPlayer(receiverName)
-        if (receiver == null) {
-            sender.sendMessage(plugin.langYml.getMessage("invalid-player"))
-            return
-        }
-        val itemID = args[1]
-        var amount = 1
+        val player = notifyPlayerRequired(args.getOrNull(0), "invalid-player")
 
-        val ecoItem = EcoItems.getByID(itemID.lowercase())
-        if (ecoItem == null) {
-            sender.sendMessage(plugin.langYml.getMessage("invalid-item"))
-            return
-        }
+        val ecoItem = notifyNull(EcoItems.getByID(args.getOrNull(1)), "invalid-item")
 
-        var message = plugin.langYml.getMessage("give-success")
-        message = message.replace("%item%", itemID).replace("%recipient%", receiver.name)
+        val amount = args.getOrNull(2)?.toIntOrNull() ?: 1
+
+        val message = plugin.langYml.getMessage("give-success")
+            .replace("%item%", ecoItem.id.key)
+            .replace("%recipient%", player.name)
 
         sender.sendMessage(message)
-
-        if (args.size == 3) {
-            amount = args[2].toIntOrNull() ?: 1
-        }
 
         val item = ecoItem.itemStack
 
         item.amount = amount
 
-        DropQueue(receiver)
+        DropQueue(player)
             .addItem(item)
             .forceTelekinesis()
             .push()

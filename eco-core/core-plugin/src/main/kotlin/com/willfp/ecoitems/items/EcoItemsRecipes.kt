@@ -19,10 +19,12 @@ object EcoItemsRecipes : ConfigCategory("recipe", "recipes") {
 
     override fun acceptConfig(plugin: LibreforgePlugin, id: String, config: Config) {
         val result = Items.lookup(config.getString("result"))
-        val item = result.item
+        val item = result.item.clone()
+
         if (config.has("recipe-give-amount")) {
             item.amount = config.getInt("recipe-give-amount") // Legacy
         }
+
         plugin.scheduler.run {
             Recipes.createAndRegisterRecipe(
                 plugin, id, item, config.getStrings("recipe"), config.getStringOrNull("permission")

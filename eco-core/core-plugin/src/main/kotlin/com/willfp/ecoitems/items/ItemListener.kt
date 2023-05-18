@@ -13,7 +13,8 @@ import kotlin.math.roundToInt
 object ItemListener : Listener {
     @EventHandler(priority = EventPriority.LOW)
     fun onPlaceItem(event: BlockPlaceEvent) {
-        ItemUtils.getEcoItem(event.itemInHand) ?: return
+        event.itemInHand.ecoItem ?: return
+
         if (event.itemInHand.type.isBlock) {
             event.isCancelled = true
         }
@@ -21,7 +22,7 @@ object ItemListener : Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     fun onPlaceItem2(event: PlayerInteractEvent) {
-        ItemUtils.getEcoItem(event.item) ?: return
+        event.item.ecoItem ?: return
 
         if (event.item?.type?.isBlock != true) {
             return
@@ -34,9 +35,12 @@ object ItemListener : Listener {
 
     @EventHandler
     fun effectiveDurabilityListener(event: PlayerItemDamageEvent) {
-        val ecoItem = ItemUtils.getEcoItem(event.item) ?: return
+        val ecoItem = event.item.ecoItem ?: return
+
         val maxDurability = event.item.type.maxDurability.toInt()
+
         val ratio = maxDurability.toDouble() / ecoItem.effectiveDurability
+
         if (ratio < 1) {
             if (NumberUtils.randFloat(0.0, 1.0) > ratio) {
                 event.isCancelled = true

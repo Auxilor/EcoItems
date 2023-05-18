@@ -18,25 +18,16 @@ object EcoItems : ConfigCategory("item", "items") {
         "items"
     )
 
-    /**
-     * Get all registered [EcoItem]s.
-     *
-     * @return A list of all [EcoItem]s.
-     */
-    @JvmStatic
-    fun values(): List<EcoItem> {
-        return ImmutableList.copyOf(registry.values())
+    fun getByID(ida: String?): EcoItem? {
+        if (id == null) {
+            return null
+        }
+
+        return registry[id]
     }
 
-    /**
-     * Get [EcoItem] matching id.
-     *
-     * @param name The id to search for.
-     * @return The matching [EcoItem], or null if not found.
-     */
-    @JvmStatic
-    fun getByID(name: String): EcoItem? {
-        return registry[name]
+    fun values(): List<EcoItem> {
+        return ImmutableList.copyOf(registry.values())
     }
 
     override fun clear(plugin: LibreforgePlugin) {

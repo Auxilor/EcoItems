@@ -10,3 +10,5 @@ recipe: # The recipe, read here for more: https://plugins.auxilor.io/all-plugins
   - ""
   - emerald_block 32
   - ""
+
+permission: "ecoitems.craft.enchanted_emerald_block_craft" # (Optional) The permission required to craft this recipe.

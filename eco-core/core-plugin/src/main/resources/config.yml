@@ -3,6 +3,4 @@
 # by Auxilor
 #
 
-check-offhand: false # If items should work in offhands
-
 discover-recipes: true # If all recipes should be automatically discovered.

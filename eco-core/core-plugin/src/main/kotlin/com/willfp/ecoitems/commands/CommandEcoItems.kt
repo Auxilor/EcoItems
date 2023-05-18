@@ -7,12 +7,13 @@ import org.bukkit.command.CommandSender
 class CommandEcoItems(
     plugin: EcoPlugin
 ) : PluginCommand(
-        plugin,
-        "ecoitems",
-        "ecoitems.command.ecoitems",
-        false) {
+    plugin,
+    "ecoitems",
+    "ecoitems.command.ecoitems",
+    false
+) {
     init {
-        addSubcommand(CommandReload(plugin))
+        this.addSubcommand(CommandReload(plugin))
             .addSubcommand(CommandGive(plugin))
     }
 

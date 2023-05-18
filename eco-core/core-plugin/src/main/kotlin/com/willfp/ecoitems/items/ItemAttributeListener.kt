@@ -21,8 +21,7 @@ class ItemAttributeListener(private val plugin: EcoPlugin) : Listener {
     }
 
     private fun apply(player: Player) {
-        val items = ItemUtils.getEcoItemsOnPlayer(player)
-            .map { it.holder as EcoItem }
+        val items = player.ecoItems.map { it.holder as EcoItem }
 
         val damageInst = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE) ?: return
         val speedInst = player.getAttribute(Attribute.GENERIC_ATTACK_SPEED) ?: return
@@ -65,23 +64,27 @@ class ItemAttributeListener(private val plugin: EcoPlugin) : Listener {
         }
 
         for ((offset, item) in items.withIndex()) {
-            damageInst.addModifier(
-                AttributeModifier(
-                    UUID.nameUUIDFromBytes("ecoitems_ad_$offset".toByteArray()),
-                    "EcoItems Damage $offset",
-                    item.baseDamage - player.inventory.itemInMainHand.type.baseDamage,
-                    AttributeModifier.Operation.ADD_NUMBER
+            if (item.baseDamage != null) {
+                damageInst.addModifier(
+                    AttributeModifier(
+                        UUID.nameUUIDFromBytes("ecoitems_ad_$offset".toByteArray()),
+                        "EcoItems Damage $offset",
+                        item.baseDamage - player.inventory.itemInMainHand.type.baseDamage,
+                        AttributeModifier.Operation.ADD_NUMBER
+                    )
                 )
-            )
+            }
 
-            speedInst.addModifier(
-                AttributeModifier(
-                    UUID.nameUUIDFromBytes("ecoitems_as_$offset".toByteArray()),
-                    "EcoItems Speed $offset",
-                    item.baseAttackSpeed - player.inventory.itemInMainHand.type.baseAttackSpeed,
-                    AttributeModifier.Operation.ADD_NUMBER
+            if (item.baseAttackSpeed != null) {
+                speedInst.addModifier(
+                    AttributeModifier(
+                        UUID.nameUUIDFromBytes("ecoitems_as_$offset".toByteArray()),
+                        "EcoItems Speed $offset",
+                        item.baseAttackSpeed - player.inventory.itemInMainHand.type.baseAttackSpeed,
+                        AttributeModifier.Operation.ADD_NUMBER
+                    )
                 )
-            )
+            }
         }
     }
 }

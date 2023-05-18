@@ -1,0 +1,31 @@
+item:
+  item: fishing_rod hide_attributes hide_enchants unbreaking:1
+  display-name: "&9Grappling Hook"
+  lore:
+    - "&7Travel in style using"
+    - "&7this Grappling Hook!"
+    - "&82.5 Second Cooldown"
+  craftable: true
+  recipe:
+    - ""
+    - ""
+    - ecoitem:enchanted_diamond
+    - ""
+    - stick
+    - ecoitem:enchanted_diamond
+    - stick
+    - ""
+    - ""
+
+slot: mainhand
+
+effects:
+  - id: pull_to_location
+    args:
+      send_cooldown_message: true
+      cooldown: 2.5
+      velocity: 1.5
+    triggers:
+      - hook_in_ground
+
+conditions: [ ]
