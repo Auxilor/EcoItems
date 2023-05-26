@@ -44,7 +44,7 @@ class ItemAttributeListener(private val plugin: EcoPlugin) : Listener {
             )
         )
 
-        for (offset in 0..1) {
+        for (offset in items.indices) {
             damageInst.removeModifier(
                 AttributeModifier(
                     UUID.nameUUIDFromBytes("ecoitems_ad_$offset".toByteArray()),
