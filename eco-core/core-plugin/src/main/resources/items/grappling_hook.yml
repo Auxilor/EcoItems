@@ -9,10 +9,10 @@ item:
   recipe:
     - ""
     - ""
-    - ecoitem:enchanted_diamond
+    - ecoitems:enchanted_diamond
     - ""
     - stick
-    - ecoitem:enchanted_diamond
+    - ecoitems:enchanted_diamond
     - stick
     - ""
     - ""
