@@ -17,7 +17,7 @@ class ItemAttributeListener(private val plugin: EcoPlugin) : Listener {
         }
 
         apply(event.player)
-        plugin.scheduler.run { apply(event.player) }
+        plugin.scheduler.run{ apply(event.player) }
     }
 
     private fun apply(player: Player) {
@@ -44,23 +44,16 @@ class ItemAttributeListener(private val plugin: EcoPlugin) : Listener {
             )
         )
 
-        for (offset in items.indices) {
-            damageInst.removeModifier(
-                AttributeModifier(
-                    UUID.nameUUIDFromBytes("ecoitems_ad_$offset".toByteArray()),
-                    "EcoItems Damage $offset",
-                    1.0, // Irrelevant
-                    AttributeModifier.Operation.ADD_NUMBER
-                )
-            )
-            speedInst.removeModifier(
-                AttributeModifier(
-                    UUID.nameUUIDFromBytes("ecoitems_as_$offset".toByteArray()),
-                    "EcoItems Speed $offset",
-                    1.0, // Irrelevant
-                    AttributeModifier.Operation.ADD_NUMBER
-                )
-            )
+        damageInst.modifiers.filter {
+            it.name.startsWith("EcoItems Damage", true)
+        }.forEach {
+            damageInst.removeModifier(it)
+        }
+
+        speedInst.modifiers.filter {
+            it.name.startsWith("EcoItems Speed", true)
+        }.forEach {
+            speedInst.removeModifier(it)
         }
 
         for ((offset, item) in items.withIndex()) {
