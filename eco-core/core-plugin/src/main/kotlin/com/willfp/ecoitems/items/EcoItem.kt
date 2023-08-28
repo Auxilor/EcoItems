@@ -40,7 +40,7 @@ class EcoItem(
 
     val slot = if (config.has("slot"))
         SlotTypes[config.getString("slot")]
-    else SlotTypes["mainhand"]
+    else SlotTypes.mainHandSlot
 
     // Defensive copy
     private val _itemStack: ItemStack = run {
