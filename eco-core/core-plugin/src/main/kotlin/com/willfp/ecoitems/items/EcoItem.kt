@@ -8,11 +8,12 @@ import com.willfp.eco.core.items.Items
 import com.willfp.eco.core.items.builder.ItemStackBuilder
 import com.willfp.eco.core.recipe.Recipes
 import com.willfp.eco.core.registry.Registrable
-import com.willfp.ecoitems.slot.ItemSlots
 import com.willfp.libreforge.Holder
 import com.willfp.libreforge.ViolationContext
 import com.willfp.libreforge.conditions.Conditions
 import com.willfp.libreforge.effects.Effects
+import com.willfp.libreforge.slot.SlotTypes
+import com.willfp.libreforge.slot.impl.SlotTypeMainhand
 import org.bukkit.inventory.ItemStack
 import java.util.Objects
 
@@ -37,7 +38,9 @@ class EcoItem(
 
     val displayName: String = config.getString("item.display-name")
 
-    val slot = ItemSlots.getByID(config.getString("slot"))
+    val slot = if (config.has("slot"))
+        SlotTypes[config.getString("slot")]
+    else SlotTypes["mainhand"]
 
     // Defensive copy
     private val _itemStack: ItemStack = run {

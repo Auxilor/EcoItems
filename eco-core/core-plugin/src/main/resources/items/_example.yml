@@ -34,7 +34,9 @@ item:
   effective-durability: 1024 # Optional, set the durability
 
 # The slot the item has to be in to activate its effects.
-# Can be mainhand, offhand, hands, helmet, chestplate, leggings, boots, or any.
+# The options for slot are mainhand, offhand, hands, helmet, chestplate,
+# leggings, boots, armor, any, a number from 0-40 (to specify an exact slot),
+# or a list of slots like "9, 10, 11, mainhand"
 # Use to choose weather this is a weapon, tool, armor piece, charm, etc.
 # If you don't specify this, it will default to mainhand.
 slot: mainhand

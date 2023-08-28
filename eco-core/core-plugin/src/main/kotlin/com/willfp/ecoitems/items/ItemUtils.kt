@@ -3,8 +3,8 @@ package com.willfp.ecoitems.items
 import com.willfp.eco.core.fast.FastItemStack
 import com.willfp.eco.core.fast.fast
 import com.willfp.eco.util.namespacedKeyOf
-import com.willfp.ecoitems.slot.ItemSlots
 import com.willfp.libreforge.ItemProvidedHolder
+import com.willfp.libreforge.slot.SlotTypes
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
@@ -47,9 +47,8 @@ var FastItemStack.ecoItem: EcoItem?
     }
 
 val Player.ecoItems: Collection<ItemProvidedHolder>
-    get() = ItemSlots.flatMap { slot ->
+    get() = SlotTypes.flatMap { slot ->
         slot.getItems(this)
-            .filterNotNull()
             .mapNotNull { item ->
                 item.ecoItem
                     ?.takeIf { it.slot == slot }
