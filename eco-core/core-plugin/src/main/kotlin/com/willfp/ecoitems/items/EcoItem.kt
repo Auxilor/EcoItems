@@ -12,6 +12,7 @@ import com.willfp.libreforge.Holder
 import com.willfp.libreforge.ViolationContext
 import com.willfp.libreforge.conditions.Conditions
 import com.willfp.libreforge.effects.Effects
+import com.willfp.libreforge.slot.SlotType
 import com.willfp.libreforge.slot.SlotTypes
 import com.willfp.libreforge.slot.impl.SlotTypeMainhand
 import org.bukkit.inventory.ItemStack
@@ -38,9 +39,7 @@ class EcoItem(
 
     val displayName: String = config.getString("item.display-name")
 
-    val slot = if (config.has("slot"))
-        SlotTypes[config.getString("slot")]
-    else SlotTypes.mainHandSlot
+    val slot = SlotTypes[config.getString("slot")] ?: SlotTypes.mainHandSlot
 
     // Defensive copy
     private val _itemStack: ItemStack = run {
