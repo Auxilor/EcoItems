@@ -39,7 +39,7 @@ class EcoItem(
 
     val displayName: String = config.getString("item.display-name")
 
-    val slot = SlotTypes[config.getString("slot")] ?: SlotTypes.mainHandSlot
+    val slot = SlotTypes[config.getString("slot")] ?: SlotTypeMainhand
 
     // Defensive copy
     private val _itemStack: ItemStack = run {
