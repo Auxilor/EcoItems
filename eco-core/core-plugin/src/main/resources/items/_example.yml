@@ -14,6 +14,7 @@ item:
     - "<g:#f953c6>MITHRIL BONUS</g:#b91d73>"
     - "&8» &#f953c6Deal 50% more damage in the nether"
   craftable: true # If the item can be crafted
+  crafting-permission: [] # Optional, the permission required to craft the item
   recipe: # The recipe, read here for more: https://plugins.auxilor.io/all-plugins/the-item-lookup-system#crafting-recipes
     - ""
     - ecoitems:mithril 2
