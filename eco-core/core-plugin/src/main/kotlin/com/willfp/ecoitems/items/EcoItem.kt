@@ -69,7 +69,9 @@ class EcoItem(
         Recipes.createAndRegisterRecipe(
             plugin,
             id,
-            itemStack,
+            itemStack.apply {
+                amount = config.getIntOrNull("item.recipe-give-amount") ?: 1
+            },
             config.getStrings("item.recipe"),
             config.getStringOrNull("item.crafting-permission")
         )
