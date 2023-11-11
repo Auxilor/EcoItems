@@ -35,7 +35,7 @@ class ItemsDisplay(plugin: EcoPlugin) : DisplayModule(plugin, DisplayPriority.LO
         val lore = ecoItem.lore.map { "${Display.PREFIX}${StringUtils.format(it, context)}" }.toMutableList()
 
         if (player != null) {
-            val lines = ecoItem.conditions.getNotMetLines(player, provided).map { Display.PREFIX + it }
+            val lines = provided.getNotMetLines(player).map { Display.PREFIX + it }
 
             if (lines.isNotEmpty()) {
                 lore.add(Display.PREFIX)
