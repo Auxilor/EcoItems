@@ -15,6 +15,8 @@ import com.willfp.libreforge.conditions.Conditions
 import com.willfp.libreforge.loader.LibreforgePlugin
 import com.willfp.libreforge.loader.configs.ConfigCategory
 import com.willfp.libreforge.registerHolderProvider
+import com.willfp.libreforge.registerSpecificHolderProvider
+import org.bukkit.entity.Player
 import org.bukkit.event.Listener
 
 internal lateinit var plugin: EcoItemsPlugin
@@ -31,7 +33,9 @@ class EcoItemsPlugin : LibreforgePlugin() {
     override fun handleEnable() {
         Conditions.register(ConditionHasEcoItem)
 
-        registerHolderProvider { it.ecoItems }
+        registerSpecificHolderProvider<Player> {
+            it.ecoItems
+        }
     }
 
     override fun loadConfigCategories(): List<ConfigCategory> {
