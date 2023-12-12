@@ -6,6 +6,7 @@ import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.block.Action
 import org.bukkit.event.block.BlockPlaceEvent
+import org.bukkit.event.entity.EntityShootBowEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerItemDamageEvent
 import kotlin.math.roundToInt
@@ -47,6 +48,13 @@ object ItemListener : Listener {
             }
         } else if (ratio > 1) {
             event.damage *= ratio.roundToInt()
+        }
+    }
+
+    @EventHandler
+    fun preventShootingItemsAsArrows(event: EntityShootBowEvent) {
+        if (event.consumable?.ecoItem != null) {
+            event.isCancelled = true
         }
     }
 }
