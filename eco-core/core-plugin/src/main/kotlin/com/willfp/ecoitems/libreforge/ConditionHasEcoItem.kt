@@ -11,7 +11,7 @@ import com.willfp.libreforge.conditions.Condition
 import com.willfp.libreforge.get
 import com.willfp.libreforge.holders
 import com.willfp.libreforge.toDispatcher
-import org.bukkit.entity.Player
+import org.bukkit.entity.LivingEntity
 
 object ConditionHasEcoItem : Condition<NoCompileData>("has_ecoitem") {
     override val arguments = arguments {
@@ -24,9 +24,9 @@ object ConditionHasEcoItem : Condition<NoCompileData>("has_ecoitem") {
         holder: ProvidedHolder,
         compileData: NoCompileData
     ): Boolean {
-        val player = dispatcher.get<Player>() ?: return false
+        val entity = dispatcher.get<LivingEntity>() ?: return false
 
-        return player.toDispatcher().holders
+        return entity.toDispatcher().holders
             .filter { it.holder is EcoItem }
             .map { it.holder.id.key }
             .containsIgnoreCase(config.getString("item"))
