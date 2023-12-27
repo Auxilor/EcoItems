@@ -31,7 +31,7 @@ class EcoItemsPlugin : LibreforgePlugin() {
     override fun handleEnable() {
         Conditions.register(ConditionHasEcoItem)
 
-        registerHolderProvider(EcoItemFinder.toHolderProvider())
+        registerHolderProvider(EcoItemFinder.provider)
     }
 
     override fun loadConfigCategories(): List<ConfigCategory> {

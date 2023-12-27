@@ -11,8 +11,6 @@ import org.bukkit.event.player.PlayerItemHeldEvent
 import java.util.UUID
 
 class ItemAttributeListener(private val plugin: EcoPlugin) : Listener {
-    private val provider = EcoItemFinder.toHolderProvider()
-
     @EventHandler
     fun handle(event: PlayerItemHeldEvent) {
         if (event.isCancelled) {
@@ -24,7 +22,7 @@ class ItemAttributeListener(private val plugin: EcoPlugin) : Listener {
     }
 
     private fun apply(player: Player) {
-        val items = provider.provide(player.toDispatcher())
+        val items = EcoItemFinder.provider.provide(player.toDispatcher())
             .map { it.holder as EcoItem }
 
         val damageInst = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE) ?: return
