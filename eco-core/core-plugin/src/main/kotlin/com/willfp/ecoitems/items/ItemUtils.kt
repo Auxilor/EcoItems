@@ -47,18 +47,6 @@ var FastItemStack.ecoItem: EcoItem?
         }
     }
 
-val Player.ecoItems: Collection<ItemProvidedHolder>
-    get() = SlotTypes.flatMap { slot ->
-        slot.getItems(this)
-            .mapNotNull { item ->
-                item.ecoItem
-                    ?.takeIf { it.slot == slot }
-                    ?.let { it to item }
-            }
-    }.distinctBy { it.first }
-        .map { (ecoItem, item) -> ItemProvidedHolder(ecoItem, item) }
-
-
 val Material.baseDamage: Double
     get() {
         return when (this) {

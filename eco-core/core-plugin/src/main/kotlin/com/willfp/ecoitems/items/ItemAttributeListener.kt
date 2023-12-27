@@ -1,6 +1,7 @@
 package com.willfp.ecoitems.items
 
 import com.willfp.eco.core.EcoPlugin
+import com.willfp.libreforge.toDispatcher
 import org.bukkit.attribute.Attribute
 import org.bukkit.attribute.AttributeModifier
 import org.bukkit.entity.Player
@@ -10,6 +11,8 @@ import org.bukkit.event.player.PlayerItemHeldEvent
 import java.util.UUID
 
 class ItemAttributeListener(private val plugin: EcoPlugin) : Listener {
+    private val provider = EcoItemFinder.toHolderProvider()
+
     @EventHandler
     fun handle(event: PlayerItemHeldEvent) {
         if (event.isCancelled) {
@@ -21,7 +24,8 @@ class ItemAttributeListener(private val plugin: EcoPlugin) : Listener {
     }
 
     private fun apply(player: Player) {
-        val items = player.ecoItems.map { it.holder as EcoItem }
+        val items = provider.provide(player.toDispatcher())
+            .map { it.holder as EcoItem }
 
         val damageInst = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE) ?: return
         val speedInst = player.getAttribute(Attribute.GENERIC_ATTACK_SPEED) ?: return
