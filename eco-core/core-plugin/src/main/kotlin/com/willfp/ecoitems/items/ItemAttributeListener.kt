@@ -22,8 +22,7 @@ class ItemAttributeListener(private val plugin: EcoPlugin) : Listener {
     }
 
     private fun apply(player: Player) {
-        val items = EcoItemFinder.provider.provide(player.toDispatcher())
-            .map { it.holder as EcoItem }
+        val items = EcoItemFinder.toHolderProvider().provide(player.toDispatcher()).map { it.holder }
 
         val damageInst = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE) ?: return
         val speedInst = player.getAttribute(Attribute.GENERIC_ATTACK_SPEED) ?: return
