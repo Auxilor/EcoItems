@@ -14,13 +14,16 @@ item:
     - "<g:#f953c6>MITHRIL BONUS</g:#b91d73>"
     - "&8» &#f953c6Deal 50% more damage in the nether"
   craftable: true # If the item can be crafted
+  crafting-permission: "ecoitems.craft.example" # (Optional) The permission required to craft this recipe.
   recipe: # The recipe, read here for more: https://plugins.auxilor.io/all-plugins/the-item-lookup-system#crafting-recipes
     - ""
     - ecoitems:mithril 2
     - ""
+
     - ""
     - ecoitems:mithril 2
     - ""
+
     - ""
     - stick
     - ""
@@ -57,4 +60,4 @@ effects:
 conditions:
   - id: in_world
     args:
-      world: world_the_nether
+    world: world_the_nether
