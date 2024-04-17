@@ -10,6 +10,6 @@ object EcoItemFinder : ItemHolderFinder<EcoItem>() {
     }
 
     override fun isValidInSlot(holder: EcoItem, slot: SlotType): Boolean {
-        return holder.slot == slot
+        return holder.slot.isOrContains(slot)
     }
 }
