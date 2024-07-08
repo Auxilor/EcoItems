@@ -1,7 +1,8 @@
 package com.willfp.ecoitems.items
 
 import com.willfp.eco.core.EcoPlugin
-import com.willfp.eco.core.Prerequisite
+import com.willfp.ecoitems.compat.ModernCompatibilityProxy
+import com.willfp.ecoitems.compat.ifModern
 import com.willfp.libreforge.toDispatcher
 import org.bukkit.attribute.Attribute
 import org.bukkit.attribute.AttributeInstance
@@ -10,7 +11,6 @@ import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerItemHeldEvent
-import org.bukkit.inventory.EquipmentSlotGroup
 import java.util.UUID
 
 class ItemAttributeListener(private val plugin: EcoPlugin) : Listener {
@@ -65,12 +65,15 @@ class ItemAttributeListener(private val plugin: EcoPlugin) : Listener {
                 return true
             }
 
-            if (Prerequisite.HAS_1_21.isMet) {
-                return this.key.namespace == "ecoitems" && (this.key.key.startsWith("damage")
-                        || this.key.key.startsWith("speed"))
+            var isFromEcoItems = false
+
+            ifModern {
+                useProxy<ModifierHelper> {
+                    isFromEcoItems = isFromEcoItems(this@isFromEcoItems)
+                }
             }
 
-            return false
+            return isFromEcoItems
         }
 
     private fun AttributeInstance.addCompatibleModifier(
@@ -78,19 +81,14 @@ class ItemAttributeListener(private val plugin: EcoPlugin) : Listener {
         amount: Double,
         offset: Int
     ) {
-        if (Prerequisite.HAS_1_21.isMet) {
-            this.addModifier(
-                @Suppress("UnstableApiUsage")
-                AttributeModifier(
-                    plugin.createNamespacedKey("${attributeType.lowercase()}_$offset"),
-                    amount,
-                    AttributeModifier.Operation.ADD_NUMBER,
-                    EquipmentSlotGroup.ANY
+        ifModern {
+            useProxy<ModifierHelper> {
+                addModifier(
+                    createModifier(plugin, attributeType, amount, offset)
                 )
-            )
-        } else {
-            this.addModifier(
-                @Suppress("DEPRECATION", "REMOVAL")
+            }
+        }.otherwise {
+            addModifier(
                 AttributeModifier(
                     UUID.nameUUIDFromBytes("ecoitems_$offset".toByteArray()),
                     "EcoItems $attributeType $offset",
@@ -100,4 +98,16 @@ class ItemAttributeListener(private val plugin: EcoPlugin) : Listener {
             )
         }
     }
+}
+
+@ModernCompatibilityProxy("ModifierHelperImpl")
+interface ModifierHelper {
+    fun createModifier(
+        plugin: EcoPlugin,
+        attributeType: String,
+        amount: Double,
+        offset: Int
+    ): AttributeModifier
+
+    fun isFromEcoItems(modifier: AttributeModifier): Boolean
 }

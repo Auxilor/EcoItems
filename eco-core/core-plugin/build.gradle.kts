@@ -2,7 +2,7 @@ group = "com.willfp"
 version = rootProject.version
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.21-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.20-R0.1-SNAPSHOT")
 }
 
 publishing {
@@ -28,6 +28,10 @@ publishing {
             }
         }
     }
+}
+
+java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of(17))
 }
 
 tasks {
