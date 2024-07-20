@@ -26,13 +26,6 @@ item:
     - ""
   recipe-give-amount: 1 # Optional, set the amount of items to give in the recipe
 
-  # The actual item durability isn't set (because it can't be changed), but instead
-  # this scales how quickly the item wears to act as if it had this durability.
-  # For example, let's say the actual durability is 350, but you set this to 700,
-  # it will wear at half the normal rate.
-
-  effective-durability: 1024 # Optional, set the durability
-
 # The slot the item has to be in to activate its effects.
 # The options for slot are mainhand, offhand, hands, helmet, chestplate,
 # leggings, boots, armor, any, a number from 0-40 (to specify an exact slot),
