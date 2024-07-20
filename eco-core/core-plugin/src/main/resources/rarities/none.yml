@@ -1,0 +1,8 @@
+# 'None' is a special rarity that is used to indicate that an item has no rarity.
+# If an item has this rarity, then nothing will be added to the lore.
+# Useful if default rarities are displayed, and you want to exclude an item from that.
+# Additionally useful in item lookup: you can do rarity:none to prevent the rarity from being displayed.
+
+weight: 100 # Uses a higher weight to ensure that it is not overridden by other rarities
+
+items: [ ]

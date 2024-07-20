@@ -29,6 +29,10 @@ class RarityDisplay(plugin: EcoPlugin) : DisplayModule(plugin, DisplayPriority.H
             }
         }
 
+        if (baseRarity?.id == "none") {
+            return
+        }
+
         val rarity = baseRarity ?: Rarities.defaultRarity
 
         val fis = itemStack.fast()

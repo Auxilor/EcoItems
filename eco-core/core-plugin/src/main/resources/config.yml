@@ -3,10 +3,18 @@
 # by Auxilor
 #
 
-discover-recipes: true # If all recipes should be automatically discovered.
+# If all recipes should be automatically discovered.
+discover-recipes: true
 
 rarity:
-  enabled: false # If the rarity system should be enabled
-  blank-lore-line: true # If there should be a blank lore line separating the rarity from the item lore
-  default: common # The default rarity for unspecified items
-  display-default: true # If the default rarity should be displayed in the lore
+  # If the rarity system should be enabled
+  enabled: false
+
+  # If there should be a blank lore line separating the rarity from the item lore
+  blank-lore-line: true
+
+  # The default rarity for unspecified items
+  default: common
+
+  # If items with no specified rarity should be given the default rarity
+  display-default: true

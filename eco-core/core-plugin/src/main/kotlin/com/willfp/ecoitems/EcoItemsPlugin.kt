@@ -2,6 +2,7 @@ package com.willfp.ecoitems
 
 import com.willfp.eco.core.command.impl.PluginCommand
 import com.willfp.eco.core.display.DisplayModule
+import com.willfp.eco.core.items.Items
 import com.willfp.ecoitems.commands.CommandEcoItems
 import com.willfp.ecoitems.display.ItemsDisplay
 import com.willfp.ecoitems.display.RarityDisplay
@@ -11,6 +12,7 @@ import com.willfp.ecoitems.items.EcoItemsRecipes
 import com.willfp.ecoitems.items.ItemAttributeListener
 import com.willfp.ecoitems.items.ItemListener
 import com.willfp.ecoitems.libreforge.ConditionHasEcoItem
+import com.willfp.ecoitems.rarity.ArgParserRarity
 import com.willfp.ecoitems.rarity.Rarities
 import com.willfp.ecoitems.util.DiscoverRecipeListener
 import com.willfp.libreforge.conditions.Conditions
@@ -28,6 +30,8 @@ class EcoItemsPlugin : LibreforgePlugin() {
     }
 
     override fun handleEnable() {
+        Items.registerArgParser(ArgParserRarity)
+
         Conditions.register(ConditionHasEcoItem)
 
         registerHolderProvider(EcoItemFinder.toHolderProvider())
