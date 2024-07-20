@@ -8,6 +8,7 @@ import com.willfp.eco.core.items.Items
 import com.willfp.eco.core.items.builder.ItemStackBuilder
 import com.willfp.eco.core.recipe.Recipes
 import com.willfp.eco.core.registry.Registrable
+import com.willfp.ecoitems.rarity.Rarities
 import com.willfp.libreforge.Holder
 import com.willfp.libreforge.ViolationContext
 import com.willfp.libreforge.conditions.Conditions
@@ -80,6 +81,8 @@ class EcoItem(
     val baseDamage = config.getDoubleOrNull("base-damage")
 
     val baseAttackSpeed = config.getDoubleOrNull("base-attack-speed")
+
+    val rarity = Rarities[config.getString("rarity")]
 
     override fun getID(): String {
         return this.id.key

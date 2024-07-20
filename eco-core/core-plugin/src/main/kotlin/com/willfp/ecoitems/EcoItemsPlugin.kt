@@ -4,12 +4,14 @@ import com.willfp.eco.core.command.impl.PluginCommand
 import com.willfp.eco.core.display.DisplayModule
 import com.willfp.ecoitems.commands.CommandEcoItems
 import com.willfp.ecoitems.display.ItemsDisplay
+import com.willfp.ecoitems.display.RarityDisplay
 import com.willfp.ecoitems.items.EcoItemFinder
 import com.willfp.ecoitems.items.EcoItems
 import com.willfp.ecoitems.items.EcoItemsRecipes
 import com.willfp.ecoitems.items.ItemAttributeListener
 import com.willfp.ecoitems.items.ItemListener
 import com.willfp.ecoitems.libreforge.ConditionHasEcoItem
+import com.willfp.ecoitems.rarity.Rarities
 import com.willfp.ecoitems.util.DiscoverRecipeListener
 import com.willfp.libreforge.conditions.Conditions
 import com.willfp.libreforge.loader.LibreforgePlugin
@@ -21,9 +23,6 @@ internal lateinit var plugin: EcoItemsPlugin
     private set
 
 class EcoItemsPlugin : LibreforgePlugin() {
-    /**
-     * Internal constructor called by bukkit on plugin load.
-     */
     init {
         plugin = this
     }
@@ -36,6 +35,7 @@ class EcoItemsPlugin : LibreforgePlugin() {
 
     override fun loadConfigCategories(): List<ConfigCategory> {
         return listOf(
+            Rarities,
             EcoItems,
             EcoItemsRecipes
         )
@@ -55,7 +55,10 @@ class EcoItemsPlugin : LibreforgePlugin() {
         )
     }
 
-    override fun createDisplayModule(): DisplayModule {
-        return ItemsDisplay(this)
+    override fun loadDisplayModules(): List<DisplayModule> {
+        return listOf(
+            ItemsDisplay(this),
+            RarityDisplay(this)
+        )
     }
 }

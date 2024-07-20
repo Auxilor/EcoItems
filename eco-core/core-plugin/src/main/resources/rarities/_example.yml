@@ -1,0 +1,19 @@
+# The ID of the rarity is the name of the .yml file,
+# for example common.yml has the ID of common
+# You can place rarities anywhere in this folder,
+# including in subfolders if you want to organize your rarity configs
+# _example.yml is not loaded.
+
+# The lore added to items with this rarity
+lore:
+  - "&a&lCOMMON"
+
+# The weight of the rarity. Higher weights take precedence over lower weights,
+# so if an item has multiple rarities, the one with the highest weight will be used.
+weight: 1
+
+# The items that have this rarity
+# Read here: https://plugins.auxilor.io/all-plugins/the-item-lookup-system
+# EcoItems items should specify the rarity in their config rather than here
+items:
+  - diamond

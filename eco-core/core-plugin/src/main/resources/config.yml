@@ -4,3 +4,9 @@
 #
 
 discover-recipes: true # If all recipes should be automatically discovered.
+
+rarity:
+  enabled: false # If the rarity system should be enabled
+  blank-lore-line: true # If there should be a blank lore line separating the rarity from the item lore
+  default: common # The default rarity for unspecified items
+  display-default: true # If the default rarity should be displayed in the lore

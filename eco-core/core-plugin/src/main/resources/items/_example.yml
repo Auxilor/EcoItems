@@ -44,6 +44,9 @@ slot: mainhand
 base-damage: 12 # (Optional) The item base damage
 base-attack-speed: 1.5 # (Optional) The item base attack speed
 
+# (Optional) The rarity of the item
+rarity: rare
+
 # The effects of the item (i.e. the functionality)
 # See here: https://plugins.auxilor.io/effects/configuring-an-effect
 effects:
