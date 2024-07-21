@@ -32,7 +32,7 @@ food:
   effects:
     - effect: regeneration # The ID of the potion effect to give
       duration: 40 # The duration of the potion effect in ticks
-      amplifier: 1 # The amplifier of the potion effect
+      level: 1 # The level of the potion effect
       ambient: true # If the potion is ambient (defaults to true)
       particles: true # If the potion has particles (defaults to true)
       icon: true # If the potion icon shows up (defaults to true)
