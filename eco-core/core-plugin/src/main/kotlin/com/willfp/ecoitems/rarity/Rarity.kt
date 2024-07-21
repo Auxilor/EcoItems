@@ -3,7 +3,6 @@ package com.willfp.ecoitems.rarity
 import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.eco.core.display.Display
 import com.willfp.eco.core.items.Items
-import com.willfp.eco.core.items.tag.CustomItemTag
 import com.willfp.eco.core.recipe.parts.EmptyTestableItem
 import com.willfp.eco.core.registry.KRegistrable
 import com.willfp.ecoitems.EcoItemsPlugin
@@ -24,9 +23,7 @@ class Rarity(
 
     val displayLore = lore.map { Display.PREFIX + it }
 
-    val tag = CustomItemTag(plugin.createNamespacedKey(id)) {
-        it.ecoItemRarity == this
-    }
+    val tag = RarityTag(plugin, this)
 
     init {
         Items.registerTag(tag)
