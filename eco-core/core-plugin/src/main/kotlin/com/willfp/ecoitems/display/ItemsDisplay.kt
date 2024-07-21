@@ -45,7 +45,9 @@ class ItemsDisplay(plugin: EcoPlugin) : DisplayModule(plugin, DisplayPriority.LO
 
         lore.addAll(fis.lore)
 
-        fis.displayName = ecoItem.displayName.formatEco(context)
+        if (ecoItem.displayName != null) {
+            fis.displayName = ecoItem.displayName.formatEco(context)
+        }
         fis.addItemFlags(*itemFast.itemFlags.toTypedArray())
         fis.lore = lore
     }

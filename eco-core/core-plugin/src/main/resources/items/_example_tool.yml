@@ -1,8 +1,7 @@
 # An example tool (Requires Paper 1.21+)
 
 item:
-  item: netherite_pickaxe glint max_damage:4096
-  display-name: "Hardened Netherite Pickaxe"
+  item: netherite_pickaxe glint max_damage:4096 item_name:"Hardened Netherite Pickaxe"
   lore: [ ]
   craftable: true
   recipe:
@@ -19,6 +18,7 @@ item:
     - netherite_ingot
 
 # Options for the tool
+# These options do not update existing tools, only new ones
 tool:
   # The default mining speed, if not overridden by any rules
   mining-speed: 1.0
@@ -33,7 +33,7 @@ tool:
   rules:
     - blocks:
         - "#mineable_pickaxe" # Tags start with a #
-      speed: 5.2 # The mining speed for these blocks
+      speed: 45.8 # The mining speed for these blocks
     - blocks:
         - "#incorrect_for_netherite_tool"
       speed: 1

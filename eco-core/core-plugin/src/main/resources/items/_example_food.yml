@@ -1,9 +1,7 @@
 # An example food item (requires Paper 1.21+)
 
-
 item:
-  item: cooked_beef glint
-  display-name: "Enchanted Steak"
+  item: cooked_beef glint item_name:"Enchanted Steak"
   lore: [ ]
   craftable: true
   recipe:
@@ -18,6 +16,7 @@ item:
     - ""
 
 # Options for the food
+# These options do not update existing foods, only new ones
 food:
   # Read here: https://minecraft.fandom.com/wiki/Food#Hunger_and_saturation
   nutrition: 12

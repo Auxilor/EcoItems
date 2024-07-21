@@ -1,6 +1,7 @@
 package com.willfp.ecoitems.compat.modern.components
 
 import com.willfp.eco.core.config.interfaces.Config
+import com.willfp.eco.core.items.toSNBT
 import com.willfp.ecoitems.items.components.ToolComponentHandler
 import org.bukkit.Material
 import org.bukkit.Tag
@@ -17,20 +18,19 @@ class ToolComponentHandlerImpl : ToolComponentHandler() {
         tool.damagePerBlock = config.getInt("damage-per-block")
 
         if (config.has("rules")) {
-            tool.rules = mutableListOf()
-
             for (rule in config.getSubsections("rules")) {
-                val speed = config.getDoubleOrNull("speed")?.toFloat()
-                val drops = config.getBoolOrNull("drops")
+                val speed = rule.getDoubleOrNull("speed")?.toFloat()
+                val drops = rule.getBoolOrNull("drops") ?: true // Leaving null causes weird behavior
 
-                val materialIds = config.getStrings("blocks")
+                val materialIds = rule.getStrings("blocks")
                 val materials = mutableSetOf<Material>()
+                val tags = mutableSetOf<Tag<Material>>()
 
                 for (id in materialIds) {
                     if (id.startsWith("#")) {
                         val tag = getTagByName(id.substring(1))
                         if (tag != null) {
-                            materials.addAll(tag.values)
+                            tags.add(tag)
                         }
                     } else {
                         val material = Material.getMaterial(id.uppercase())
@@ -40,7 +40,15 @@ class ToolComponentHandlerImpl : ToolComponentHandler() {
                     }
                 }
 
-                tool.addRule(materials, speed, drops)
+                // Add rules for each tag
+                for (tag in tags) {
+                    tool.addRule(tag, speed, drops)
+                }
+
+                // Add rules for all materials
+                if (materials.isNotEmpty()) {
+                    tool.addRule(materials, speed, drops)
+                }
             }
         }
 

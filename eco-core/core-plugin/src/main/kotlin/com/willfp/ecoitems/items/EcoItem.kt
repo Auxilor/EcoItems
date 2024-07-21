@@ -39,7 +39,7 @@ class EcoItem(
 
     val lore: List<String> = config.getStrings("item.lore")
 
-    val displayName: String = config.getString("item.display-name")
+    val displayName: String? = config.getStringOrNull("item.display-name")
 
     val slot = SlotTypes[config.getString("slot")] ?: SlotTypeMainhand
 
@@ -47,7 +47,9 @@ class EcoItem(
     private val _itemStack: ItemStack = run {
         val itemConfig = config.getSubsection("item")
         ItemStackBuilder(Items.lookup(itemConfig.getString("item")).item).apply {
-            setDisplayName(itemConfig.getFormattedString("display-name"))
+            if (itemConfig.has("display-name")) {
+                setDisplayName(itemConfig.getFormattedString("display-name"))
+            }
             addLoreLines(
                 itemConfig.getFormattedStrings("lore").map { "${Display.PREFIX}$it" }
             )
