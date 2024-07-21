@@ -39,7 +39,7 @@ class FoodComponentHandlerImpl : FoodComponentHandler() {
             val particles = effectConfig.getBoolOrNull("particles") ?: true
             val icon = effectConfig.getBoolOrNull("icon") ?: true
 
-            val probability = effectConfig.getDouble("probability").toFloat() / 100f
+            val probability = (effectConfig.getDoubleOrNull("probability") ?: 100.0).toFloat() / 100f
 
             food.addEffect(
                 PotionEffect(
