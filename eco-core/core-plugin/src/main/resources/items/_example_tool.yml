@@ -1,0 +1,40 @@
+# An example tool (Requires Paper 1.21+)
+
+item:
+  item: netherite_pickaxe glint max_damage:4096
+  display-name: "Hardened Netherite Pickaxe"
+  lore: [ ]
+  craftable: true
+  recipe:
+    - netherite_ingot
+    - netherite_ingot
+    - netherite_ingot
+
+    - netherite_ingot
+    - netherite_pickaxe
+    - netherite_ingot
+
+    - netherite_ingot
+    - netherite_ingot
+    - netherite_ingot
+
+# Options for the tool
+tool:
+  # The default mining speed, if not overridden by any rules
+  mining-speed: 1.0
+
+  # The amount of durability to remove from the tool when it is used
+  damage-per-block: 1
+
+  # (Optional) Rules for the tool
+  # Blocks are lists of block names or block tags
+  # A list of block names is here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+  # A list of block (Material) tags is here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Tag.html
+  rules:
+    - blocks:
+        - "#mineable_pickaxe" # Tags start with a #
+      speed: 5.2 # The mining speed for these blocks
+    - blocks:
+        - "#incorrect_for_netherite_tool"
+      speed: 1
+      drops: false # (Optional) If the block should drop items when mined with this tool

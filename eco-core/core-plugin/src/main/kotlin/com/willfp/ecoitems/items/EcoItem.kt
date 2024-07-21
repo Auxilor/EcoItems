@@ -8,6 +8,7 @@ import com.willfp.eco.core.items.Items
 import com.willfp.eco.core.items.builder.ItemStackBuilder
 import com.willfp.eco.core.recipe.Recipes
 import com.willfp.eco.core.registry.Registrable
+import com.willfp.ecoitems.items.components.ComponentHandlers
 import com.willfp.ecoitems.rarity.Rarities
 import com.willfp.libreforge.Holder
 import com.willfp.libreforge.ViolationContext
@@ -52,6 +53,12 @@ class EcoItem(
             )
         }.build().apply {
             ecoItem = this@EcoItem
+
+            for (handler in ComponentHandlers.values()) {
+                if (config.has(handler.id)) {
+                    handler.apply(this, config.getSubsection(handler.id))
+                }
+            }
         }
     }
 
