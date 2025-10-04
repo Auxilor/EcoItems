@@ -16,4 +16,3 @@ rootProject.name = "EcoItems"
 // Core
 include(":eco-core")
 include(":eco-core:core-plugin")
-include(":eco-core:core-modern")

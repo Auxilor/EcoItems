@@ -1,14 +1,11 @@
-package com.willfp.ecoitems.compat.modern.components
+package com.willfp.ecoitems.items.components
 
 import com.willfp.eco.core.config.interfaces.Config
-import com.willfp.eco.core.items.toSNBT
-import com.willfp.ecoitems.items.components.ToolComponentHandler
 import org.bukkit.Material
 import org.bukkit.Tag
 import org.bukkit.inventory.ItemStack
 
-@Suppress("UnstableApiUsage")
-class ToolComponentHandlerImpl : ToolComponentHandler() {
+object ToolComponentHandler : ComponentHandler("tool") {
     override fun apply(item: ItemStack, config: Config) {
         val meta = item.itemMeta ?: return
 
