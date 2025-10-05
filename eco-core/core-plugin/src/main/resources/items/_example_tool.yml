@@ -66,11 +66,11 @@ rarity: rare
 # The effects of the item (i.e. the functionality)
 # See here: https://plugins.auxilor.io/effects/configuring-an-effect
 effects:
-  - id: give_xp
+  - id: automsmelt
     args:
-      amount: 10
+      drop_xp: true
     triggers:
-      - consume
+      - block_item_drop
 
 # The conditions required for the effects to activate
 conditions: []
