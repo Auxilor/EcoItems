@@ -1,10 +1,21 @@
-# An example food item (requires Paper 1.21+)
+# The ID of the item is the name of the .yml file,
+# for example hardened_netherite_sword.yml has the ID of hardened_netherite_sword
+# You can place items anywhere in this folder,
+# including in subfolders if you want to organize your item configs
+# _example.yml is not loaded.
 
 item:
-  item: cooked_beef glint item_name:"Enchanted Steak"
-  lore: [ ]
-  craftable: true
-  recipe:
+  item: cooked_beef glint item_name:"Enchanted Steak" # The item in-game: https://plugins.auxilor.io/all-plugins/the-item-lookup-system
+  display-name: "&6Enchanted Steak" # The display name of the item
+  lore: # The item lore
+    - "&7The most delicious steak in all the land."
+    - "&7Restores &a12 &7hunger and &a2 &7saturation."
+    - ""
+    - "&6Special Effects:"
+    - "&8» &7Grants &aRegeneration I &7for &a2 &7seconds."
+  craftable: true # If the item can be crafted
+  recipe-give-amount: 1 # Optional, set the amount of items to give
+  recipe: # The recipe, read here for more: https://plugins.auxilor.io/all-plugins/the-item-lookup-system#crafting-recipes
     - ""
     - cooked_beef 64
     - ""
@@ -37,3 +48,29 @@ food:
       particles: true # If the potion has particles (defaults to true)
       icon: true # If the potion icon shows up (defaults to true)
       probability: 100 # The probability of the potion effect occurring (defaults to 100)
+
+# The slot the item has to be in to activate its effects.
+# The options for slot are mainhand, offhand, hands, helmet, chestplate,
+# leggings, boots, armor, any, a number from 0-40 (to specify an exact slot),
+# or a list of slots like "9, 10, 11, mainhand"
+# Use to choose weather this is a weapon, tool, armor piece, charm, etc.
+# If you don't specify this, it will default to mainhand.
+slot: mainhand
+
+base-damage: 12 # (Optional) The item base damage
+base-attack-speed: 1.5 # (Optional) The item base attack speed
+
+# (Optional) The rarity of the item
+rarity: rare
+
+# The effects of the item (i.e. the functionality)
+# See here: https://plugins.auxilor.io/effects/configuring-an-effect
+effects:
+  - id: give_xp
+    args:
+      amount: 10
+    triggers:
+      - consume
+
+# The conditions required for the effects to activate
+conditions: []

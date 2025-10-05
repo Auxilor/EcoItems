@@ -1,18 +1,28 @@
-# An example tool (Requires Paper 1.21+)
+# The ID of the item is the name of the .yml file,
+# for example hardened_netherite_sword.yml has the ID of hardened_netherite_sword
+# You can place items anywhere in this folder,
+# including in subfolders if you want to organize your item configs
+# _example.yml is not loaded.
 
 item:
-  item: netherite_pickaxe glint max_damage:4096 item_name:"Hardened Netherite Pickaxe"
-  lore: [ ]
-  craftable: true
-  recipe:
+  item: netherite_pickaxe glint max_damage:4096 # The item in-game: https://plugins.auxilor.io/all-plugins/the-item-lookup-system
+  display-name: "<g:#FF0099>Hardened Netherite Pickaxe</g:#493240>"
+  lore:
+    - "&7A pickaxe made from hardened netherite."
+    - "&7Mines blocks much faster than a regular netherite pickaxe."
+    - ""
+    - "<g:#FF0099>HARDENED BONUS</g:#493240>"
+    - "&8» &#FF0099Mines blocks faster"
+    - "&8» &#FF0099Has 4096 durability"
+  craftable: true # If the item can be crafted
+  recipe-give-amount: 1 # Optional, set the amount of items to give
+  recipe: # The recipe, read here for more: https://plugins.auxilor.io/all-plugins/the-item-lookup-system#crafting-recipes
     - netherite_ingot
     - netherite_ingot
     - netherite_ingot
-
     - netherite_ingot
     - netherite_pickaxe
     - netherite_ingot
-
     - netherite_ingot
     - netherite_ingot
     - netherite_ingot
@@ -38,3 +48,29 @@ tool:
         - "#incorrect_for_netherite_tool"
       speed: 1
       drops: false # (Optional) If the block should drop items when mined with this tool
+
+# The slot the item has to be in to activate its effects.
+# The options for slot are mainhand, offhand, hands, helmet, chestplate,
+# leggings, boots, armor, any, a number from 0-40 (to specify an exact slot),
+# or a list of slots like "9, 10, 11, mainhand"
+# Use to choose weather this is a weapon, tool, armor piece, charm, etc.
+# If you don't specify this, it will default to mainhand.
+slot: mainhand
+
+base-damage: 12 # (Optional) The item base damage
+base-attack-speed: 1.5 # (Optional) The item base attack speed
+
+# (Optional) The rarity of the item
+rarity: rare
+
+# The effects of the item (i.e. the functionality)
+# See here: https://plugins.auxilor.io/effects/configuring-an-effect
+effects:
+  - id: give_xp
+    args:
+      amount: 10
+    triggers:
+      - consume
+
+# The conditions required for the effects to activate
+conditions: []
