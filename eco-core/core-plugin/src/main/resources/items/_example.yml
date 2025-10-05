@@ -14,6 +14,7 @@ item:
     - "<g:#f953c6>MITHRIL BONUS</g:#b91d73>"
     - "&8» &#f953c6Deal 50% more damage in the nether"
   craftable: true # If the item can be crafted
+  recipe-give-amount: 1 # Optional, set the amount of items to give
   recipe: # The recipe, read here for more: https://plugins.auxilor.io/all-plugins/the-item-lookup-system#crafting-recipes
     - ""
     - ecoitems:mithril 2
@@ -24,7 +25,6 @@ item:
     - ""
     - stick
     - ""
-  recipe-give-amount: 1 # Optional, set the amount of items to give in the recipe
 
 # The slot the item has to be in to activate its effects.
 # The options for slot are mainhand, offhand, hands, helmet, chestplate,
