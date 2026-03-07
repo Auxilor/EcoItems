@@ -1,13 +1,10 @@
 package com.willfp.ecoitems.rarity
 
-import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.core.items.tag.CustomItemTag
-import com.willfp.ecoitems.items.EcoItems
-import com.willfp.ecoitems.items.ecoItem
+import com.willfp.ecoitems.plugin
 import org.bukkit.inventory.ItemStack
 
 class RarityTag(
-    plugin: EcoPlugin,
     private val rarity: Rarity
 ) : CustomItemTag(plugin.createNamespacedKey(rarity.id)) {
     override fun matches(p0: ItemStack): Boolean {

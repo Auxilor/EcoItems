@@ -1,20 +1,18 @@
 package com.willfp.ecoitems.commands
 
-import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.core.command.impl.PluginCommand
+import com.willfp.ecoitems.plugin
 import org.bukkit.command.CommandSender
 
-class CommandEcoItems(
-    plugin: EcoPlugin
-) : PluginCommand(
+object CommandEcoItems : PluginCommand(
     plugin,
     "ecoitems",
     "ecoitems.command.ecoitems",
     false
 ) {
     init {
-        this.addSubcommand(CommandReload(plugin))
-            .addSubcommand(CommandGive(plugin))
+        this.addSubcommand(CommandReload)
+            .addSubcommand(CommandGive)
     }
 
     override fun onExecute(sender: CommandSender, args: List<String>) {

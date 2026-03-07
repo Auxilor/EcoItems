@@ -1,10 +1,10 @@
 package com.willfp.ecoitems.items
 
-import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.core.items.tag.CustomItemTag
+import com.willfp.ecoitems.plugin
 import org.bukkit.inventory.ItemStack
 
-class EcoItemTag(plugin: EcoPlugin): CustomItemTag(plugin.createNamespacedKey("item")) {
+object EcoItemTag: CustomItemTag(plugin.createNamespacedKey("item")) {
     override fun matches(p0: ItemStack): Boolean {
         return p0.ecoItem != null
     }

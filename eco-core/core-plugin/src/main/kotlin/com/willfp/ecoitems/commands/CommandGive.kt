@@ -1,14 +1,14 @@
 package com.willfp.ecoitems.commands
 
-import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.core.command.impl.Subcommand
 import com.willfp.eco.core.drops.DropQueue
 import com.willfp.ecoitems.items.EcoItems
+import com.willfp.ecoitems.plugin
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.util.StringUtil
 
-class CommandGive(plugin: EcoPlugin) : Subcommand(plugin, "give", "ecoitems.command.give", false) {
+object CommandGive : Subcommand(plugin, "give", "ecoitems.command.give", false) {
     private val numbers = listOf(
         "1",
         "2",

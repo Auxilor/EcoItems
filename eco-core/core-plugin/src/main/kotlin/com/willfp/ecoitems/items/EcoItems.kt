@@ -1,7 +1,6 @@
 package com.willfp.ecoitems.items
 
 import com.google.common.collect.ImmutableList
-import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.eco.core.registry.Registry
 import com.willfp.libreforge.loader.LibreforgePlugin
@@ -35,6 +34,6 @@ object EcoItems : ConfigCategory("item", "items") {
     }
 
     override fun acceptConfig(plugin: LibreforgePlugin, id: String, config: Config) {
-        registry.register(EcoItem(id, config.separatorAmbivalent(), plugin as EcoPlugin))
+        registry.register(EcoItem(id, config.separatorAmbivalent()))
     }
 }

@@ -3,11 +3,7 @@ package com.willfp.ecoitems.items
 import com.willfp.eco.core.fast.FastItemStack
 import com.willfp.eco.core.fast.fast
 import com.willfp.eco.util.namespacedKeyOf
-import com.willfp.libreforge.ItemProvidedHolder
-import com.willfp.libreforge.slot.SlotType
-import com.willfp.libreforge.slot.SlotTypes
 import org.bukkit.Material
-import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
 
