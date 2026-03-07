@@ -89,7 +89,8 @@ class EcoItem(
                     amount = config.getIntOrNull("item.recipe-give-amount") ?: 1
                 },
                 recipeStrings,
-                config.getStringOrNull("item.crafting-permission")
+                config.getStringOrNull("item.crafting-permission"),
+                config.getBool("shapeless")
             )
         }
 
