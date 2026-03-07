@@ -15,7 +15,9 @@ item:
     - "&8» &#FF0099Mines blocks faster"
     - "&8» &#FF0099Has 4096 durability"
   craftable: true # If the item can be crafted
-  recipe-give-amount: 1 # Optional, set the amount of items to give
+  recipe-give-amount: 1 # (Optional) Set the amount of items to give, defaults to 1
+  crafting-permission: ecoitems.craft.custom_tool # (Optional) The permission required to craft the item
+  shapeless: false # (Optional) Whether the crafting recipe is shapeless or not, defaults to false
   recipe: # The recipe, read here for more: https://plugins.auxilor.io/all-plugins/the-item-lookup-system#crafting-recipes
     - netherite_ingot
     - netherite_ingot

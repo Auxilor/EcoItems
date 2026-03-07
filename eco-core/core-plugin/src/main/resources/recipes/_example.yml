@@ -1,5 +1,8 @@
 result: ecoitems:enchanted_emerald 9 # The item to give
 
+permission: "ecoitems.craft.enchanted_emerald_block_craft" # (Optional) The permission required to craft this recipe.
+shapeless: false # (Optional) Whether the crafting recipe is shapeless or not, defaults to false
+
 recipe: # The recipe, read here for more: https://plugins.auxilor.io/all-plugins/the-item-lookup-system#crafting-recipes
   - ""
   - emerald_block 32
@@ -10,5 +13,3 @@ recipe: # The recipe, read here for more: https://plugins.auxilor.io/all-plugins
   - ""
   - emerald_block 32
   - ""
-
-permission: "ecoitems.craft.enchanted_emerald_block_craft" # (Optional) The permission required to craft this recipe.
