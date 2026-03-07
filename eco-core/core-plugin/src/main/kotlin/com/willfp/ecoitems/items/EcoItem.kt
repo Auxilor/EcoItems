@@ -6,6 +6,7 @@ import com.willfp.eco.core.items.CustomItem
 import com.willfp.eco.core.items.Items
 import com.willfp.eco.core.items.builder.ItemStackBuilder
 import com.willfp.eco.core.recipe.Recipes
+import com.willfp.eco.core.recipe.recipes.CraftingRecipe
 import com.willfp.eco.core.registry.Registrable
 import com.willfp.ecoitems.items.components.ComponentHandlers
 import com.willfp.ecoitems.plugin
@@ -73,17 +74,22 @@ class EcoItem(
         itemStack
     ).apply { register() }
 
-    val craftingRecipe = if (config.getBool("item.craftable")) {
-        Recipes.createAndRegisterRecipe(
-            plugin,
-            id,
-            itemStack.apply {
-                amount = config.getIntOrNull("item.recipe-give-amount") ?: 1
-            },
-            config.getStrings("item.recipe"),
-            config.getStringOrNull("item.crafting-permission")
-        )
-    } else null
+    val craftingRecipe: CraftingRecipe? = config.getBool("item.craftable")
+        .takeIf { it }
+        ?.let {
+            val recipeStrings = config.getStrings("item.recipe")
+            if (recipeStrings.isEmpty()) return@let null
+
+            Recipes.createAndRegisterRecipe(
+                plugin,
+                id,
+                itemStack.apply {
+                    amount = config.getIntOrNull("item.recipe-give-amount") ?: 1
+                },
+                recipeStrings,
+                config.getStringOrNull("item.crafting-permission")
+            )
+        }
 
     val baseDamage = config.getDoubleOrNull("base-damage")
 

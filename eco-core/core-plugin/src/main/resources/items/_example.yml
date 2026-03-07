@@ -14,7 +14,9 @@ item:
     - "<g:#f953c6>MITHRIL BONUS</g:#b91d73>"
     - "&8» &#f953c6Deal 50% more damage in the nether"
   craftable: true # If the item can be crafted
-  recipe-give-amount: 1 # Optional, set the amount of items to give
+  recipe-give-amount: 1 # (Optional) Set the amount of items to give, defaults to 1
+  crafting-permission: ecoitems.craft.custom_item # (Optional) The permission required to craft the item
+  shapeless: false # (Optional) Whether the crafting recipe is shapeless or not, defaults to false
   recipe: # The recipe, read here for more: https://plugins.auxilor.io/all-plugins/the-item-lookup-system#crafting-recipes
     - ""
     - ecoitems:mithril 2
