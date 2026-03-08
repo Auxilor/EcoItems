@@ -4,7 +4,7 @@ plugins {
     java
     `java-library`
     `maven-publish`
-    kotlin("jvm") version "2.1.0"
+    kotlin("jvm") version "2.3.0"
     id("com.gradleup.shadow") version "8.3.0"
     id("com.willfp.libreforge-gradle-plugin") version "1.0.0"
 }
@@ -41,7 +41,7 @@ allprojects {
     dependencies {
         compileOnly("com.willfp:eco:6.77.6")
         compileOnly("org.jetbrains:annotations:23.0.0")
-        compileOnly("org.jetbrains.kotlin:kotlin-stdlib:2.1.0")
+        compileOnly("org.jetbrains.kotlin:kotlin-stdlib:2.3.0")
         compileOnly("com.github.ben-manes.caffeine:caffeine:3.1.5")
     }
 
