@@ -1,6 +1,6 @@
 package com.willfp.ecoitems.items
 
-import com.willfp.eco.core.EcoPlugin
+import com.willfp.ecoitems.plugin
 import com.willfp.libreforge.toDispatcher
 import org.bukkit.attribute.Attribute
 import org.bukkit.attribute.AttributeInstance
@@ -11,7 +11,7 @@ import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerItemHeldEvent
 import org.bukkit.inventory.EquipmentSlotGroup
 
-class ItemAttributeListener(private val plugin: EcoPlugin) : Listener {
+object ItemAttributeListener : Listener {
     @EventHandler
     fun handle(event: PlayerItemHeldEvent) {
         if (event.isCancelled) {

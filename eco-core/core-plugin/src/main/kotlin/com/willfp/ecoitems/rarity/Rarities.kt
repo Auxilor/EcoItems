@@ -5,7 +5,6 @@ import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.eco.core.fast.FastItemStack
 import com.willfp.eco.core.fast.fast
 import com.willfp.eco.core.items.HashedItem
-import com.willfp.ecoitems.EcoItemsPlugin
 import com.willfp.ecoitems.items.ecoItem
 import com.willfp.ecoitems.plugin
 import com.willfp.libreforge.loader.LibreforgePlugin
@@ -24,7 +23,7 @@ object Rarities : RegistrableCategory<Rarity>("rarity", "rarities") {
     }
 
     override fun acceptConfig(plugin: LibreforgePlugin, id: String, config: Config) {
-        registry.register(Rarity(id, config, plugin as EcoItemsPlugin))
+        registry.register(Rarity(id, config))
     }
 
     val defaultRarity: Rarity
