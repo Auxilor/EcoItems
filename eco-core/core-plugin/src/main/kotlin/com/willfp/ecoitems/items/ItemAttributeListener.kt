@@ -8,6 +8,8 @@ import org.bukkit.attribute.AttributeModifier
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
+import org.bukkit.event.entity.EntityPickupItemEvent
+import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerItemHeldEvent
 import org.bukkit.inventory.EquipmentSlotGroup
 
@@ -19,7 +21,37 @@ object ItemAttributeListener : Listener {
         }
 
         apply(event.player)
+
         plugin.scheduler.run { apply(event.player) }
+    }
+
+    @EventHandler
+    fun handleDrop(event: PlayerDropItemEvent) {
+        if (event.isCancelled) {
+            return
+        }
+
+        event.itemDrop.itemStack.ecoItem ?: return
+
+        apply(event.player)
+
+        plugin.scheduler.run { apply(event.player) }
+    }
+
+
+    @EventHandler
+    fun handlePickup(event: EntityPickupItemEvent) {
+        if (event.isCancelled) {
+            return
+        }
+
+        val player = event.entity as? Player ?: return
+
+        event.item.itemStack.ecoItem ?: return
+
+        apply(player)
+
+        plugin.scheduler.run { apply(player) }
     }
 
     private fun apply(player: Player) {
