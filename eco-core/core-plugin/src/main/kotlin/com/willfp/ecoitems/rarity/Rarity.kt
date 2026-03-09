@@ -5,13 +5,11 @@ import com.willfp.eco.core.display.Display
 import com.willfp.eco.core.items.Items
 import com.willfp.eco.core.recipe.parts.EmptyTestableItem
 import com.willfp.eco.core.registry.KRegistrable
-import com.willfp.ecoitems.EcoItemsPlugin
 import org.bukkit.inventory.ItemStack
 
 class Rarity(
     override val id: String,
-    val config: Config,
-    val plugin: EcoItemsPlugin
+    val config: Config
 ) : KRegistrable {
     val items = config.getStrings("items")
         .map { Items.lookup(it) }
@@ -23,7 +21,7 @@ class Rarity(
 
     val displayLore = lore.map { Display.PREFIX + it }
 
-    val tag = RarityTag(plugin, this)
+    val tag = RarityTag(this)
 
     init {
         Items.registerTag(tag)

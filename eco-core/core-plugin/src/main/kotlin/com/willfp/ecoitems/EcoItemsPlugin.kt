@@ -32,7 +32,7 @@ class EcoItemsPlugin : LibreforgePlugin() {
 
     override fun handleEnable() {
         Items.registerArgParser(ArgParserRarity)
-        Items.registerTag(EcoItemTag(this))
+        Items.registerTag(EcoItemTag)
 
         Conditions.register(ConditionHasEcoItem)
 
@@ -49,22 +49,22 @@ class EcoItemsPlugin : LibreforgePlugin() {
 
     override fun loadListeners(): List<Listener> {
         return listOf(
-            DiscoverRecipeListener(this),
+            DiscoverRecipeListener,
             ItemListener,
-            ItemAttributeListener(this)
+            ItemAttributeListener
         )
     }
 
     override fun loadPluginCommands(): List<PluginCommand> {
         return listOf(
-            CommandEcoItems(this)
+            CommandEcoItems
         )
     }
 
     override fun loadDisplayModules(): List<DisplayModule> {
         return listOf(
-            ItemsDisplay(this),
-            RarityDisplay(this)
+            ItemsDisplay,
+            RarityDisplay
         )
     }
 }

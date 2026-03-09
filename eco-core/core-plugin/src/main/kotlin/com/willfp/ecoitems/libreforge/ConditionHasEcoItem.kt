@@ -10,7 +10,6 @@ import com.willfp.libreforge.arguments
 import com.willfp.libreforge.conditions.Condition
 import com.willfp.libreforge.get
 import com.willfp.libreforge.getHoldersOfType
-import com.willfp.libreforge.holders
 import com.willfp.libreforge.toDispatcher
 import org.bukkit.entity.LivingEntity
 
