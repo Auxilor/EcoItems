@@ -8,24 +8,16 @@ import com.willfp.libreforge.loader.configs.ConfigCategory
 import com.willfp.libreforge.loader.configs.LegacyLocation
 
 object EcoItemsRecipes : ConfigCategory("recipe", "recipes") {
-    private var recipes: Int = 0
     override val legacyLocation = LegacyLocation(
         "items.yml",
         "recipes"
     )
 
     override fun clear(plugin: LibreforgePlugin) {
-        recipes = 0
+        // Do nothing.
     }
 
     override fun acceptConfig(plugin: LibreforgePlugin, id: String, config: Config) {
-        if (recipes >= 10) {
-            plugin.logger.warning("Recipe $id was not registered.")
-            plugin.logger.warning("The free version of EcoItems only supports 10 custom recipes.")
-            plugin.logger.warning("Purchase the full version of EcoItems to remove this restriction!")
-            return
-        }
-
         val result = Items.lookup(config.getString("result"))
         val item = result.item.clone()
 
@@ -46,7 +38,5 @@ object EcoItemsRecipes : ConfigCategory("recipe", "recipes") {
                 config.getBool("shapeless")
             )
         }
-
-        recipes
     }
 }
