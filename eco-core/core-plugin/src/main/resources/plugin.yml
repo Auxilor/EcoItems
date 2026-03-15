@@ -1,4 +1,4 @@
-name: ${pluginName}
+name: EcoItems
 version: ${version}
 main: com.willfp.ecoitems.EcoItemsPlugin
 api-version: 1.17
