@@ -25,9 +25,9 @@ object EcoItemsRecipes : ConfigCategory("recipe", "recipes") {
             item.amount = config.getInt("recipe-give-amount") // Legacy
         }
 
-        plugin.scheduler.run {
+        plugin.scheduler.runTask {
             val recipeStrings = config.getStrings("recipe")
-            if (recipeStrings.isEmpty()) return@run
+            if (recipeStrings.isEmpty()) return@runTask
 
             Recipes.createAndRegisterRecipe(
                 plugin,
