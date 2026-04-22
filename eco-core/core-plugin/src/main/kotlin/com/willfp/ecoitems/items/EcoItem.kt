@@ -88,7 +88,7 @@ class EcoItem(
                 },
                 recipeStrings,
                 config.getStringOrNull("item.crafting-permission"),
-                config.getBool("shapeless")
+                config.getBool("item.shapeless")
             )
         }
 
