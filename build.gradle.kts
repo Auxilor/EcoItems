@@ -6,7 +6,7 @@ plugins {
     id("java-library")
     id("maven-publish")
     id("com.gradleup.shadow") version "9.3.1"
-    id("com.willfp.libreforge-gradle-plugin") version "2.0.0"
+    id("com.willfp.libreforge-gradle-plugin") version "2.0.1"
 }
 
 group = "com.willfp"
@@ -14,7 +14,7 @@ version = findProperty("version")!!
 val libreforgeVersion = findProperty("libreforge-version")
 
 base {
-    archivesName.set(project.name)
+    archivesName.set(if (project.hasProperty("free")) "${project.name}-Free" else project.name)
 }
 
 dependencies {
