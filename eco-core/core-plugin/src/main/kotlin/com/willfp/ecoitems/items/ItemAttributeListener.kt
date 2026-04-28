@@ -20,11 +20,9 @@ object ItemAttributeListener : Listener {
             return
         }
 
-        val player = event.player
+        apply(event.player)
 
-        apply(player)
-
-        plugin.scheduler.runTask(player) { apply(player) }
+        plugin.scheduler.run { apply(event.player) }
     }
 
     @EventHandler
@@ -33,13 +31,11 @@ object ItemAttributeListener : Listener {
             return
         }
 
-        val player = event.player
-
         event.itemDrop.itemStack.ecoItem ?: return
 
-        apply(player)
+        apply(event.player)
 
-        plugin.scheduler.runTask(player) { apply(player) }
+        plugin.scheduler.run { apply(event.player) }
     }
 
 
@@ -55,7 +51,7 @@ object ItemAttributeListener : Listener {
 
         apply(player)
 
-        plugin.scheduler.runTask(player) { apply(player) }
+        plugin.scheduler.run { apply(player) }
     }
 
     private fun apply(player: Player) {
