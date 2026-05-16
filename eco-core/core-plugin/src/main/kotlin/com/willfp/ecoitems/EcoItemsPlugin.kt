@@ -1,5 +1,6 @@
 package com.willfp.ecoitems
 
+import com.willfp.eco.core.bstats.EcoMetricsChart
 import com.willfp.eco.core.command.impl.PluginCommand
 import com.willfp.eco.core.display.DisplayModule
 import com.willfp.eco.core.items.Items
@@ -9,6 +10,7 @@ import com.willfp.ecoitems.display.RarityDisplay
 import com.willfp.ecoitems.items.EcoItemFinder
 import com.willfp.ecoitems.items.EcoItems
 import com.willfp.ecoitems.items.EcoItemsRecipes
+import com.willfp.ecoitems.items.components.ComponentHandlers
 import com.willfp.ecoitems.items.ItemAttributeListener
 import com.willfp.ecoitems.items.ItemListener
 import com.willfp.ecoitems.libreforge.ConditionHasEcoItem
@@ -67,4 +69,17 @@ class EcoItemsPlugin : LibreforgePlugin() {
             RarityDisplay
         )
     }
+
+    override fun getCustomCharts() = listOf(
+        EcoMetricsChart.SingleLine("total_items") { EcoItems.values().size },
+        EcoMetricsChart.SingleLine("total_rarities") { Rarities.values().size },
+        EcoMetricsChart.SingleLine("total_recipes") { EcoItemsRecipes.values().size },
+        EcoMetricsChart.SingleLine("total_component_handlers") { ComponentHandlers.values().size },
+        EcoMetricsChart.SimplePie("rarity_enabled") {
+            if (configYml.getBool("rarity.enabled")) "enabled" else "disabled"
+        },
+        EcoMetricsChart.SimplePie("discover_recipes") {
+            if (configYml.getBool("discover-recipes")) "enabled" else "disabled"
+        }
+    )
 }
