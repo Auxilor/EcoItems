@@ -11,6 +11,8 @@ import com.willfp.libreforge.loader.configs.LegacyLocation
 object EcoItemsRecipes : ConfigCategory("recipe", "recipes") {
     private val registeredIds = mutableSetOf<String>()
 
+    val size: Int get() = registeredIds.size
+
     override val legacyLocation = LegacyLocation(
         "items.yml",
         "recipes"

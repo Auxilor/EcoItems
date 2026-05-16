@@ -73,7 +73,7 @@ class EcoItemsPlugin : LibreforgePlugin() {
     override fun getCustomCharts() = listOf(
         EcoMetricsChart.SingleLine("total_items") { EcoItems.values().size },
         EcoMetricsChart.SingleLine("total_rarities") { Rarities.values().size },
-        EcoMetricsChart.SingleLine("total_recipes") { EcoItemsRecipes.values().size },
+        EcoMetricsChart.SingleLine("total_recipes") { EcoItemsRecipes.size },
         EcoMetricsChart.SingleLine("total_component_handlers") { ComponentHandlers.values().size },
         EcoMetricsChart.SimplePie("rarity_enabled") {
             if (configYml.getBool("rarity.enabled")) "enabled" else "disabled"
