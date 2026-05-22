@@ -46,7 +46,10 @@ object ItemsDisplay : DisplayModule(plugin, DisplayPriority.LOWEST) {
         lore.addAll(fis.lore)
 
         if (ecoItem.displayName != null) {
-            fis.displayName = ecoItem.displayName.formatEco(context)
+            val formatted = ecoItem.displayName.formatEco(context)
+            if (fis.displayName != formatted) {
+                fis.displayName = formatted
+            }
         }
         fis.addItemFlags(*itemFast.itemFlags.toTypedArray())
         fis.lore = lore
