@@ -99,6 +99,8 @@ class EcoItem(
 
     val baseAttackSpeed = config.getDoubleOrNull("base-attack-speed")
 
+    val baseAttackRange = config.getDoubleOrNull("base-attack-range")
+
     val rarity = Rarities[config.getString("rarity")]
 
     override fun getID(): String {

@@ -61,6 +61,7 @@ slot: mainhand
 
 base-damage: 12 # (Optional) The item base damage
 base-attack-speed: 1.5 # (Optional) The item base attack speed
+base-attack-range: 3.0 # (Optional) The item base attack range (entity interaction range, vanilla default 3.0)
 
 # (Optional) The rarity of the item
 rarity: rare

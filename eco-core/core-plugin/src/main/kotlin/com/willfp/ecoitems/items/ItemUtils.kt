@@ -60,3 +60,6 @@ val Material.attackDamageModifier: Double
 
 val Material.attackSpeedModifier: Double
     get() = defaultAddNumberSum(Attribute.ATTACK_SPEED)
+
+val Material.entityInteractionRangeModifier: Double
+    get() = defaultAddNumberSum(Attribute.ENTITY_INTERACTION_RANGE)
