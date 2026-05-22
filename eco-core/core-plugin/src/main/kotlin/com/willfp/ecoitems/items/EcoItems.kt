@@ -42,4 +42,13 @@ object EcoItems : ConfigCategory("item", "items") {
         }
         registry.register(EcoItem(id, config.separatorAmbivalent()))
     }
+
+    override fun afterReload(plugin: LibreforgePlugin) {
+        // Recipes are registered after all items have been loaded so that
+        // ingredients referring to other EcoItems can be resolved regardless
+        // of load order.
+        for (item in registry.values()) {
+            item.registerRecipe()
+        }
+    }
 }
