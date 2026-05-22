@@ -74,23 +74,26 @@ class EcoItem(
         itemStack
     ).apply { register() }
 
-    val craftingRecipe: CraftingRecipe? = config.getBool("item.craftable")
-        .takeIf { it }
-        ?.let {
-            val recipeStrings = config.getStrings("item.recipe")
-            if (recipeStrings.isEmpty()) return@let null
+    var craftingRecipe: CraftingRecipe? = null
+        private set
 
-            Recipes.createAndRegisterRecipe(
-                plugin,
-                id,
-                itemStack.apply {
-                    amount = config.getIntOrNull("item.recipe-give-amount") ?: 1
-                },
-                recipeStrings,
-                config.getStringOrNull("item.crafting-permission"),
-                config.getBool("item.shapeless")
-            )
-        }
+    fun registerRecipe() {
+        if (!config.getBool("item.craftable")) return
+
+        val recipeStrings = config.getStrings("item.recipe")
+        if (recipeStrings.isEmpty()) return
+
+        craftingRecipe = Recipes.createAndRegisterRecipe(
+            plugin,
+            id.key,
+            itemStack.apply {
+                amount = config.getIntOrNull("item.recipe-give-amount") ?: 1
+            },
+            recipeStrings,
+            config.getStringOrNull("item.crafting-permission"),
+            config.getBool("item.shapeless")
+        )
+    }
 
     val baseDamage = config.getDoubleOrNull("base-damage")
 
