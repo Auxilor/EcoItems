@@ -13,6 +13,9 @@ import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerItemHeldEvent
 import org.bukkit.inventory.EquipmentSlotGroup
 
+private const val PLAYER_BASE_ATTACK_DAMAGE = 1.0
+private const val PLAYER_BASE_ATTACK_SPEED = 4.0
+
 object ItemAttributeListener : Listener {
     @EventHandler
     fun handle(event: PlayerItemHeldEvent) {
@@ -69,10 +72,16 @@ object ItemAttributeListener : Listener {
         }
 
         for ((offset, item) in items.withIndex()) {
+            val baselineMaterial = if (player.inventory.itemInMainHand.type == item.itemStack.type) {
+                player.inventory.itemInMainHand.type
+            } else {
+                player.inventory.itemInOffHand.type
+            }
+
             if (item.baseDamage != null) {
                 damageInst.addCompatibleModifier(
                     "Damage",
-                    item.baseDamage - player.inventory.itemInMainHand.type.baseDamage,
+                    item.baseDamage - PLAYER_BASE_ATTACK_DAMAGE - baselineMaterial.attackDamageModifier,
                     offset
                 )
             }
@@ -80,7 +89,7 @@ object ItemAttributeListener : Listener {
             if (item.baseAttackSpeed != null) {
                 speedInst.addCompatibleModifier(
                     "Speed",
-                    item.baseAttackSpeed - player.inventory.itemInMainHand.type.baseAttackSpeed,
+                    item.baseAttackSpeed - PLAYER_BASE_ATTACK_SPEED - baselineMaterial.attackSpeedModifier,
                     offset
                 )
             }
