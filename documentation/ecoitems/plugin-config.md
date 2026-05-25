@@ -1,0 +1,25 @@
+---
+title: "Plugin Config"
+sidebar_position: 6
+---
+
+## Default config.yml
+
+```yaml
+# If all recipes should be automatically discovered.
+discover-recipes: true
+
+rarity:
+  # If the rarity system should be enabled
+  enabled: false
+
+  # If there should be a blank lore line separating the rarity from the item lore
+  blank-lore-line: true
+
+  # The default rarity for unspecified items
+  default: common
+
+  # If items with no specified rarity should be given the default rarity
+  display-default: true
+
+```
