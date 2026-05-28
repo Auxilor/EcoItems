@@ -1,4 +1,4 @@
----
+﻿---
 title: How to make an Item
 sidebar_position: 1
 ---
@@ -112,7 +112,7 @@ base-attack-range: 3.0 # (Optional) The item base attack range (entity interacti
 Visit the [Minecraft Wiki](https://minecraft.wiki/w/Damage#Dealing_damage) for default attack damage and speeds.
 
 ### The Effects Section
-:::dangerEffects Section
+:::danger Effects Section
 
 The effects section is the core functionality of the item. You can configure effects, conditions, filters, mutators and triggers in this section to run whilst the item is active.
 
@@ -138,7 +138,7 @@ conditions:
     world: world_the_nether
 ```
 
-:::dangerCustom Foods & Tools
+:::danger Custom Foods & Tools
 You can create custom Tools and Foods using EcoItems by adding a config section.
 
 Check it out here:
