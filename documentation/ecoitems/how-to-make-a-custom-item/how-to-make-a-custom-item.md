@@ -1,78 +1,55 @@
-﻿---
-title: How to make an Item
+---
+title: "How to Make an Item"
 sidebar_position: 1
 ---
 
-## How to add items
-Each item is its own config file, placed in the `/items/` folder, and you can add or remove them as you please. There's an example config called `_example.yml` to help you out!
+An EcoItem is a custom item defined in its own config file: you set its **display**, its **attributes**, its **recipe**, and the **effects** it runs while held or worn. This page takes you from an empty file to a working item you can give yourself in-game.
 
-The ID of the EcoItem is the file name. This is what you use in commands and in the [Item Lookup System](https://plugins.auxilor.io/the-item-lookup-system).
-ID's must be lowercase letters, numbers, and underscores only.
+## Quick start
 
-## Example Item Config
+1. Open the `/plugins/EcoItems/items/` folder.
+2. Copy `_example.yml` and rename it to your item's ID, e.g. `mithril_sword.yml`.
+3. Edit the `item:` section to set the base item, display name, and lore.
+4. Set the `slot:` and any attributes or `effects:` you want.
+5. Run `/ecoitems reload`.
+6. Give yourself the item with `/ecoitems give <you> mithril_sword` and confirm it appears with your display name and lore.
 
-```yaml
-item:
-  item: iron_sword hide_attributes
-  display-name: "<g:#f953c6>Mithril Sword</g:#b91d73>"
-  lore:
-    - "&7Damage: &c12❤"
-    - "&7Attack Speed: &c1.5"
-    - ""
-    - "<g:#f953c6>MITHRIL BONUS</g:#b91d73>"
-    - "&8» &#f953c6Deal 50% more damage in the nether"
-  craftable: true
-  crafting-permission: "ecoitems.craft.example"
-  recipe:
-    - ""
-    - ecoitems:mithril 2
-    - ""
-     
-    - ""
-    - ecoitems:mithril 2
-    - ""
-     
-    - ""
-    - stick
-    - ""
-  recipe-give-amount: 1
+:::tip
+`_example.yml` is included as a reference and is **never loaded**, so copy or rename it to make a real item. You can also organise items into subfolders inside `items/`, and they'll still load.
+:::
 
-slot: mainhand
-rarity: rare
+## Naming and IDs
 
-base-damage: 12
-base-attack-speed: 1.5
-base-attack-range: 3.0
+The file name without `.yml` is the item's ID. That ID is what you use in commands and in the [Item Lookup System](https://plugins.auxilor.io/the-item-lookup-system), so `mithril_sword.yml` has the ID `mithril_sword`.
 
-effects:
-  - id: damage_multiplier
-    args:
-      multiplier: 1.5
-    triggers:
-      - melee_attack
+:::warning ID rules
+IDs may only contain lowercase letters, numbers, and underscores (a-z, 0-9, _). No spaces, capitals, or hyphens, or the item will not load.
+:::
 
-conditions:
-  - id: in_world
-    args:
-    world: world_the_nether
-```
+## The structure of an item
 
-## Understanding all the sections
-### The Item Section
+| Part | What it controls |
+| --- | --- |
+| **Item** | The base item, display name, lore, and crafting recipe |
+| **Attributes** | The slot the item works in, its rarity, and combat stats |
+| **Effects** | The effects and conditions that run while the item is active |
 
 ```yaml
+# === Item: what the player gets ===
 item:
-  item: iron_sword hide_attributes # The item in-game: https://plugins.auxilor.io/the-item-lookup-system
-  display-name: "<g:#f953c6>Mithril Sword</g:#b91d73>" # The display name of the item
-  lore: # The item lore
+  item: iron_sword hide_attributes # The base item: https://plugins.auxilor.io/the-item-lookup-system
+  display-name: "<g:#f953c6>Mithril Sword</g:#b91d73>" # The item display name
+  lore: # The item lore, one entry per line
     - "&7Damage: &c12❤"
     - "&7Attack Speed: &c1.5"
     - ""
     - "<g:#f953c6>MITHRIL BONUS</g:#b91d73>"
     - "&8» &#f953c6Deal 50% more damage in the nether"
   craftable: true # If the item can be crafted
-  crafting-permission: "ecoitems.craft.example" # (Optional) The permission required to craft this recipe.
-  recipe: # The recipe, read here for more: https://plugins.auxilor.io/the-item-lookup-system/recipes
+  crafting-permission: ecoitems.craft.custom_item # Optional; permission required to craft the item
+  shapeless: false # Optional; whether the recipe is shapeless, defaults to false
+  recipe-give-amount: 1 # Optional; how many items the recipe gives, defaults to 1
+  recipe: # The recipe: https://plugins.auxilor.io/the-item-lookup-system/recipes
     - ""
     - ecoitems:mithril 2
     - ""
@@ -82,72 +59,107 @@ item:
     - ""
     - stick
     - ""
-  recipe-give-amount: 1 # Optional, set the amount of items to give in the recipe
-```
-:::tip
 
-We support shaped and shapeless recipes. Check out [Recipes](https://plugins.auxilor.io/the-item-lookup-system/recipes) for more info on how to configure these.
+# === Attributes: how it behaves ===
+slot: mainhand # The slot the item must be in to activate; defaults to mainhand
+rarity: rare # Optional; the item rarity from the rarities folder
+base-damage: 12 # Optional; the item base damage
+base-attack-speed: 1.5 # Optional; the item base attack speed
+base-attack-range: 3.0 # Optional; entity interaction range, vanilla default 3.0
 
-:::
-
-### The Attributes Section
-
-```yaml
-# The slot the item has to be in to activate its effects.
-# The options for slot are mainhand, offhand, hands, helmet, chestplate,
-# leggings, boots, armor, any, a number from 0-40 (to specify an exact slot),
-# or a list of slots like "9, 10, 11, mainhand"
-# Use to choose weather this is a weapon, tool, armor piece, charm, etc.
-# If you don't specify this, it will default to mainhand.
-slot: mainhand
-
-# (Optional) The rarity of the item
-rarity: rare
-
-base-damage: 12 # (Optional) The item base damage
-base-attack-speed: 1.5 # (Optional) The item base attack speed
-base-attack-range: 3.0 # (Optional) The item base attack range (entity interaction range, vanilla default 3.0)
-```
-
-Visit the [Minecraft Wiki](https://minecraft.wiki/w/Damage#Dealing_damage) for default attack damage and speeds.
-
-### The Effects Section
-:::danger Effects Section
-
-The effects section is the core functionality of the item. You can configure effects, conditions, filters, mutators and triggers in this section to run whilst the item is active.
-
-Check out [Configuring an Effect](https://plugins.auxilor.io/effects/configuring-an-effect) to understand how to configure this section correctly.
-
-For more advanced users or setups, you can configure chains in this section to string together different effects under one trigger. Check out [Configuring an Effect Chain](https://plugins.auxilor.io/effects/configuring-a-chain) for more info.
-
-:::
-```yaml
-# The effects of the item (i.e. the functionality)
-# See here: https://plugins.auxilor.io/effects/configuring-an-effect
+# === Effects: what it does ===
 effects:
-  - id: damage_multiplier
+  - id: damage_multiplier # The effect to run
     args:
       multiplier: 1.5
     triggers:
-      - melee_attack
-
-# The conditions required for the effects to activate
+      - melee_attack # When the effect fires
 conditions:
-  - id: in_world
+  - id: in_world # A condition that must hold for the effects to run
     args:
-    world: world_the_nether
+      world: world_the_nether
 ```
 
-:::danger Custom Foods & Tools
-You can create custom Tools and Foods using EcoItems by adding a config section.
+### Item
 
-Check it out here:
-[Custom Foods](https://plugins.auxilor.io/ecoitems/how-to-make-a-custom-item/custom-foods),
-[Custom Tools](https://plugins.auxilor.io/ecoitems/how-to-make-a-custom-item/custom-tools)
+The `item:` section defines the base item players receive and how it's crafted.
+
+```yaml
+item:
+  item: iron_sword hide_attributes # The base item: https://plugins.auxilor.io/the-item-lookup-system
+  display-name: "<g:#f953c6>Mithril Sword</g:#b91d73>" # The item display name
+  lore: # The item lore, one entry per line
+    - "&7Damage: &c12❤"
+    - "&8» &#f953c6Deal 50% more damage in the nether"
+  craftable: true # If the item can be crafted
+  crafting-permission: ecoitems.craft.custom_item # Optional; permission required to craft the item
+  shapeless: false # Optional; whether the recipe is shapeless, defaults to false
+  recipe-give-amount: 1 # Optional; how many items the recipe gives, defaults to 1
+  recipe: # The recipe: https://plugins.auxilor.io/the-item-lookup-system/recipes
+    - ""
+    - ecoitems:mithril 2
+    - ""
+    - ""
+    - ecoitems:mithril 2
+    - ""
+    - ""
+    - stick
+    - ""
+```
+
+:::tip
+EcoItems supports both shaped and shapeless recipes. See [Recipes](https://plugins.auxilor.io/the-item-lookup-system/recipes) for the full format.
+:::
+
+### Attributes
+
+These top-level fields control where the item works and its combat stats.
+
+```yaml
+slot: mainhand # The slot the item must be in to activate; defaults to mainhand
+rarity: rare # Optional; the item rarity from the rarities folder
+base-damage: 12 # Optional; the item base damage
+base-attack-speed: 1.5 # Optional; the item base attack speed
+base-attack-range: 3.0 # Optional; entity interaction range, vanilla default 3.0
+```
+
+`slot` accepts `mainhand`, `offhand`, `hands`, `helmet`, `chestplate`, `leggings`, `boots`, `armor`, `any`, a number from 0-40 for an exact slot, or a list like `"9, 10, 11, mainhand"`. For vanilla default damage and attack speed values, see the [Minecraft Wiki](https://minecraft.wiki/w/Damage#Dealing_damage).
+
+### Effects
+
+The `effects:` and `conditions:` sections are where the item gets its functionality: effects run on a trigger, and conditions gate when they're allowed to run.
+
+```yaml
+effects:
+  - id: damage_multiplier # The effect to run
+    args:
+      multiplier: 1.5
+    triggers:
+      - melee_attack # When the effect fires
+conditions:
+  - id: in_world # A condition that must hold for the effects to run
+    args:
+      world: world_the_nether
+```
+
+:::danger Effects are their own system
+Effects and conditions are a shared eco system with their own documentation. To configure them:
+
+- [Configuring an Effect](https://plugins.auxilor.io/effects/configuring-an-effect)
+- [Configuring an Effect Chain](https://plugins.auxilor.io/effects/configuring-a-chain)
+:::
+
+:::tip Troubleshooting
+- **Item won't load?** Check the ID rules above; capitals, spaces, or hyphens in the file name stop it loading.
+- **Effects do nothing?** The item only activates in its `slot`; a `mainhand` item does nothing in your inventory.
+- **Recipe doesn't work?** Make sure `craftable: true` is set and the ingredient IDs resolve in the Item Lookup System.
+- **Changes not showing?** Run `/ecoitems reload`, then get a fresh copy of the item; existing items in inventories are not updated.
 :::
 
 <hr/>
 
-## Default Configs
-The default configs can be found [here](https://github.com/Auxilor/EcoItems/blob/master/eco-core/core-plugin/src/main/resources/items/). <br/>
-You can find additional user-created configs on [lrcdb](https://lrcdb.auxilor.io/).
+## Where to go next
+
+- **Foods and tools:** [Custom Foods](custom-foods) and [Custom Tools](custom-tools) add eating and mining behaviour to an item.
+- **Rarities:** [Item Rarity](../additional-configuration-options/item-rarity) for the rarity tags used by `rarity:`.
+- **Default configs:** the shipped items live [here](https://github.com/Auxilor/EcoItems/blob/master/eco-core/core-plugin/src/main/resources/items/), and you can find community items on [lrcdb](https://lrcdb.auxilor.io/).
