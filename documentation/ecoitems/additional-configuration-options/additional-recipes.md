@@ -19,7 +19,7 @@ An additional recipe lets you craft any item, not just EcoItems, through a confi
 
 ## Naming and IDs
 
-The file name without `.yml` is the recipe's ID. IDs currently have no in-game function, so just keep them unique. The items you reference are resolved through the [Item Lookup System](https://plugins.auxilor.io/the-item-lookup-system), which also covers EcoItems, other eco plugins, and vanilla items.
+The file name without `.yml` is the recipe's ID. IDs currently have no in-game function, so just keep them unique. The items you reference are resolved through the [Item Lookup System](https://hub.auxilor.io/wiki/eco/the-item-lookup-system-the-item-lookup-system), which also covers EcoItems, other eco plugins, and vanilla items.
 
 :::warning ID rules
 IDs may only contain lowercase letters, numbers, and underscores (a-z, 0-9, _). No spaces, capitals, or hyphens, or the recipe will not load.
@@ -42,7 +42,7 @@ permission: "ecoitems.craft.enchanted_emerald_block_craft" # Optional; permissio
 
 # === Recipe: the crafting grid ===
 shapeless: false # Optional; whether the recipe is shapeless, defaults to false
-recipe: # Ingredients: https://plugins.auxilor.io/the-item-lookup-system/recipes
+recipe: # Ingredients: https://hub.auxilor.io/wiki/eco/the-item-lookup-system-the-item-lookup-system/recipes
   - ""
   - emerald_block 32
   - ""
@@ -68,7 +68,7 @@ The `recipe` list is the crafting grid, read left to right, top to bottom. Each 
 
 ```yaml
 shapeless: false # Optional; whether the recipe is shapeless, defaults to false
-recipe: # Ingredients: https://plugins.auxilor.io/the-item-lookup-system/recipes
+recipe: # Ingredients: https://hub.auxilor.io/wiki/eco/the-item-lookup-system-the-item-lookup-system/recipes
   - ""
   - emerald_block 32
   - ""
@@ -81,7 +81,7 @@ recipe: # Ingredients: https://plugins.auxilor.io/the-item-lookup-system/recipes
 ```
 
 :::tip
-EcoItems supports both shaped and shapeless recipes. See [Recipes](https://plugins.auxilor.io/the-item-lookup-system/recipes) for the full format.
+EcoItems supports both shaped and shapeless recipes. See [Recipes](https://hub.auxilor.io/wiki/eco/the-item-lookup-system-the-item-lookup-system/recipes) for the full format.
 :::
 
 ### Permission
@@ -102,5 +102,5 @@ permission: "ecoitems.craft.enchanted_emerald_block_craft" # Optional; permissio
 
 ## Where to go next
 
-- **Recipe format:** [Recipes](https://plugins.auxilor.io/the-item-lookup-system/recipes) for shaped, shapeless, and ingredient syntax.
+- **Recipe format:** [Recipes](https://hub.auxilor.io/wiki/eco/the-item-lookup-system-the-item-lookup-system/recipes) for shaped, shapeless, and ingredient syntax.
 - **Make an item:** [How to make an Item](../how-to-make-a-custom-item/how-to-make-a-custom-item) to craft your own EcoItems directly.

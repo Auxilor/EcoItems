@@ -20,7 +20,7 @@ An EcoItem is a custom item defined in its own config file: you set its **displa
 
 ## Naming and IDs
 
-The file name without `.yml` is the item's ID. That ID is what you use in commands and in the [Item Lookup System](https://plugins.auxilor.io/the-item-lookup-system), so `mithril_sword.yml` has the ID `mithril_sword`.
+The file name without `.yml` is the item's ID. That ID is what you use in commands and in the [Item Lookup System](https://hub.auxilor.io/wiki/eco/the-item-lookup-system-the-item-lookup-system), so `mithril_sword.yml` has the ID `mithril_sword`.
 
 :::warning ID rules
 IDs may only contain lowercase letters, numbers, and underscores (a-z, 0-9, _). No spaces, capitals, or hyphens, or the item will not load.
@@ -37,7 +37,7 @@ IDs may only contain lowercase letters, numbers, and underscores (a-z, 0-9, _). 
 ```yaml
 # === Item: what the player gets ===
 item:
-  item: iron_sword hide_attributes # The base item: https://plugins.auxilor.io/the-item-lookup-system
+  item: iron_sword hide_attributes # The base item: https://hub.auxilor.io/wiki/eco/the-item-lookup-system-the-item-lookup-system
   display-name: "<g:#f953c6>Mithril Sword</g:#b91d73>" # The item display name
   lore: # The item lore, one entry per line
     - "&7Damage: &c12❤"
@@ -49,7 +49,7 @@ item:
   crafting-permission: ecoitems.craft.custom_item # Optional; permission required to craft the item
   shapeless: false # Optional; whether the recipe is shapeless, defaults to false
   recipe-give-amount: 1 # Optional; how many items the recipe gives, defaults to 1
-  recipe: # The recipe: https://plugins.auxilor.io/the-item-lookup-system/recipes
+  recipe: # The recipe: https://hub.auxilor.io/wiki/eco/the-item-lookup-system-the-item-lookup-system/recipes
     - ""
     - ecoitems:mithril 2
     - ""
@@ -86,7 +86,7 @@ The `item:` section defines the base item players receive and how it's crafted.
 
 ```yaml
 item:
-  item: iron_sword hide_attributes # The base item: https://plugins.auxilor.io/the-item-lookup-system
+  item: iron_sword hide_attributes # The base item: https://hub.auxilor.io/wiki/eco/the-item-lookup-system-the-item-lookup-system
   display-name: "<g:#f953c6>Mithril Sword</g:#b91d73>" # The item display name
   lore: # The item lore, one entry per line
     - "&7Damage: &c12❤"
@@ -95,7 +95,7 @@ item:
   crafting-permission: ecoitems.craft.custom_item # Optional; permission required to craft the item
   shapeless: false # Optional; whether the recipe is shapeless, defaults to false
   recipe-give-amount: 1 # Optional; how many items the recipe gives, defaults to 1
-  recipe: # The recipe: https://plugins.auxilor.io/the-item-lookup-system/recipes
+  recipe: # The recipe: https://hub.auxilor.io/wiki/eco/the-item-lookup-system-the-item-lookup-system/recipes
     - ""
     - ecoitems:mithril 2
     - ""
@@ -108,7 +108,7 @@ item:
 ```
 
 :::tip
-EcoItems supports both shaped and shapeless recipes. See [Recipes](https://plugins.auxilor.io/the-item-lookup-system/recipes) for the full format.
+EcoItems supports both shaped and shapeless recipes. See [Recipes](https://hub.auxilor.io/wiki/eco/the-item-lookup-system-the-item-lookup-system/recipes) for the full format.
 :::
 
 ### Attributes
@@ -145,8 +145,8 @@ conditions:
 :::danger Effects are their own system
 Effects and conditions are a shared eco system with their own documentation. To configure them:
 
-- [Configuring an Effect](https://plugins.auxilor.io/effects/configuring-an-effect)
-- [Configuring an Effect Chain](https://plugins.auxilor.io/effects/configuring-a-chain)
+- [Configuring an Effect](https://hub.auxilor.io/wiki/libreforge/configuring-an-effect)
+- [Configuring an Effect Chain](https://hub.auxilor.io/wiki/libreforge/configuring-a-chain)
 :::
 
 :::tip Troubleshooting

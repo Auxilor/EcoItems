@@ -20,7 +20,7 @@ A custom food is a normal EcoItem with an added **food** section that makes it e
 
 ## Naming and IDs
 
-Foods live in the same `items/` folder as every other EcoItem, so the file name without `.yml` is the item's ID, used in commands and in the [Item Lookup System](https://plugins.auxilor.io/the-item-lookup-system).
+Foods live in the same `items/` folder as every other EcoItem, so the file name without `.yml` is the item's ID, used in commands and in the [Item Lookup System](https://hub.auxilor.io/wiki/eco/the-item-lookup-system-the-item-lookup-system).
 
 :::warning ID rules
 IDs may only contain lowercase letters, numbers, and underscores (a-z, 0-9, _). No spaces, capitals, or hyphens, or the food will not load.
@@ -41,7 +41,7 @@ item:
   craftable: true # If the item can be crafted
   crafting-permission: ecoitems.craft.custom_item # Optional; permission required to craft the item
   recipe-give-amount: 1 # Optional; how many items the recipe gives, defaults to 1
-  recipe: # The recipe: https://plugins.auxilor.io/the-item-lookup-system/recipes
+  recipe: # The recipe: https://hub.auxilor.io/wiki/eco/the-item-lookup-system-the-item-lookup-system/recipes
     - ""
     - cooked_beef 64
     - ""

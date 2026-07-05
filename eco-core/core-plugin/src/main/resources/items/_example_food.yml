@@ -5,7 +5,7 @@
 # _example.yml is not loaded.
 
 item:
-  item: cooked_beef glint item_name:"Enchanted Steak" # The item in-game: https://plugins.auxilor.io/all-plugins/the-item-lookup-system
+  item: cooked_beef glint item_name:"Enchanted Steak" # The item in-game: https://hub.auxilor.io/wiki/eco/the-item-lookup-system-the-item-lookup-system
   display-name: "&6Enchanted Steak" # The display name of the item
   lore: # The item lore
     - "&7The most delicious steak in all the land."
@@ -17,7 +17,7 @@ item:
   recipe-give-amount: 1 # (Optional) Set the amount of items to give, defaults to 1
   crafting-permission: ecoitems.craft.custom_food # (Optional) The permission required to craft the item
   shapeless: false # (Optional) Whether the crafting recipe is shapeless or not, defaults to false
-  recipe: # The recipe, read here for more: https://plugins.auxilor.io/all-plugins/the-item-lookup-system#crafting-recipes
+  recipe: # The recipe, read here for more: https://hub.auxilor.io/wiki/eco/the-item-lookup-system-the-item-lookup-system#crafting-recipes
     - ""
     - cooked_beef 64
     - ""
@@ -66,7 +66,7 @@ base-attack-speed: 1.5 # (Optional) The item base attack speed
 rarity: rare
 
 # The effects of the item (i.e. the functionality)
-# See here: https://plugins.auxilor.io/effects/configuring-an-effect
+# See here: https://hub.auxilor.io/wiki/libreforge/configuring-an-effect
 effects:
   - id: give_xp
     args:
