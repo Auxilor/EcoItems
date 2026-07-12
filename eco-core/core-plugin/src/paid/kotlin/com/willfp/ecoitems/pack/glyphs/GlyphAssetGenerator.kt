@@ -198,6 +198,10 @@ object GlyphAssetGenerator {
         for (variant in SHADER_VARIANTS) {
             for (extension in listOf("vsh", "fsh", "json")) {
                 write("base/$variant.$extension", "assets/minecraft/shaders/core/$variant.$extension")
+                write(
+                    "base/$variant.$extension",
+                    "overlay_pre_26/assets/minecraft/shaders/core/$variant.$extension"
+                )
             }
             for (extension in listOf("vsh", "fsh")) {
                 write("overlay_26/$variant.$extension", "overlay_26/assets/minecraft/shaders/core/$variant.$extension")

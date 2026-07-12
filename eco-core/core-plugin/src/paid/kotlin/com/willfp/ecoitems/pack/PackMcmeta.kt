@@ -11,14 +11,17 @@ object PackMcmeta {
     // 1.21.9+ min_format/max_format keys; newer clients do the opposite.
     // The shader overlays swap in newer GLSL for newer clients; the base
     // pack carries the 1.21.8-era shaders.
-    // Overlay entries need both key styles: pre-1.21.9 clients read "formats",
-    // and any client rejects entries covering formats newer than its own
-    // unless min_format/max_format are also present.
+    // Overlay entries need both key styles: 1.21.8 requires "formats", while
+    // newer clients require min_format/max_format. Newer clients reject the
+    // legacy key on overlays beginning after format 64, so the overlays span
+    // back to 64 and are ordered newest-first. Later overlays restore the
+    // correct shaders for older formats.
     private const val SHADER_OVERLAYS = """,
   "overlays": {
     "entries": [
-      { "formats": { "min_inclusive": 84, "max_inclusive": 87 }, "min_format": 84, "max_format": 87, "directory": "overlay_26" },
-      { "formats": { "min_inclusive": 88, "max_inclusive": 999 }, "min_format": 88, "max_format": 999, "directory": "overlay_26_2" }
+      { "formats": 64, "min_format": 64, "max_format": 999, "directory": "overlay_26_2" },
+      { "formats": 64, "min_format": 64, "max_format": 87, "directory": "overlay_26" },
+      { "formats": 64, "min_format": 64, "max_format": 83, "directory": "overlay_pre_26" }
     ]
   }"""
 
