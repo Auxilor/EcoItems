@@ -27,3 +27,11 @@ sounds:
 
 # For simple sounds you can use a single file instead:
 # sound: battle_horn
+
+# (Optional) Register the sound as a jukebox song, playable from items with
+# a jukebox_playable component. Registering needs a server restart.
+# jukebox:
+#   description: "Battle Horn" # The disc tooltip / now-playing text
+#   length-seconds: 10 # How long the jukebox stays busy
+#   comparator-output: 3 # Redstone comparator level, 1-15
+#   range: 48 # (Optional) Audible range in blocks

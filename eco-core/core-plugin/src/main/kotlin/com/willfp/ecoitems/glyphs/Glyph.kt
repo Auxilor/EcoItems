@@ -35,8 +35,21 @@ class Glyph(
         null
     }
 
+    /** When set, this glyph is one cell of a shared sprite sheet. */
+    val bitmap: GlyphBitmap? = if (config.has("bitmap")) {
+        GlyphBitmap(id, config.getSubsection("bitmap"))
+    } else {
+        null
+    }
+
     val isAnimated: Boolean
         get() = animation != null
+
+    init {
+        if (bitmap != null && animation != null) {
+            plugin.logger.warning("Glyph $id is both animated and a bitmap cell; the bitmap is ignored")
+        }
+    }
 
     override fun equals(other: Any?): Boolean {
         if (other !is Glyph) {
@@ -52,6 +65,31 @@ class Glyph(
 
     override fun toString(): String {
         return "Glyph{$id}"
+    }
+}
+
+/**
+ * One cell of a shared sprite sheet: glyphs with the same sheet (texture,
+ * rows, columns) plus matching ascent/height are emitted as a single grid
+ * font provider.
+ */
+class GlyphBitmap(id: String, config: Config) {
+    /** The shared sheet texture; overrides the glyph's own texture. */
+    val texture: String = config.getString("texture")
+
+    val rows = config.getIntOrNull("rows") ?: 1
+    val columns = config.getIntOrNull("columns") ?: 1
+
+    /** This glyph's cell, zero-indexed. */
+    val row = config.getIntOrNull("row") ?: 0
+    val column = config.getIntOrNull("column") ?: 0
+
+    init {
+        if (row !in 0 until rows || column !in 0 until columns) {
+            plugin.logger.warning(
+                "Glyph $id's bitmap cell ($row, $column) is outside its ${rows}x$columns sheet"
+            )
+        }
     }
 }
 

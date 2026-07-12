@@ -92,3 +92,28 @@ The pack can also override the client's translation strings, with lang files at 
 ```
 
 Values support `:glyph:` placeholders (see [Glyphs](../glyphs/index.md)) and § color codes. Keys starting with `_` are treated as comments. Any vanilla translation key can be overridden — the defaults EcoItems ships are just a starting point.
+
+## Custom music discs
+
+Add a `jukebox` section to any sound and EcoItems registers it as a jukebox song (through a generated datapack — **needs a restart**, the console tells you when):
+
+```yaml
+# sounds/welcome.yml
+category: record
+sound: welcome
+jukebox:
+  description: "Welcome" # the disc tooltip / now-playing text
+  length-seconds: 30 # how long the jukebox stays busy
+  comparator-output: 4 # redstone comparator level, 1-15
+  # range: 48            # (Optional) audible range in blocks
+```
+
+Then any item with a `jukebox_playable` component becomes a working music disc (see the shipped `welcome_disc` example):
+
+```yaml
+item:
+  item: paper
+  components:
+    "minecraft:max_stack_size": 1
+    "minecraft:jukebox_playable": "ecoitems:welcome"
+```

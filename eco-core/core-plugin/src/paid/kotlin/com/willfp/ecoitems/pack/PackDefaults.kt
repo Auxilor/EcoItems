@@ -48,7 +48,8 @@ object PackDefaults {
                 for (entry in zip.entries()) {
                     if (entry.isDirectory ||
                         !entry.name.startsWith(only ?: "pack/") ||
-                        entry.name.startsWith("pack/defaults/")
+                        entry.name.startsWith("pack/defaults/") ||
+                        entry.name.startsWith("pack/builtin/")
                     ) {
                         continue
                     }

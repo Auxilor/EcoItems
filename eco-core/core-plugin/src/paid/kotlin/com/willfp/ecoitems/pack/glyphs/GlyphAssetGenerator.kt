@@ -41,9 +41,15 @@ object GlyphAssetGenerator {
             advances.addProperty(String(Character.toChars(codepoint)), advance)
         }
 
+        val bitmapCells = mutableListOf<AssignedGlyph>()
         for (assigned in glyphs.sortedBy { it.glyph.id }) {
+            if (assigned.glyph.bitmap != null && !assigned.glyph.isAnimated) {
+                bitmapCells.add(assigned)
+                continue
+            }
             addGlyph(plugin, assigned, providers, advances)
         }
+        addBitmapGrids(plugin, bitmapCells, providers)
 
         val spaceProvider = JsonObject()
         spaceProvider.addProperty("type", "space")
@@ -188,6 +194,69 @@ object GlyphAssetGenerator {
 
         if (animation.offset != 0) {
             advances.addProperty(String(Character.toChars(assigned.offsetChar!!)), animation.offset)
+        }
+    }
+
+    /**
+     * Glyphs sharing a sprite sheet (same texture/rows/columns/ascent/height)
+     * become one grid provider, with unused cells padded with \u0000.
+     */
+    private fun addBitmapGrids(
+        plugin: EcoItemsPlugin,
+        cells: List<AssignedGlyph>,
+        providers: JsonArray
+    ) {
+        val groups = cells.groupBy { assigned ->
+            val bitmap = assigned.glyph.bitmap!!
+            listOf(bitmap.texture, bitmap.rows, bitmap.columns, assigned.glyph.ascent, assigned.glyph.height)
+        }
+
+        for ((_, group) in groups) {
+            val sample = group.first().glyph
+            val bitmap = sample.bitmap!!
+
+            val location = PackLocation.parse(bitmap.texture.removeSuffix(".png"))
+            if (location == null) {
+                plugin.logger.warning("Skipping bitmap sheet '${bitmap.texture}': not a valid location")
+                continue
+            }
+            if (!location.file(plugin, "textures", "png").exists() && location.namespace != "minecraft") {
+                plugin.logger.warning(
+                    "Skipping bitmap sheet '${bitmap.texture}': pack/${location.entry("textures", "png")} does not exist"
+                )
+                continue
+            }
+
+            val grid = Array(bitmap.rows) { IntArray(bitmap.columns) }
+            for (assigned in group) {
+                val cell = assigned.glyph.bitmap!!
+                if (cell.row !in 0 until bitmap.rows || cell.column !in 0 until bitmap.columns) {
+                    continue // warned at config parse
+                }
+                if (grid[cell.row][cell.column] != 0) {
+                    plugin.logger.warning(
+                        "Glyph ${assigned.glyph.id} uses bitmap cell (${cell.row}, ${cell.column}), which is already taken; skipping it"
+                    )
+                    continue
+                }
+                grid[cell.row][cell.column] = assigned.frames.single()
+            }
+
+            val provider = JsonObject()
+            provider.addProperty("type", "bitmap")
+            provider.addProperty("file", "${location.key}.png")
+            provider.addProperty("ascent", sample.ascent)
+            provider.addProperty("height", sample.height)
+            val chars = JsonArray()
+            for (row in grid) {
+                chars.add(buildString {
+                    for (codepoint in row) {
+                        appendCodePoint(codepoint)
+                    }
+                })
+            }
+            provider.add("chars", chars)
+            providers.add(provider)
         }
     }
 

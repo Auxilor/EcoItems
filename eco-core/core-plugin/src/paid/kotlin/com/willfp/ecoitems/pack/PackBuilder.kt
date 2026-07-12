@@ -10,6 +10,7 @@ import java.io.File
 import java.security.DigestOutputStream
 import java.security.MessageDigest
 import java.util.zip.ZipEntry
+import java.util.zip.ZipFile
 import java.util.zip.ZipOutputStream
 
 object PackBuilder {
@@ -50,6 +51,11 @@ object PackBuilder {
 
         ItemAssetGenerator.generate(plugin, assets, entries)
 
+        // Feature assets (currently the 2D head models) ship in every build
+        // rather than being extracted to the pack folder, so fixes reach
+        // existing installs; the pack folder still wins on collision.
+        bundledBuiltins(plugin, entries)
+
         // The pack folder wins on collisions with generated files and
         // imports, except mergeable files (fonts/sounds/lang/atlases),
         // which merge with the incoming file winning.
@@ -82,6 +88,19 @@ object PackBuilder {
         checkNotNull(javaClass.getResourceAsStream("/pack/defaults/pack.png")) {
             "Bundled pack.png is missing"
         }.use { it.readBytes() }
+
+    private fun bundledBuiltins(plugin: EcoItemsPlugin, entries: MutableMap<String, ByteArray>) {
+        ZipFile(plugin.jar).use { zip ->
+            for (entry in zip.entries()) {
+                if (entry.isDirectory || !entry.name.startsWith("pack/builtin/")) {
+                    continue
+                }
+
+                entries[entry.name.removePrefix("pack/builtin/")] =
+                    zip.getInputStream(entry).use { it.readBytes() }
+            }
+        }
+    }
 
     private fun mergeTree(
         directory: File,

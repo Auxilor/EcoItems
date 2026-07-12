@@ -60,3 +60,22 @@ Each glyph is assigned a codepoint automatically, remembered in `plugins/EcoItem
 
 - **Animated glyphs:** [Animated Glyphs](animated-glyphs) for sprite-sheet animations.
 - **The pack:** [Resource Packs](../resource-packs/index) for how glyph textures are delivered.
+
+## Sprite sheets (multi-bitmap glyphs)
+
+When you have many small glyphs, keep them in one png and let each glyph reference its cell. Glyphs sharing a sheet become a single font provider:
+
+```yaml
+# glyphs/emoji/heart_gold.yml
+bitmap:
+  texture: glyph/hearts_sheet # the shared png
+  rows: 2 # how the sheet is divided
+  columns: 2
+  row: 0 # this glyph's cell, zero-indexed
+  column: 1
+ascent: 8
+height: 8
+placeholders: [":heart_gold:"]
+```
+
+All glyphs on one sheet should share `ascent` and `height` (differing values split them into separate providers). Cells no glyph claims stay empty. The shipped `heart_gold`/`heart_blue`/`heart_green` emoji demonstrate a 2×2 sheet.

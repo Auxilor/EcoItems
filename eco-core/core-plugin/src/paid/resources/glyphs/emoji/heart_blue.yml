@@ -1,0 +1,12 @@
+# One cell of the shared hearts sheet - see the glyphs documentation.
+bitmap:
+  texture: glyph/hearts_sheet
+  rows: 2
+  columns: 2
+  row: 1
+  column: 0
+ascent: 8
+height: 8
+placeholders:
+  - ":heart_blue:"
+tab-complete: true

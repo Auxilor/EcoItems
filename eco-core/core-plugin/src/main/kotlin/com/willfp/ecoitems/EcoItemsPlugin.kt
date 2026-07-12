@@ -18,6 +18,8 @@ import com.willfp.ecoitems.items.ItemListener
 import com.willfp.ecoitems.items.ItemsGUI
 import com.willfp.ecoitems.libreforge.ConditionHasEcoItem
 import com.willfp.ecoitems.pack.PackFeatures
+import com.willfp.ecoitems.paintings.PaintingListener
+import com.willfp.ecoitems.paintings.Paintings
 import com.willfp.ecoitems.rarity.ArgParserRarity
 import com.willfp.ecoitems.rarity.Rarities
 import com.willfp.ecoitems.sounds.Sounds
@@ -69,12 +71,15 @@ class EcoItemsPlugin : LibreforgePlugin() {
     }
 
     override fun loadConfigCategories(): List<ConfigCategory> {
+        // Sounds and paintings load before items so component warnings can
+        // recognise references to entries pending datapack registration.
         return listOf(
             Rarities,
+            Sounds,
+            Paintings,
             EcoItems,
             EcoItemsRecipes,
             Glyphs,
-            Sounds,
             Huds
         )
     }
@@ -82,7 +87,8 @@ class EcoItemsPlugin : LibreforgePlugin() {
     override fun loadListeners(): List<Listener> {
         return listOf(
             DiscoverRecipeListener,
-            ItemListener
+            ItemListener,
+            PaintingListener
         ) + (PackFeatures.instance?.listeners(this) ?: emptyList())
     }
 

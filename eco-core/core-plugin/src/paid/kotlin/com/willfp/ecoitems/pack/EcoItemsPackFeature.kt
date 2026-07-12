@@ -21,6 +21,7 @@ import com.willfp.ecoitems.pack.publisher.ExternalPublisher
 import com.willfp.ecoitems.pack.publisher.HostedPublisher
 import com.willfp.ecoitems.pack.publisher.PackPublisher
 import com.willfp.ecoitems.pack.publisher.SelfHostedPublisher
+import com.willfp.ecoitems.paintings.Paintings
 import com.willfp.ecoitems.sounds.Sounds
 import org.bukkit.entity.Player
 import org.bukkit.event.Listener
@@ -64,6 +65,7 @@ object EcoItemsPackFeature : PackFeature {
 
         val assets = EcoItems.values().mapNotNull { ItemPackAsset.fromItem(it) }
         TridentListener.update(assets)
+        DatapackGenerator.write(plugin, Paintings.values(), Sounds.values())
         val pack = PackBuilder.build(plugin, settings, assets, glyphs.values, Sounds.values(), Huds.values(), imports)
 
         val published = resolvePublisher(plugin, settings)?.publish(pack)

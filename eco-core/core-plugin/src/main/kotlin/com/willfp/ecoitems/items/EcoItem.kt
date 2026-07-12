@@ -11,8 +11,10 @@ import com.willfp.eco.core.registry.Registrable
 import com.willfp.ecoitems.BuildConfig
 import com.willfp.ecoitems.nms.ItemComponentsProxy
 import com.willfp.ecoitems.nms.toComponentValues
+import com.willfp.ecoitems.paintings.Paintings
 import com.willfp.ecoitems.plugin
 import com.willfp.ecoitems.rarity.Rarities
+import com.willfp.ecoitems.sounds.Sounds
 import com.willfp.libreforge.Holder
 import com.willfp.libreforge.ViolationContext
 import com.willfp.libreforge.conditions.Conditions
@@ -96,7 +98,7 @@ class EcoItem(
     private fun ItemStack.withComponents(itemConfig: Config): ItemStack {
         val components = itemConfig.getSubsection("components").toComponentValues().toMutableMap()
 
-        if (itemConfig.has("texture") || itemConfig.has("model")) {
+        if (itemConfig.has("texture") || itemConfig.has("model") || itemConfig.has("definition")) {
             if (BuildConfig.FREE_VERSION) {
                 plugin.logger.warning(
                     "Item ${this@EcoItem.id.key} has a texture, but item textures require the paid version of EcoItems"
@@ -115,10 +117,38 @@ class EcoItem(
             .withComponents(this, components)
 
         for (error in result.errors) {
-            plugin.logger.warning("Invalid component on item ${this@EcoItem.id.key}: $error")
+            val pending = pendingRegistration(error)
+            if (pending != null) {
+                plugin.logger.warning(
+                    "Item ${this@EcoItem.id.key} references the $pending, which registers on the next server restart"
+                )
+            } else {
+                plugin.logger.warning("Invalid component on item ${this@EcoItem.id.key}: $error")
+            }
         }
 
         return result.item
+    }
+
+    /**
+     * Paintings and jukebox songs register through a generated datapack, which
+     * only loads at server start - so a registry miss on one of our own entries
+     * means a pending restart, not a config mistake.
+     */
+    private fun pendingRegistration(error: String): String? {
+        if (BuildConfig.FREE_VERSION || "Failed to get element" !in error) {
+            return null
+        }
+
+        val referenced = "ecoitems:([a-z0-9_]+)".toRegex().find(error)?.groupValues?.get(1) ?: return null
+
+        return when {
+            "painting/variant" in error && Paintings[referenced] != null ->
+                "painting '$referenced'"
+            "jukebox_playable" in error && Sounds[referenced]?.jukebox != null ->
+                "jukebox song '$referenced'"
+            else -> null
+        }
     }
 
     override fun getID(): String {
