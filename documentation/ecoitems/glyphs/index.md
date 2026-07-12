@@ -5,7 +5,9 @@ sidebar_position: 1
 
 Glyphs are custom characters — emojis, chat tags, icons — added to Minecraft's font through the resource pack. Players type placeholders like `:heart:` in chat, and they work in any config text too (item lore, GUI titles, any eco plugin). Glyphs are a paid-version feature, since they're delivered through the [resource pack](../resource-packs/index).
 
-The paid version ships example glyphs: `:heart:` (also `<3`), an animated `:spinner:`, and eight chat rank tags (`:king:`, `:hero:`, `:god:`, ...) locked behind permissions.
+The paid version ships example glyphs: `:heart:` (also `<3`), an animated `:spinner:`, eight chat rank tags (`:king:`, `:hero:`, `:god:`, ...) locked behind permissions, and the `items_gui` GUI background.
+
+The paid defaults also include the `items_gui` Eco Workshop background glyph. `%ecoitems_glyph_items_gui%` inserts it manually, while `/ecoitems gui` positions it automatically. Its editable texture is `plugins/EcoItems/pack/glyphs/gui/items.png`.
 
 ## Making a glyph
 
