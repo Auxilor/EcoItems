@@ -7,6 +7,8 @@ The paid version of EcoItems can give items custom textures and models, build th
 
 The pack is rebuilt on every `/ecoitems reload`, so adding a texture is: drop in a `.png`, point the item at it, reload.
 
+The paid version ships with around 30 example textured items (swords, hammers, wands, gems, and a custom food) in the `items/examples/` folder, with their textures and models in the `pack/` folder — give one a try with `/ecoitems give <you> legendary_hammer`. Delete the item configs if you don't want them; deleting the whole `pack/` folder restores the default assets on the next reload.
+
 ## Giving an item a texture
 
 1. Put your texture at `plugins/EcoItems/pack/textures/<name>.png` (subfolders work).
@@ -49,7 +51,7 @@ Everything pack-related lives in `plugins/EcoItems/pack/`:
 | `pack/assets/` | Copied into the pack verbatim as `assets/` — fonts, sounds, vanilla overrides, anything |
 | `pack/pack.png` | Optional icon override for the pack |
 
-The built pack is written to `plugins/EcoItems/pack.zip`. Files in `pack/assets/` win over generated files on collision, so you can always override what EcoItems generates.
+Everything in `pack/textures/` and `pack/models/` is available inside the pack as `ecoitems:item/<path>`, so custom models can reference any texture you drop in there. The built pack is written to `plugins/EcoItems/pack.zip`. Files in `pack/assets/` win over generated files on collision, so you can always override what EcoItems generates.
 
 ## How it works
 

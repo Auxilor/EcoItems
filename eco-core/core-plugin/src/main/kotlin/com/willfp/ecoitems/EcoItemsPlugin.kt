@@ -22,6 +22,7 @@ import com.willfp.libreforge.loader.LibreforgePlugin
 import com.willfp.libreforge.loader.configs.ConfigCategory
 import com.willfp.libreforge.registerHolderProvider
 import org.bukkit.event.Listener
+import java.io.File
 
 internal lateinit var plugin: EcoItemsPlugin
     private set
@@ -30,6 +31,10 @@ class EcoItemsPlugin : LibreforgePlugin() {
     init {
         plugin = this
     }
+
+    /** The plugin jar, for reading bundled resources. */
+    internal val jar: File
+        get() = file
 
     override fun handleEnable() {
         Items.registerArgParser(ArgParserRarity)

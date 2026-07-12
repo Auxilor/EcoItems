@@ -19,6 +19,8 @@ object EcoItemsPackFeature : PackFeature {
     }
 
     override fun handleReload(plugin: EcoItemsPlugin) {
+        PackDefaults.ensure(plugin)
+
         val config = packYml ?: PackYml(plugin).also { packYml = it }
         val settings = PackSettings(config)
 

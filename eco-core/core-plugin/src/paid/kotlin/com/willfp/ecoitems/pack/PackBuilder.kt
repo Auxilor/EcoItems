@@ -19,16 +19,27 @@ object PackBuilder {
         entries["pack.mcmeta"] = PackMcmeta.json(settings.description).encodeToByteArray()
         entries["pack.png"] = packPng(plugin)
 
+        // Everything in pack/textures and pack/models is available to item
+        // definitions and models as ecoitems:item/<path>.
+        copyTree(plugin.dataFolder.resolve("pack/textures"), "assets/ecoitems/textures/item/", entries)
+        copyTree(plugin.dataFolder.resolve("pack/models"), "assets/ecoitems/models/item/", entries)
+
         ItemAssetGenerator.generate(plugin, assets, entries)
 
-        val overlay = plugin.dataFolder.resolve("pack/assets")
-        if (overlay.isDirectory) {
-            for (file in overlay.walkTopDown().filter { it.isFile }) {
-                entries["assets/" + file.relativeTo(overlay).invariantSeparatorsPath] = file.readBytes()
-            }
-        }
+        // The raw overlay wins on collisions with generated files.
+        copyTree(plugin.dataFolder.resolve("pack/assets"), "assets/", entries)
 
         return write(plugin.dataFolder.resolve("pack.zip"), entries)
+    }
+
+    private fun copyTree(directory: File, prefix: String, entries: MutableMap<String, ByteArray>) {
+        if (!directory.isDirectory) {
+            return
+        }
+
+        for (file in directory.walkTopDown().filter { it.isFile }) {
+            entries[prefix + file.relativeTo(directory).invariantSeparatorsPath] = file.readBytes()
+        }
     }
 
     private fun packPng(plugin: EcoItemsPlugin): ByteArray {

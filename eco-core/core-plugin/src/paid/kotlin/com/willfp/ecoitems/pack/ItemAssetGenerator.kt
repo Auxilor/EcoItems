@@ -4,8 +4,9 @@ import com.willfp.ecoitems.EcoItemsPlugin
 
 /**
  * Generates the per-item pack entries for the modern (1.21.4+) item model
- * system: an item definition in assets/ecoitems/items/, and for textures a
- * generated model + the texture itself.
+ * system: an item definition in assets/ecoitems/items/, and a generated model
+ * for plain textures. The texture and model files themselves are mapped into
+ * the pack wholesale by [PackBuilder].
  *
  * The minecraft:item_model component on the item points at the definition
  * (ecoitems:<id>), which is applied by EcoItem itself.
@@ -35,13 +36,14 @@ object ItemAssetGenerator {
         val modelKey = when {
             model == null -> {
                 val texture = asset.texture ?: return "no texture or model"
-                val textureFile = plugin.dataFolder.resolve("pack/textures/$texture.png")
-                if (!textureFile.exists()) {
+                if (!plugin.dataFolder.resolve("pack/textures/$texture.png").exists()) {
                     return "texture file pack/textures/$texture.png does not exist"
                 }
 
-                entries["assets/ecoitems/textures/item/$texture.png"] = textureFile.readBytes()
-                entries["assets/ecoitems/models/item/$texture.json"] = modelJson(asset, texture)
+                // An explicit model file with the same name beats the generated one.
+                if (!plugin.dataFolder.resolve("pack/models/$texture.json").exists()) {
+                    entries["assets/ecoitems/models/item/$texture.json"] = modelJson(asset, texture)
+                }
 
                 "ecoitems:item/$texture"
             }
@@ -49,12 +51,9 @@ object ItemAssetGenerator {
             ":" in model -> model
 
             else -> {
-                val modelFile = plugin.dataFolder.resolve("pack/models/$model.json")
-                if (!modelFile.exists()) {
+                if (!plugin.dataFolder.resolve("pack/models/$model.json").exists()) {
                     return "model file pack/models/$model.json does not exist"
                 }
-
-                entries["assets/ecoitems/models/item/$model.json"] = modelFile.readBytes()
 
                 "ecoitems:item/$model"
             }
