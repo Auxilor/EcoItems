@@ -4,6 +4,7 @@ import com.willfp.eco.core.integrations.placeholder.PlaceholderManager
 import com.willfp.ecoitems.EcoItemsPlugin
 import com.willfp.ecoitems.glyphs.Glyphs
 import com.willfp.ecoitems.items.EcoItems
+import com.willfp.ecoitems.nms.ItemComponentsProxy
 import com.willfp.ecoitems.pack.delivery.PackDelivery
 import com.willfp.ecoitems.pack.delivery.PackListener
 import com.willfp.ecoitems.pack.glyphs.GlyphCodepoints
@@ -11,12 +12,14 @@ import com.willfp.ecoitems.pack.glyphs.GlyphListeners
 import com.willfp.ecoitems.pack.glyphs.GlyphPlaceholder
 import com.willfp.ecoitems.pack.glyphs.GlyphTabCompletions
 import com.willfp.ecoitems.pack.glyphs.GlyphText
+import com.willfp.ecoitems.pack.glyphs.ShiftChars
 import com.willfp.ecoitems.pack.glyphs.ShiftPlaceholder
 import com.willfp.ecoitems.pack.publisher.ExternalPublisher
 import com.willfp.ecoitems.pack.publisher.HostedPublisher
 import com.willfp.ecoitems.pack.publisher.PackPublisher
 import com.willfp.ecoitems.pack.publisher.SelfHostedPublisher
 import org.bukkit.event.Listener
+import org.bukkit.inventory.ItemStack
 
 object EcoItemsPackFeature : PackFeature {
     private var packYml: PackYml? = null
@@ -62,6 +65,38 @@ object EcoItemsPackFeature : PackFeature {
 
     override fun handleDisable(plugin: EcoItemsPlugin) {
         shutdownPublisher()
+    }
+
+    override fun decorateGuiTitle(plugin: EcoItemsPlugin, title: String, glyphId: String?): String {
+        if (glyphId == null) return title
+
+        val assigned = GlyphText.assignments[glyphId]
+        if (assigned == null) {
+            plugin.logger.warning("GUI background glyph '$glyphId' is not loaded; using the plain title")
+            return title
+        }
+
+        return ShiftChars.shift(-8) +
+            GlyphText.rawChars(assigned) +
+            ShiftChars.shift(-249) +
+            title
+    }
+
+    override fun decorateGuiItem(
+        plugin: EcoItemsPlugin,
+        item: ItemStack,
+        model: String?
+    ): ItemStack {
+        if (model == null) return item
+
+        val result = plugin.getProxy(ItemComponentsProxy::class.java)
+            .withComponents(item, mapOf("minecraft:item_model" to model))
+
+        for (error in result.errors) {
+            plugin.logger.warning("Invalid GUI item model '$model': $error")
+        }
+
+        return result.item
     }
 
     private fun resolvePublisher(plugin: EcoItemsPlugin, settings: PackSettings): PackPublisher? {

@@ -15,10 +15,15 @@ object PackDefaults {
 
         if (!packDir.exists()) {
             extract(plugin)
-        } else if (!packDir.resolve("glyphs").exists()) {
-            // Upgrade path: installs from before glyphs existed get the
-            // shipped glyph textures.
-            extract(plugin, only = "pack/glyphs/")
+        } else {
+            if (!packDir.resolve("glyphs").exists()) {
+                // Upgrade path: installs from before glyphs existed get the
+                // shipped glyph textures.
+                extract(plugin, only = "pack/glyphs/")
+            }
+
+            extract(plugin, only = "pack/glyphs/gui/", overwrite = false)
+            extract(plugin, only = "pack/assets/ecoitems/", overwrite = false)
         }
 
         for (directory in listOf("textures", "models", "assets", "glyphs")) {
@@ -26,7 +31,7 @@ object PackDefaults {
         }
     }
 
-    private fun extract(plugin: EcoItemsPlugin, only: String? = null) {
+    private fun extract(plugin: EcoItemsPlugin, only: String? = null, overwrite: Boolean = true) {
         val dataPath = plugin.dataFolder.toPath().normalize()
 
         try {
@@ -41,6 +46,9 @@ object PackDefaults {
 
                     val target = File(plugin.dataFolder, entry.name)
                     if (!target.toPath().normalize().startsWith(dataPath)) {
+                        continue
+                    }
+                    if (!overwrite && target.exists()) {
                         continue
                     }
 
