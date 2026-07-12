@@ -4,10 +4,13 @@ import com.willfp.eco.core.bstats.EcoMetricsChart
 import com.willfp.eco.core.command.impl.PluginCommand
 import com.willfp.eco.core.display.DisplayModule
 import com.willfp.eco.core.items.Items
+import com.willfp.eco.core.packet.PacketListener
 import com.willfp.ecoitems.commands.CommandEcoItems
 import com.willfp.ecoitems.display.ItemsDisplay
 import com.willfp.ecoitems.display.RarityDisplay
 import com.willfp.ecoitems.glyphs.Glyphs
+import com.willfp.ecoitems.huds.Huds
+import com.willfp.ecoitems.nms.ActionBarDetectionProxy
 import com.willfp.ecoitems.items.EcoItemFinder
 import com.willfp.ecoitems.items.EcoItems
 import com.willfp.ecoitems.items.EcoItemsRecipes
@@ -55,6 +58,12 @@ class EcoItemsPlugin : LibreforgePlugin() {
         ItemsGUI.reload()
     }
 
+    override fun loadPacketListeners(): List<PacketListener> {
+        return listOf(
+            getProxy(ActionBarDetectionProxy::class.java)
+        )
+    }
+
     override fun handleDisable() {
         PackFeatures.instance?.handleDisable(this)
     }
@@ -65,7 +74,8 @@ class EcoItemsPlugin : LibreforgePlugin() {
             EcoItems,
             EcoItemsRecipes,
             Glyphs,
-            Sounds
+            Sounds,
+            Huds
         )
     }
 

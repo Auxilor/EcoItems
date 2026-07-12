@@ -3,6 +3,7 @@ package com.willfp.ecoitems.pack
 import com.willfp.ecoitems.BuildConfig
 import com.willfp.ecoitems.EcoItemsPlugin
 import com.willfp.ecoitems.plugin
+import org.bukkit.entity.Player
 import org.bukkit.event.Listener
 import org.bukkit.inventory.ItemStack
 
@@ -25,6 +26,12 @@ interface PackFeature {
         item: ItemStack,
         model: String?
     ): ItemStack = item
+
+    /**
+     * Toggles a HUD for a player; true/false = the HUD's new visibility,
+     * null = no such HUD.
+     */
+    fun toggleHud(player: Player, id: String): Boolean? = null
 }
 
 object PackFeatures {

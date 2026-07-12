@@ -1,8 +1,10 @@
 package com.willfp.ecoitems.pack
 
 import com.willfp.ecoitems.EcoItemsPlugin
+import com.willfp.ecoitems.huds.Hud
 import com.willfp.ecoitems.pack.glyphs.AssignedGlyph
 import com.willfp.ecoitems.pack.glyphs.GlyphAssetGenerator
+import com.willfp.ecoitems.pack.huds.HudFontGenerator
 import com.willfp.ecoitems.sounds.Sound
 import java.io.File
 import java.security.DigestOutputStream
@@ -21,7 +23,8 @@ object PackBuilder {
         settings: PackSettings,
         assets: List<ItemPackAsset>,
         glyphs: Collection<AssignedGlyph>,
-        sounds: Collection<Sound>
+        sounds: Collection<Sound>,
+        huds: Collection<Hud>
     ): BuiltPack {
         val entries = sortedMapOf<String, ByteArray>()
 
@@ -45,6 +48,7 @@ object PackBuilder {
         // After the overlay, so user-supplied font/sounds/lang files are
         // merged into the generated ones rather than replaced.
         GlyphAssetGenerator.generate(plugin, glyphs, entries)
+        HudFontGenerator.generate(plugin, huds, glyphs, entries)
         SoundAssetGenerator.generate(plugin, sounds, entries)
         LangAssetGenerator.generate(plugin, entries)
 

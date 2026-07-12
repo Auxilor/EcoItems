@@ -10,8 +10,11 @@ Every EcoItems command and the permission node it needs.
 | `/ecoitems reload` | Reload the plugin configs | `ecoitems.command.reload` |
 | `/ecoitems give <player> <item> [amount]` | Give an EcoItem to a player | `ecoitems.command.give` |
 | `/ecoitems gui` | Opens the operator item browser. Left-click an item to receive one copy. | `ecoitems.command.gui` (operators) |
+| `/ecoitems hud toggle <id>` | Toggle a [HUD](huds/index) on or off | `ecoitems.command.hud.toggle` (everyone) |
 
 `ecoitems.command.gui` defaults to operators and is included in `ecoitems.command.*`.
+
+[HUDs](huds/index) with a `permission:` in their config additionally require that permission to be seen at all.
 
 EcoItems items are also available through the eco item lookup system, so any plugin that accepts item lookup strings (crates, shops, GUIs) can use `ecoitems:<id>` directly.
 

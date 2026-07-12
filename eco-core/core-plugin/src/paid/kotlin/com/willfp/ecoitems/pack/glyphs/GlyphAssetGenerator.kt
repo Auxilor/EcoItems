@@ -25,11 +25,14 @@ object GlyphAssetGenerator {
         "rendertype_text_intensity_see_through"
     )
 
-    fun generate(
+    /**
+     * The glyph bitmap providers plus the space provider (shifts + animated
+     * resets), for composing into fonts. Fresh json instances per call.
+     */
+    internal fun buildProviders(
         plugin: EcoItemsPlugin,
-        glyphs: Collection<AssignedGlyph>,
-        entries: MutableMap<String, ByteArray>
-    ) {
+        glyphs: Collection<AssignedGlyph>
+    ): Pair<JsonArray, JsonObject> {
         val providers = JsonArray()
         val advances = JsonObject()
 
@@ -44,6 +47,16 @@ object GlyphAssetGenerator {
         val spaceProvider = JsonObject()
         spaceProvider.addProperty("type", "space")
         spaceProvider.add("advances", advances)
+
+        return providers to spaceProvider
+    }
+
+    fun generate(
+        plugin: EcoItemsPlugin,
+        glyphs: Collection<AssignedGlyph>,
+        entries: MutableMap<String, ByteArray>
+    ) {
+        val (providers, spaceProvider) = buildProviders(plugin, glyphs)
 
         // The standalone shift font, for components that want an explicit font.
         val shiftFont = JsonObject()

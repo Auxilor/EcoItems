@@ -9,3 +9,8 @@ messages:
   invalid-item: "&cInvalid item!"
   pack-declined: "&cYou must accept the resource pack to play on this server!"
   give-success: "Gave &a%item%&r to &a%recipient%&f!"
+
+  invalid-hud: "&cUnknown HUD!"
+  hud-toggled-on: "Enabled the &a%hud%&r HUD!"
+  hud-toggled-off: "Disabled the &a%hud%&r HUD!"
+  huds-require-paid: "&cHUDs require the paid version of EcoItems!"

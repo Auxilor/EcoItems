@@ -36,6 +36,8 @@ permissions:
       ecoitems.command.ecoitems: true
       ecoitems.command.give: true
       ecoitems.command.gui: true
+      ecoitems.command.hud: true
+      ecoitems.command.hud.toggle: true
 
   ecoitems.command.reload:
     description: Allows reloading the config
@@ -46,6 +48,12 @@ permissions:
   ecoitems.command.gui:
     description: Allows the use of /ecoitems gui.
     default: op
+  ecoitems.command.hud:
+    description: Allows the use of /ecoitems hud.
+    default: true
+  ecoitems.command.hud.toggle:
+    description: Allows toggling HUDs
+    default: true
   ecoitems.command.ecoitems:
     description: Allows the user of /ecoitems.
     default: true

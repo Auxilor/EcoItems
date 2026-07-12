@@ -3,6 +3,7 @@ package com.willfp.ecoitems.pack
 import com.willfp.eco.core.integrations.placeholder.PlaceholderManager
 import com.willfp.ecoitems.EcoItemsPlugin
 import com.willfp.ecoitems.glyphs.Glyphs
+import com.willfp.ecoitems.huds.Huds
 import com.willfp.ecoitems.items.EcoItems
 import com.willfp.ecoitems.nms.ItemComponentsProxy
 import com.willfp.ecoitems.pack.delivery.PackDelivery
@@ -14,11 +15,14 @@ import com.willfp.ecoitems.pack.glyphs.GlyphTabCompletions
 import com.willfp.ecoitems.pack.glyphs.GlyphText
 import com.willfp.ecoitems.pack.glyphs.ShiftChars
 import com.willfp.ecoitems.pack.glyphs.ShiftPlaceholder
+import com.willfp.ecoitems.pack.huds.HudState
+import com.willfp.ecoitems.pack.huds.HudTicker
 import com.willfp.ecoitems.pack.publisher.ExternalPublisher
 import com.willfp.ecoitems.pack.publisher.HostedPublisher
 import com.willfp.ecoitems.pack.publisher.PackPublisher
 import com.willfp.ecoitems.pack.publisher.SelfHostedPublisher
 import com.willfp.ecoitems.sounds.Sounds
+import org.bukkit.entity.Player
 import org.bukkit.event.Listener
 import org.bukkit.inventory.ItemStack
 
@@ -27,7 +31,7 @@ object EcoItemsPackFeature : PackFeature {
     private var publisher: PackPublisher? = null
 
     override fun listeners(plugin: EcoItemsPlugin): List<Listener> {
-        return listOf(PackListener) + GlyphListeners.listeners()
+        return listOf(PackListener, HudTicker.QuitListener) + GlyphListeners.listeners()
     }
 
     override fun handleEnable(plugin: EcoItemsPlugin) {
@@ -46,15 +50,18 @@ object EcoItemsPackFeature : PackFeature {
             shutdownPublisher()
             PackDelivery.clear()
             GlyphText.clear()
+            HudTicker.stop()
             return
         }
+
+        HudTicker.start(plugin)
 
         val glyphs = GlyphCodepoints.assign(plugin, Glyphs.values())
         GlyphText.reload(glyphs, settings)
         GlyphTabCompletions.refresh(plugin)
 
         val assets = EcoItems.values().mapNotNull { ItemPackAsset.fromItem(it) }
-        val pack = PackBuilder.build(plugin, settings, assets, glyphs.values, Sounds.values())
+        val pack = PackBuilder.build(plugin, settings, assets, glyphs.values, Sounds.values(), Huds.values())
 
         val published = resolvePublisher(plugin, settings)?.publish(pack)
         PackDelivery.update(published, settings)
@@ -66,6 +73,11 @@ object EcoItemsPackFeature : PackFeature {
 
     override fun handleDisable(plugin: EcoItemsPlugin) {
         shutdownPublisher()
+        HudTicker.stop()
+    }
+
+    override fun toggleHud(player: Player, id: String): Boolean? {
+        return HudState.toggle(player, id)
     }
 
     override fun decorateGuiTitle(plugin: EcoItemsPlugin, title: String, glyphId: String?): String {

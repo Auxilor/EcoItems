@@ -14,6 +14,7 @@ object CommandEcoItems : PluginCommand(
         this.addSubcommand(CommandReload)
             .addSubcommand(CommandGive)
             .addSubcommand(CommandGUI)
+            .addSubcommand(CommandHud)
     }
 
     override fun onExecute(sender: CommandSender, args: List<String>) {
