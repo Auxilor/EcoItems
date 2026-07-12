@@ -28,7 +28,7 @@ object PackDefaults {
             extract(plugin, only = "pack/assets/ecoitems/", overwrite = false)
         }
 
-        for (directory in listOf("textures", "models", "assets", "glyphs", "sounds", "lang")) {
+        for (directory in listOf("textures", "models", "assets", "glyphs", "sounds", "lang", "imports")) {
             packDir.resolve(directory).mkdirs()
         }
     }

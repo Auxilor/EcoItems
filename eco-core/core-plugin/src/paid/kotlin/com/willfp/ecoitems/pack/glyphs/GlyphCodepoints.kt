@@ -27,7 +27,11 @@ object GlyphCodepoints {
     private const val ANIMATED_BASE = 0xE800
     private const val ANIMATED_CAP = 0xF850 // exclusive; shift chars live here
 
-    fun assign(plugin: EcoItemsPlugin, glyphs: Collection<Glyph>): Map<String, AssignedGlyph> {
+    fun assign(
+        plugin: EcoItemsPlugin,
+        glyphs: Collection<Glyph>,
+        reserved: Set<Int> = emptySet()
+    ): Map<String, AssignedGlyph> {
         val file = plugin.dataFolder.resolve("glyph-codepoints.yml")
 
         val staticAssignments = sortedMapOf<String, Int>()
@@ -63,6 +67,20 @@ object GlyphCodepoints {
             explicit[glyph.id] = codepoint
         }
 
+        // Codepoints used by imported packs' fonts: new assignments route
+        // around them. Existing assignments are kept for stability, but a
+        // collision means the imported pack's character wins in the merged
+        // font, so warn about it.
+        used.addAll(reserved)
+
+        fun warnIfReserved(glyph: Glyph, codepoints: Iterable<Int>) {
+            val collision = codepoints.firstOrNull { it in reserved } ?: return
+            plugin.logger.warning(
+                "Glyph ${glyph.id} uses char ${"%04X".format(collision)}, which an imported pack's font also defines; " +
+                    "the imported pack wins. Delete the glyph's entry in glyph-codepoints.yml (or change its char) to re-assign it."
+            )
+        }
+
         val assigned = mutableMapOf<String, AssignedGlyph>()
 
         for (glyph in glyphs.sortedBy { it.id }) {
@@ -70,12 +88,15 @@ object GlyphCodepoints {
 
             if (animation == null) {
                 val codepoint = explicit[glyph.id]
-                    ?: staticAssignments[glyph.id]
+                    ?: staticAssignments[glyph.id]?.also { warnIfReserved(glyph, listOf(it)) }
                     ?: nextFree(STATIC_BASE, used).also {
                         staticAssignments[glyph.id] = it
                         used.add(it)
                         dirty = true
                     }
+                if (explicit[glyph.id] != null) {
+                    warnIfReserved(glyph, listOf(codepoint))
+                }
                 assigned[glyph.id] = AssignedGlyph(glyph, listOf(codepoint), null, null)
                 continue
             }
@@ -83,6 +104,7 @@ object GlyphCodepoints {
             // Animated: a contiguous block of frames + reset + offset.
             val needed = animation.frames + 2
             var block = animatedAssignments[glyph.id]?.takeIf { it.count() >= needed }
+                ?.also { warnIfReserved(glyph, it) }
 
             if (block == null) {
                 val start = nextFreeBlock(needed, used)

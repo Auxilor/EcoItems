@@ -16,17 +16,29 @@ object PackMcmeta {
     // legacy key on overlays beginning after format 64, so the overlays span
     // back to 64 and are ordered newest-first. Later overlays restore the
     // correct shaders for older formats.
-    private const val SHADER_OVERLAYS = """,
+    private val SHADER_OVERLAY_ENTRIES = listOf(
+        """{ "formats": 64, "min_format": 64, "max_format": 999, "directory": "overlay_26_2" }""",
+        """{ "formats": 64, "min_format": 64, "max_format": 87, "directory": "overlay_26" }""",
+        """{ "formats": 64, "min_format": 64, "max_format": 83, "directory": "overlay_pre_26" }"""
+    )
+
+    fun json(
+        description: String,
+        withShaderOverlays: Boolean = false,
+        importedOverlays: List<String> = emptyList()
+    ): String {
+        // Later entries win, so imported overlays go first: our shader
+        // overlays must not be shadowed by imported packs.
+        val entries = importedOverlays + if (withShaderOverlays) SHADER_OVERLAY_ENTRIES else emptyList()
+
+        val overlays = if (entries.isEmpty()) "" else """,
   "overlays": {
     "entries": [
-      { "formats": 64, "min_format": 64, "max_format": 999, "directory": "overlay_26_2" },
-      { "formats": 64, "min_format": 64, "max_format": 87, "directory": "overlay_26" },
-      { "formats": 64, "min_format": 64, "max_format": 83, "directory": "overlay_pre_26" }
+      ${entries.joinToString(",\n      ")}
     ]
   }"""
 
-    fun json(description: String, withShaderOverlays: Boolean = false): String =
-        """
+        return """
 {
   "pack": {
     "description": ${description.toJsonString()},
@@ -37,9 +49,10 @@ object PackMcmeta {
     },
     "min_format": $MIN_FORMAT,
     "max_format": $MAX_FORMAT
-  }${if (withShaderOverlays) SHADER_OVERLAYS else ""}
+  }$overlays
 }
 """.trimStart()
+    }
 }
 
 internal fun String.toJsonString(): String =

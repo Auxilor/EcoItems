@@ -56,12 +56,14 @@ object EcoItemsPackFeature : PackFeature {
 
         HudTicker.start(plugin)
 
-        val glyphs = GlyphCodepoints.assign(plugin, Glyphs.values())
+        val imports = PackImports.load(plugin)
+
+        val glyphs = GlyphCodepoints.assign(plugin, Glyphs.values(), imports.fontCodepoints)
         GlyphText.reload(glyphs, settings)
         GlyphTabCompletions.refresh(plugin)
 
         val assets = EcoItems.values().mapNotNull { ItemPackAsset.fromItem(it) }
-        val pack = PackBuilder.build(plugin, settings, assets, glyphs.values, Sounds.values(), Huds.values())
+        val pack = PackBuilder.build(plugin, settings, assets, glyphs.values, Sounds.values(), Huds.values(), imports)
 
         val published = resolvePublisher(plugin, settings)?.publish(pack)
         PackDelivery.update(published, settings)

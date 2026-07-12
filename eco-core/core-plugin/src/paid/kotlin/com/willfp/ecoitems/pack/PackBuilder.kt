@@ -24,12 +24,22 @@ object PackBuilder {
         assets: List<ItemPackAsset>,
         glyphs: Collection<AssignedGlyph>,
         sounds: Collection<Sound>,
-        huds: Collection<Hud>
+        huds: Collection<Hud>,
+        imports: ImportedPacks
     ): BuiltPack {
         val entries = sortedMapOf<String, ByteArray>()
 
+        // External packs (pack/imports/) are the lowest-priority layer:
+        // everything EcoItems generates wins on collision, and the
+        // font/sounds/lang generators merge with whatever the imports put here.
+        entries.putAll(imports.entries)
+
         val hasAnimatedGlyphs = glyphs.any { it.glyph.isAnimated }
-        entries["pack.mcmeta"] = PackMcmeta.json(settings.description, hasAnimatedGlyphs).encodeToByteArray()
+        entries["pack.mcmeta"] = PackMcmeta.json(
+            settings.description,
+            hasAnimatedGlyphs,
+            imports.overlays.map { it.toString() }
+        ).encodeToByteArray()
         entries["pack.png"] = packPng(plugin)
 
         // Everything in pack/textures and pack/models is available to item
@@ -42,8 +52,9 @@ object PackBuilder {
 
         ItemAssetGenerator.generate(plugin, assets, entries)
 
-        // The raw overlay wins on collisions with generated files.
-        copyTree(plugin.dataFolder.resolve("pack/assets"), "assets/", entries)
+        // The raw overlay wins on collisions with generated files, but
+        // merges with (rather than clobbers) mergeable imported files.
+        mergeTree(plugin.dataFolder.resolve("pack/assets"), "assets/", entries)
 
         // After the overlay, so user-supplied font/sounds/lang files are
         // merged into the generated ones rather than replaced.
@@ -62,6 +73,24 @@ object PackBuilder {
 
         for (file in directory.walkTopDown().filter { it.isFile }) {
             entries[prefix + file.relativeTo(directory).invariantSeparatorsPath] = file.readBytes()
+        }
+    }
+
+    private fun mergeTree(directory: File, prefix: String, entries: MutableMap<String, ByteArray>) {
+        if (!directory.isDirectory) {
+            return
+        }
+
+        for (file in directory.walkTopDown().filter { it.isFile }) {
+            val path = prefix + file.relativeTo(directory).invariantSeparatorsPath
+            val incoming = file.readBytes()
+            val existing = entries[path]
+
+            entries[path] = if (existing != null) {
+                PackImports.merge(path, existing, incoming) ?: incoming
+            } else {
+                incoming
+            }
         }
     }
 

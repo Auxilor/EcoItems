@@ -198,6 +198,13 @@ object GlyphAssetGenerator {
     ) {
         val constants = animConstants(animated)
 
+        if (entries.keys.any { it.startsWith("assets/minecraft/shaders/core/") }) {
+            plugin.logger.warning(
+                "Imported or user-supplied text shaders were replaced by EcoItems' animated glyph shaders; " +
+                    "their shader-based text features won't work"
+            )
+        }
+
         fun write(template: String, target: String) {
             val resource = javaClass.getResourceAsStream("/glyph-shaders/$template")
             if (resource == null) {

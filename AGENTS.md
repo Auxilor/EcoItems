@@ -110,7 +110,11 @@ keep paid resources (pack.yml, textures, example items) out of `src/main/resourc
 Flow, all in `src/paid/kotlin/.../pack/`, orchestrated by `EcoItemsPackFeature.handleReload`:
 
 1. `PackDefaults.ensure` - extracts bundled `pack/**` jar entries to `plugins/EcoItems/pack/` on
-   first run (or after the folder is deleted) and creates `pack/{textures,models,assets,glyphs,sounds,lang}`.
+   first run (or after the folder is deleted) and creates `pack/{textures,models,assets,glyphs,sounds,lang,imports}`.
+   External packs dropped in `pack/imports/` (zips or folders) merge in as the lowest-priority
+   layer via `PackImports` - fonts/sounds/lang/atlases merge smartly, imported font codepoints are
+   reserved so glyph auto-assignment routes around them, and imported pack.mcmeta overlay entries
+   carry into the final mcmeta.
 2. `ItemPackAsset.fromItem` per item - reads `item.texture` (png in `pack/textures/`, optional
    `texture-parent: handheld`) or `item.model` (json in `pack/models/`, or a verbatim `ns:path`).
 3. `PackBuilder.build` - maps **everything** in `pack/textures/` and `pack/models/` into the pack
