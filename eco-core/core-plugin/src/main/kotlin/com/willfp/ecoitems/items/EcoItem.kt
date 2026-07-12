@@ -8,7 +8,9 @@ import com.willfp.eco.core.items.builder.ItemStackBuilder
 import com.willfp.eco.core.recipe.Recipes
 import com.willfp.eco.core.recipe.recipes.CraftingRecipe
 import com.willfp.eco.core.registry.Registrable
-import com.willfp.ecoitems.items.components.ComponentHandlers
+import com.willfp.ecoitems.BuildConfig
+import com.willfp.ecoitems.nms.ItemComponentsProxy
+import com.willfp.ecoitems.nms.toComponentValues
 import com.willfp.ecoitems.plugin
 import com.willfp.ecoitems.rarity.Rarities
 import com.willfp.libreforge.Holder
@@ -45,28 +47,22 @@ class EcoItem(
     // Defensive copy
     private val _itemStack: ItemStack = run {
         val itemConfig = config.getSubsection("item")
-        ItemStackBuilder(Items.lookup(itemConfig.getString("item")).item).apply {
+        val built = ItemStackBuilder(Items.lookup(itemConfig.getString("item")).item).apply {
             if (itemConfig.has("display-name")) {
                 setDisplayName(itemConfig.getFormattedString("display-name"))
             }
             addLoreLines(
                 itemConfig.getFormattedStrings("lore").map { "${Display.PREFIX}$it" }
             )
-        }.build().apply {
-            ecoItem = this@EcoItem
+        }.build().withComponents(itemConfig)
 
-            for (handler in ComponentHandlers.values()) {
-                if (config.has(handler.id)) {
-                    handler.apply(this, config.getSubsection(handler.id))
-                }
-            }
+        built.apply {
+            ecoItem = this@EcoItem
         }
     }
 
     val itemStack: ItemStack
         get() = _itemStack.clone()
-
-    val effectiveDurability = config.getIntOrNull("item.effective-durability") ?: itemStack.type.maxDurability.toInt()
 
     val customItem = CustomItem(
         plugin.namespacedKeyFactory.create(id),
@@ -95,13 +91,35 @@ class EcoItem(
         )
     }
 
-    val baseDamage = config.getDoubleOrNull("base-damage")
-
-    val baseAttackSpeed = config.getDoubleOrNull("base-attack-speed")
-
-    val baseAttackRange = config.getDoubleOrNull("base-attack-range")
-
     val rarity = Rarities[config.getString("rarity")]
+
+    private fun ItemStack.withComponents(itemConfig: Config): ItemStack {
+        val components = itemConfig.getSubsection("components").toComponentValues().toMutableMap()
+
+        if (itemConfig.has("texture") || itemConfig.has("model")) {
+            if (BuildConfig.FREE_VERSION) {
+                plugin.logger.warning(
+                    "Item ${this@EcoItem.id.key} has a texture, but item textures require the paid version of EcoItems"
+                )
+            } else {
+                // The pack system generates the matching assets on reload.
+                components.putIfAbsent("minecraft:item_model", "ecoitems:${this@EcoItem.id.key}")
+            }
+        }
+
+        if (components.isEmpty()) {
+            return this
+        }
+
+        val result = plugin.getProxy(ItemComponentsProxy::class.java)
+            .withComponents(this, components)
+
+        for (error in result.errors) {
+            plugin.logger.warning("Invalid component on item ${this@EcoItem.id.key}: $error")
+        }
+
+        return result.item
+    }
 
     override fun getID(): String {
         return this.id.key

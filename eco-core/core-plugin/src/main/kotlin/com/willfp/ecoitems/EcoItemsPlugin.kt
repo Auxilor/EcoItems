@@ -10,10 +10,9 @@ import com.willfp.ecoitems.display.RarityDisplay
 import com.willfp.ecoitems.items.EcoItemFinder
 import com.willfp.ecoitems.items.EcoItems
 import com.willfp.ecoitems.items.EcoItemsRecipes
-import com.willfp.ecoitems.items.components.ComponentHandlers
-import com.willfp.ecoitems.items.ItemAttributeListener
 import com.willfp.ecoitems.items.ItemListener
 import com.willfp.ecoitems.libreforge.ConditionHasEcoItem
+import com.willfp.ecoitems.pack.PackFeatures
 import com.willfp.ecoitems.rarity.ArgParserRarity
 import com.willfp.ecoitems.rarity.Rarities
 import com.willfp.ecoitems.items.EcoItemTag
@@ -41,6 +40,14 @@ class EcoItemsPlugin : LibreforgePlugin() {
         registerHolderProvider(EcoItemFinder.toHolderProvider())
     }
 
+    override fun handleReload() {
+        PackFeatures.instance?.handleReload(this)
+    }
+
+    override fun handleDisable() {
+        PackFeatures.instance?.handleDisable(this)
+    }
+
     override fun loadConfigCategories(): List<ConfigCategory> {
         return listOf(
             Rarities,
@@ -52,9 +59,8 @@ class EcoItemsPlugin : LibreforgePlugin() {
     override fun loadListeners(): List<Listener> {
         return listOf(
             DiscoverRecipeListener,
-            ItemListener,
-            ItemAttributeListener
-        )
+            ItemListener
+        ) + (PackFeatures.instance?.listeners(this) ?: emptyList())
     }
 
     override fun loadPluginCommands(): List<PluginCommand> {
@@ -74,7 +80,6 @@ class EcoItemsPlugin : LibreforgePlugin() {
         EcoMetricsChart.SingleLine("total_items") { EcoItems.values().size },
         EcoMetricsChart.SingleLine("total_rarities") { Rarities.values().size },
         EcoMetricsChart.SingleLine("total_recipes") { EcoItemsRecipes.size },
-        EcoMetricsChart.SingleLine("total_component_handlers") { ComponentHandlers.values().size },
         EcoMetricsChart.SimplePie("rarity_enabled") {
             if (configYml.getBool("rarity.enabled")) "enabled" else "disabled"
         },

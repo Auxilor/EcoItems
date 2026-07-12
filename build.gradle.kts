@@ -1,4 +1,4 @@
-﻿import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     kotlin("jvm") version "2.3.0"
@@ -19,9 +19,12 @@ base {
 }
 
 dependencies {
-    project.project(project(":eco-core").path).subprojects {
-        implementation(this)
-    }
+    implementation(project(path = ":eco-core:core-plugin", configuration = "shadow"))
+    implementation(project(path = ":eco-core:core-nms:v1_21_8", configuration = "reobf"))
+    implementation(project(path = ":eco-core:core-nms:v1_21_10", configuration = "reobf"))
+    implementation(project(path = ":eco-core:core-nms:v1_21_11", configuration = "reobf"))
+    implementation(project(path = ":eco-core:core-nms:v26_1_2", configuration = "shadow"))
+    implementation(project(path = ":eco-core:core-nms:v26_2", configuration = "shadow"))
 }
 
 java {
@@ -122,8 +125,6 @@ allprojects {
         compileJava {
             options.isDeprecation = true
             options.encoding = "UTF-8"
-
-            dependsOn(clean)
         }
 
         processResources {

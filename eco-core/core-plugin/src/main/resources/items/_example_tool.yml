@@ -7,6 +7,22 @@
 item:
   item: netherite_pickaxe glint max_damage:4096 # The item in-game: https://hub.auxilor.io/wiki/eco/the-item-lookup-system-the-item-lookup-system
   display-name: "<g:#FF0099>Hardened Netherite Pickaxe</g:#493240>"
+
+  # Vanilla item components, with the same format as in vanilla commands:
+  # https://minecraft.wiki/w/Data_component_format
+  components:
+    # Read here: https://minecraft.wiki/w/Data_component_format#tool
+    "minecraft:tool":
+      default_mining_speed: 1.0 # The mining speed, if not overridden by any rules
+      damage_per_block: 1 # The durability to remove from the tool when it is used
+      rules:
+        - blocks: "#minecraft:mineable/pickaxe" # A block, list of blocks, or #tag
+          speed: 45.8 # The mining speed for these blocks
+          correct_for_drops: true
+        - blocks: "#minecraft:incorrect_for_netherite_tool"
+          speed: 1.0
+          correct_for_drops: false # If the blocks should drop items when mined with this tool
+
   lore:
     - "&7A pickaxe made from hardened netherite."
     - "&7Mines blocks much faster than a regular netherite pickaxe."
@@ -29,28 +45,6 @@ item:
     - netherite_ingot
     - netherite_ingot
 
-# Options for the tool
-# These options do not update existing tools, only new ones
-tool:
-  # The default mining speed, if not overridden by any rules
-  mining-speed: 1.0
-
-  # The amount of durability to remove from the tool when it is used
-  damage-per-block: 1
-
-  # (Optional) Rules for the tool
-  # Blocks are lists of block names or block tags
-  # A list of block names is here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
-  # A list of block (Material) tags is here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Tag.html
-  rules:
-    - blocks:
-        - "#mineable_pickaxe" # Tags start with a #
-      speed: 45.8 # The mining speed for these blocks
-    - blocks:
-        - "#incorrect_for_netherite_tool"
-      speed: 1
-      drops: false # (Optional) If the block should drop items when mined with this tool
-
 # The slot the item has to be in to activate its effects.
 # The options for slot are mainhand, offhand, hands, helmet, chestplate,
 # leggings, boots, armor, any, a number from 0-40 (to specify an exact slot),
@@ -58,10 +52,6 @@ tool:
 # Use to choose weather this is a weapon, tool, armor piece, charm, etc.
 # If you don't specify this, it will default to mainhand.
 slot: mainhand
-
-base-damage: 12 # (Optional) The item base damage
-base-attack-speed: 1.5 # (Optional) The item base attack speed
-base-attack-range: 3.0 # (Optional) The item base attack range (entity interaction range, vanilla default 3.0)
 
 # (Optional) The rarity of the item
 rarity: rare

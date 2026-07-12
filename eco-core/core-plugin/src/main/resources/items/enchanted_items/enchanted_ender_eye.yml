@@ -14,8 +14,6 @@ item:
     - ender_eye 4
     - ""
 
-base-damage: 0
-base-attack-speed: 1
 
 effects: [ ]
 conditions: [ ]

@@ -10,8 +10,16 @@ sourceSets {
     }
 }
 
+if (!freeVersion) {
+    sourceSets.main {
+        kotlin.srcDir("src/paid/kotlin")
+        resources.srcDir("src/paid/resources")
+    }
+}
+
 val generateBuildConfig by tasks.registering {
     outputs.dir(buildConfigDir)
+    inputs.property("freeVersion", freeVersion)
     doFirst {
         val file = buildConfigDir.get().file("com/willfp/ecoitems/BuildConfig.kt").asFile
         file.parentFile.mkdirs()
@@ -38,10 +46,6 @@ tasks {
 
     sourcesJar {
         dependsOn(generateBuildConfig)
-    }
-
-    build {
-        dependsOn(publishToMavenLocal)
     }
 }
 

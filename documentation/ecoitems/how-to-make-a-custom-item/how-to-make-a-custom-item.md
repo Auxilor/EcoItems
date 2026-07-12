@@ -3,14 +3,14 @@ title: "How to Make an Item"
 sidebar_position: 1
 ---
 
-An EcoItem is a custom item defined in its own config file: you set its **display**, its **attributes**, its **recipe**, and the **effects** it runs while held or worn. This page takes you from an empty file to a working item you can give yourself in-game.
+An EcoItem is a custom item defined in its own config file: you set its **display**, its **components**, its **recipe**, and the **effects** it runs while held or worn. This page takes you from an empty file to a working item you can give yourself in-game.
 
 ## Quick start
 
 1. Open the `/plugins/EcoItems/items/` folder.
 2. Copy `_example.yml` and rename it to your item's ID, e.g. `mithril_sword.yml`.
 3. Edit the `item:` section to set the base item, display name, and lore.
-4. Set the `slot:` and any attributes or `effects:` you want.
+4. Set the `slot:` and any `effects:` you want.
 5. Run `/ecoitems reload`.
 6. Give yourself the item with `/ecoitems give <you> mithril_sword` and confirm it appears with your display name and lore.
 
@@ -30,8 +30,8 @@ IDs may only contain lowercase letters, numbers, and underscores (a-z, 0-9, _). 
 
 | Part | What it controls |
 | --- | --- |
-| **Item** | The base item, display name, lore, and crafting recipe |
-| **Attributes** | The slot the item works in, its rarity, and combat stats |
+| **Item** | The base item, display name, lore, components, and crafting recipe |
+| **Slot and rarity** | The slot the item works in and its rarity |
 | **Effects** | The effects and conditions that run while the item is active |
 
 ```yaml
@@ -45,6 +45,13 @@ item:
     - ""
     - "<g:#f953c6>MITHRIL BONUS</g:#b91d73>"
     - "&8» &#f953c6Deal 50% more damage in the nether"
+  components: # Optional; vanilla item components: https://minecraft.wiki/w/Data_component_format
+    "minecraft:attribute_modifiers":
+      - type: "minecraft:attack_damage"
+        id: "ecoitems:damage"
+        amount: 11
+        operation: "add_value"
+        slot: "mainhand"
   craftable: true # If the item can be crafted
   crafting-permission: ecoitems.craft.custom_item # Optional; permission required to craft the item
   shapeless: false # Optional; whether the recipe is shapeless, defaults to false
@@ -60,12 +67,9 @@ item:
     - stick
     - ""
 
-# === Attributes: how it behaves ===
+# === Behaviour: where it works ===
 slot: mainhand # The slot the item must be in to activate; defaults to mainhand
 rarity: rare # Optional; the item rarity from the rarities folder
-base-damage: 12 # Optional; the item base damage
-base-attack-speed: 1.5 # Optional; the item base attack speed
-base-attack-range: 3.0 # Optional; entity interaction range, vanilla default 3.0
 
 # === Effects: what it does ===
 effects:
@@ -82,48 +86,48 @@ conditions:
 
 ### Item
 
-The `item:` section defines the base item players receive and how it's crafted.
-
-```yaml
-item:
-  item: iron_sword hide_attributes # The base item: https://hub.auxilor.io/wiki/eco/the-item-lookup-system-the-item-lookup-system
-  display-name: "<g:#f953c6>Mithril Sword</g:#b91d73>" # The item display name
-  lore: # The item lore, one entry per line
-    - "&7Damage: &c12❤"
-    - "&8» &#f953c6Deal 50% more damage in the nether"
-  craftable: true # If the item can be crafted
-  crafting-permission: ecoitems.craft.custom_item # Optional; permission required to craft the item
-  shapeless: false # Optional; whether the recipe is shapeless, defaults to false
-  recipe-give-amount: 1 # Optional; how many items the recipe gives, defaults to 1
-  recipe: # The recipe: https://hub.auxilor.io/wiki/eco/the-item-lookup-system-the-item-lookup-system/recipes
-    - ""
-    - ecoitems:mithril 2
-    - ""
-    - ""
-    - ecoitems:mithril 2
-    - ""
-    - ""
-    - stick
-    - ""
-```
+The `item:` section defines the base item players receive and how it's crafted. The base item is an [Item Lookup](https://hub.auxilor.io/wiki/eco/the-item-lookup-system-the-item-lookup-system) string, so modifiers like `hide_attributes`, `glint`, `unbreakable`, and `max_damage:4096` all work inline.
 
 :::tip
 EcoItems supports both shaped and shapeless recipes. See [Recipes](https://hub.auxilor.io/wiki/eco/the-item-lookup-system-the-item-lookup-system/recipes) for the full format.
 :::
 
-### Attributes
+### Components
 
-These top-level fields control where the item works and its combat stats.
+`item.components` lets you set **any vanilla item component** on the item, using the same structure as vanilla commands — see the [Data component format](https://minecraft.wiki/w/Data_component_format) for every component and its fields. This is how you set combat stats, food behaviour, tool rules, cooldowns, equippability, and anything else the game itself supports:
 
 ```yaml
-slot: mainhand # The slot the item must be in to activate; defaults to mainhand
-rarity: rare # Optional; the item rarity from the rarities folder
-base-damage: 12 # Optional; the item base damage
-base-attack-speed: 1.5 # Optional; the item base attack speed
-base-attack-range: 3.0 # Optional; entity interaction range, vanilla default 3.0
+item:
+  components:
+    "minecraft:max_stack_size": 1
+    "minecraft:use_cooldown":
+      seconds: 2.5
+    "minecraft:attribute_modifiers":
+      - type: "minecraft:attack_damage"
+        id: "ecoitems:damage"
+        amount: 11 # On top of the player's base 1 damage, so 12 total
+        operation: "add_value"
+        slot: "mainhand"
 ```
 
-`slot` accepts `mainhand`, `offhand`, `hands`, `helmet`, `chestplate`, `leggings`, `boots`, `armor`, `any`, a number from 0-40 for an exact slot, or a list like `"9, 10, 11, mainhand"`. For vanilla default damage and attack speed values, see the [Minecraft Wiki](https://minecraft.wiki/w/Damage#Dealing_damage).
+Invalid components are skipped with a warning in the console telling you what's wrong.
+
+:::info Migrating from older versions
+The old `base-damage`, `base-attack-speed`, `base-attack-range`, and `effective-durability` options have been replaced by components: use `minecraft:attribute_modifiers` for combat stats (as above) and `max_damage:<amount>` on the base item lookup for durability. The old `food:` and `tool:` sections are now the `minecraft:food`, `minecraft:consumable`, and `minecraft:tool` components — see [Custom Foods](custom-foods) and [Custom Tools](custom-tools).
+:::
+
+### Texture (paid version)
+
+Give the item a custom texture with `item.texture`, pointing at a `.png` in `plugins/EcoItems/pack/textures/`. The resource pack is generated and delivered automatically — see [Resource Packs](../resource-packs/index).
+
+```yaml
+item:
+  texture: mithril_sword
+```
+
+### Slot and rarity
+
+`slot` accepts `mainhand`, `offhand`, `hands`, `helmet`, `chestplate`, `leggings`, `boots`, `armor`, `any`, a number from 0-40 for an exact slot, or a list like `"9, 10, 11, mainhand"`. `rarity` is optional and references a rarity from the `rarities/` folder.
 
 ### Effects
 
@@ -162,4 +166,5 @@ Effects and conditions are a shared eco system with their own documentation. To 
 
 - **Foods and tools:** [Custom Foods](custom-foods) and [Custom Tools](custom-tools) add eating and mining behaviour to an item.
 - **Rarities:** [Item Rarity](../additional-configuration-options/item-rarity) for the rarity tags used by `rarity:`.
+- **Textures:** [Resource Packs](../resource-packs/index) for custom item textures and models (paid).
 - **Default configs:** the shipped items live [here](https://github.com/Auxilor/EcoItems/blob/master/eco-core/core-plugin/src/main/resources/items/), and you can find community items on [lrcdb](https://lrcdb.auxilor.io/).

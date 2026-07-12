@@ -7,4 +7,5 @@ messages:
 
   invalid-player: "&cInvalid player!"
   invalid-item: "&cInvalid item!"
+  pack-declined: "&cYou must accept the resource pack to play on this server!"
   give-success: "Gave &a%item%&r to &a%recipient%&f!"

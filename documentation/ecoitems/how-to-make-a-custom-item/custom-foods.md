@@ -3,19 +3,19 @@ title: "Custom Foods"
 sidebar_position: 2
 ---
 
-A custom food is a normal EcoItem with an added **food** section that makes it edible: you set its **nutrition**, **eat time**, and any **potion effects** it grants. This page covers adding that food behaviour on top of a standard item.
+A custom food is a normal EcoItem with the vanilla **food** and **consumable** components that make it edible: you set its **nutrition**, **eat time**, and any **potion effects** it grants. This page covers adding that food behaviour on top of a standard item.
 
 ## Quick start
 
 1. Open the `/plugins/EcoItems/items/` folder.
-2. Copy `_example.yml` and rename it to your food's ID, e.g. `enchanted_steak.yml`.
+2. Copy `_example_food.yml` and rename it to your food's ID, e.g. `enchanted_steak.yml`.
 3. Set up the `item:` section as you would for any item (see [How to make an Item](how-to-make-a-custom-item)).
-4. Add a `food:` section with the nutrition, saturation, and eat time.
+4. Add the `minecraft:food` and `minecraft:consumable` components.
 5. Run `/ecoitems reload`.
 6. Give yourself the item with `/ecoitems give <you> enchanted_steak` and eat it to confirm the hunger and effects apply.
 
 :::tip
-`_example.yml` is included as a reference and is **never loaded**, so copy or rename it to make a real food. You can also organise foods into subfolders inside `items/`, and they'll still load.
+`_example_food.yml` is included as a reference and is **never loaded**, so copy or rename it to make a real food. You can also organise foods into subfolders inside `items/`, and they'll still load.
 :::
 
 ## Naming and IDs
@@ -31,74 +31,71 @@ IDs may only contain lowercase letters, numbers, and underscores (a-z, 0-9, _). 
 | Part | What it controls |
 | --- | --- |
 | **Item** | The base item, display, and recipe, identical to any EcoItem |
-| **Food** | The eating behaviour: nutrition, eat time, and potion effects |
+| **`minecraft:food`** | Nutrition, saturation, and whether it can always be eaten |
+| **`minecraft:consumable`** | Eat time and effects granted on eating |
 
 ```yaml
 # === Item: a normal EcoItem ===
 item:
   item: cooked_beef glint item_name:"Enchanted Steak" # The base item
   lore: [] # The item lore
-  craftable: true # If the item can be crafted
-  crafting-permission: ecoitems.craft.custom_item # Optional; permission required to craft the item
-  recipe-give-amount: 1 # Optional; how many items the recipe gives, defaults to 1
-  recipe: # The recipe: https://hub.auxilor.io/wiki/eco/the-item-lookup-system-the-item-lookup-system/recipes
-    - ""
-    - cooked_beef 64
-    - ""
-    - cooked_beef 64
-    - cooked_beef 64
-    - cooked_beef 64
-    - ""
-    - cooked_beef 64
-    - ""
 
-# === Food: the eating behaviour ===
-food:
-  nutrition: 12 # Hunger restored: https://minecraft.wiki/w/Hunger
-  saturation: 2 # Saturation restored
-  eat-seconds: 1 # Time in seconds it takes to eat
-  can-always-eat: false # Optional; if it can be eaten on a full hunger bar
-  effects: # Optional; potion effects granted on eating
-    - effect: regeneration # The potion effect ID
-      duration: 40 # Duration in ticks
-      level: 1 # The effect level
-      ambient: true # Optional; if the potion is ambient, defaults to true
-      particles: true # Optional; if the potion shows particles, defaults to true
-      icon: true # Optional; if the potion icon shows, defaults to true
-      probability: 100 # Optional; chance the effect is applied, defaults to 100
+  # === The eating behaviour, as vanilla components ===
+  components:
+    # Read here: https://minecraft.wiki/w/Data_component_format#food
+    "minecraft:food":
+      nutrition: 12 # Hunger restored: https://minecraft.wiki/w/Hunger
+      saturation: 2 # Saturation restored
+      can_always_eat: false # Optional; if it can be eaten on a full hunger bar
+
+    # Read here: https://minecraft.wiki/w/Data_component_format#consumable
+    "minecraft:consumable":
+      consume_seconds: 1 # Time in seconds it takes to eat
+      on_consume_effects: # Optional; effects applied on eating
+        - type: "minecraft:apply_effects"
+          effects:
+            - id: "minecraft:regeneration" # The potion effect ID
+              duration: 40 # Duration in ticks
+              amplifier: 0 # The effect level, starting at 0
+          probability: 1.0 # Chance the effects are applied, 0.0 to 1.0
+
+  craftable: true # If the item can be crafted
+  recipe:
+    - ""
+    - cooked_beef 64
+    - ""
+    - cooked_beef 64
+    - cooked_beef 64
+    - cooked_beef 64
+    - ""
+    - cooked_beef 64
+    - ""
 ```
 
 ### Item
 
-The `item:` section is exactly the same as any other EcoItem. See [How to make an Item](how-to-make-a-custom-item) for the full breakdown of the base item, display, and recipe fields. A food is still a full EcoItem, so the top-level `effects:` and `conditions:` work too; the `food:` potion effects fire on eating, while `effects:` run on whatever triggers you give them.
-
-### Food
-
-The `food:` section turns the item into something edible.
+The `item:` section is exactly the same as any other EcoItem. See [How to make an Item](how-to-make-a-custom-item) for the full breakdown of the base item, display, and recipe fields. A food is still a full EcoItem, so the top-level `effects:` and `conditions:` work too; a `consume` trigger pairs naturally with foods:
 
 ```yaml
-food:
-  nutrition: 12 # Hunger restored: https://minecraft.wiki/w/Hunger
-  saturation: 2 # Saturation restored
-  eat-seconds: 1 # Time in seconds it takes to eat
-  can-always-eat: false # Optional; if it can be eaten on a full hunger bar
-  effects: # Optional; potion effects granted on eating
-    - effect: regeneration # The potion effect ID
-      duration: 40 # Duration in ticks
-      level: 1 # The effect level
-      ambient: true # Optional; if the potion is ambient, defaults to true
-      particles: true # Optional; if the potion shows particles, defaults to true
-      icon: true # Optional; if the potion icon shows, defaults to true
-      probability: 100 # Optional; chance the effect is applied, defaults to 100
+effects:
+  - id: give_xp
+    args:
+      amount: 10
+    triggers:
+      - consume
 ```
 
+### The components
+
+`minecraft:food` and `minecraft:consumable` are the vanilla components that control eating — the same ones vanilla items use, with every field documented in the [Data component format](https://minecraft.wiki/w/Data_component_format#food). The consumable component also supports `animation`, `sound`, teleport effects (chorus fruit style), and more.
+
 :::info Food changes apply to new items only
-Editing the `food:` section does not update foods already in player inventories; only newly given or crafted copies pick up the change.
+Editing components does not update foods already in player inventories; only newly given or crafted copies pick up the change.
 :::
 
 :::tip Troubleshooting
-- **Can't eat the item?** Foods need a valid `food:` section; check `nutrition` and `eat-seconds` are set.
-- **Potion effects not applying?** Confirm the `effect` ID is a valid potion effect and `probability` is high enough.
+- **Can't eat the item?** Check the console for component warnings on reload; a typo in a field name or value will report exactly what's wrong.
+- **Potion effects not applying?** Confirm the effect `id` is a valid potion effect and `probability` is high enough.
 - **Hunger doesn't change after editing?** Get a fresh copy; existing foods keep their old behaviour.
 :::
 
