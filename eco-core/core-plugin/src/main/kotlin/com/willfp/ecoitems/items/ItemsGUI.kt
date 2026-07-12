@@ -109,8 +109,11 @@ private class ItemScrollPane(private val items: List<EcoItem>) : GUIComponent {
 
         return slot(item.itemStack) {
             onLeftClick { event, _ ->
+                val itemStack = item.itemStack
+                itemStack.amount = 1
+
                 DropQueue(event.whoClicked as Player)
-                    .addItem(item.itemStack)
+                    .addItem(itemStack)
                     .forceTelekinesis()
                     .push()
             }
