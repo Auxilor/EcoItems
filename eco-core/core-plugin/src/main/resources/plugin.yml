@@ -35,12 +35,16 @@ permissions:
       ecoitems.command.reload: true
       ecoitems.command.ecoitems: true
       ecoitems.command.give: true
+      ecoitems.command.gui: true
 
   ecoitems.command.reload:
     description: Allows reloading the config
     default: op
   ecoitems.command.give:
     description: Allows the use of /ecoitems give
+    default: op
+  ecoitems.command.gui:
+    description: Allows the use of /ecoitems gui.
     default: op
   ecoitems.command.ecoitems:
     description: Allows the user of /ecoitems.

@@ -13,6 +13,7 @@ object CommandEcoItems : PluginCommand(
     init {
         this.addSubcommand(CommandReload)
             .addSubcommand(CommandGive)
+            .addSubcommand(CommandGUI)
     }
 
     override fun onExecute(sender: CommandSender, args: List<String>) {

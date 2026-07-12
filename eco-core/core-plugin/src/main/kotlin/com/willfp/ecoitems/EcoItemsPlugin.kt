@@ -12,6 +12,7 @@ import com.willfp.ecoitems.items.EcoItemFinder
 import com.willfp.ecoitems.items.EcoItems
 import com.willfp.ecoitems.items.EcoItemsRecipes
 import com.willfp.ecoitems.items.ItemListener
+import com.willfp.ecoitems.items.ItemsGUI
 import com.willfp.ecoitems.libreforge.ConditionHasEcoItem
 import com.willfp.ecoitems.pack.PackFeatures
 import com.willfp.ecoitems.rarity.ArgParserRarity
@@ -50,6 +51,7 @@ class EcoItemsPlugin : LibreforgePlugin() {
 
     override fun handleReload() {
         PackFeatures.instance?.handleReload(this)
+        ItemsGUI.reload()
     }
 
     override fun handleDisable() {

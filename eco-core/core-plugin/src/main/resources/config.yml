@@ -18,3 +18,60 @@ rarity:
 
   # If items with no specified rarity should be given the default rarity
   display-default: true
+
+# Options for the /ecoitems gui item browser.
+items-gui:
+  rows: 6
+  title: "EcoItems &7(%page%/%max_page%)"
+
+  background:
+    enabled: true
+    glyph: items_gui
+
+  mask:
+    items:
+      - black_stained_glass_pane
+    pattern:
+      - "111111111"
+      - "100000001"
+      - "100000001"
+      - "100000001"
+      - "100000001"
+      - "111111111"
+
+  empty-item: air
+
+  page-change:
+    sound:
+      enabled: true
+      sound: ui.button.click
+      pitch: 1.0
+      volume: 1.0
+    backwards:
+      item: arrow name:"&fPrevious Page"
+      model: ecoitems:gui_previous
+      row: 6
+      column: 4
+    forwards:
+      item: arrow name:"&fNext Page"
+      model: ecoitems:gui_next
+      row: 6
+      column: 6
+
+  close-button:
+    enabled: true
+    item: barrier
+    model: ecoitems:gui_close
+    name: "&cClose"
+    lore: []
+    row: 6
+    column: 5
+
+  item-area:
+    width: 7
+    height: 4
+    row: 2
+    column: 2
+
+  # Custom GUI slots; see https://hub.auxilor.io/wiki/eco/pages#custom-gui-slots
+  custom-slots: []

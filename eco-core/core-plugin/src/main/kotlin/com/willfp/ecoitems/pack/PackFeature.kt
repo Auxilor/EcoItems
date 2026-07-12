@@ -4,6 +4,7 @@ import com.willfp.ecoitems.BuildConfig
 import com.willfp.ecoitems.EcoItemsPlugin
 import com.willfp.ecoitems.plugin
 import org.bukkit.event.Listener
+import org.bukkit.inventory.ItemStack
 
 /**
  * The resource pack system, only present in paid builds.
@@ -16,6 +17,14 @@ interface PackFeature {
     fun handleReload(plugin: EcoItemsPlugin)
 
     fun handleDisable(plugin: EcoItemsPlugin)
+
+    fun decorateGuiTitle(plugin: EcoItemsPlugin, title: String, glyphId: String?): String = title
+
+    fun decorateGuiItem(
+        plugin: EcoItemsPlugin,
+        item: ItemStack,
+        model: String?
+    ): ItemStack = item
 }
 
 object PackFeatures {
