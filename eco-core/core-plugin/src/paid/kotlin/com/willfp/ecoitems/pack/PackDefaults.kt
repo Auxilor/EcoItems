@@ -15,21 +15,25 @@ object PackDefaults {
 
         if (!packDir.exists()) {
             extract(plugin)
+        } else if (!packDir.resolve("glyphs").exists()) {
+            // Upgrade path: installs from before glyphs existed get the
+            // shipped glyph textures.
+            extract(plugin, only = "pack/glyphs/")
         }
 
-        for (directory in listOf("textures", "models", "assets")) {
+        for (directory in listOf("textures", "models", "assets", "glyphs")) {
             packDir.resolve(directory).mkdirs()
         }
     }
 
-    private fun extract(plugin: EcoItemsPlugin) {
+    private fun extract(plugin: EcoItemsPlugin, only: String? = null) {
         val dataPath = plugin.dataFolder.toPath().normalize()
 
         try {
             ZipFile(plugin.jar).use { zip ->
                 for (entry in zip.entries()) {
                     if (entry.isDirectory ||
-                        !entry.name.startsWith("pack/") ||
+                        !entry.name.startsWith(only ?: "pack/") ||
                         entry.name.startsWith("pack/defaults/")
                     ) {
                         continue

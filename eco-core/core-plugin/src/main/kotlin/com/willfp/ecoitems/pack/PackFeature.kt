@@ -11,6 +11,8 @@ import org.bukkit.event.Listener
 interface PackFeature {
     fun listeners(plugin: EcoItemsPlugin): List<Listener>
 
+    fun handleEnable(plugin: EcoItemsPlugin) {}
+
     fun handleReload(plugin: EcoItemsPlugin)
 
     fun handleDisable(plugin: EcoItemsPlugin)

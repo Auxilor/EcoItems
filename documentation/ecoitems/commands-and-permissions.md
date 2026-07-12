@@ -12,6 +12,8 @@ Every EcoItems command and the permission node it needs.
 
 EcoItems items are also available through the eco item lookup system, so any plugin that accepts item lookup strings (crates, shops, GUIs) can use `ecoitems:<id>` directly.
 
+[Glyphs](glyphs/index) with a `permission:` in their config (like the shipped chat tags, `ecoitems.glyph.<id>`) require that permission to be used in chat and on signs.
+
 <hr/>
 
 ## Where to go next

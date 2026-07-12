@@ -39,4 +39,8 @@ class PackSettings(config: Config) {
 
     val externalDirectory: String = config.getString("delivery.external.directory")
     val externalUrl: String = config.getString("delivery.external.url")
+
+    val glyphsFormatChat = config.getBool("glyphs.format-chat")
+    val glyphsFormatSigns = config.getBool("glyphs.format-signs")
+    val glyphsTabComplete = config.getBool("glyphs.tab-complete")
 }

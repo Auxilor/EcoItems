@@ -1,6 +1,8 @@
 package com.willfp.ecoitems.pack
 
 import com.willfp.ecoitems.EcoItemsPlugin
+import com.willfp.ecoitems.pack.glyphs.AssignedGlyph
+import com.willfp.ecoitems.pack.glyphs.GlyphAssetGenerator
 import java.io.File
 import java.security.DigestOutputStream
 import java.security.MessageDigest
@@ -13,21 +15,33 @@ object PackBuilder {
      * the generated item assets, and everything in the pack/assets overlay
      * (which wins on collisions).
      */
-    fun build(plugin: EcoItemsPlugin, settings: PackSettings, assets: List<ItemPackAsset>): BuiltPack {
+    fun build(
+        plugin: EcoItemsPlugin,
+        settings: PackSettings,
+        assets: List<ItemPackAsset>,
+        glyphs: Collection<AssignedGlyph>
+    ): BuiltPack {
         val entries = sortedMapOf<String, ByteArray>()
 
-        entries["pack.mcmeta"] = PackMcmeta.json(settings.description).encodeToByteArray()
+        val hasAnimatedGlyphs = glyphs.any { it.glyph.isAnimated }
+        entries["pack.mcmeta"] = PackMcmeta.json(settings.description, hasAnimatedGlyphs).encodeToByteArray()
         entries["pack.png"] = packPng(plugin)
 
         // Everything in pack/textures and pack/models is available to item
-        // definitions and models as ecoitems:item/<path>.
+        // definitions and models as ecoitems:item/<path>; glyph sheets map to
+        // ecoitems:glyphs/<path> (outside the block atlas directories).
         copyTree(plugin.dataFolder.resolve("pack/textures"), "assets/ecoitems/textures/item/", entries)
         copyTree(plugin.dataFolder.resolve("pack/models"), "assets/ecoitems/models/item/", entries)
+        copyTree(plugin.dataFolder.resolve("pack/glyphs"), "assets/ecoitems/textures/glyphs/", entries)
 
         ItemAssetGenerator.generate(plugin, assets, entries)
 
         // The raw overlay wins on collisions with generated files.
         copyTree(plugin.dataFolder.resolve("pack/assets"), "assets/", entries)
+
+        // After the overlay, so a user-supplied default.json is merged into
+        // the generated font rather than replaced.
+        GlyphAssetGenerator.generate(plugin, glyphs, entries)
 
         return write(plugin.dataFolder.resolve("pack.zip"), entries)
     }

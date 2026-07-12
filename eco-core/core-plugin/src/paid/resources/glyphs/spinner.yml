@@ -1,0 +1,11 @@
+texture: spinner
+ascent: 6
+height: 7
+placeholders:
+  - ":spinner:"
+  - ":loading:"
+animation:
+  frames: 16
+  fps: 16
+  loop: true
+tab-complete: true

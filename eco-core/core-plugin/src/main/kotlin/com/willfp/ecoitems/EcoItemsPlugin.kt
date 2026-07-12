@@ -7,6 +7,7 @@ import com.willfp.eco.core.items.Items
 import com.willfp.ecoitems.commands.CommandEcoItems
 import com.willfp.ecoitems.display.ItemsDisplay
 import com.willfp.ecoitems.display.RarityDisplay
+import com.willfp.ecoitems.glyphs.Glyphs
 import com.willfp.ecoitems.items.EcoItemFinder
 import com.willfp.ecoitems.items.EcoItems
 import com.willfp.ecoitems.items.EcoItemsRecipes
@@ -43,6 +44,8 @@ class EcoItemsPlugin : LibreforgePlugin() {
         Conditions.register(ConditionHasEcoItem)
 
         registerHolderProvider(EcoItemFinder.toHolderProvider())
+
+        PackFeatures.instance?.handleEnable(this)
     }
 
     override fun handleReload() {
@@ -57,7 +60,8 @@ class EcoItemsPlugin : LibreforgePlugin() {
         return listOf(
             Rarities,
             EcoItems,
-            EcoItemsRecipes
+            EcoItemsRecipes,
+            Glyphs
         )
     }
 

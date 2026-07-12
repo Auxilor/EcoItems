@@ -1,0 +1,7 @@
+texture: heart
+ascent: 8
+height: 8
+placeholders:
+  - ":heart:"
+  - "<3"
+tab-complete: true

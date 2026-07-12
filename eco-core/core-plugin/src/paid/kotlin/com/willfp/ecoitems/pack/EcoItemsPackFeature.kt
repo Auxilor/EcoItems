@@ -1,9 +1,17 @@
 package com.willfp.ecoitems.pack
 
+import com.willfp.eco.core.integrations.placeholder.PlaceholderManager
 import com.willfp.ecoitems.EcoItemsPlugin
+import com.willfp.ecoitems.glyphs.Glyphs
 import com.willfp.ecoitems.items.EcoItems
 import com.willfp.ecoitems.pack.delivery.PackDelivery
 import com.willfp.ecoitems.pack.delivery.PackListener
+import com.willfp.ecoitems.pack.glyphs.GlyphCodepoints
+import com.willfp.ecoitems.pack.glyphs.GlyphListeners
+import com.willfp.ecoitems.pack.glyphs.GlyphPlaceholder
+import com.willfp.ecoitems.pack.glyphs.GlyphTabCompletions
+import com.willfp.ecoitems.pack.glyphs.GlyphText
+import com.willfp.ecoitems.pack.glyphs.ShiftPlaceholder
 import com.willfp.ecoitems.pack.publisher.ExternalPublisher
 import com.willfp.ecoitems.pack.publisher.HostedPublisher
 import com.willfp.ecoitems.pack.publisher.PackPublisher
@@ -15,7 +23,13 @@ object EcoItemsPackFeature : PackFeature {
     private var publisher: PackPublisher? = null
 
     override fun listeners(plugin: EcoItemsPlugin): List<Listener> {
-        return listOf(PackListener)
+        return listOf(PackListener) + GlyphListeners.listeners()
+    }
+
+    override fun handleEnable(plugin: EcoItemsPlugin) {
+        PlaceholderManager.addIntegration(GlyphText.GlyphPlaceholderIntegration)
+        PlaceholderManager.registerPlaceholder(GlyphPlaceholder)
+        PlaceholderManager.registerPlaceholder(ShiftPlaceholder)
     }
 
     override fun handleReload(plugin: EcoItemsPlugin) {
@@ -27,11 +41,16 @@ object EcoItemsPackFeature : PackFeature {
         if (!settings.enabled) {
             shutdownPublisher()
             PackDelivery.clear()
+            GlyphText.clear()
             return
         }
 
+        val glyphs = GlyphCodepoints.assign(plugin, Glyphs.values())
+        GlyphText.reload(glyphs, settings)
+        GlyphTabCompletions.refresh(plugin)
+
         val assets = EcoItems.values().mapNotNull { ItemPackAsset.fromItem(it) }
-        val pack = PackBuilder.build(plugin, settings, assets)
+        val pack = PackBuilder.build(plugin, settings, assets, glyphs.values)
 
         val published = resolvePublisher(plugin, settings)?.publish(pack)
         PackDelivery.update(published, settings)

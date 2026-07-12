@@ -58,6 +58,16 @@ delivery:
 
     # The public URL of the exported pack.zip. If empty, the pack is only exported.
     url: ""
+
+glyphs:
+  # If glyph placeholders (like :heart:) should be replaced in chat messages.
+  format-chat: true
+
+  # If glyph placeholders should be replaced on signs.
+  format-signs: true
+
+  # If glyph placeholders should be offered as chat tab-completions.
+  tab-complete: true
 ```
 
 If you disable the pack system (or a publish fails), players simply aren't sent a pack — items keep working, textured items just render with their base item's look for players without the pack.

@@ -9,20 +9,34 @@ object PackMcmeta {
 
     // Clients on 1.21.8 read pack_format/supported_formats and ignore the
     // 1.21.9+ min_format/max_format keys; newer clients do the opposite.
-    fun json(description: String): String = """
-        {
-          "pack": {
-            "description": ${description.toJsonString()},
-            "pack_format": $MIN_FORMAT,
-            "supported_formats": {
-              "min_inclusive": $MIN_FORMAT,
-              "max_inclusive": $MAX_FORMAT
-            },
-            "min_format": $MIN_FORMAT,
-            "max_format": $MAX_FORMAT
-          }
-        }
-    """.trimIndent()
+    // The shader overlays swap in newer GLSL for newer clients; the base
+    // pack carries the 1.21.8-era shaders.
+    // Overlay entries need both key styles: pre-1.21.9 clients read "formats",
+    // and any client rejects entries covering formats newer than its own
+    // unless min_format/max_format are also present.
+    private const val SHADER_OVERLAYS = """,
+  "overlays": {
+    "entries": [
+      { "formats": { "min_inclusive": 84, "max_inclusive": 87 }, "min_format": 84, "max_format": 87, "directory": "overlay_26" },
+      { "formats": { "min_inclusive": 88, "max_inclusive": 999 }, "min_format": 88, "max_format": 999, "directory": "overlay_26_2" }
+    ]
+  }"""
+
+    fun json(description: String, withShaderOverlays: Boolean = false): String =
+        """
+{
+  "pack": {
+    "description": ${description.toJsonString()},
+    "pack_format": $MIN_FORMAT,
+    "supported_formats": {
+      "min_inclusive": $MIN_FORMAT,
+      "max_inclusive": $MAX_FORMAT
+    },
+    "min_format": $MIN_FORMAT,
+    "max_format": $MAX_FORMAT
+  }${if (withShaderOverlays) SHADER_OVERLAYS else ""}
+}
+""".trimStart()
 }
 
 internal fun String.toJsonString(): String =

@@ -48,6 +48,7 @@ Everything pack-related lives in `plugins/EcoItems/pack/`:
 | --- | --- |
 | `pack/textures/` | Item textures (`.png`), referenced by `texture:` |
 | `pack/models/` | Custom item models (`.json`), referenced by `model:` |
+| `pack/glyphs/` | [Glyph](../glyphs/index) textures and sprite sheets |
 | `pack/assets/` | Copied into the pack verbatim as `assets/` — fonts, sounds, vanilla overrides, anything |
 | `pack/pack.png` | Optional icon override for the pack |
 
