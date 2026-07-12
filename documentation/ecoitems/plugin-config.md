@@ -28,7 +28,7 @@ Paid builds apply `background.glyph` and each control's optional `model`; the fr
 ```yaml
 items-gui:
   rows: 6
-  title: "EcoItems &7(%page%/%max_page%)"
+  title: "&7EcoItems (%page%/%max_page%)"
 
   background:
     enabled: true
