@@ -5,5 +5,5 @@ category: record
 subtitle: "Welcome"
 
 sounds:
-  - sound: welcome # pack/sounds/welcome.ogg
+  - sound: welcome # pack/assets/ecoitems/sounds/welcome.ogg
     stream: false # Long sounds like music should stream instead of preloading

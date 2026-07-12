@@ -270,7 +270,7 @@ object PackImports {
         return merger(old, new).toString().encodeToByteArray()
     }
 
-    private fun overlayEntries(plugin: EcoItemsPlugin, packName: String, mcmeta: ByteArray): List<JsonObject> {
+    internal fun overlayEntries(plugin: EcoItemsPlugin, packName: String, mcmeta: ByteArray): List<JsonObject> {
         return runCatching {
             JsonParser.parseString(mcmeta.decodeToString()).asJsonObject
                 .getAsJsonObject("overlays")

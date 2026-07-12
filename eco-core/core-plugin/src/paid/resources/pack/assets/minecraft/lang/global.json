@@ -1,0 +1,5 @@
+{
+  "_comment": "Entries in this file apply to every language at once. To edit a specific language, create a file like en_us.json next to this one - its entries win over global ones. Values support :glyph: placeholders. Keys starting with _ are ignored.",
+
+  "menu.disconnect": "§7See you soon!"
+}

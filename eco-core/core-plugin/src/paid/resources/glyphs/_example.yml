@@ -1,8 +1,9 @@
 # The ID of the glyph is the name of the .yml file.
 # _example.yml is not loaded.
 
-# The glyph texture, from /plugins/EcoItems/pack/glyphs/<name>.png
-texture: heart
+# The glyph texture: a [namespace:]path relative to textures/, so
+# glyph/heart reads pack/assets/ecoitems/textures/glyph/heart.png
+texture: glyph/heart
 
 # How far above the text baseline the glyph sits. Must not exceed height.
 ascent: 8

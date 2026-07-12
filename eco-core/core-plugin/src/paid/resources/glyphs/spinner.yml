@@ -1,4 +1,4 @@
-texture: spinner
+texture: glyph/spinner
 ascent: 6
 height: 7
 placeholders:

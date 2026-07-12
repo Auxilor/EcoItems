@@ -9,12 +9,13 @@ import com.willfp.ecoitems.pack.glyphs.GlyphText
 import java.io.File
 
 /**
- * Generates the pack's language files from pack/lang/.
+ * Applies pack/assets/minecraft/lang/global.json to every language at once.
  *
- * pack/lang/global.json applies its entries to every language at once;
- * pack/lang/<code>.json files override it for a specific language. Values go
- * through the glyph replacer, so :glyph: placeholders work in lang entries.
- * Keys starting with _ are comments and skipped.
+ * global.json is not a real pack file: its entries are copied into every
+ * vanilla language, with per-language files (from the pack folder or from
+ * imports, already in the entries map) taking precedence. Values go through
+ * the glyph replacer, so :glyph: placeholders work in lang entries. Keys
+ * starting with _ are comments and skipped.
  */
 object LangAssetGenerator {
     private val gson = GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create()
@@ -39,40 +40,35 @@ object LangAssetGenerator {
         "vec_it", "vi_vn", "yi_de", "yo_ng", "zh_cn", "zh_hk", "zh_tw", "zlm_arab"
     )
 
-    fun generate(plugin: EcoItemsPlugin, entries: MutableMap<String, ByteArray>) {
-        val langDir = plugin.dataFolder.resolve("pack/lang")
+    const val GLOBAL_LANG = "assets/minecraft/lang/global.json"
 
-        val global = readLang(plugin, langDir.resolve("global.json")) ?: JsonObject()
+    fun generate(plugin: EcoItemsPlugin, entries: MutableMap<String, ByteArray>) {
+        val global = readLang(plugin, plugin.dataFolder.resolve("pack/$GLOBAL_LANG")) ?: JsonObject()
 
         // Languages to emit: all of them if global has entries, otherwise
-        // just the ones with explicit files.
-        val perLanguage = langDir.listFiles()
-            .orEmpty()
-            .filter { it.extension == "json" && it.nameWithoutExtension != "global" }
-            .associateBy { it.nameWithoutExtension }
+        // just the ones something already contributed a file for.
+        val existing = entries.keys
+            .filter { it.startsWith("assets/minecraft/lang/") }
+            .map { it.removePrefix("assets/minecraft/lang/").removeSuffix(".json") }
 
-        val codes = if (global.size() > 0) LANGUAGE_CODES + perLanguage.keys else perLanguage.keys
+        val codes = if (global.size() > 0) LANGUAGE_CODES + existing else existing
 
         for (code in codes) {
             if (code !in LANGUAGE_CODES) {
-                plugin.logger.warning("pack/lang/$code.json is not a known language code; including it anyway")
+                plugin.logger.warning("Language file $code.json is not a known language code; including it anyway")
             }
 
             val target = "assets/minecraft/lang/$code.json"
             val merged = JsonObject()
 
-            // Precedence, lowest to highest: global, a lang file from the
-            // pack/assets overlay, the pack/lang/<code>.json file.
+            // Global entries first; the per-language file (already merged
+            // from imports and the pack folder) wins per key.
             copyInto(global, merged)
 
-            entries[target]?.let { existing ->
-                runCatching { JsonParser.parseString(existing.decodeToString()).asJsonObject }
+            entries[target]?.let { file ->
+                runCatching { JsonParser.parseString(file.decodeToString()).asJsonObject }
                     .getOrNull()
                     ?.let { copyInto(it, merged) }
-            }
-
-            perLanguage[code]?.let { file ->
-                readLang(plugin, file)?.let { copyInto(it, merged) }
             }
 
             if (merged.size() > 0) {

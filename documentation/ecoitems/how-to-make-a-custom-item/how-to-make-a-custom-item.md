@@ -118,11 +118,11 @@ The old `base-damage`, `base-attack-speed`, `base-attack-range`, and `effective-
 
 ### Texture (paid version)
 
-Give the item a custom texture with `item.texture`, pointing at a `.png` in `plugins/EcoItems/pack/textures/`. The resource pack is generated and delivered automatically — see [Resource Packs](../resource-packs/index).
+Give the item a custom texture with `item.texture`, pointing at a `.png` under `plugins/EcoItems/pack/assets/ecoitems/textures/item/` — the path is relative to `textures/`, without the extension. The resource pack is generated and delivered automatically — see [Resource Packs](../resource-packs/index).
 
 ```yaml
 item:
-  texture: mithril_sword
+  texture: item/mithril_sword # pack/assets/ecoitems/textures/item/mithril_sword.png
 ```
 
 ### Slot and rarity

@@ -11,7 +11,7 @@ The texture is a sprite sheet with the frames stacked **vertically** (or in one 
 
 ```yaml
 # glyphs/spinner.yml
-texture: spinner # pack/glyphs/spinner.png, e.g. 8x128 = 16 frames of 8x8
+texture: glyph/spinner # pack/assets/ecoitems/textures/glyph/spinner.png, e.g. 8x128 = 16 frames of 8x8
 ascent: 6
 height: 7
 placeholders:
@@ -31,5 +31,5 @@ Limits to be aware of:
 
 - **16 frames and 127 fps maximum** — the shader encodes frame data in the text color channels.
 - **Non-looping animations sync to world time**, not to when the text appeared.
-- The shader patch overrides the vanilla text shaders. If you merge another resource pack that also overrides text shaders (via `pack/assets/`), the two will conflict.
+- The shader patch overrides the vanilla text shaders. If you merge another resource pack that also overrides text shaders (via `pack/imports/` or files under `pack/assets/`), the two will conflict.
 - The shaders are only added to the pack when at least one animated glyph exists.

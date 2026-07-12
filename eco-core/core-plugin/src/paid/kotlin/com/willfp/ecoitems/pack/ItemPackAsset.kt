@@ -2,18 +2,17 @@ package com.willfp.ecoitems.pack
 
 import com.willfp.ecoitems.items.EcoItem
 
-private val PATH_REGEX = Regex("[a-z0-9_./-]+")
-private val NAMESPACED_REGEX = Regex("[a-z0-9_.-]+:[a-z0-9_./-]+")
-
 /**
  * The pack-facing part of an item config: a texture to generate a model for,
- * or a model supplied by the user.
+ * or a model supplied by the user. Both are "[ns:]path" locations relative
+ * to textures/ and models/ respectively.
  */
 class ItemPackAsset(
     val id: String,
-    val texture: String?,
+    val texture: PackLocation?,
     val textureParent: String,
-    val model: String?
+    val model: PackLocation?,
+    val invalid: String?
 ) {
     companion object {
         fun fromItem(item: EcoItem): ItemPackAsset? {
@@ -25,27 +24,22 @@ class ItemPackAsset(
                 return null
             }
 
+            val parsedTexture = texture?.let { PackLocation.parse(it) }
+            val parsedModel = model?.let { PackLocation.parse(it) }
+
+            val invalid = when {
+                texture != null && parsedTexture == null -> "texture '$texture' is not a valid location"
+                model != null && parsedModel == null -> "model '$model' is not a valid location"
+                else -> null
+            }
+
             return ItemPackAsset(
                 item.id.key,
-                texture,
+                parsedTexture,
                 itemConfig.getStringOrNull("texture-parent") ?: "generated",
-                model
+                parsedModel,
+                invalid
             )
         }
-    }
-
-    fun validate(): String? {
-        if (texture != null && !texture.matches(PATH_REGEX)) {
-            return "texture '$texture' may only contain a-z, 0-9, _ . / -"
-        }
-
-        if (model != null) {
-            val valid = if (":" in model) model.matches(NAMESPACED_REGEX) else model.matches(PATH_REGEX)
-            if (!valid) {
-                return "model '$model' is not a valid model location"
-            }
-        }
-
-        return null
     }
 }

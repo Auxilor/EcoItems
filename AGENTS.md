@@ -36,7 +36,7 @@ eco-core/core-plugin/
   src/paid/kotlin/com/willfp/ecoitems/   # paid-only source (folded into main unless -Pfree)
     pack/                                # pack build, publishers, delivery, defaults
   src/paid/resources/                    # pack.yml, items/examples/, glyphs/, sounds/,
-                                         # pack/{textures,models,glyphs,sounds,lang}
+                                         # pack/ (a vanilla-structured resource pack)
 eco-core/core-nms/v1_21_8 ... v26_2/     # one paperweight module per supported version
 packhost/                                # git submodule -> github.com/Auxilor/packhost
 documentation/ecoitems/                  # user docs, pulled by an external tool (no build step)
@@ -110,18 +110,27 @@ keep paid resources (pack.yml, textures, example items) out of `src/main/resourc
 Flow, all in `src/paid/kotlin/.../pack/`, orchestrated by `EcoItemsPackFeature.handleReload`:
 
 1. `PackDefaults.ensure` - extracts bundled `pack/**` jar entries to `plugins/EcoItems/pack/` on
-   first run (or after the folder is deleted) and creates `pack/{textures,models,assets,glyphs,sounds,lang,imports}`.
-   External packs dropped in `pack/imports/` (zips or folders) merge in as the lowest-priority
-   layer via `PackImports` - fonts/sounds/lang/atlases merge smartly, imported font codepoints are
-   reserved so glyph auto-assignment routes around them, and imported pack.mcmeta overlay entries
-   carry into the final mcmeta.
-2. `ItemPackAsset.fromItem` per item - reads `item.texture` (png in `pack/textures/`, optional
-   `texture-parent: handheld`) or `item.model` (json in `pack/models/`, or a verbatim `ns:path`).
-3. `PackBuilder.build` - maps **everything** in `pack/textures/` and `pack/models/` into the pack
-   as `ecoitems:item/<path>`, generates `assets/ecoitems/items/<id>.json` definitions (+ simple
-   models for plain textures), copies `pack/assets/**` verbatim last (user files win collisions),
-   and writes a sorted, fixed-timestamp zip to `plugins/EcoItems/pack.zip` (stable SHA-1 =
-   dedup/re-download no-ops).
+   first run (or after the folder is deleted). The pack folder mirrors a vanilla resource pack
+   (Nexo-style): `pack/assets/<ns>/{textures,models,sounds,font,lang,...}` at their natural
+   paths, optional `pack/pack.png`, optional `pack/pack.mcmeta` (only `overlays` entries used -
+   description/formats are always generated). Legacy `pack/{textures,models,glyphs,sounds,lang}`
+   folders trigger a console warning to move files into `pack/assets/`. External packs dropped
+   in `pack/imports/` (zips or folders) merge in as the lowest-priority layer via `PackImports`
+   - fonts/sounds/lang/atlases merge smartly, imported font codepoints are reserved so glyph
+   auto-assignment routes around them, and imported pack.mcmeta overlay entries carry into the
+   final mcmeta.
+2. `ItemPackAsset.fromItem` per item - `item.texture` / `item.model` (and glyph/sound refs) are
+   Nexo-style `[ns:]path` `PackLocation`s (default ns `ecoitems`, no extension) relative to
+   `textures/` / `models/`: `texture: item/foo` reads `pack/assets/ecoitems/textures/item/foo.png`
+   (optional `texture-parent: handheld`; a model is generated unless a json exists at the same
+   path under `models/`), `minecraft:` model refs pass through without a file check.
+3. `PackBuilder.build` - copies the vanilla-structured pack folder wholesale (merge-aware:
+   fonts, sounds.json, lang, atlases merge with generated/imported content; everything else from
+   the pack folder wins on collision), generates `assets/ecoitems/items/<id>.json` definitions
+   (+ simple models for plain textures), and writes a sorted, fixed-timestamp zip to
+   `plugins/EcoItems/pack.zip` (stable SHA-1 = dedup/re-download no-ops). One magic file:
+   `pack/assets/minecraft/lang/global.json` applies its entries to every language (per-language
+   files win per key, `_`-prefixed keys are comments, values support `:glyph:` placeholders).
 4. A `PackPublisher` (`hosted` = POST to packhost, `self-hosted` = JDK HttpServer, `external` =
    export dir, `none`) returns a `PublishedPack`.
 5. `PackDelivery` sends it (fixed pack UUID so re-sends replace, `send-on-join`/`send-on-reload`).
@@ -129,8 +138,9 @@ Flow, all in `src/paid/kotlin/.../pack/`, orchestrated by `EcoItemsPackFeature.h
 Items get their texture through the `minecraft:item_model` component set to `ecoitems:<id>` -
 never CustomModelData. One pack covers all supported client versions; `PackMcmeta.MAX_FORMAT` needs
 a bump each Minecraft release (cosmetic if stale - server-sent packs bypass the format gate).
-Textures under `textures/item/**` stitch automatically via the vanilla blocks atlas; no atlas json
-is needed or wanted for items.
+Textures under `textures/item/**` and `textures/block/**` stitch automatically via the vanilla
+blocks atlas (a console warning fires for item textures elsewhere); no atlas json is needed or
+wanted for items.
 
 ## packhost
 

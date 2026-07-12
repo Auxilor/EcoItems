@@ -14,9 +14,13 @@ import java.util.zip.ZipOutputStream
 
 object PackBuilder {
     /**
-     * Assembles and writes the pack zip: generated pack.mcmeta and pack.png,
-     * the generated item assets, and everything in the pack/assets overlay
-     * (which wins on collisions).
+     * Assembles and writes the pack zip.
+     *
+     * The pack folder mirrors a vanilla resource pack: assets/<namespace>/...
+     * plus pack.png, an optional pack.mcmeta (only its overlay entries are
+     * used), and overlay directories - all copied as-is. The exceptions are
+     * pack/imports/ (external packs, merged lowest-priority) and
+     * assets/minecraft/lang/global.json (applied to every language).
      */
     fun build(
         plugin: EcoItemsPlugin,
@@ -29,34 +33,33 @@ object PackBuilder {
     ): BuiltPack {
         val entries = sortedMapOf<String, ByteArray>()
 
-        // External packs (pack/imports/) are the lowest-priority layer:
-        // everything EcoItems generates wins on collision, and the
-        // font/sounds/lang generators merge with whatever the imports put here.
+        // External packs are the lowest-priority layer: everything EcoItems
+        // generates and everything in the pack folder wins on collision, and
+        // the font/sounds/lang generators merge with what the imports put here.
         entries.putAll(imports.entries)
+
+        val userOverlays = userMcmetaOverlays(plugin)
 
         val hasAnimatedGlyphs = glyphs.any { it.glyph.isAnimated }
         entries["pack.mcmeta"] = PackMcmeta.json(
             settings.description,
             hasAnimatedGlyphs,
-            imports.overlays.map { it.toString() }
+            (imports.overlays + userOverlays).map { it.toString() }
         ).encodeToByteArray()
-        entries["pack.png"] = packPng(plugin)
-
-        // Everything in pack/textures and pack/models is available to item
-        // definitions and models as ecoitems:item/<path>; glyph sheets map to
-        // ecoitems:glyphs/<path> (outside the block atlas directories).
-        copyTree(plugin.dataFolder.resolve("pack/textures"), "assets/ecoitems/textures/item/", entries)
-        copyTree(plugin.dataFolder.resolve("pack/models"), "assets/ecoitems/models/item/", entries)
-        copyTree(plugin.dataFolder.resolve("pack/glyphs"), "assets/ecoitems/textures/glyphs/", entries)
-        copyTree(plugin.dataFolder.resolve("pack/sounds"), "assets/ecoitems/sounds/", entries)
+        entries["pack.png"] = bundledPackPng()
 
         ItemAssetGenerator.generate(plugin, assets, entries)
 
-        // The raw overlay wins on collisions with generated files, but
-        // merges with (rather than clobbers) mergeable imported files.
-        mergeTree(plugin.dataFolder.resolve("pack/assets"), "assets/", entries)
+        // The pack folder wins on collisions with generated files and
+        // imports, except mergeable files (fonts/sounds/lang/atlases),
+        // which merge with the incoming file winning.
+        mergeTree(plugin.dataFolder.resolve("pack"), entries) { path ->
+            path.startsWith("imports/") ||
+                path == "pack.mcmeta" ||
+                path == LangAssetGenerator.GLOBAL_LANG
+        }
 
-        // After the overlay, so user-supplied font/sounds/lang files are
+        // After the pack folder, so user-supplied font/sounds/lang files are
         // merged into the generated ones rather than replaced.
         GlyphAssetGenerator.generate(plugin, glyphs, entries)
         HudFontGenerator.generate(plugin, huds, glyphs, entries)
@@ -66,23 +69,35 @@ object PackBuilder {
         return write(plugin.dataFolder.resolve("pack.zip"), entries)
     }
 
-    private fun copyTree(directory: File, prefix: String, entries: MutableMap<String, ByteArray>) {
-        if (!directory.isDirectory) {
-            return
+    private fun userMcmetaOverlays(plugin: EcoItemsPlugin): List<com.google.gson.JsonObject> {
+        val file = plugin.dataFolder.resolve("pack/pack.mcmeta")
+        if (!file.isFile) {
+            return emptyList()
         }
 
-        for (file in directory.walkTopDown().filter { it.isFile }) {
-            entries[prefix + file.relativeTo(directory).invariantSeparatorsPath] = file.readBytes()
-        }
+        return PackImports.overlayEntries(plugin, "pack/pack.mcmeta", file.readBytes())
     }
 
-    private fun mergeTree(directory: File, prefix: String, entries: MutableMap<String, ByteArray>) {
+    private fun bundledPackPng(): ByteArray =
+        checkNotNull(javaClass.getResourceAsStream("/pack/defaults/pack.png")) {
+            "Bundled pack.png is missing"
+        }.use { it.readBytes() }
+
+    private fun mergeTree(
+        directory: File,
+        entries: MutableMap<String, ByteArray>,
+        skip: (String) -> Boolean
+    ) {
         if (!directory.isDirectory) {
             return
         }
 
         for (file in directory.walkTopDown().filter { it.isFile }) {
-            val path = prefix + file.relativeTo(directory).invariantSeparatorsPath
+            val path = file.relativeTo(directory).invariantSeparatorsPath
+            if (skip(path)) {
+                continue
+            }
+
             val incoming = file.readBytes()
             val existing = entries[path]
 
@@ -92,17 +107,6 @@ object PackBuilder {
                 incoming
             }
         }
-    }
-
-    private fun packPng(plugin: EcoItemsPlugin): ByteArray {
-        val override = plugin.dataFolder.resolve("pack/pack.png")
-        if (override.isFile) {
-            return override.readBytes()
-        }
-
-        return checkNotNull(javaClass.getResourceAsStream("/pack/defaults/pack.png")) {
-            "Bundled pack.png is missing"
-        }.use { it.readBytes() }
     }
 
     private fun write(target: File, entries: Map<String, ByteArray>): BuiltPack {

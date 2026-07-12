@@ -9,11 +9,11 @@ import com.willfp.ecoitems.sounds.Sound
 
 /**
  * Generates assets/ecoitems/sounds.json from the sound configs. Sound events
- * play as ecoitems:<id>; ogg files live in pack/sounds/ and are mapped into
- * the pack wholesale by [PackBuilder].
+ * play as ecoitems:<id>; ogg files live in pack/assets/<ns>/sounds/ and are
+ * copied into the pack with the rest of the pack folder.
  *
- * Runs after the pack/assets overlay copy so a user-supplied sounds.json is
- * merged rather than clobbered (user entries win on collision).
+ * Runs after the pack folder copy so a user-supplied sounds.json is merged
+ * rather than clobbered (user entries win on collision).
  */
 object SoundAssetGenerator {
     private const val SOUNDS_JSON = "assets/ecoitems/sounds.json"
@@ -79,26 +79,28 @@ object SoundAssetGenerator {
     }
 
     /**
-     * A bare name references pack/sounds/<name>.ogg (and must exist there);
-     * a namespaced name (e.g. vanilla samples like minecraft:dig/stone1)
-     * passes through verbatim.
+     * Sound files are "[ns:]path" locations relative to sounds/, resolving to
+     * pack/assets/<ns>/sounds/<path>.ogg. minecraft-namespaced names pass
+     * through for the vanilla samples (e.g. minecraft:dig/stone1).
      *
-     * Bare names must be written fully qualified: the client resolves
-     * unqualified names in sounds.json against the minecraft namespace,
-     * not the namespace the sounds.json belongs to.
+     * Names are written fully qualified: the client resolves unqualified
+     * names in sounds.json against the minecraft namespace, not the
+     * namespace the sounds.json belongs to.
      */
     private fun resolveName(plugin: EcoItemsPlugin, sound: Sound, name: String): String? {
-        if (":" in name) {
-            return name
+        val location = PackLocation.parse(name)
+        if (location == null) {
+            plugin.logger.warning("Skipping file $name of sound ${sound.id}: not a valid location")
+            return null
         }
 
-        if (!plugin.dataFolder.resolve("pack/sounds/$name.ogg").exists()) {
+        if (!location.file(plugin, "sounds", "ogg").exists() && location.namespace != "minecraft") {
             plugin.logger.warning(
-                "Skipping file $name of sound ${sound.id}: pack/sounds/$name.ogg does not exist"
+                "Skipping file $name of sound ${sound.id}: pack/${location.entry("sounds", "ogg")} does not exist"
             )
             return null
         }
 
-        return "ecoitems:$name"
+        return location.key
     }
 }

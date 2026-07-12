@@ -5,6 +5,7 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import com.willfp.ecoitems.EcoItemsPlugin
+import com.willfp.ecoitems.pack.PackLocation
 import java.io.File
 import kotlin.math.max
 import kotlin.math.roundToInt
@@ -103,21 +104,20 @@ object GlyphAssetGenerator {
         val glyph = assigned.glyph
         val animation = glyph.animation
 
-        val textureRef: String
-        var textureFile: File? = null
-
-        if (":" in glyph.texture) {
-            textureRef = if (glyph.texture.endsWith(".png")) glyph.texture else "${glyph.texture}.png"
-        } else {
-            textureFile = plugin.dataFolder.resolve("pack/glyphs/${glyph.texture}.png")
-            if (!textureFile.exists()) {
-                plugin.logger.warning(
-                    "Skipping glyph ${glyph.id}: texture file pack/glyphs/${glyph.texture}.png does not exist"
-                )
-                return
-            }
-            textureRef = "ecoitems:glyphs/${glyph.texture}.png"
+        val location = PackLocation.parse(glyph.texture.removeSuffix(".png"))
+        if (location == null) {
+            plugin.logger.warning("Skipping glyph ${glyph.id}: texture '${glyph.texture}' is not a valid location")
+            return
         }
+
+        val textureFile: File? = location.file(plugin, "textures", "png").takeIf { it.exists() }
+        if (textureFile == null && location.namespace != "minecraft") {
+            plugin.logger.warning(
+                "Skipping glyph ${glyph.id}: texture file pack/${location.entry("textures", "png")} does not exist"
+            )
+            return
+        }
+        val textureRef = "${location.key}.png"
 
         if (glyph.ascent > glyph.height) {
             plugin.logger.warning("Skipping glyph ${glyph.id}: ascent (${glyph.ascent}) is larger than height (${glyph.height})")

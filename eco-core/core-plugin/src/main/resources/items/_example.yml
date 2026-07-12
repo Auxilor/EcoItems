@@ -24,10 +24,11 @@ item:
         operation: "add_value"
         slot: "mainhand"
 
-  # (Optional, paid version only) A custom texture for the item, read from
-  # /plugins/EcoItems/pack/textures/<name>.png and delivered to players
-  # with the resource pack. See pack.yml for delivery options.
-  # texture: mithril_sword
+  # (Optional, paid version only) A custom texture for the item: a
+  # [namespace:]path relative to textures/, so item/mithril_sword reads
+  # pack/assets/ecoitems/textures/item/mithril_sword.png. Delivered to
+  # players with the resource pack; see pack.yml for delivery options.
+  # texture: item/mithril_sword
   # texture-parent: handheld # generated (default), handheld, or any model key
   lore: # The item lore
     - "&7Damage: &c12❤"

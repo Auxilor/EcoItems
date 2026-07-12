@@ -1,0 +1,13 @@
+# Custom saddles work on every saddleable mob (1.21.5+).
+item:
+  item: saddle
+  display-name: "<g:#FA7CBB>Ruby Saddle</g:#F14658>"
+  texture: item/mob/ruby_saddle
+  components:
+    "minecraft:max_stack_size": 1
+    "minecraft:equippable":
+      slot: "saddle"
+      asset_id: "ecoitems:ruby_saddle"
+
+effects: []
+conditions: []

@@ -7,16 +7,16 @@ Glyphs are custom characters — emojis, chat tags, icons — added to Minecraft
 
 The paid version ships example glyphs: `:heart:` (also `<3`), an animated `:spinner:`, eight chat rank tags (`:king:`, `:hero:`, `:god:`, ...) locked behind permissions, and the `items_gui` GUI background.
 
-The paid defaults also include the `items_gui` Eco Workshop background glyph. `%ecoitems_glyph_items_gui%` inserts it manually, while `/ecoitems gui` positions it automatically. Its editable texture is `plugins/EcoItems/pack/glyphs/gui/items.png`.
+The paid defaults also include the `items_gui` Eco Workshop background glyph. `%ecoitems_glyph_items_gui%` inserts it manually, while `/ecoitems gui` positions it automatically. Its editable texture is `plugins/EcoItems/pack/assets/ecoitems/textures/glyph/gui/items.png`.
 
 ## Making a glyph
 
-1. Put the texture at `plugins/EcoItems/pack/glyphs/<name>.png`.
+1. Put the texture at `plugins/EcoItems/pack/assets/ecoitems/textures/glyph/<name>.png`.
 2. Create a config in `plugins/EcoItems/glyphs/`:
 
 ```yaml
 # glyphs/coin.yml
-texture: coin
+texture: glyph/coin # pack/assets/ecoitems/textures/glyph/coin.png
 ascent: 8 # How far above the text baseline the glyph sits
 height: 8 # Rendered height in pixels
 placeholders:
@@ -27,6 +27,8 @@ colorable: false # false renders the glyph white; true lets text color tint it
 ```
 
 3. Run `/ecoitems reload`.
+
+`texture` is a `[namespace:]path` relative to `textures/`, without the file extension — the namespace defaults to `ecoitems`, and the shipped glyphs live under `textures/glyph/`.
 
 ## Where glyphs work
 

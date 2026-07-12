@@ -1,8 +1,9 @@
 # The EcoItems resource pack.
 #
-# Textures for items go in the /pack/textures folder, custom models in
-# /pack/models, and any extra assets (fonts, sounds, minecraft overrides)
-# in /pack/assets. The pack is rebuilt on every reload.
+# The /pack folder mirrors a vanilla resource pack: put textures, models,
+# sounds, fonts, and anything else under /pack/assets/<namespace>/ exactly
+# as they'd sit in a normal pack. Other plugins' packs can be dropped into
+# /pack/imports. The pack is rebuilt on every reload.
 
 # If the resource pack system is enabled.
 enabled: true

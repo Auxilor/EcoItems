@@ -69,7 +69,7 @@ class Sound(
 
 /** One file in a sound event, with the vanilla sounds.json options. */
 class SoundEntry(name: String, config: Config?) {
-    /** Path under pack/sounds/ without extension, or a verbatim ns:path. */
+    /** A [ns:]path location relative to sounds/, without extension. */
     val name: String = name.removeSuffix(".ogg").replace('\\', '/')
 
     val volume = config?.getDoubleOrNull("volume") ?: 1.0

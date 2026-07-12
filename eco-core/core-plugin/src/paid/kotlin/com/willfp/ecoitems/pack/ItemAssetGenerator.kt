@@ -5,8 +5,8 @@ import com.willfp.ecoitems.EcoItemsPlugin
 /**
  * Generates the per-item pack entries for the modern (1.21.4+) item model
  * system: an item definition in assets/ecoitems/items/, and a generated model
- * for plain textures. The texture and model files themselves are mapped into
- * the pack wholesale by [PackBuilder].
+ * for plain textures. The texture and model files themselves live in the
+ * vanilla-structured pack folder and are copied wholesale by [PackBuilder].
  *
  * The minecraft:item_model component on the item points at the definition
  * (ecoitems:<id>), which is applied by EcoItem itself.
@@ -18,7 +18,7 @@ object ItemAssetGenerator {
         entries: MutableMap<String, ByteArray>
     ) {
         for (asset in assets) {
-            val problem = asset.validate() ?: generate(plugin, asset, entries)
+            val problem = asset.invalid ?: generate(plugin, asset, entries)
             if (problem != null) {
                 plugin.logger.warning("Skipping pack assets for item ${asset.id}: $problem")
             }
@@ -36,26 +36,32 @@ object ItemAssetGenerator {
         val modelKey = when {
             model == null -> {
                 val texture = asset.texture ?: return "no texture or model"
-                if (!plugin.dataFolder.resolve("pack/textures/$texture.png").exists()) {
-                    return "texture file pack/textures/$texture.png does not exist"
+
+                if (!texture.file(plugin, "textures", "png").exists() && texture.namespace != "minecraft") {
+                    return "texture file pack/${texture.entry("textures", "png")} does not exist"
                 }
 
-                // An explicit model file with the same name beats the generated one.
-                if (!plugin.dataFolder.resolve("pack/models/$texture.json").exists()) {
-                    entries["assets/ecoitems/models/item/$texture.json"] = modelJson(asset, texture)
+                if (!texture.path.startsWith("item/") && !texture.path.startsWith("block/")) {
+                    plugin.logger.warning(
+                        "Item ${asset.id}'s texture ${texture.key} is outside textures/item/ and textures/block/, " +
+                            "so it won't be stitched into the block atlas and the model may not render"
+                    )
                 }
 
-                "ecoitems:item/$texture"
+                // An explicit model file with the same location beats the generated one.
+                if (!texture.file(plugin, "models", "json").exists()) {
+                    entries[texture.entry("models", "json")] = modelJson(asset, texture)
+                }
+
+                texture.key
             }
 
-            ":" in model -> model
-
             else -> {
-                if (!plugin.dataFolder.resolve("pack/models/$model.json").exists()) {
-                    return "model file pack/models/$model.json does not exist"
+                if (!model.file(plugin, "models", "json").exists() && model.namespace != "minecraft") {
+                    return "model file pack/${model.entry("models", "json")} does not exist"
                 }
 
-                "ecoitems:item/$model"
+                model.key
             }
         }
 
@@ -73,7 +79,7 @@ object ItemAssetGenerator {
         }
     """.trimIndent().encodeToByteArray()
 
-    private fun modelJson(asset: ItemPackAsset, texture: String): ByteArray {
+    private fun modelJson(asset: ItemPackAsset, texture: PackLocation): ByteArray {
         val parent = when (asset.textureParent) {
             "generated" -> "minecraft:item/generated"
             "handheld" -> "minecraft:item/handheld"
@@ -84,7 +90,7 @@ object ItemAssetGenerator {
             {
               "parent": ${parent.toJsonString()},
               "textures": {
-                "layer0": ${"ecoitems:item/$texture".toJsonString()}
+                "layer0": ${texture.key.toJsonString()}
               }
             }
         """.trimIndent().encodeToByteArray()

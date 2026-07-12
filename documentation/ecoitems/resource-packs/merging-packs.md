@@ -15,7 +15,7 @@ Wrapper folders inside zips are handled automatically (a zip containing `MyPack/
 
 ## Merge order and priority
 
-- Imports load **first**, as the lowest-priority layer: anything EcoItems generates (item models, fonts, HUD fonts, sounds) and anything you put in `pack/assets/` wins on collision.
+- Imports load **first**, as the lowest-priority layer: anything EcoItems generates (item models, fonts, HUD fonts, sounds) and anything you put in the [`pack/` folder](index#the-pack-folder) (itself a vanilla-structured pack) wins on collision.
 - Between imports, packs load in **name order** and later packs win — prefix names like `10_mythicmobs.zip`, `20_nameplates.zip` to control priority. Overrides are logged.
 
 Some files are **merged instead of replaced**, so packs cooperate rather than fight:
