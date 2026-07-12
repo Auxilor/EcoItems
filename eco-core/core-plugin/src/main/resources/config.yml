@@ -22,7 +22,7 @@ rarity:
 # Options for the /ecoitems gui item browser.
 items-gui:
   rows: 6
-  title: "EcoItems &7(%page%/%max_page%)"
+  title: "&7EcoItems (%page%/%max_page%)"
 
   background:
     enabled: true
