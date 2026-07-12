@@ -21,6 +21,11 @@ commands:
   ecoitems:
     description: Base Command
     permission: ecoitems.command.ecoitems
+    aliases:
+      - ei
+      - e
+      - ecoi
+      - items
 
 permissions:
   ecoitems.*:

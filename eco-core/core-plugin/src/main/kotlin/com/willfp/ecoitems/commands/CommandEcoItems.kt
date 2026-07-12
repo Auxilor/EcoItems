@@ -17,6 +17,10 @@ object CommandEcoItems : PluginCommand(
             .addSubcommand(CommandHud)
     }
 
+    override fun getAliases(): List<String> {
+        return listOf("ei", "e", "ecoi", "items")
+    }
+
     override fun onExecute(sender: CommandSender, args: List<String>) {
         sender.sendMessage(
             plugin.langYml.getMessage("invalid-command")
