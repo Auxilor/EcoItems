@@ -1,8 +1,8 @@
 # EcoItems
 
 A fully-featured custom items plugin for Minecraft 1.21.8 - 26.2, being extended into a full
-ItemsAdder/Oraxen/Nexo replacement (resource packs, and in the future glyphs, huds, blocks, sounds,
-paintings). Supports Spigot and Paper - functionality that requires (or is much nicer with) Paper
+ItemsAdder/Oraxen/Nexo replacement (resource packs, glyphs, and sounds so far; huds, blocks, and
+paintings in the future). Supports Spigot and Paper - functionality that requires (or is much nicer with) Paper
 APIs may require Paper and refuse to work on Spigot, that is okay. It is however a requirement that
 EcoItems works at least to some extent on Spigot, due to SpigotMC.org rules.
 
@@ -35,7 +35,8 @@ eco-core/core-plugin/
   src/main/resources/                    # config.yml, lang.yml, items/, rarities/, recipes/
   src/paid/kotlin/com/willfp/ecoitems/   # paid-only source (folded into main unless -Pfree)
     pack/                                # pack build, publishers, delivery, defaults
-  src/paid/resources/                    # pack.yml, items/examples/, pack/{textures,models}
+  src/paid/resources/                    # pack.yml, items/examples/, glyphs/, sounds/,
+                                         # pack/{textures,models,glyphs,sounds,lang}
 eco-core/core-nms/v1_21_8 ... v26_2/     # one paperweight module per supported version
 packhost/                                # git submodule -> github.com/Auxilor/packhost
 documentation/ecoitems/                  # user docs, pulled by an external tool (no build step)
@@ -109,7 +110,7 @@ keep paid resources (pack.yml, textures, example items) out of `src/main/resourc
 Flow, all in `src/paid/kotlin/.../pack/`, orchestrated by `EcoItemsPackFeature.handleReload`:
 
 1. `PackDefaults.ensure` - extracts bundled `pack/**` jar entries to `plugins/EcoItems/pack/` on
-   first run (or after the folder is deleted) and creates `pack/{textures,models,assets}`.
+   first run (or after the folder is deleted) and creates `pack/{textures,models,assets,glyphs,sounds,lang}`.
 2. `ItemPackAsset.fromItem` per item - reads `item.texture` (png in `pack/textures/`, optional
    `texture-parent: handheld`) or `item.model` (json in `pack/models/`, or a verbatim `ns:path`).
 3. `PackBuilder.build` - maps **everything** in `pack/textures/` and `pack/models/` into the pack

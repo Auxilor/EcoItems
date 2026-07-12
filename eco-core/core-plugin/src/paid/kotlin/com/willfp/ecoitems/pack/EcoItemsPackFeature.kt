@@ -18,6 +18,7 @@ import com.willfp.ecoitems.pack.publisher.ExternalPublisher
 import com.willfp.ecoitems.pack.publisher.HostedPublisher
 import com.willfp.ecoitems.pack.publisher.PackPublisher
 import com.willfp.ecoitems.pack.publisher.SelfHostedPublisher
+import com.willfp.ecoitems.sounds.Sounds
 import org.bukkit.event.Listener
 import org.bukkit.inventory.ItemStack
 
@@ -53,7 +54,7 @@ object EcoItemsPackFeature : PackFeature {
         GlyphTabCompletions.refresh(plugin)
 
         val assets = EcoItems.values().mapNotNull { ItemPackAsset.fromItem(it) }
-        val pack = PackBuilder.build(plugin, settings, assets, glyphs.values)
+        val pack = PackBuilder.build(plugin, settings, assets, glyphs.values, Sounds.values())
 
         val published = resolvePublisher(plugin, settings)?.publish(pack)
         PackDelivery.update(published, settings)

@@ -3,6 +3,7 @@ package com.willfp.ecoitems.pack
 import com.willfp.ecoitems.EcoItemsPlugin
 import com.willfp.ecoitems.pack.glyphs.AssignedGlyph
 import com.willfp.ecoitems.pack.glyphs.GlyphAssetGenerator
+import com.willfp.ecoitems.sounds.Sound
 import java.io.File
 import java.security.DigestOutputStream
 import java.security.MessageDigest
@@ -19,7 +20,8 @@ object PackBuilder {
         plugin: EcoItemsPlugin,
         settings: PackSettings,
         assets: List<ItemPackAsset>,
-        glyphs: Collection<AssignedGlyph>
+        glyphs: Collection<AssignedGlyph>,
+        sounds: Collection<Sound>
     ): BuiltPack {
         val entries = sortedMapOf<String, ByteArray>()
 
@@ -33,15 +35,18 @@ object PackBuilder {
         copyTree(plugin.dataFolder.resolve("pack/textures"), "assets/ecoitems/textures/item/", entries)
         copyTree(plugin.dataFolder.resolve("pack/models"), "assets/ecoitems/models/item/", entries)
         copyTree(plugin.dataFolder.resolve("pack/glyphs"), "assets/ecoitems/textures/glyphs/", entries)
+        copyTree(plugin.dataFolder.resolve("pack/sounds"), "assets/ecoitems/sounds/", entries)
 
         ItemAssetGenerator.generate(plugin, assets, entries)
 
         // The raw overlay wins on collisions with generated files.
         copyTree(plugin.dataFolder.resolve("pack/assets"), "assets/", entries)
 
-        // After the overlay, so a user-supplied default.json is merged into
-        // the generated font rather than replaced.
+        // After the overlay, so user-supplied font/sounds/lang files are
+        // merged into the generated ones rather than replaced.
         GlyphAssetGenerator.generate(plugin, glyphs, entries)
+        SoundAssetGenerator.generate(plugin, sounds, entries)
+        LangAssetGenerator.generate(plugin, entries)
 
         return write(plugin.dataFolder.resolve("pack.zip"), entries)
     }

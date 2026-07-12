@@ -1,0 +1,9 @@
+# An example custom sound
+# Play it with /playsound ecoitems:welcome record @s
+
+category: record
+subtitle: "Welcome"
+
+sounds:
+  - sound: welcome # pack/sounds/welcome.ogg
+    stream: false # Long sounds like music should stream instead of preloading

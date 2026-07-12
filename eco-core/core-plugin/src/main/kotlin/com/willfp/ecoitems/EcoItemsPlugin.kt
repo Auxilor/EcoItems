@@ -17,6 +17,7 @@ import com.willfp.ecoitems.libreforge.ConditionHasEcoItem
 import com.willfp.ecoitems.pack.PackFeatures
 import com.willfp.ecoitems.rarity.ArgParserRarity
 import com.willfp.ecoitems.rarity.Rarities
+import com.willfp.ecoitems.sounds.Sounds
 import com.willfp.ecoitems.items.EcoItemTag
 import com.willfp.ecoitems.util.DiscoverRecipeListener
 import com.willfp.libreforge.conditions.Conditions
@@ -63,7 +64,8 @@ class EcoItemsPlugin : LibreforgePlugin() {
             Rarities,
             EcoItems,
             EcoItemsRecipes,
-            Glyphs
+            Glyphs,
+            Sounds
         )
     }
 

@@ -16,17 +16,19 @@ object PackDefaults {
         if (!packDir.exists()) {
             extract(plugin)
         } else {
-            if (!packDir.resolve("glyphs").exists()) {
-                // Upgrade path: installs from before glyphs existed get the
-                // shipped glyph textures.
-                extract(plugin, only = "pack/glyphs/")
+            // Upgrade paths: installs from before a feature existed get its
+            // shipped defaults.
+            for (feature in listOf("glyphs", "sounds", "lang")) {
+                if (!packDir.resolve(feature).exists()) {
+                    extract(plugin, only = "pack/$feature/")
+                }
             }
 
             extract(plugin, only = "pack/glyphs/gui/", overwrite = false)
             extract(plugin, only = "pack/assets/ecoitems/", overwrite = false)
         }
 
-        for (directory in listOf("textures", "models", "assets", "glyphs")) {
+        for (directory in listOf("textures", "models", "assets", "glyphs", "sounds", "lang")) {
             packDir.resolve(directory).mkdirs()
         }
     }
