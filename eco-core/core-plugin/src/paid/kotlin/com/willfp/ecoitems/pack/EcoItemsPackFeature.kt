@@ -31,7 +31,7 @@ object EcoItemsPackFeature : PackFeature {
     private var publisher: PackPublisher? = null
 
     override fun listeners(plugin: EcoItemsPlugin): List<Listener> {
-        return listOf(PackListener, HudTicker.QuitListener) + GlyphListeners.listeners()
+        return listOf(PackListener, HudTicker.QuitListener, TridentListener) + GlyphListeners.listeners()
     }
 
     override fun handleEnable(plugin: EcoItemsPlugin) {
@@ -63,6 +63,7 @@ object EcoItemsPackFeature : PackFeature {
         GlyphTabCompletions.refresh(plugin)
 
         val assets = EcoItems.values().mapNotNull { ItemPackAsset.fromItem(it) }
+        TridentListener.update(assets)
         val pack = PackBuilder.build(plugin, settings, assets, glyphs.values, Sounds.values(), Huds.values(), imports)
 
         val published = resolvePublisher(plugin, settings)?.publish(pack)
