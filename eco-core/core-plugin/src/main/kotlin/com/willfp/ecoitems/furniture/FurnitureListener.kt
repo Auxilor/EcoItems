@@ -89,6 +89,10 @@ object FurnitureListener : Listener {
             return
         }
 
+        if (!BlockListener.passesPlacementCooldown(player)) {
+            return
+        }
+
         val placeEvent = BlockPlaceEvent(target, target.state, against, item, player, true, event.hand!!)
         mutating = true
         try {

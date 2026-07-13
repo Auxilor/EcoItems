@@ -36,6 +36,24 @@ object BlockListener : Listener {
     internal var placing = false
         private set
 
+    // Vanilla paces held-down placement at 4 ticks; without this, a single
+    // click can double-fire and place two blocks back to back.
+    private val lastPlacement = mutableMapOf<java.util.UUID, Long>()
+
+    internal fun passesPlacementCooldown(player: Player): Boolean {
+        val now = System.currentTimeMillis()
+        if (now - (lastPlacement[player.uniqueId] ?: 0) < 200) {
+            return false
+        }
+        lastPlacement[player.uniqueId] = now
+        return true
+    }
+
+    @EventHandler
+    fun onQuit(event: org.bukkit.event.player.PlayerQuitEvent) {
+        lastPlacement.remove(event.player.uniqueId)
+    }
+
     /**
      * Right-clicking a custom note block would tune it (and string blocks
      * would connect hooks) - deny the vanilla block use. Item use still
@@ -125,6 +143,10 @@ object BlockListener : Listener {
         // Claim plugins integrate two ways: eco's antigrief wrappers and
         // listening to the (synthetic) place event below.
         if (!AntigriefManager.canPlaceBlock(player, target)) {
+            return
+        }
+
+        if (!passesPlacementCooldown(player)) {
             return
         }
 

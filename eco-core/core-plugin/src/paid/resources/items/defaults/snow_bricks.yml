@@ -3,7 +3,6 @@ item:
   name: <white>Snow_bricks
 block:
   type: noteblock
-  variation: 85
   texture: ecoitems:blocks_expansion/snow_bricks
   hardness: 6.0
   drops:
@@ -15,7 +14,10 @@ block:
   correct-tools:
   - PICKAXE
   sounds:
-    place: block.stone.place
-    break: block.stone.break
+    place: block.snow.place
+    break: block.snow.break
+    step: block.snow.step
+    hit: block.snow.hit
+    fall: block.snow.fall
 effects: []
 conditions: []

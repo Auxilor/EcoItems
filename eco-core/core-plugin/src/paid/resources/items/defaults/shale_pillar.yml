@@ -3,7 +3,6 @@ item:
   name: <white>Shale Pillar
 block:
   type: noteblock
-  variation: 59
   texture: ecoitems:blocks_expansion/shale_pillar_top
   hardness: 6.0
   drops:
@@ -15,7 +14,10 @@ block:
   correct-tools:
   - PICKAXE
   sounds:
-    place: block.stone.place
-    break: block.stone.break
+    place: block.deepslate.place
+    break: block.deepslate.break
+    step: block.deepslate.step
+    hit: block.deepslate.hit
+    fall: block.deepslate.fall
 effects: []
 conditions: []

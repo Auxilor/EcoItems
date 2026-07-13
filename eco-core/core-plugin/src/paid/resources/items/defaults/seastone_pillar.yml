@@ -3,7 +3,6 @@ item:
   name: <white>Seastone Pillar
 block:
   type: noteblock
-  variation: 83
   texture: ecoitems:blocks_expansion/seastone_pillar_top
   hardness: 6.0
   drops:
@@ -17,5 +16,8 @@ block:
   sounds:
     place: block.stone.place
     break: block.stone.break
+    step: block.stone.step
+    hit: block.stone.hit
+    fall: block.stone.fall
 effects: []
 conditions: []

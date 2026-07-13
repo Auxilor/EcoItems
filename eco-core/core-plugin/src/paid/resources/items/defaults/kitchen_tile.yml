@@ -3,7 +3,6 @@ item:
   name: <white>Kitchen Tile
 block:
   type: noteblock
-  variation: 42
   texture: ecoitems:blocks_expansion/kitchen_tile
   hardness: 6.0
   drops:
@@ -17,5 +16,8 @@ block:
   sounds:
     place: block.stone.place
     break: block.stone.break
+    step: block.stone.step
+    hit: block.stone.hit
+    fall: block.stone.fall
 effects: []
 conditions: []

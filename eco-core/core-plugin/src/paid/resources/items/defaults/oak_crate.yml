@@ -3,7 +3,6 @@ item:
   name: <white>Oak Crate
 block:
   type: noteblock
-  variation: 33
   texture: ecoitems:blocks_expansion/oak_crate
   hardness: 6.0
   drops:
@@ -17,5 +16,8 @@ block:
   sounds:
     place: block.wood.place
     break: block.wood.break
+    step: block.wood.step
+    hit: block.wood.hit
+    fall: block.wood.fall
 effects: []
 conditions: []

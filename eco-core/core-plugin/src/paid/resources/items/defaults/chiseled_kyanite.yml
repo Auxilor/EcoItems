@@ -3,7 +3,6 @@ item:
   name: <white>Chiseled Kyanite
 block:
   type: noteblock
-  variation: 54
   texture: ecoitems:blocks_expansion/chiseled_kyanite_top
   hardness: 6.0
   drops:
@@ -15,7 +14,10 @@ block:
   correct-tools:
   - PICKAXE
   sounds:
-    place: block.stone.place
-    break: block.stone.break
+    place: block.deepslate.place
+    break: block.deepslate.break
+    step: block.deepslate.step
+    hit: block.deepslate.hit
+    fall: block.deepslate.fall
 effects: []
 conditions: []

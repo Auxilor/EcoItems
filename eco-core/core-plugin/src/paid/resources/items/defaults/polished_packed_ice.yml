@@ -3,7 +3,6 @@ item:
   name: <white>Polished Packed Ice
 block:
   type: noteblock
-  variation: 89
   texture: ecoitems:blocks_expansion/polished_packed_ice
   hardness: 6.0
   drops:
@@ -15,7 +14,10 @@ block:
   correct-tools:
   - PICKAXE
   sounds:
-    place: block.stone.place
-    break: block.stone.break
+    place: block.glass.place
+    break: block.glass.break
+    step: block.glass.step
+    hit: block.glass.hit
+    fall: block.glass.fall
 effects: []
 conditions: []
