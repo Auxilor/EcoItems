@@ -1,8 +1,7 @@
 # Custom blocks: add a block: section to any item and the item places it.
 # Remove the leading _ from the file name to enable this example.
 #
-# EcoItems retextures unused vanilla blockstates (the same trick as
-# Oraxen/Nexo, with the same state math, so worlds and configs migrate):
+# EcoItems retextures unused vanilla blockstates:
 #   noteblock   - 774 solid blocks (the default; full hardness support)
 #   stringblock - 127 no-collision blocks (plants; always insta-break)
 #   chorus      - 63 blocks (avoid if your server visits the End - custom
