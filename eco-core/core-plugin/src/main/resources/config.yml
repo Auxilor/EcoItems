@@ -19,6 +19,12 @@ rarity:
   # If items with no specified rarity should be given the default rarity
   display-default: true
 
+blocks:
+  # Milliseconds between custom block/furniture placements. Vanilla paces
+  # held-down placement at 4 ticks (200ms); this also prevents a single
+  # click from double-placing. Set to 0 to disable.
+  place-cooldown-ms: 200
+
 # Options for the /ecoitems gui item browser.
 items-gui:
   rows: 6

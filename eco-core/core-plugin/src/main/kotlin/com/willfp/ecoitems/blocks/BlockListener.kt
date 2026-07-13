@@ -41,8 +41,13 @@ object BlockListener : Listener {
     private val lastPlacement = mutableMapOf<java.util.UUID, Long>()
 
     internal fun passesPlacementCooldown(player: Player): Boolean {
+        val cooldown = plugin.configYml.getIntOrNull("blocks.place-cooldown-ms") ?: 200
+        if (cooldown <= 0) {
+            return true
+        }
+
         val now = System.currentTimeMillis()
-        if (now - (lastPlacement[player.uniqueId] ?: 0) < 200) {
+        if (now - (lastPlacement[player.uniqueId] ?: 0) < cooldown) {
             return false
         }
         lastPlacement[player.uniqueId] = now
