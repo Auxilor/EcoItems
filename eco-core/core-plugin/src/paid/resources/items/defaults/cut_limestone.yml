@@ -1,0 +1,21 @@
+item:
+  item: paper
+  display-name: <white>Cut Limestone
+block:
+  type: noteblock
+  variation: 76
+  texture: ecoitems:blocks_expansion/cut_limestone
+  hardness: 6.0
+  drops:
+    silk-touch: false
+    items:
+    - item: ecoitems:cut_limestone
+      chance: 1.0
+  minimum-tier: wooden
+  correct-tools:
+  - PICKAXE
+  sounds:
+    place: block.stone.place
+    break: block.stone.break
+effects: []
+conditions: []

@@ -1,0 +1,21 @@
+item:
+  item: paper
+  display-name: <white>Arkose Bricks
+block:
+  type: noteblock
+  variation: 62
+  texture: ecoitems:blocks_expansion/arkose_bricks
+  hardness: 6.0
+  drops:
+    silk-touch: false
+    items:
+    - item: ecoitems:arkose_bricks
+      chance: 1.0
+  minimum-tier: wooden
+  correct-tools:
+  - PICKAXE
+  sounds:
+    place: block.stone.place
+    break: block.stone.break
+effects: []
+conditions: []

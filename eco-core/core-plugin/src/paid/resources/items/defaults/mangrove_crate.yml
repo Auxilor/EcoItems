@@ -1,0 +1,21 @@
+item:
+  item: paper
+  display-name: <white>Mangrove Crate
+block:
+  type: noteblock
+  variation: 39
+  texture: ecoitems:blocks_expansion/mangrove_crate
+  hardness: 6.0
+  drops:
+    silk-touch: false
+    items:
+    - item: ecoitems:mangrove_crate
+      chance: 1.0
+  minimum-tier: wooden
+  correct-tools:
+  - AXE
+  sounds:
+    place: block.wood.place
+    break: block.wood.break
+effects: []
+conditions: []

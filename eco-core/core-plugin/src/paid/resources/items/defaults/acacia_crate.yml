@@ -1,0 +1,21 @@
+item:
+  item: paper
+  display-name: <white>Acacia Crate
+block:
+  type: noteblock
+  variation: 36
+  texture: ecoitems:blocks_expansion/acacia_crate
+  hardness: 6.0
+  drops:
+    silk-touch: false
+    items:
+    - item: ecoitems:acacia_crate
+      chance: 1.0
+  minimum-tier: wooden
+  correct-tools:
+  - AXE
+  sounds:
+    place: block.wood.place
+    break: block.wood.break
+effects: []
+conditions: []

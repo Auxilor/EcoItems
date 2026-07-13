@@ -1,0 +1,21 @@
+item:
+  item: paper
+  display-name: <white>Chiseled Arkose
+block:
+  type: noteblock
+  variation: 66
+  texture: ecoitems:blocks_expansion/chiseled_arkose
+  hardness: 6.0
+  drops:
+    silk-touch: false
+    items:
+    - item: ecoitems:chiseled_arkose
+      chance: 1.0
+  minimum-tier: wooden
+  correct-tools:
+  - PICKAXE
+  sounds:
+    place: block.stone.place
+    break: block.stone.break
+effects: []
+conditions: []

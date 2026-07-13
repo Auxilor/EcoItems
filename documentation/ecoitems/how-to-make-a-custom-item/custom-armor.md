@@ -54,7 +54,7 @@ With the layer textures at:
 - `pack/assets/ecoitems/textures/entity/equipment/humanoid/emerald.png` (helmet, chestplate, boots — the classic `layer_1`)
 - `pack/assets/ecoitems/textures/entity/equipment/humanoid_leggings/emerald.png` (leggings — `layer_2`)
 
-One asset covers the whole set; every piece points at the same `asset_id`. The shipped emerald, ruby, and obsidian sets are complete working examples.
+One asset covers the whole set; every piece points at the same `asset_id`. For working examples of the equippable component, see the shipped ruby mob armor (`ruby_wolf_armor`, `ruby_horse_armor`, `ruby_llama_carpet`, `ruby_saddle`, `ruby_harness`) — player armor works the same way with `humanoid`/`humanoid_leggings` layers and your own textures.
 
 ## Elytra
 

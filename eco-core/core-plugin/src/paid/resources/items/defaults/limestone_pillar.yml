@@ -1,0 +1,21 @@
+item:
+  item: paper
+  display-name: <white>Limestone Pillar
+block:
+  type: noteblock
+  variation: 77
+  texture: ecoitems:blocks_expansion/limestone_pillar_top
+  hardness: 6.0
+  drops:
+    silk-touch: false
+    items:
+    - item: ecoitems:limestone_pillar
+      chance: 1.0
+  minimum-tier: wooden
+  correct-tools:
+  - PICKAXE
+  sounds:
+    place: block.stone.place
+    break: block.stone.break
+effects: []
+conditions: []

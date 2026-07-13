@@ -1,0 +1,21 @@
+item:
+  item: paper
+  display-name: <white>Polished Greenschist
+block:
+  type: noteblock
+  variation: 69
+  texture: ecoitems:blocks_expansion/polished_greenschist
+  hardness: 6.0
+  drops:
+    silk-touch: false
+    items:
+    - item: ecoitems:polished_greenschist
+      chance: 1.0
+  minimum-tier: wooden
+  correct-tools:
+  - PICKAXE
+  sounds:
+    place: block.stone.place
+    break: block.stone.break
+effects: []
+conditions: []

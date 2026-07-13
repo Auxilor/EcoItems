@@ -12,5 +12,5 @@ sounds:
 # needs a restart). Playable from any item with a jukebox_playable component.
 jukebox:
   description: "Welcome"
-  length-seconds: 30
+  length-seconds: 7
   comparator-output: 4

@@ -1,0 +1,11 @@
+item:
+  item: apple
+  display-name: Lime Glazed Donut
+  texture: ecoitems:donuts/lime_glazed_donut
+  texture-parent: handheld
+  components:
+    minecraft:food:
+      nutrition: 2
+      saturation: 1
+effects: []
+conditions: []

@@ -1,0 +1,11 @@
+item:
+  item: apple
+  display-name: Brown Glazed Sprinkled Donut
+  texture: ecoitems:donuts/brown_glazed_donut_sprinkles
+  texture-parent: handheld
+  components:
+    minecraft:food:
+      nutrition: 3
+      saturation: 1.2
+effects: []
+conditions: []

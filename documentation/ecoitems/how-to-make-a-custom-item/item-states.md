@@ -27,28 +27,28 @@ Every key goes under `item:` next to your base `texture`/`model`. Each state acc
 | `throwing-model` / `-texture` | The model in flight | Tridents (see below) |
 
 ```yaml
-# items/combat_bow.yml
+# items/my_bow.yml
 item:
   item: bow
-  model: item/default/combat_bow
+  model: item/my_bow
   pulling-models:
-    - item/default/combat_bow_pulling_0
-    - item/default/combat_bow_pulling_1
-    - item/default/combat_bow_pulling_2
+    - item/my_bow_pulling_0
+    - item/my_bow_pulling_1
+    - item/my_bow_pulling_2
 ```
 
-The generated trees match the vanilla items exactly (same thresholds and properties), so custom bows feel identical to vanilla ones. The shipped `combat_bow`, `divine_shield`, and `storm_trident` examples cover the common cases.
+The generated trees match the vanilla items exactly (same thresholds and properties), so custom bows feel identical to vanilla ones.
 
 ## Custom tridents
 
 Any trident-material item is throwable. Give it a `throwing-model` (or `-texture`) and the projectile renders that model in flight, reverting when it lands so pickup shows the normal item:
 
 ```yaml
-# items/storm_trident.yml
+# items/my_trident.yml
 item:
   item: trident
-  texture: item/default/storm_trident # in hand and in GUIs
-  throwing-model: item/default/storm_trident_3d # in flight
+  texture: item/my_trident # in hand and in GUIs
+  throwing-model: item/my_trident_3d # in flight
 ```
 
 The in-flight swap needs Paper; on Spigot thrown tridents keep the held model.
