@@ -4,6 +4,7 @@ import com.willfp.ecoitems.blocks.EcoBlocks
 import com.willfp.ecoitems.furniture.PlacedFurniture
 import com.willfp.ecoitems.items.EcoItems
 import org.bukkit.Material
+import org.bukkit.attribute.Attribute
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -27,7 +28,8 @@ object PickBlockListener : Listener {
         }
 
         val player = event.whoClicked as? Player ?: return
-        val target = player.rayTraceBlocks(6.0)?.hitBlock ?: return
+        val range = player.getAttribute(Attribute.BLOCK_INTERACTION_RANGE)?.value ?: 4.5
+        val target = player.rayTraceBlocks(range)?.hitBlock ?: return
 
         val replacement = if (event.cursor.type == Material.BARRIER) {
             PlacedFurniture.atBarrier(target)?.item?.itemStack

@@ -328,9 +328,9 @@ object BlockListener : Listener {
     )
 
     /**
-     * The pack silences the vanilla wood/stone events the backings would
-     * play; configs written with those names get routed to the replayable
-     * copies the pack defines instead.
+     * The pack silences the vanilla wood events the note block backing
+     * would play; configs written with those names get routed to the
+     * replayable copies the pack defines instead.
      */
     fun remapSilencedSound(sound: String): String {
         if (!BlockSoundState.remapActive) {
@@ -338,10 +338,10 @@ object BlockListener : Listener {
         }
 
         val plain = sound.removePrefix("minecraft:")
-        return when {
-            plain.startsWith("block.wood.") -> "ecoitems:required.wood.${plain.substringAfterLast('.')}"
-            plain.startsWith("block.stone.") -> "ecoitems:required.stone.${plain.substringAfterLast('.')}"
-            else -> sound
+        return if (plain.startsWith("block.wood.")) {
+            "ecoitems:required.wood.${plain.substringAfterLast('.')}"
+        } else {
+            sound
         }
     }
 }

@@ -28,6 +28,7 @@ class OraxenLikeMigration(
         "items", "pack", "glyphs"
     )
     private val itemIds = mutableSetOf<String>()
+    private val equipmentAssets = mutableSetOf<String>()
 
     fun run(): MigrationResult {
         val items = loadItems()
@@ -194,6 +195,17 @@ class OraxenLikeMigration(
                     // Oraxen wraps the song key in a map; vanilla wants the string.
                     "jukebox_playable" -> components["minecraft:jukebox_playable"] =
                         (value as? Map<*, *>)?.get("song_key") ?: value
+
+                    // Enum-style slot names (LEGS) and the legacy model key
+                    // don't parse as the vanilla component.
+                    "equippable" -> components["minecraft:equippable"] =
+                        (value as? Map<*, *>)?.entries?.associate { (k, v) ->
+                            val name = if (k == "model" && "asset_id" !in value) "asset_id" else k.toString()
+                            if (name == "asset_id" && ":" in v.toString()) {
+                                equipmentAssets += v.toString()
+                            }
+                            name to if (name == "slot") v.toString().lowercase() else v
+                        } ?: value
 
                     else -> components[if (":" in key) key else "minecraft:$key"] = value
                 }
@@ -779,9 +791,23 @@ class OraxenLikeMigration(
 
     private fun copyPack() {
         val pack = source.resolve("pack")
-        if (!pack.isDirectory) return
-
         val target = plugin.dataFolder.resolve("pack")
+
+        // Some setups keep external-pack folders at the source root instead
+        // of under pack/external_packs - anything with an assets/ tree counts.
+        val configDirs = setOf("items", "pack", "glyphs", "recipes", "messages", "sounds", "schematics")
+        for (dir in source.listFiles().orEmpty()) {
+            if (!dir.isDirectory || dir.name in configDirs || dir.name.startsWith("__")) continue
+            val looseAssets = dir.resolve("assets")
+            if (looseAssets.isDirectory) {
+                result.assets += copyTree(looseAssets, target.resolve("assets"))
+            }
+        }
+
+        if (!pack.isDirectory) {
+            generateEquipment(target)
+            return
+        }
 
         when (dialect) {
             Dialect.ORAXEN -> {
@@ -790,7 +816,6 @@ class OraxenLikeMigration(
                     result.assets += copyTree(pack.resolve(root), target.resolve("assets/minecraft/$root"))
                 }
                 result.assets += copyTree(pack.resolve("assets"), target.resolve("assets"))
-                writeAtlas(target.resolve("assets/minecraft/textures"))
             }
 
             Dialect.NEXO -> {
@@ -801,14 +826,11 @@ class OraxenLikeMigration(
         // External packs holding the assets item configs reference get
         // flattened into the main pack (so generated models find their
         // files); standalone zips stay separate as imports.
-        val assetRoots = mutableListOf(pack.resolve("assets"))
         for (external in pack.resolve("external_packs").listFiles().orEmpty()) {
             val externalAssets = external.resolve("assets")
             when {
-                externalAssets.isDirectory -> {
+                externalAssets.isDirectory ->
                     result.assets += copyTree(externalAssets, target.resolve("assets"))
-                    assetRoots += externalAssets
-                }
 
                 external.isDirectory -> result.assets += copyTree(external, target.resolve("imports/${external.name}"))
 
@@ -822,43 +844,75 @@ class OraxenLikeMigration(
             }
         }
 
-        // Atlas the texture roots of every imported namespace (directory
-        // sources are namespace-agnostic).
-        for (root in assetRoots) {
-            root.listFiles()?.filter { it.isDirectory }?.forEach { namespace ->
-                writeAtlas(namespace.resolve("textures"))
-            }
-        }
+        generateEquipment(target)
     }
 
     /**
-     * Imported textures outside item/ and block/ aren't stitched by the
-     * vanilla atlas - add directory sources for their top-level folders.
+     * The source plugins generate the equipment assets for wearable armor at
+     * pack build time from raw <set>_layer_1/2.png textures; without this,
+     * equippable items reference equipment that doesn't exist and armor
+     * renders invisible when worn.
      */
-    private fun writeAtlas(textures: File) {
-        val roots = textures.listFiles()
-            ?.filter { it.isDirectory && it.name !in setOf("item", "block", "font", "gui", "painting") }
-            ?.map { it.name }
-            .orEmpty()
-        if (roots.isEmpty()) return
-
-        val atlas = plugin.dataFolder.resolve("pack/assets/minecraft/atlases/blocks.json")
-        val existing = if (atlas.exists()) atlas.readText() else """{"sources": []}"""
-
-        val json = com.google.gson.JsonParser.parseString(existing).asJsonObject
-        val sources = json.getAsJsonArray("sources") ?: com.google.gson.JsonArray().also { json.add("sources", it) }
-        val present = sources.mapNotNull { it.asJsonObject.get("source")?.asString }.toSet()
-
-        for (root in roots) {
-            if (root in present) continue
-            val source = com.google.gson.JsonObject()
-            source.addProperty("type", "directory")
-            source.addProperty("source", root)
-            source.addProperty("prefix", "$root/")
-            sources.add(source)
+    private fun generateEquipment(target: File) {
+        if (equipmentAssets.isEmpty()) {
+            return
         }
 
-        atlas.parentFile.mkdirs()
-        atlas.writeText(com.google.gson.GsonBuilder().setPrettyPrinting().create().toJson(json))
+        val assets = target.resolve("assets")
+        val layerOnes = assets.walkTopDown()
+            .filter { it.isFile && it.name.endsWith("_layer_1.png") }
+            .toList()
+
+        for (assetId in equipmentAssets.sorted()) {
+            val namespace = assetId.substringBefore(':')
+            val name = assetId.substringAfter(':').substringAfterLast('/')
+
+            val definition = assets.resolve("$namespace/equipment/$name.json")
+            if (definition.exists()) {
+                continue
+            }
+
+            val layerOne = layerOnes.firstOrNull {
+                it.name == "${name}_armor_layer_1.png" || it.name == "${name}_layer_1.png"
+            }
+            if (layerOne == null) {
+                result.warn("Armor asset $assetId: no ${name}_layer_1.png texture found - the armor will be invisible when worn")
+                continue
+            }
+
+            // The layer textures keep the namespace they were copied into.
+            val textureNamespace = layerOne.relativeTo(assets).invariantSeparatorsPath.substringBefore('/')
+
+            val humanoid = assets.resolve("$textureNamespace/textures/entity/equipment/humanoid/$name.png")
+            humanoid.parentFile.mkdirs()
+            layerOne.copyTo(humanoid, overwrite = true)
+            result.assets++
+
+            val layerTwo = File(layerOne.path.replace("_layer_1.png", "_layer_2.png"))
+            if (layerTwo.exists()) {
+                val leggings = assets.resolve("$textureNamespace/textures/entity/equipment/humanoid_leggings/$name.png")
+                leggings.parentFile.mkdirs()
+                layerTwo.copyTo(leggings, overwrite = true)
+                result.assets++
+            } else {
+                result.warn("Armor asset $assetId: no ${name}_layer_2.png - leggings will render invisible")
+            }
+
+            val json = com.google.gson.JsonObject()
+            val layers = com.google.gson.JsonObject()
+            for (layerKey in listOf("humanoid", "humanoid_leggings")) {
+                val entry = com.google.gson.JsonObject()
+                entry.addProperty("texture", "$textureNamespace:$name")
+                val array = com.google.gson.JsonArray()
+                array.add(entry)
+                layers.add(layerKey, array)
+            }
+            json.add("layers", layers)
+
+            definition.parentFile.mkdirs()
+            definition.writeText(
+                com.google.gson.GsonBuilder().setPrettyPrinting().create().toJson(json) + "\n"
+            )
+        }
     }
 }

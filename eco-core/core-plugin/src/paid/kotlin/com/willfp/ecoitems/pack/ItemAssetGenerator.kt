@@ -79,9 +79,9 @@ object ItemAssetGenerator {
     }
 
     /**
-     * Checks a texture exists, warns when it's outside the atlas dirs, and
-     * generates a simple model for it (unless an explicit model file shadows
-     * it). Returns an error message, or null on success.
+     * Checks a texture exists and generates a simple model for it (unless an
+     * explicit model file shadows it). Atlas stitching is handled by
+     * [AtlasGenerator]. Returns an error message, or null on success.
      */
     private fun resolveTexture(
         plugin: EcoItemsPlugin,
@@ -93,50 +93,12 @@ object ItemAssetGenerator {
             return "texture file pack/${texture.entry("textures", "png")} does not exist"
         }
 
-        // Directories a user atlas file (migrations write one) stitches are
-        // fine too.
-        if (!texture.path.startsWith("item/") && !texture.path.startsWith("block/") &&
-            atlasPrefixes(plugin).none { texture.path.startsWith(it) }
-        ) {
-            plugin.logger.warning(
-                "Item ${asset.id}'s texture ${texture.key} is outside textures/item/ and textures/block/, " +
-                    "so it won't be stitched into the block atlas and the model may not render"
-            )
-        }
-
         // An explicit model file with the same location beats the generated one.
         if (!texture.file(plugin, "models", "json").exists()) {
             entries[texture.entry("models", "json")] = modelJson(asset, texture)
         }
 
         return null
-    }
-
-    private var atlasPrefixes: List<String>? = null
-
-    /** Directory-source prefixes from the user's atlas file, cached per build. */
-    private fun atlasPrefixes(plugin: EcoItemsPlugin): List<String> {
-        atlasPrefixes?.let { return it }
-
-        val file = plugin.dataFolder.resolve("pack/assets/minecraft/atlases/blocks.json")
-        val prefixes = if (file.exists()) {
-            runCatching {
-                com.google.gson.JsonParser.parseString(file.readText()).asJsonObject
-                    .getAsJsonArray("sources")
-                    .mapNotNull { it.asJsonObject }
-                    .filter { it.get("type")?.asString?.substringAfter(":") == "directory" }
-                    .mapNotNull { it.get("prefix")?.asString ?: it.get("source")?.asString?.plus("/") }
-            }.getOrDefault(emptyList())
-        } else {
-            emptyList()
-        }
-
-        atlasPrefixes = prefixes
-        return prefixes
-    }
-
-    fun clearCache() {
-        atlasPrefixes = null
     }
 
     private fun definitionJson(model: JsonObject): ByteArray {
@@ -146,10 +108,12 @@ object ItemAssetGenerator {
     }
 
     private fun modelJson(asset: ItemPackAsset, texture: PackLocation): ByteArray {
-        val parent = when (asset.textureParent) {
-            "generated" -> "minecraft:item/generated"
-            "handheld" -> "minecraft:item/handheld"
-            else -> asset.textureParent
+        // Bare names are vanilla item models (generated, handheld, bow,
+        // fishing_rod, ...); paths and namespaced refs pass through.
+        val parent = when {
+            ":" in asset.textureParent -> asset.textureParent
+            "/" in asset.textureParent -> "minecraft:${asset.textureParent}"
+            else -> "minecraft:item/${asset.textureParent}"
         }
 
         return """

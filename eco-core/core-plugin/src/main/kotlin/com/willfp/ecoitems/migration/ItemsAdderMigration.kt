@@ -303,38 +303,8 @@ class ItemsAdderMigration(private val plugin: EcoItemsPlugin) {
         result.assets += copyTree(pack.resolve("assets"), plugin.dataFolder.resolve("pack/assets"))
         result.assets += copyTree(pack.resolve("resourcepack/assets"), plugin.dataFolder.resolve("pack/assets"))
 
-        writeNamespaceAtlas(namespace, target.resolve("textures"))
     }
 
-    /** IA textures sit at arbitrary roots; atlas them like the Oraxen path. */
-    private fun writeNamespaceAtlas(namespace: String, textures: File) {
-        val roots = textures.listFiles()
-            ?.filter { it.isDirectory && it.name !in setOf("item", "block", "font", "gui") }
-            ?.map { it.name }
-            .orEmpty()
-        if (roots.isEmpty()) return
-
-        val atlas = plugin.dataFolder.resolve("pack/assets/minecraft/atlases/blocks.json")
-        val existing = if (atlas.exists()) atlas.readText() else """{"sources": []}"""
-
-        val json = com.google.gson.JsonParser.parseString(existing).asJsonObject
-        val sources = json.getAsJsonArray("sources") ?: com.google.gson.JsonArray().also { json.add("sources", it) }
-        val present = sources.mapNotNull { entry ->
-            entry.asJsonObject.let { "${it.get("source")?.asString}@${it.get("prefix")?.asString}" }
-        }.toSet()
-
-        for (root in roots) {
-            if ("$root@$root/" in present) continue
-            val source = com.google.gson.JsonObject()
-            source.addProperty("type", "directory")
-            source.addProperty("source", root)
-            source.addProperty("prefix", "$root/")
-            sources.add(source)
-        }
-
-        atlas.parentFile.mkdirs()
-        atlas.writeText(com.google.gson.GsonBuilder().setPrettyPrinting().create().toJson(json))
-    }
 
     private fun strip(path: String): String =
         path.removeSuffix(".png").removeSuffix(".json").replace("\\", "/")

@@ -50,7 +50,6 @@ object PackBuilder {
         ).encodeToByteArray()
         entries["pack.png"] = bundledPackPng()
 
-        ItemAssetGenerator.clearCache()
         ItemAssetGenerator.generate(plugin, assets, entries)
         BlockAssetGenerator.generate(plugin, settings, entries)
 
@@ -58,6 +57,8 @@ object PackBuilder {
         // rather than being extracted to the pack folder, so fixes reach
         // existing installs; the pack folder still wins on collision.
         bundledBuiltins(plugin, entries)
+
+        AtlasGenerator.generate(plugin, entries)
 
         // The pack folder wins on collisions with generated files and
         // imports, except mergeable files (fonts/sounds/lang/atlases),
