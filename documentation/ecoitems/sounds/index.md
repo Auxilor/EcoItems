@@ -9,11 +9,11 @@ sidebar_position: 1
 Custom sounds are part of the resource pack system, which requires the paid version of EcoItems.
 :::
 
-EcoItems can add fully custom sounds to your server: music, ambience, UI feedback, ability sounds — anything you can put in a `.ogg` file. Sounds are delivered through the [resource pack](../resource-packs/index.md) and play like any vanilla sound.
+EcoItems can add fully custom sounds to your server: music, ambience, UI feedback, ability sounds - anything you can put in a `.ogg` file. Sounds are delivered through the [resource pack](../resource-packs/index.md) and play like any vanilla sound.
 
 ## Creating a sound
 
-Each sound is one config in the `sounds/` folder — the file name is the sound's ID. Drop the audio file in `pack/assets/ecoitems/sounds/` as a `.ogg`, and reference it from the config (a `[namespace:]path` relative to `sounds/`, no extension, namespace defaulting to `ecoitems`):
+Each sound is one config in the `sounds/` folder - the file name is the sound's ID. Drop the audio file in `pack/assets/ecoitems/sounds/` as a `.ogg`, and reference it from the config (a `[namespace:]path` relative to `sounds/`, no extension, namespace defaulting to `ecoitems`):
 
 ```yaml
 # sounds/battle_horn.yml
@@ -91,11 +91,11 @@ The pack can also override the client's translation strings, with lang files at 
 }
 ```
 
-Values support `:glyph:` placeholders (see [Glyphs](../glyphs/index.md)) and § color codes. Keys starting with `_` are treated as comments. Any vanilla translation key can be overridden — the defaults EcoItems ships are just a starting point.
+Values support `:glyph:` placeholders (see [Glyphs](../glyphs/index.md)) and § color codes. Keys starting with `_` are treated as comments. Any vanilla translation key can be overridden - the defaults EcoItems ships are just a starting point.
 
 ## Custom music discs
 
-Add a `jukebox` section to any sound and EcoItems registers it as a jukebox song (through a generated datapack — **needs a restart**, the console tells you when):
+Add a `jukebox` section to any sound and EcoItems registers it as a jukebox song (through a generated datapack - **needs a restart**, the console tells you when):
 
 ```yaml
 # sounds/welcome.yml

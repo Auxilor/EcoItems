@@ -72,7 +72,7 @@ The `item:` section is exactly the same as any other EcoItem. See [How to make a
 
 ### The component
 
-`minecraft:tool` is the vanilla component that controls mining — the same one vanilla tools use, with every field documented in the [Data component format](https://minecraft.wiki/w/Data_component_format#tool). Block lists accept block IDs or block tags; tags start with `#` and use vanilla tag names like `#minecraft:mineable/pickaxe`.
+`minecraft:tool` is the vanilla component that controls mining - the same one vanilla tools use, with every field documented in the [Data component format](https://minecraft.wiki/w/Data_component_format#tool). Block lists accept block IDs or block tags; tags start with `#` and use vanilla tag names like `#minecraft:mineable/pickaxe`.
 
 :::info Tool changes apply to new items only
 Editing components does not update tools already in player inventories; only newly given or crafted copies pick up the change.

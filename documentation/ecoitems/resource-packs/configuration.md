@@ -70,7 +70,7 @@ glyphs:
   tab-complete: true
 ```
 
-If you disable the pack system (or a publish fails), players simply aren't sent a pack — items keep working, textured items just render with their base item's look for players without the pack.
+If you disable the pack system (or a publish fails), players simply aren't sent a pack - items keep working, textured items just render with their base item's look for players without the pack.
 
 <hr/>
 

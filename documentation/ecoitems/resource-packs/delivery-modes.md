@@ -7,7 +7,7 @@ sidebar_position: 4
 
 | Mode | How it works | Best for |
 | --- | --- | --- |
-| `hosted` | Uploads the pack to a packhost instance and delivers the returned URL | Most servers — zero setup |
+| `hosted` | Uploads the pack to a packhost instance and delivers the returned URL | Most servers - zero setup |
 | `self-hosted` | Serves the pack over HTTP from the Minecraft server itself | Servers with an open port and a public address |
 | `external` | Exports `pack.zip` to a folder; you host it and set the URL | Servers with an existing CDN or web server |
 | `none` | Builds the pack but delivers nothing | Testing, or manual distribution |
@@ -28,4 +28,4 @@ The pack is written to `delivery.external.directory` as `pack.zip`. Upload or sy
 
 ## Sending
 
-With any active mode, the pack is sent to players on join (`send-on-join`) and re-sent to everyone after a reload (`send-on-reload`). The prompt, whether the pack is `required`, and whether declining kicks (`kick-on-decline`) are all configurable — see [Pack Configuration](configuration).
+With any active mode, the pack is sent to players on join (`send-on-join`) and re-sent to everyone after a reload (`send-on-reload`). The prompt, whether the pack is `required`, and whether declining kicks (`kick-on-decline`) are all configurable - see [Pack Configuration](configuration).

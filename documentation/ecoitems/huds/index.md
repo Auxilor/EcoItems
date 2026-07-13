@@ -9,11 +9,11 @@ sidebar_position: 1
 HUDs are part of the resource pack system, which requires the paid version of EcoItems.
 :::
 
-HUDs are persistent text displays — balances, stats, server info — shown in the action bar or a boss bar and refreshed automatically. Combined with [glyphs](../glyphs/index.md) and pixel shifts they can look like fully custom interface elements.
+HUDs are persistent text displays - balances, stats, server info - shown in the action bar or a boss bar and refreshed automatically. Combined with [glyphs](../glyphs/index.md) and pixel shifts they can look like fully custom interface elements.
 
 ## Creating a HUD
 
-Each HUD is one config in the `huds/` folder — the file name is the HUD's ID:
+Each HUD is one config in the `huds/` folder - the file name is the HUD's ID:
 
 ```yaml
 # huds/balance.yml
@@ -27,12 +27,12 @@ The `text` goes through the full EcoItems text pipeline on every update, per pla
 
 ## Positioning text with text-ascent
 
-Normally the action bar renders in its vanilla spot. Setting `text-ascent` re-renders the HUD's dynamic text at a different height: EcoItems generates a dedicated font for the HUD (the vanilla ASCII page at your chosen ascent, plus all your glyphs and shifts), so placeholders and ordinary text move while glyphs keep their own configured ascents. The vanilla ascent is `7`; lower values move text **down** (`-13` sits just above the hotbar), and `8` is the maximum. Only the basic ASCII characters are covered — accented or non-Latin text will not render inside an offset HUD.
+Normally the action bar renders in its vanilla spot. Setting `text-ascent` re-renders the HUD's dynamic text at a different height: EcoItems generates a dedicated font for the HUD (the vanilla ASCII page at your chosen ascent, plus all your glyphs and shifts), so placeholders and ordinary text move while glyphs keep their own configured ascents. The vanilla ascent is `7`; lower values move text **down** (`-13` sits just above the hotbar), and `8` is the maximum. Only the basic ASCII characters are covered - accented or non-Latin text will not render inside an offset HUD.
 
 ## Action bars and boss bars
 
-- **`type: action-bar`** — players have **one** action bar HUD active at a time. The active HUD is the first `enabled-by-default` one until the player picks another with the toggle command.
-- **`type: boss-bar`** — rendered as a boss bar at the top of the screen; multiple boss-bar HUDs can show at once, each independently toggleable. Style it with the `boss-bar` section (`color`, `style`, `progress`).
+- **`type: action-bar`** - players have **one** action bar HUD active at a time. The active HUD is the first `enabled-by-default` one until the player picks another with the toggle command.
+- **`type: boss-bar`** - rendered as a boss bar at the top of the screen; multiple boss-bar HUDs can show at once, each independently toggleable. Style it with the `boss-bar` section (`color`, `style`, `progress`).
 
 ```yaml
 # huds/server_info.yml
@@ -67,4 +67,4 @@ conditions:
 
 ## Playing nicely with other plugins
 
-When another plugin writes to the action bar (an item pickup message, a different plugin's notification), EcoItems yields for a few seconds and then resumes — transient messages show cleanly. Two plugins that both maintain a *persistent* action bar will still compete; pick one.
+When another plugin writes to the action bar (an item pickup message, a different plugin's notification), EcoItems yields for a few seconds and then resumes - transient messages show cleanly. Two plugins that both maintain a *persistent* action bar will still compete; pick one.

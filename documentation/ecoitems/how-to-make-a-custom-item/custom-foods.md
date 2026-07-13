@@ -87,7 +87,7 @@ effects:
 
 ### The components
 
-`minecraft:food` and `minecraft:consumable` are the vanilla components that control eating — the same ones vanilla items use, with every field documented in the [Data component format](https://minecraft.wiki/w/Data_component_format#food). The consumable component also supports `animation`, `sound`, teleport effects (chorus fruit style), and more.
+`minecraft:food` and `minecraft:consumable` are the vanilla components that control eating - the same ones vanilla items use, with every field documented in the [Data component format](https://minecraft.wiki/w/Data_component_format#food). The consumable component also supports `animation`, `sound`, teleport effects (chorus fruit style), and more.
 
 :::info Food changes apply to new items only
 Editing components does not update foods already in player inventories; only newly given or crafted copies pick up the change.

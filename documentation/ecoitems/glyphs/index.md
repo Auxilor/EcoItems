@@ -3,7 +3,7 @@ title: "Glyphs"
 sidebar_position: 1
 ---
 
-Glyphs are custom characters — emojis, chat tags, icons — added to Minecraft's font through the resource pack. Players type placeholders like `:heart:` in chat, and they work in any config text too (item lore, GUI titles, any eco plugin). Glyphs are a paid-version feature, since they're delivered through the [resource pack](../resource-packs/index).
+Glyphs are custom characters - emojis, chat tags, icons - added to Minecraft's font through the resource pack. Players type placeholders like `:heart:` in chat, and they work in any config text too (item lore, GUI titles, any eco plugin). Glyphs are a paid-version feature, since they're delivered through the [resource pack](../resource-packs/index).
 
 The paid version ships example glyphs: `:heart:` (also `<3`), an animated `:spinner:`, eight chat rank tags (`:king:`, `:hero:`, `:god:`, ...) locked behind permissions, and the `items_gui` GUI background.
 
@@ -28,11 +28,11 @@ colorable: false # false renders the glyph white; true lets text color tint it
 
 3. Run `/ecoitems reload`.
 
-`texture` is a `[namespace:]path` relative to `textures/`, without the file extension — the namespace defaults to `ecoitems`, and the shipped glyphs live under `textures/glyph/`.
+`texture` is a `[namespace:]path` relative to `textures/`, without the file extension - the namespace defaults to `ecoitems`, and the shipped glyphs live under `textures/glyph/`.
 
 ## Where glyphs work
 
-- **All eco-formatted text**: item lore, display names, GUI titles, messages — any config string in any eco plugin. Placeholders there are not permission-checked (the server admin wrote them).
+- **All eco-formatted text**: item lore, display names, GUI titles, messages - any config string in any eco plugin. Placeholders there are not permission-checked (the server admin wrote them).
 - **Chat**: players with the glyph's permission can type `:coin:` or paste placeholders; without permission the placeholder stays literal, and pasting the raw glyph character renders as a scrambled box. Type `\:coin:` to write the placeholder literally.
 - **Signs**: same behaviour as chat.
 - **Placeholders**: `%ecoitems_glyph_<id>%` inserts a glyph and `%ecoitems_shift_<pixels>%` moves text horizontally (see below), everywhere eco placeholders (and PlaceholderAPI) work.
@@ -41,7 +41,7 @@ Chat, sign, and tab-complete formatting can each be toggled in [`pack.yml`](../r
 
 ## Shifts
 
-Shifts move text horizontally by an exact pixel amount — the building block for custom GUI titles and HUDs. Use the placeholder form anywhere:
+Shifts move text horizontally by an exact pixel amount - the building block for custom GUI titles and HUDs. Use the placeholder form anywhere:
 
 ```yaml
 # 20px right, then a glyph, then 8px back-left

@@ -3,7 +3,7 @@ title: "Animated Glyphs"
 sidebar_position: 2
 ---
 
-Glyphs can animate from a sprite sheet — fully client-side, so they keep animating in old chat messages, item lore, and on signs without the server re-sending anything. The shipped `:spinner:` glyph is an example.
+Glyphs can animate from a sprite sheet - fully client-side, so they keep animating in old chat messages, item lore, and on signs without the server re-sending anything. The shipped `:spinner:` glyph is an example.
 
 ## Setup
 
@@ -29,7 +29,7 @@ Every frame gets its own font character; the frames are stacked at the same posi
 
 Limits to be aware of:
 
-- **16 frames and 127 fps maximum** — the shader encodes frame data in the text color channels.
+- **16 frames and 127 fps maximum** - the shader encodes frame data in the text color channels.
 - **Non-looping animations sync to world time**, not to when the text appeared.
 - The shader patch overrides the vanilla text shaders. If you merge another resource pack that also overrides text shaders (via `pack/imports/` or files under `pack/assets/`), the two will conflict.
 - The shaders are only added to the pack when at least one animated glyph exists.

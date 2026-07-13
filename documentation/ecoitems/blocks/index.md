@@ -9,7 +9,7 @@ sidebar_position: 1
 Block textures are part of the resource pack system, which requires the paid version of EcoItems.
 :::
 
-Add a `block:` section to any item config and the item places a real custom block. EcoItems retextures unused vanilla blockstates — the same technique (and the same state math) as Oraxen and Nexo, so existing worlds and configs can migrate.
+Add a `block:` section to any item config and the item places a real custom block. EcoItems retextures unused vanilla blockstates, and [migrated setups](../migrations/index.md) keep working because the state encoding is compatible with what other custom item plugins use.
 
 ## Backings
 
@@ -17,13 +17,13 @@ Add a `block:` section to any item config and the item places a real custom bloc
 |---|---|---|---|
 | `noteblock` (default) | 774 | Solid | Full hardness support; the workhorse. |
 | `stringblock` | 127 | None | For plants/decorations; always breaks instantly. |
-| `chorus` | 63 | Solid | Corrupts how *natural* chorus plants render — avoid if your players visit the End. |
+| `chorus` | 63 | Solid | Corrupts how *natural* chorus plants render - avoid if your players visit the End. |
 
 ```yaml
 # items/ruby_block.yml
 item:
   item: paper
-  display-name: "&cRuby Block"
+  name: "&cRuby Block"
 
 block:
   type: noteblock
@@ -62,12 +62,12 @@ block:
           amount: 5
 ```
 
-Events: `punch`, `shift-punch`, `right-click`, `shift-right-click`, `place`, `break`. Sneaking fires only the `shift-` variant. The full libreforge toolbox works — chances, cooldowns, conditions, filters, command execution, and so on.
+Events: `punch`, `shift-punch`, `right-click`, `shift-right-click`, `place`, `break`. Sneaking fires only the `shift-` variant. The full libreforge toolbox works - chances, cooldowns, conditions, filters, command execution, and so on.
 
 ## Things to know
 
-- **State assignments are permanent.** Each block gets a vanilla blockstate permutation, persisted in `block-variations.yml`. The state *is* the block's identity in the world — never edit or delete entries there once blocks have been placed. Imported Oraxen/Nexo configs can pin numbers with `variation:`.
+- **State assignments are permanent.** Each block gets a vanilla blockstate permutation, persisted in `block-variations.yml`. The state *is* the block's identity in the world - never edit or delete entries there once blocks have been placed. Migrated configs can pin numbers with `variation:`.
 - **Paper flags.** On Paper, set `disable-noteblock-updates` (and the tripwire/chorus equivalents if you use those backings) under `block-updates` in `config/paper-global.yml`. EcoItems works without them (and on Spigot) via event listeners, but the flags are faster and bulletproof.
-- **Vanilla note blocks still work** — they keep their default look, and EcoItems replays the right instrument sounds. Tuned note blocks from *before* EcoItems was installed may show a custom texture, though: the states they were tuned into now belong to custom blocks.
+- **Vanilla note blocks still work** - they keep their default look, and EcoItems replays the right instrument sounds. Tuned note blocks from *before* EcoItems was installed may show a custom texture, though: the states they were tuned into now belong to custom blocks.
 - **Custom block sounds** (`blocks.custom-sounds` in pack.yml, on by default): the pack silences the vanilla wood sound events (which the note block backing would trigger) and the server replays them, so custom blocks get their configured `sounds:` and real wooden blocks still sound normal.
-- **Other plugins can target your blocks** anywhere eco block lookups work — `ecoitems:ruby_block` in EcoSkills mining XP, libreforge `blocks` filters, effect whitelists, and so on.
+- **Other plugins can target your blocks** anywhere eco block lookups work - `ecoitems:ruby_block` in EcoSkills mining XP, libreforge `blocks` filters, effect whitelists, and so on.

@@ -55,7 +55,7 @@ The in-flight swap needs Paper; on Spigot thrown tridents keep the held model.
 
 ## The raw definition escape hatch
 
-For anything the state keys don't cover — display-context switching, composite layering, time-based models, `has_component` conditions — write the vanilla [item definition format](https://minecraft.wiki/w/Items_model_definition) directly. It's passed through verbatim, exactly like `item.components`, so every present and future node type works:
+For anything the state keys don't cover - display-context switching, composite layering, time-based models, `has_component` conditions - write the vanilla [item definition format](https://minecraft.wiki/w/Items_model_definition) directly. It's passed through verbatim, exactly like `item.components`, so every present and future node type works:
 
 ```yaml
 item:
@@ -67,19 +67,19 @@ item:
     on_true: { type: "minecraft:model", model: "ecoitems:item/spyglass_zoom" }
 ```
 
-`definition` wins over all state keys. Model references inside it must be fully namespaced (`ecoitems:item/...`), and files they point at should exist in your pack folder — raw trees aren't validated.
+`definition` wins over all state keys. Model references inside it must be fully namespaced (`ecoitems:item/...`), and files they point at should exist in your pack folder - raw trees aren't validated.
 
 ## 2D player heads
 
-EcoItems ships two ready-made item models that render any player head's skin as a flat 2D icon — no config needed:
+EcoItems ships two ready-made item models that render any player head's skin as a flat 2D icon - no config needed:
 
 ```
 /give @s player_head[item_model="ecoitems:2d_player_head",profile={name:"Notch"}]
 /give @s player_head[item_model="ecoitems:2d_player_head_large",profile={name:"Notch"}]
 ```
 
-Perfect for GUIs, leaderboards, and trophies. To bake one into an item, set the `minecraft:item_model` and `minecraft:profile` components — see `items/_example_2d_head.yml`.
+Perfect for GUIs, leaderboards, and trophies. To bake one into an item, set the `minecraft:item_model` and `minecraft:profile` components - see `items/_example_2d_head.yml`.
 
 :::caution Raw definitions with `special` nodes
-If you write your own `special` head node in a raw `definition`, copy the `transformation` block from the built-in `ecoitems:2d_player_head` definition. 26.x clients read the skull's centring and flip from it — without it, heads render upside down and offset. Older clients ignore the field.
+If you write your own `special` head node in a raw `definition`, copy the `transformation` block from the built-in `ecoitems:2d_player_head` definition. 26.x clients read the skull's centring and flip from it - without it, heads render upside down and offset. Older clients ignore the field.
 :::

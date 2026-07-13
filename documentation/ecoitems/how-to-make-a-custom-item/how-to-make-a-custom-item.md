@@ -94,7 +94,7 @@ EcoItems supports both shaped and shapeless recipes. See [Recipes](https://hub.a
 
 ### Components
 
-`item.components` lets you set **any vanilla item component** on the item, using the same structure as vanilla commands — see the [Data component format](https://minecraft.wiki/w/Data_component_format) for every component and its fields. This is how you set combat stats, food behaviour, tool rules, cooldowns, equippability, and anything else the game itself supports:
+`item.components` lets you set **any vanilla item component** on the item, using the same structure as vanilla commands - see the [Data component format](https://minecraft.wiki/w/Data_component_format) for every component and its fields. This is how you set combat stats, food behaviour, tool rules, cooldowns, equippability, and anything else the game itself supports:
 
 ```yaml
 item:
@@ -113,16 +113,16 @@ item:
 Component keys without a namespace are treated as `minecraft:` components, so no quoting is needed; write `"somemod:component"` in quotes for anything namespaced. Invalid components are skipped with a warning in the console telling you what's wrong.
 
 :::tip Names
-`item.name` is shorthand for the `minecraft:item_name` component — the modern way to name items (no italics, no anvil-rename look). The older `item.display-name` still works and sets a custom name through the display system instead, which supports placeholders that update per-player.
+`item.name` is shorthand for the `minecraft:item_name` component - the modern way to name items (no italics, no anvil-rename look). The older `item.display-name` still works and sets a custom name through the display system instead, which supports placeholders that update per-player.
 :::
 
 :::info Migrating from older versions
-The old `base-damage`, `base-attack-speed`, `base-attack-range`, and `effective-durability` options have been replaced by components: use `minecraft:attribute_modifiers` for combat stats (as above) and `max_damage:<amount>` on the base item lookup for durability. The old `food:` and `tool:` sections are now the `minecraft:food`, `minecraft:consumable`, and `minecraft:tool` components — see [Custom Foods](custom-foods) and [Custom Tools](custom-tools).
+The old `base-damage`, `base-attack-speed`, `base-attack-range`, and `effective-durability` options have been replaced by components: use `minecraft:attribute_modifiers` for combat stats (as above) and `max_damage:<amount>` on the base item lookup for durability. The old `food:` and `tool:` sections are now the `minecraft:food`, `minecraft:consumable`, and `minecraft:tool` components - see [Custom Foods](custom-foods) and [Custom Tools](custom-tools).
 :::
 
 ### Texture (paid version)
 
-Give the item a custom texture with `item.texture`, pointing at a `.png` under `plugins/EcoItems/pack/assets/ecoitems/textures/item/` — the path is relative to `textures/`, without the extension. The resource pack is generated and delivered automatically — see [Resource Packs](../resource-packs/index).
+Give the item a custom texture with `item.texture`, pointing at a `.png` under `plugins/EcoItems/pack/assets/ecoitems/textures/item/` - the path is relative to `textures/`, without the extension. The resource pack is generated and delivered automatically - see [Resource Packs](../resource-packs/index).
 
 ```yaml
 item:
