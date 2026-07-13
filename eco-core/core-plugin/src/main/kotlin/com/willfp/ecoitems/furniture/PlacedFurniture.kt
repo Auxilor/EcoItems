@@ -113,7 +113,13 @@ class PlacedFurniture(
             .minByOrNull { it.location.distanceSquared(player.location) }
             ?: return false
 
-        return seat.addPassenger(player)
+        // Mounting mid-interact-packet desyncs the client; next tick is safe.
+        com.willfp.ecoitems.plugin.scheduler.run {
+            if (seat.isValid && seat.passengers.isEmpty()) {
+                seat.addPassenger(player)
+            }
+        }
+        return true
     }
 
     companion object {
@@ -224,9 +230,13 @@ class PlacedFurniture(
             val seats = furniture.seats.map { seat ->
                 val (x, z) = rotate(seat.x, seat.z, yaw)
                 world.spawn(
-                    center.clone().add(x, seat.y - SEAT_OFFSET, z),
+                    center.clone().add(x, seat.y, z),
                     ArmorStand::class.java
                 ) { stand ->
+                    // Markers have a zero-height hitbox: passengers sit at the
+                    // stand's exact position, clicks pass through to the
+                    // furniture, and nothing pokes out of the collision box.
+                    stand.isMarker = true
                     stand.isVisible = false
                     stand.isSmall = true
                     stand.setGravity(false)
@@ -262,9 +272,6 @@ class PlacedFurniture(
             return PlacedFurniture(base, furniture.id)
         }
 
-        /** Seat armor stands sit players ~1.4 above their own position. */
-        private const val SEAT_OFFSET = 1.4
-
         private fun placeLight(block: Block, level: Int) {
             if (!block.type.isAir && block.type != Material.LIGHT) {
                 return
@@ -275,9 +282,13 @@ class PlacedFurniture(
             block.blockData = data
         }
 
-        /** Minecraft yaw is clockwise from above; offsets rotate with it. */
+        /**
+         * Rotates an offset to match how the client rotates the display
+         * model for the entity's yaw (verified in game - the 90/270 cases
+         * are the ones that expose a wrong sign here).
+         */
         internal fun rotate(x: Double, z: Double, yaw: Float): Pair<Double, Double> {
-            val radians = Math.toRadians(-yaw.toDouble())
+            val radians = Math.toRadians(yaw.toDouble())
             return (x * cos(radians) - z * sin(radians)) to (x * sin(radians) + z * cos(radians))
         }
 
