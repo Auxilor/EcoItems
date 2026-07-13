@@ -1,0 +1,23 @@
+# A toggleable lamp showing the vanilla 3D lantern model - no custom assets.
+# Right-click to switch the light on and off.
+#
+# Furniture items should use a non-placeable base (like paper): placeable
+# items cause a client-side ghost block flicker when placing the furniture.
+item:
+  item: paper
+  display-name: "&eTable Lamp"
+  model: "minecraft:block/lantern"
+
+furniture:
+  rotation: none
+  barriers:
+    - "0,0,0"
+  lights:
+    - "0,1,0 15"
+  toggleable-lights: true
+  display:
+    scale: 0.8
+    translation: "0,0.1,0"
+
+effects: []
+conditions: []

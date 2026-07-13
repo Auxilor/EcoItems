@@ -10,6 +10,7 @@ import com.willfp.eco.core.recipe.recipes.CraftingRecipe
 import com.willfp.eco.core.registry.Registrable
 import com.willfp.ecoitems.BuildConfig
 import com.willfp.ecoitems.blocks.EcoBlock
+import com.willfp.ecoitems.furniture.Furniture
 import com.willfp.ecoitems.nms.ItemComponentsProxy
 import com.willfp.ecoitems.nms.toComponentValues
 import com.willfp.ecoitems.paintings.Paintings
@@ -43,6 +44,9 @@ class EcoItem(
 
     /** The custom block this item places, if it has a block: section. */
     val block = if (config.has("block")) EcoBlock(id, config.getSubsection("block")) else null
+
+    /** The furniture this item places, if it has a furniture: section. */
+    val furniture = if (config.has("furniture")) Furniture(id, config.getSubsection("furniture")) else null
 
     val lore: List<String> = config.getStrings("item.lore")
 

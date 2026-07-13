@@ -11,6 +11,7 @@ import com.willfp.ecoitems.blocks.BlockListener
 import com.willfp.ecoitems.blocks.BlockPhysicsListener
 import com.willfp.ecoitems.blocks.EcoBlocks
 import com.willfp.ecoitems.blocks.PaperBlockListener
+import com.willfp.ecoitems.furniture.FurnitureListener
 import com.willfp.ecoitems.commands.CommandEcoItems
 import com.willfp.ecoitems.display.ItemsDisplay
 import com.willfp.ecoitems.display.RarityDisplay
@@ -100,7 +101,8 @@ class EcoItemsPlugin : LibreforgePlugin() {
             PaintingListener,
             BlockListener,
             BlockPhysicsListener,
-            BlockBreakSpeed
+            BlockBreakSpeed,
+            FurnitureListener
         ) + listOfNotNull(PaperBlockListener.createIfSupported()) +
             (PackFeatures.instance?.listeners(this) ?: emptyList())
     }

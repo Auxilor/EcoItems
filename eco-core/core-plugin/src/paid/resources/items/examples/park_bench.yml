@@ -1,0 +1,20 @@
+# A two-block sittable bench. The 3D model spans the origin cell and the one
+# east of it; the barriers and seats mirror that.
+item:
+  item: paper
+  display-name: "&6Park Bench"
+  model: furniture/park_bench
+
+furniture:
+  rotation: 4-way
+  barriers:
+    - "0..1,0,0"
+  seats:
+    - "0,0.55,0"
+    - "1,0.55,0"
+  sounds:
+    place: block.wood.place
+    break: block.wood.break
+
+effects: []
+conditions: []

@@ -1,0 +1,69 @@
+# Furniture: an item displayed in the world as a decoration, with optional
+# collision, seats, and lights. Remove the leading _ to enable this example.
+#
+# The furniture shows THIS item - give it a texture/model like any other
+# item. Use a NON-PLACEABLE base item (like paper): placeable items ghost-
+# flicker client-side, and remember vanilla ITEM models are flat sprites -
+# reference a block model (model: "minecraft:block/lantern") or your own 3D
+# model for real furniture. Punch the furniture (or its collision barrier)
+# to break it and get the item back.
+
+item:
+  item: paper
+  display-name: "&5Example Furniture"
+  model: furniture/example
+
+furniture:
+  # Yaw snapping when placed: 8-way (default), 4-way, or none.
+  # Furniture with multi-cell barriers always snaps to 4-way.
+  rotation: 8-way
+
+  # Where it can be placed (default: floor only).
+  placement:
+    floor: true
+    wall: false
+    ceiling: false
+
+  # Solid collision cells relative to the placed block; ranges expand,
+  # so "0..1,0,0" is the origin cell and the one east of it.
+  # Without barriers, the furniture has no collision.
+  barriers:
+    - "0,0,0"
+
+  # Click hitboxes ("x,y,z widthxheight"). Defaults to a 1x1 box at the
+  # origin when there are no barriers.
+  # hitboxes:
+  #   - "0,0,0 1x1.5"
+
+  # Sit positions ("x,y,z", optional yaw). Right-click to sit.
+  # seats:
+  #   - "0,0.55,0"
+
+  # Light cells ("x,y,z level"). toggleable-lights lets players right-click
+  # to switch them.
+  # lights:
+  #   - "0,1,0 15"
+  # toggleable-lights: true
+
+  # Drops (same format as blocks). Without this, drops the item itself.
+  # drops:
+  #   items:
+  #     - item: ecoitems:example
+  #       chance: 1.0
+
+  # Sounds on place/break.
+  # sounds:
+  #   place: block.wood.place
+  #   break: block.wood.break
+
+  # ItemDisplay tuning.
+  # display:
+  #   scale: 1.0            # or "x,y,z"
+  #   translation: "0,0,0"
+  #   transform: none       # none, fixed, head, ground, gui, ...
+  #   billboard: fixed      # fixed, vertical, horizontal, center
+  #   brightness: 15        # fixed block-light level (unset = world lighting)
+  #   view-range: 1.0
+
+effects: []
+conditions: []

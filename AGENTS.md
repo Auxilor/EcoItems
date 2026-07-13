@@ -2,7 +2,8 @@
 
 A fully-featured custom items plugin for Minecraft 1.21.8 - 26.2, being extended into a full
 ItemsAdder/Oraxen/Nexo replacement (resource packs, glyphs, sounds, huds, paintings, jukebox
-songs, item state models, and pack merging so far; blocks and furniture next). Supports Spigot and Paper - functionality that requires (or is much nicer with) Paper
+songs, item state models, pack merging, custom blocks, and furniture so far; migration tools
+are the last planned piece). Supports Spigot and Paper - functionality that requires (or is much nicer with) Paper
 APIs may require Paper and refuse to work on Spigot, that is okay. It is however a requirement that
 EcoItems works at least to some extent on Spigot, due to SpigotMC.org rules.
 

@@ -1,6 +1,7 @@
 package com.willfp.ecoitems.blocks
 
 import com.willfp.eco.core.drops.DropQueue
+import com.willfp.eco.core.integrations.antigrief.AntigriefManager
 import com.willfp.eco.core.items.Items
 import com.willfp.ecoitems.items.EcoItems
 import com.willfp.ecoitems.items.ecoItem
@@ -34,9 +35,31 @@ object BlockListener : Listener {
     internal var placing = false
         private set
 
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    /**
+     * Right-clicking a custom note block would tune it (and string blocks
+     * would connect hooks) - deny the vanilla block use. Item use still
+     * proceeds, so placing against custom blocks keeps working.
+     */
+    @EventHandler(priority = EventPriority.LOWEST)
+    fun onInteractCustomBlock(event: PlayerInteractEvent) {
+        if (event.action != Action.RIGHT_CLICK_BLOCK) {
+            return
+        }
+
+        val block = event.clickedBlock ?: return
+        if (EcoBlocks.at(block) != null) {
+            event.setUseInteractedBlock(org.bukkit.event.Event.Result.DENY)
+        }
+    }
+
+    // Not ignoreCancelled: denying block use (above) marks the event
+    // cancelled, but item use - placing - must still run.
+    @EventHandler(priority = EventPriority.HIGH)
     fun onPlace(event: PlayerInteractEvent) {
         if (event.action != Action.RIGHT_CLICK_BLOCK || event.hand != EquipmentSlot.HAND) {
+            return
+        }
+        if (event.useItemInHand() == org.bukkit.event.Event.Result.DENY) {
             return
         }
 
@@ -45,8 +68,9 @@ object BlockListener : Listener {
         val against = event.clickedBlock ?: return
         val player = event.player
 
-        // Let chests/doors/etc open unless sneaking.
-        if (!player.isSneaking && against.type.isInteractable) {
+        // Let chests/doors/etc open unless sneaking - but custom blocks only
+        // look interactable (their backing is), so they don't count.
+        if (!player.isSneaking && against.type.isInteractable && EcoBlocks.at(against) == null) {
             return
         }
 
@@ -64,6 +88,12 @@ object BlockListener : Listener {
 
         // Don't place inside the player.
         if (player.boundingBox.overlaps(BoundingBox.of(target))) {
+            return
+        }
+
+        // Claim plugins integrate two ways: eco's antigrief wrappers and
+        // listening to the (synthetic) place event below.
+        if (!AntigriefManager.canPlaceBlock(player, target)) {
             return
         }
 
@@ -133,11 +163,27 @@ object BlockListener : Listener {
             return
         }
 
+        spawnDrops(
+            block.drops,
+            EcoItems.getByID(block.id)?.itemStack,
+            worldBlock.location.add(0.5, 0.5, 0.5),
+            tool,
+            player
+        ) { plugin.logger.warning("Block ${block.id} drop '$it' is not a valid item") }
+    }
+
+    /** Shared drop pipeline for blocks and furniture. */
+    fun spawnDrops(
+        drops: BlockDrops?,
+        self: ItemStack?,
+        location: org.bukkit.Location,
+        tool: ItemStack?,
+        player: Player?,
+        onInvalid: (String) -> Unit = {}
+    ) {
         val items = mutableListOf<ItemStack>()
         var xp = 0
 
-        val self = EcoItems.getByID(block.id)?.itemStack
-        val drops = block.drops
         val silk = drops != null && drops.silkTouch &&
             tool != null && tool.containsEnchantment(Enchantment.SILK_TOUCH)
 
@@ -157,7 +203,7 @@ object BlockListener : Listener {
 
                 val stack = Items.lookup(drop.item).item
                 if (stack.type == Material.AIR) {
-                    plugin.logger.warning("Block ${block.id} drop '${drop.item}' is not a valid item")
+                    onInvalid(drop.item)
                     continue
                 }
 
@@ -175,18 +221,17 @@ object BlockListener : Listener {
             }
         }
 
-        val location = worldBlock.location.add(0.5, 0.5, 0.5)
-
         if (player != null) {
             DropQueue(player)
                 .addItems(items)
                 .addXP(xp)
-                .setLocation(location)
+                // eco's queue centers the location itself; hand it the corner.
+                .setLocation(location.block.location)
                 .push()
             return
         }
 
-        val world = worldBlock.world
+        val world = location.world ?: return
         items.forEach { world.dropItemNaturally(location, it) }
         if (xp > 0) {
             world.spawn(location, org.bukkit.entity.ExperienceOrb::class.java).experience = xp

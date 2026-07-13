@@ -1,0 +1,8 @@
+{
+  "label": "Furniture",
+  "position": 11,
+  "link": {
+    "type": "doc",
+    "id": "ecoitems/furniture/index"
+  }
+}
