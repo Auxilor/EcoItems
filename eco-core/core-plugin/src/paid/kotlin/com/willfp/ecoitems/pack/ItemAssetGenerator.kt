@@ -93,7 +93,11 @@ object ItemAssetGenerator {
             return "texture file pack/${texture.entry("textures", "png")} does not exist"
         }
 
-        if (!texture.path.startsWith("item/") && !texture.path.startsWith("block/")) {
+        // Directories a user atlas file (migrations write one) stitches are
+        // fine too.
+        if (!texture.path.startsWith("item/") && !texture.path.startsWith("block/") &&
+            atlasPrefixes(plugin).none { texture.path.startsWith(it) }
+        ) {
             plugin.logger.warning(
                 "Item ${asset.id}'s texture ${texture.key} is outside textures/item/ and textures/block/, " +
                     "so it won't be stitched into the block atlas and the model may not render"
@@ -106,6 +110,33 @@ object ItemAssetGenerator {
         }
 
         return null
+    }
+
+    private var atlasPrefixes: List<String>? = null
+
+    /** Directory-source prefixes from the user's atlas file, cached per build. */
+    private fun atlasPrefixes(plugin: EcoItemsPlugin): List<String> {
+        atlasPrefixes?.let { return it }
+
+        val file = plugin.dataFolder.resolve("pack/assets/minecraft/atlases/blocks.json")
+        val prefixes = if (file.exists()) {
+            runCatching {
+                com.google.gson.JsonParser.parseString(file.readText()).asJsonObject
+                    .getAsJsonArray("sources")
+                    .mapNotNull { it.asJsonObject }
+                    .filter { it.get("type")?.asString?.substringAfter(":") == "directory" }
+                    .mapNotNull { it.get("prefix")?.asString ?: it.get("source")?.asString?.plus("/") }
+            }.getOrDefault(emptyList())
+        } else {
+            emptyList()
+        }
+
+        atlasPrefixes = prefixes
+        return prefixes
+    }
+
+    fun clearCache() {
+        atlasPrefixes = null
     }
 
     private fun definitionJson(model: JsonObject): ByteArray {

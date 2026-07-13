@@ -24,6 +24,7 @@ import com.willfp.ecoitems.items.EcoItemsRecipes
 import com.willfp.ecoitems.items.ItemListener
 import com.willfp.ecoitems.items.ItemsGUI
 import com.willfp.ecoitems.libreforge.ConditionHasEcoItem
+import com.willfp.ecoitems.migration.Migrations
 import com.willfp.ecoitems.pack.PackFeatures
 import com.willfp.ecoitems.paintings.PaintingListener
 import com.willfp.ecoitems.paintings.Paintings
@@ -60,6 +61,8 @@ class EcoItemsPlugin : LibreforgePlugin() {
         registerHolderProvider(EcoItemFinder.toHolderProvider())
 
         Blocks.registerBlockProvider(EcoBlocks.Provider)
+
+        Migrations.ensureFolders(this)
 
         PackFeatures.instance?.handleEnable(this)
     }

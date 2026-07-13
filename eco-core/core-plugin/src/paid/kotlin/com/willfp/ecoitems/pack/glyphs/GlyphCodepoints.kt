@@ -23,7 +23,10 @@ class AssignedGlyph(
  * restores its old codepoint.
  */
 object GlyphCodepoints {
-    private const val STATIC_BASE = 0xA410
+    // Off the 0xA410+ region Oraxen/Nexo auto-assign from, so imported
+    // explicit chars don't fight our auto assignments. Existing persisted
+    // assignments are unaffected (persisted always wins).
+    private const val STATIC_BASE = 0xA800
     private const val ANIMATED_BASE = 0xE800
     private const val ANIMATED_CAP = 0xF850 // exclusive; shift chars live here
 
@@ -53,14 +56,40 @@ object GlyphCodepoints {
         used.addAll(staticAssignments.values)
         animatedAssignments.values.forEach { used.addAll(it) }
 
-        // Explicit chars always win and are never persisted.
+        // Explicit chars always win and are never persisted. Auto-assigned
+        // glyphs don't care which char they hold, so an explicit char evicts
+        // any auto assignment sitting on it (common after migrations - other
+        // plugins assign from the same private-use region).
         val explicit = mutableMapOf<String, Int>()
         for (glyph in glyphs) {
             val configured = glyph.configuredChar ?: continue
             val codepoint = configured.codePointAt(0)
+
+            staticAssignments.remove(glyph.id)?.let { stale ->
+                used.remove(stale)
+                dirty = true
+            }
+
+            for (holder in staticAssignments.filterValues { it == codepoint }.keys) {
+                plugin.logger.info(
+                    "Glyph ${glyph.id} has explicit char ${"%04X".format(codepoint)}; reassigning auto glyph $holder"
+                )
+                staticAssignments.remove(holder)
+                used.remove(codepoint)
+                dirty = true
+            }
+            for ((holder, range) in animatedAssignments.filterValues { codepoint in it }) {
+                plugin.logger.info(
+                    "Glyph ${glyph.id} has explicit char ${"%04X".format(codepoint)}; reassigning animated glyph $holder"
+                )
+                animatedAssignments.remove(holder)
+                used.removeAll(range.toSet())
+                dirty = true
+            }
+
             if (!used.add(codepoint)) {
                 plugin.logger.warning(
-                    "Glyph ${glyph.id} has char ${"%04X".format(codepoint)} which is already in use; skipping it"
+                    "Glyph ${glyph.id} has char ${"%04X".format(codepoint)} which another glyph's explicit char already uses; skipping it"
                 )
                 continue
             }

@@ -4,6 +4,8 @@ messages:
   not-player: "&cThis command must be run by a player"
   invalid-command: "&cUnknown subcommand!"
   reloaded: "Reloaded! Took %time%ms, loaded %count% items."
+  migrate-usage: "&cUsage: /ecoitems migrate <oraxen|nexo|itemsadder> (put the old plugin folder's contents in migrations/<Source>/ first)"
+  migrated: "Migration complete: %summary%"
 
   invalid-player: "&cInvalid player!"
   invalid-item: "&cInvalid item!"

@@ -1,0 +1,8 @@
+{
+  "label": "Migrating to EcoItems",
+  "position": 12,
+  "link": {
+    "type": "doc",
+    "id": "ecoitems/migrations/index"
+  }
+}

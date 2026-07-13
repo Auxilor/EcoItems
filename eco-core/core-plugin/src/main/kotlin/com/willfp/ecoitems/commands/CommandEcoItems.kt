@@ -15,6 +15,7 @@ object CommandEcoItems : PluginCommand(
             .addSubcommand(CommandGive)
             .addSubcommand(CommandGUI)
             .addSubcommand(CommandHud)
+            .addSubcommand(CommandMigrate)
     }
 
     override fun getAliases(): List<String> {

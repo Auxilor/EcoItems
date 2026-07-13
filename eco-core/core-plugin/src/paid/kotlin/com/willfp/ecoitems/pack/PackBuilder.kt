@@ -50,6 +50,7 @@ object PackBuilder {
         ).encodeToByteArray()
         entries["pack.png"] = bundledPackPng()
 
+        ItemAssetGenerator.clearCache()
         ItemAssetGenerator.generate(plugin, assets, entries)
         BlockAssetGenerator.generate(plugin, settings, entries)
 
