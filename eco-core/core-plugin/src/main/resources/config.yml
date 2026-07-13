@@ -24,6 +24,25 @@ items-gui:
   rows: 6
   title: "&7EcoItems (%page%/%max_page%)"
 
+  # Items in folders under items/ group into categories: the GUI opens with
+  # a category menu and each folder becomes a sub-menu. With no folders, the
+  # GUI is a flat item list.
+  category-title: "&7%category% (%page%/%max_page%)"
+  category-item:
+    name: "&f%category%"
+    lore:
+      - "&7%count% items"
+  # The category for items directly in items/ (only shown if any exist).
+  root-category-name: "Other"
+
+  back-button:
+    enabled: true
+    item: arrow
+    model: ecoitems:gui_previous
+    name: "&fBack"
+    row: 6
+    column: 1
+
   background:
     enabled: true
     glyph: items_gui
