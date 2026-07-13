@@ -80,7 +80,12 @@ object BlockPhysicsListener : Listener {
         event.instrument = instrumentFor(event.block.getRelative(BlockFace.DOWN))
     }
 
-    /** Right-clicking a custom note block would tune it - undo next tick. */
+    /**
+     * A note play on a custom note block (punching plays a note) schedules a
+     * state reset as a tune backstop. The reset must re-check the block: an
+     * insta-mine removes it in the same tick, and blindly re-applying would
+     * resurrect the block after its drops spawned.
+     */
     @EventHandler(ignoreCancelled = true)
     fun onNoteBlockTuned(event: GenericGameEvent) {
         if (event.event != GameEvent.NOTE_BLOCK_PLAY) {
@@ -91,7 +96,11 @@ object BlockPhysicsListener : Listener {
         val placed = EcoBlocks.at(block) ?: return
         val data = EcoBlocks.blockData(placed.block, placed.orientation) ?: return
 
-        plugin.scheduler.run { block.setBlockData(data, false) }
+        plugin.scheduler.run {
+            if (block.type == placed.block.backing.material && EcoBlocks.at(block)?.block == placed.block) {
+                block.setBlockData(data, false)
+            }
+        }
     }
 
     /** Moving custom states would let vanilla normalize them on re-place. */
