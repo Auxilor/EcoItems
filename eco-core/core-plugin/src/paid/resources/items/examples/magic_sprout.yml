@@ -1,0 +1,12 @@
+# A string-backed decorative plant: no collision, breaks instantly.
+item:
+  item: paper
+  display-name: "&aMagic Sprout"
+
+block:
+  type: stringblock
+  texture: block/magic_sprout
+  texture-parent: cross
+
+effects: []
+conditions: []

@@ -43,4 +43,6 @@ class PackSettings(config: Config) {
     val glyphsFormatChat = config.getBool("glyphs.format-chat")
     val glyphsFormatSigns = config.getBool("glyphs.format-signs")
     val glyphsTabComplete = config.getBool("glyphs.tab-complete")
+
+    val customBlockSounds = config.getBool("blocks.custom-sounds")
 }

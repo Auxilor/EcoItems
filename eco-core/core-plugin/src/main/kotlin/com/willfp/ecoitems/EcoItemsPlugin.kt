@@ -5,6 +5,12 @@ import com.willfp.eco.core.command.impl.PluginCommand
 import com.willfp.eco.core.display.DisplayModule
 import com.willfp.eco.core.items.Items
 import com.willfp.eco.core.packet.PacketListener
+import com.willfp.eco.core.blocks.Blocks
+import com.willfp.ecoitems.blocks.BlockBreakSpeed
+import com.willfp.ecoitems.blocks.BlockListener
+import com.willfp.ecoitems.blocks.BlockPhysicsListener
+import com.willfp.ecoitems.blocks.EcoBlocks
+import com.willfp.ecoitems.blocks.PaperBlockListener
 import com.willfp.ecoitems.commands.CommandEcoItems
 import com.willfp.ecoitems.display.ItemsDisplay
 import com.willfp.ecoitems.display.RarityDisplay
@@ -52,10 +58,13 @@ class EcoItemsPlugin : LibreforgePlugin() {
 
         registerHolderProvider(EcoItemFinder.toHolderProvider())
 
+        Blocks.registerBlockProvider(EcoBlocks.Provider)
+
         PackFeatures.instance?.handleEnable(this)
     }
 
     override fun handleReload() {
+        EcoBlocks.reload(this)
         PackFeatures.instance?.handleReload(this)
         ItemsGUI.reload()
     }
@@ -88,8 +97,12 @@ class EcoItemsPlugin : LibreforgePlugin() {
         return listOf(
             DiscoverRecipeListener,
             ItemListener,
-            PaintingListener
-        ) + (PackFeatures.instance?.listeners(this) ?: emptyList())
+            PaintingListener,
+            BlockListener,
+            BlockPhysicsListener,
+            BlockBreakSpeed
+        ) + listOfNotNull(PaperBlockListener.createIfSupported()) +
+            (PackFeatures.instance?.listeners(this) ?: emptyList())
     }
 
     override fun loadPluginCommands(): List<PluginCommand> {

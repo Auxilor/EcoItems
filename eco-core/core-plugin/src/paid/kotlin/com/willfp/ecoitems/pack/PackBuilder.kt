@@ -2,6 +2,7 @@ package com.willfp.ecoitems.pack
 
 import com.willfp.ecoitems.EcoItemsPlugin
 import com.willfp.ecoitems.huds.Hud
+import com.willfp.ecoitems.pack.blocks.BlockAssetGenerator
 import com.willfp.ecoitems.pack.glyphs.AssignedGlyph
 import com.willfp.ecoitems.pack.glyphs.GlyphAssetGenerator
 import com.willfp.ecoitems.pack.huds.HudFontGenerator
@@ -50,6 +51,7 @@ object PackBuilder {
         entries["pack.png"] = bundledPackPng()
 
         ItemAssetGenerator.generate(plugin, assets, entries)
+        BlockAssetGenerator.generate(plugin, settings, entries)
 
         // Feature assets (currently the 2D head models) ship in every build
         // rather than being extracted to the pack folder, so fixes reach

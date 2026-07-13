@@ -65,3 +65,11 @@ glyphs:
 
   # If glyph placeholders should be offered as chat tab-completions.
   tab-complete: true
+
+blocks:
+  # Custom blocks are backed by note blocks, which play wood sounds on their
+  # own. When enabled, the pack silences the vanilla wood sound events and the
+  # server replays them - so custom blocks can have their own sounds and real
+  # wooden blocks still sound right. Disable to leave vanilla sounds untouched
+  # (custom noteblock-backed blocks will then always sound like wood).
+  custom-sounds: true

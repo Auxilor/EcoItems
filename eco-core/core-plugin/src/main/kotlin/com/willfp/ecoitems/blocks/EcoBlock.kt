@@ -1,0 +1,114 @@
+package com.willfp.ecoitems.blocks
+
+import com.willfp.eco.core.config.interfaces.Config
+import com.willfp.ecoitems.plugin
+
+/**
+ * The world-block half of an item config's `block:` section. The item is the
+ * placer; this describes what exists in the world once placed.
+ */
+class EcoBlock(val id: String, val config: Config) {
+    val backing = BlockBacking.parse(config.getString("type")) ?: run {
+        plugin.logger.warning("Block $id has unknown type '${config.getString("type")}', using noteblock")
+        BlockBacking.NOTEBLOCK
+    }
+
+    val directional: DirectionalType? = config.getStringOrNull("directional")?.let { value ->
+        DirectionalType.entries.firstOrNull { it.name.equals(value, ignoreCase = true) } ?: run {
+            plugin.logger.warning("Block $id has unknown directional type '$value' (log, furnace, or dropper)")
+            null
+        }
+    }.also {
+        if (it != null && backing != BlockBacking.NOTEBLOCK) {
+            plugin.logger.warning("Block $id: directional blocks must be noteblock-backed")
+        }
+    }
+
+    /** Orientation keys; a single empty key for non-directional blocks. */
+    val orientations = if (directional != null && backing == BlockBacking.NOTEBLOCK) {
+        directional.orientations
+    } else {
+        listOf("")
+    }
+
+    /** Explicit variation (for imported configs); auto-assigned when absent. */
+    val configuredVariation = config.getIntOrNull("variation")
+
+    val hardness = config.getDoubleOrNull("hardness") ?: -1.0
+
+    val light = (config.getIntOrNull("light") ?: 0).coerceIn(0, 15)
+
+    val falling = config.getBool("falling")
+
+    val blastResistant = config.getBool("blast-resistant")
+
+    /** Tool categories that mine this block at full speed (PICKAXE, AXE, ...). */
+    val correctTools = config.getStrings("correct-tools").map { it.uppercase() }
+
+    /** Minimum tool tier (wooden/stone/iron/golden/diamond/netherite) for drops. */
+    val minimumTier = config.getStringOrNull("minimum-tier")?.lowercase()
+
+    /** Whether the pack build has anything to generate for this block. */
+    val hasAssets = config.has("texture") || config.has("textures") || config.has("model")
+
+    /** null = drop the placer item itself. */
+    val drops = if (config.has("drops")) BlockDrops(id, config.getSubsection("drops")) else null
+
+    val sounds = if (config.has("sounds")) BlockSounds(config.getSubsection("sounds")) else null
+}
+
+enum class DirectionalType(val orientations: List<String>) {
+    LOG(listOf("y", "x", "z")),
+    FURNACE(listOf("north", "east", "south", "west")),
+    DROPPER(listOf("north", "east", "south", "west", "up", "down"))
+}
+
+class BlockDrops(blockId: String, config: Config) {
+    /** Silk touch drops the block item itself instead of the loot. */
+    val silkTouch = config.getBool("silk-touch")
+
+    /** Fortune multiplies loot amounts. */
+    val fortune = config.getBool("fortune")
+
+    val xp = parseRange(config.getString("xp"))
+
+    val items = config.getSubsections("items").mapNotNull { drop ->
+        val item = drop.getStringOrNull("item")
+        if (item == null) {
+            plugin.logger.warning("Block $blockId has a drop with no item")
+            null
+        } else {
+            BlockDropItem(
+                item,
+                drop.getDoubleOrNull("chance") ?: 1.0,
+                parseRange(drop.getStringOrNull("amount") ?: "1")
+            )
+        }
+    }
+
+    private fun parseRange(value: String): IntRange {
+        if (value.isBlank()) return IntRange.EMPTY
+        val parts = value.split("-", limit = 2).mapNotNull { it.trim().toIntOrNull() }
+        return when (parts.size) {
+            2 -> parts[0]..parts[1]
+            1 -> parts[0]..parts[0]
+            else -> IntRange.EMPTY
+        }
+    }
+}
+
+class BlockDropItem(
+    val item: String,
+    val chance: Double,
+    val amount: IntRange
+)
+
+class BlockSounds(config: Config) {
+    val place = config.getStringOrNull("place")
+    val breakSound = config.getStringOrNull("break")
+    val step = config.getStringOrNull("step")
+    val hit = config.getStringOrNull("hit")
+    val fall = config.getStringOrNull("fall")
+    val volume = config.getDoubleOrNull("volume") ?: 1.0
+    val pitch = config.getDoubleOrNull("pitch") ?: 0.8
+}

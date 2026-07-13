@@ -6,6 +6,10 @@ import com.willfp.ecoitems.glyphs.Glyphs
 import com.willfp.ecoitems.huds.Huds
 import com.willfp.ecoitems.items.EcoItems
 import com.willfp.ecoitems.nms.ItemComponentsProxy
+import com.willfp.ecoitems.blocks.BlockBacking
+import com.willfp.ecoitems.blocks.BlockSoundState
+import com.willfp.ecoitems.blocks.EcoBlocks
+import com.willfp.ecoitems.pack.blocks.BlockSoundsListener
 import com.willfp.ecoitems.pack.delivery.PackDelivery
 import com.willfp.ecoitems.pack.delivery.PackListener
 import com.willfp.ecoitems.pack.glyphs.GlyphCodepoints
@@ -32,7 +36,7 @@ object EcoItemsPackFeature : PackFeature {
     private var publisher: PackPublisher? = null
 
     override fun listeners(plugin: EcoItemsPlugin): List<Listener> {
-        return listOf(PackListener, HudTicker.QuitListener, TridentListener) + GlyphListeners.listeners()
+        return listOf(PackListener, HudTicker.QuitListener, TridentListener, BlockSoundsListener) + GlyphListeners.listeners()
     }
 
     override fun handleEnable(plugin: EcoItemsPlugin) {
@@ -52,6 +56,7 @@ object EcoItemsPackFeature : PackFeature {
             PackDelivery.clear()
             GlyphText.clear()
             HudTicker.stop()
+            BlockSoundState.remapActive = false
             return
         }
 
@@ -62,6 +67,9 @@ object EcoItemsPackFeature : PackFeature {
         val glyphs = GlyphCodepoints.assign(plugin, Glyphs.values(), imports.fontCodepoints)
         GlyphText.reload(glyphs, settings)
         GlyphTabCompletions.refresh(plugin)
+
+        BlockSoundState.remapActive = settings.customBlockSounds &&
+            EcoBlocks.values().any { it.backing == BlockBacking.NOTEBLOCK }
 
         val assets = EcoItems.values().mapNotNull { ItemPackAsset.fromItem(it) }
         TridentListener.update(assets)
