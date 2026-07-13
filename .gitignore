@@ -5,3 +5,10 @@ bin/
 plans/context/
 .idea/
 *.log
+
+# Claude Code local configuration
+.claude/
+
+# Agent instructions (local only)
+AGENTS.md
+CLAUDE.md
