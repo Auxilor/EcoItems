@@ -73,3 +73,16 @@ blocks:
   # wooden blocks still sound right. Disable to leave vanilla sounds untouched
   # (custom noteblock-backed blocks will then always sound like wood).
   custom-sounds: true
+
+# Compatibility with resource packs from other plugins (shader-based UIs,
+# nameplates, ...) dropped into pack/imports/.
+compatibility:
+  # Extract EcoItems' bundled default assets (example textures and models)
+  # into the pack folder, and re-ship new ones on updates. Disable if they
+  # conflict with an imported pack - deleted files then stay deleted.
+  default-assets: true
+
+  # EcoItems' text core shaders power animated glyphs and win over shaders
+  # from imported packs. Disable to let an imported pack's shaders through;
+  # animated glyphs will stop animating.
+  glyph-shaders: true

@@ -45,4 +45,8 @@ class PackSettings(config: Config) {
     val glyphsTabComplete = config.getBool("glyphs.tab-complete")
 
     val customBlockSounds = config.getBool("blocks.custom-sounds")
+
+    // Missing keys default to enabled so existing installs keep behaving.
+    val defaultAssets = config.getBoolOrNull("compatibility.default-assets") ?: true
+    val glyphShaders = config.getBoolOrNull("compatibility.glyph-shaders") ?: true
 }

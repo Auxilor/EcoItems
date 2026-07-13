@@ -61,7 +61,8 @@ object GlyphAssetGenerator {
     fun generate(
         plugin: EcoItemsPlugin,
         glyphs: Collection<AssignedGlyph>,
-        entries: MutableMap<String, ByteArray>
+        entries: MutableMap<String, ByteArray>,
+        shaders: Boolean = true
     ) {
         val (providers, spaceProvider) = buildProviders(plugin, glyphs)
 
@@ -97,7 +98,13 @@ object GlyphAssetGenerator {
 
         val animated = glyphs.filter { it.glyph.isAnimated }
         if (animated.isNotEmpty()) {
-            generateShaders(plugin, animated, entries)
+            if (shaders) {
+                generateShaders(plugin, animated, entries)
+            } else {
+                plugin.logger.warning(
+                    "compatibility.glyph-shaders is disabled: ${animated.size} animated glyph(s) won't animate"
+                )
+            }
         }
     }
 

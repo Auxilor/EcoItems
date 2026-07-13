@@ -71,7 +71,7 @@ object PackBuilder {
 
         // After the pack folder, so user-supplied font/sounds/lang files are
         // merged into the generated ones rather than replaced.
-        GlyphAssetGenerator.generate(plugin, glyphs, entries)
+        GlyphAssetGenerator.generate(plugin, glyphs, entries, settings.glyphShaders)
         HudFontGenerator.generate(plugin, huds, glyphs, entries)
         SoundAssetGenerator.generate(plugin, sounds, entries)
         LangAssetGenerator.generate(plugin, entries)

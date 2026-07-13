@@ -37,3 +37,24 @@ Imported packs often define their own font characters in the same private-use un
 
 - If you use [animated glyphs](../glyphs/animated-glyphs.md), EcoItems overrides the vanilla text core shaders. An imported pack that also ships text shaders (some nameplate/text-effect packs do) will have those replaced - you'll get a console warning when this happens.
 - Imported packs are included as-is; EcoItems doesn't rewrite their custom model data or item definitions. Plugins that reference their own pack's assets keep working because paths are preserved.
+
+## Integrating shader-based packs
+
+Some plugins ship whole resource packs (shader UIs, nameplates, custom menus) that expect to control shared files. To use one with EcoItems:
+
+1. Drop the pack's `.zip` (or folder) into `plugins/EcoItems/pack/imports/`.
+2. If the pack ships its own **text shaders**, disable EcoItems' own in `pack.yml` so they win (animated glyphs stop animating):
+
+```yaml
+compatibility:
+  glyph-shaders: false
+```
+
+3. If EcoItems' default example assets conflict, turn them off too: deleted files then stay deleted instead of being re-shipped on updates:
+
+```yaml
+compatibility:
+  default-assets: false
+```
+
+4. Run `/ecoitems reload`. The imported pack merges in as the lowest layer, with fonts, sounds, languages and atlases merged rather than replaced.

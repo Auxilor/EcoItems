@@ -16,10 +16,13 @@ object PackDefaults {
     // The pre-release hybrid layout; detected to help early adopters migrate.
     private val LEGACY_DIRECTORIES = listOf("textures", "models", "glyphs", "sounds", "lang")
 
-    fun ensure(plugin: EcoItemsPlugin) {
+    fun ensure(plugin: EcoItemsPlugin, extractAssets: Boolean) {
         val packDir = plugin.dataFolder.resolve("pack")
 
-        if (!packDir.exists()) {
+        if (!extractAssets) {
+            // compatibility.default-assets: nothing is extracted, and
+            // deleted defaults stay deleted.
+        } else if (!packDir.exists()) {
             extract(plugin)
         } else {
             // Ship any new bundled defaults without touching edited files.
