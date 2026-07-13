@@ -1,5 +1,5 @@
 item:
-  item: emerald unbreaking:1 hide_enchants hide_attributes
+  item: emerald glint hide_attributes
   display-name: "&bEnchanted Emerald"
   lore: [ ]
   craftable: true

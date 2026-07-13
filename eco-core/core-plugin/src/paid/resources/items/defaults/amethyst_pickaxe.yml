@@ -1,0 +1,22 @@
+item:
+  item: diamond_pickaxe
+  display-name: "&5Amethyst Pickaxe"
+  lore:
+    - "&7Smelts ores as it mines them."
+  texture: item/amethyst_pickaxe
+  texture-parent: handheld
+  components:
+    "minecraft:enchantments":
+      "minecraft:efficiency": 4
+      "minecraft:unbreaking": 3
+
+rarity: rare
+
+effects:
+  - id: autosmelt
+    args:
+      drop_xp: true
+    triggers:
+      - block_item_drop
+
+conditions: []

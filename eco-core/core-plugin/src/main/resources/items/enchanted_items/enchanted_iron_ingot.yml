@@ -1,5 +1,5 @@
 item:
-  item: iron_ingot unbreaking:1 hide_enchants hide_attributes
+  item: iron_ingot glint hide_attributes
   display-name: "&bEnchanted Iron Ingot"
   lore: [ ]
   craftable: true

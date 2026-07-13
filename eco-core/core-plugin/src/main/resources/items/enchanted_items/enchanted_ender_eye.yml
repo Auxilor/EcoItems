@@ -1,5 +1,5 @@
 item:
-  item: ender_eye unbreaking:1 hide_enchants hide_attributes
+  item: ender_eye glint hide_attributes
   display-name: "&bEnchanted Ender Eye"
   lore: [ ]
   craftable: true

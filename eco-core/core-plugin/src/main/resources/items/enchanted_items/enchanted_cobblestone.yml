@@ -1,5 +1,5 @@
 item:
-  item: cobblestone unbreaking:1 hide_enchants hide_attributes
+  item: cobblestone glint hide_attributes
   display-name: "&bEnchanted Cobblestone"
   lore: [ ]
   craftable: true

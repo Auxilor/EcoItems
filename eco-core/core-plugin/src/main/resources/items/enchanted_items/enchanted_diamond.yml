@@ -1,5 +1,5 @@
 item:
-  item: diamond unbreaking:1 hide_enchants hide_attributes
+  item: diamond glint hide_attributes
   display-name: "&bEnchanted Diamond"
   lore: [ ]
   craftable: true
