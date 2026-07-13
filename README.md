@@ -1,42 +1,43 @@
 <h1 align="center">
   <br>
-  <img src="https://i.imgur.com/RyDFLgg.png" alt="EcoItems logo" width="256">
+  <img src="https://iili.io/CE8WmNa.png" alt="EcoItems logo" width="256">
   <br>
 </h1>
 
 <h4 align="center">Source code for EcoItems, a premium spigot plugin.</h4>
 
 <p align="center">
-    <a href="https://polymart.org/resource/ecoitems.1241">
-        <img alt="spigot" src="https://img.shields.io/badge/polymart-ecoitems-ff0000?style=for-the-badge"/>
+    <a href="https://hub.auxilor.io/wiki/ecoitems/ecoitems" alt="Documentation">
+        <img src="https://img.shields.io/badge/docs-hub.auxilor.io-brightgreen?style=for-the-badge"/>
     </a>
-    <a href="https://bstats.org/plugin/bukkit/EcoItems" alt="bstats servers">
-        <img src="https://img.shields.io/bstats/servers/12205?color=ff0000&style=for-the-badge"/>
-    </a>
-    <a href="https://bstats.org/plugin/bukkit/EcoItems" alt="bstats players">
-        <img src="https://img.shields.io/bstats/players/12205?color=ff0000&style=for-the-badge"/>
-    </a>
-    <a href="https://hub.auxilor.io/ecoitems/ecoitems/" alt="Docs (gitbook)">
-        <img src="https://img.shields.io/badge/docs-gitbook-ff0000?style=for-the-badge&logo=appveyor"/>
-    </a>
-    <a href="https://discord.gg/ZcwpSsE/" alt="Discord">
-        <img src="https://img.shields.io/discord/452518336627081236?label=discord&style=for-the-badge&color=ff0000"/>
+    <a href="https://discord.gg/ZcwpSsE" alt="Discord">
+        <img src="https://img.shields.io/discord/452518336627081236?label=discord&style=for-the-badge"/>
     </a>
 </p>
 
+# EcoItems
 
-[![Picture](https://i.imgur.com/z37jIZt.png)](https://hub.auxilor.io/ecoitems/ecoitems)
+EcoItems is a fully-featured custom content plugin for Minecraft servers: create custom items, blocks, furniture, and more, all from simple config files, with the resource pack built and delivered to your players automatically.
+
+## Features
+
+- **Custom items** with textures, 3D models, any vanilla item component, crafting recipes, and effects powered by [libreforge](https://github.com/Auxilor/libreforge)
+- **Custom blocks** - place, break, and mine real custom blocks with their own textures, hardness, drops, and sounds
+- **Furniture** - sittable chairs, light-emitting lamps, multi-block decorations with real collision
+- **Glyphs** - custom emojis and images in chat, signs, and GUIs, including animated glyphs and sprite sheets
+- **Custom sounds and music discs**, **paintings**, **HUDs**, and **armor** via the equippable component
+- **Automatic resource pack** - built on reload, merged with packs from your other plugins, and hosted/delivered to players with zero setup
+- **Migration tools** - import your whole setup from Oraxen, Nexo, or ItemsAdder with one command, keeping placed blocks in your worlds intact
+
+## Links
+
+- **Documentation:** [hub.auxilor.io/wiki/ecoitems/ecoitems](https://hub.auxilor.io/wiki/ecoitems/ecoitems)
+- **Support Discord:** [discord.gg/ZcwpSsE](https://discord.gg/ZcwpSsE)
+
+## Built on eco
+
+EcoItems runs on [eco](https://github.com/Auxilor/eco) and [libreforge](https://github.com/Auxilor/libreforge), the engine behind the rest of the Auxilor plugin suite - so effects, conditions, filters, and integrations work the same way as in EcoEnchants, EcoSkills, EcoMobs, and friends.
 
 ## License
-*Click here to read [the entire license](https://github.com/Auxilor/EcoItems/blob/master/LICENSE.md).*
 
-<h1 align="center">
-  <br>
-    <a href="http://gamersupps.gg/discount/Auxilor?afmc=Auxilor" target="_blank">
-      <img src="https://i.imgur.com/uFDpBAC.png" alt="supps banner">
-    </a>
-    <a href="https://dedimc.promo/Auxilor" target="_blank">
-      <img src="https://i.imgur.com/zdDLhFA.png" alt="dedimc banner">
-    </a>
-  <br>
-</h1>
+This project is licensed under the [GNU GPLv3](LICENSE.md).
