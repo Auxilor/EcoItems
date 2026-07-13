@@ -65,5 +65,14 @@ furniture:
   #   brightness: 15        # fixed block-light level (unset = world lighting)
   #   view-range: 1.0
 
+  # Effects that run when players interact with the furniture (libreforge
+  # effects). Events: punch, shift-punch, right-click, shift-right-click,
+  # place, break, sit.
+  # effects:
+  #   sit:
+  #     - id: send_message
+  #       args:
+  #         message: "&7Take a seat!"
+
 effects: []
 conditions: []

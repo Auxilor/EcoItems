@@ -1,6 +1,7 @@
 package com.willfp.ecoitems.blocks
 
 import com.willfp.eco.core.config.interfaces.Config
+import com.willfp.ecoitems.libreforge.ContentEffects
 import com.willfp.ecoitems.plugin
 
 /**
@@ -55,6 +56,9 @@ class EcoBlock(val id: String, val config: Config) {
     val drops = if (config.has("drops")) BlockDrops(id, config.getSubsection("drops")) else null
 
     val sounds = if (config.has("sounds")) BlockSounds(config.getSubsection("sounds")) else null
+
+    /** Effects run when players interact with the placed block. */
+    val effects = ContentEffects("Block $id", config)
 }
 
 enum class DirectionalType(val orientations: List<String>) {

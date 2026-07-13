@@ -3,6 +3,7 @@ package com.willfp.ecoitems.furniture
 import com.willfp.eco.core.integrations.antigrief.AntigriefManager
 import com.willfp.ecoitems.blocks.BlockListener
 import com.willfp.ecoitems.items.ecoItem
+import com.willfp.ecoitems.libreforge.ContentEvent
 import com.willfp.ecoitems.plugin
 import org.bukkit.GameMode
 import org.bukkit.Material
@@ -104,6 +105,7 @@ object FurnitureListener : Listener {
             item.amount -= 1
         }
         player.swingMainHand()
+        furniture.effects.dispatch(ContentEvent.PLACE, player, origin.location.add(0.5, 0.5, 0.5))
         playSound(origin, furniture, furniture.sounds?.place ?: "minecraft:block.wood.place")
     }
 
@@ -114,6 +116,11 @@ object FurnitureListener : Listener {
         event.isCancelled = true
 
         val player = event.damager as? Player ?: return
+        placed.furniture?.effects?.dispatch(
+            if (player.isSneaking) ContentEvent.SHIFT_PUNCH else ContentEvent.PUNCH,
+            player,
+            placed.base.location
+        )
         breakFurniture(placed, player)
     }
 
@@ -124,9 +131,13 @@ object FurnitureListener : Listener {
      */
     @EventHandler(ignoreCancelled = true)
     fun onBarrierDamage(event: org.bukkit.event.block.BlockDamageEvent) {
-        if (PlacedFurniture.atBarrier(event.block) != null) {
-            event.instaBreak = true
-        }
+        val placed = PlacedFurniture.atBarrier(event.block) ?: return
+        placed.furniture?.effects?.dispatch(
+            if (event.player.isSneaking) ContentEvent.SHIFT_PUNCH else ContentEvent.PUNCH,
+            event.player,
+            placed.base.location
+        )
+        event.instaBreak = true
     }
 
     /** Breaking a collision barrier breaks the furniture. */
@@ -159,6 +170,7 @@ object FurnitureListener : Listener {
             return
         }
 
+        placed.furniture?.effects?.dispatch(ContentEvent.BREAK, player, placed.base.location)
         playSound(block, placed.furniture, placed.furniture?.sounds?.breakSound ?: "minecraft:block.wood.break")
         placed.remove(player, drop = true)
     }
@@ -191,11 +203,17 @@ object FurnitureListener : Listener {
     }
 
     private fun handleInteract(placed: PlacedFurniture, player: Player) {
+        val effects = placed.furniture?.effects
+
         if (player.isSneaking) {
+            effects?.dispatch(ContentEvent.SHIFT_RIGHT_CLICK, player, placed.base.location)
             return
         }
 
+        effects?.dispatch(ContentEvent.RIGHT_CLICK, player, placed.base.location)
+
         if (placed.sit(player)) {
+            effects?.dispatch(ContentEvent.SIT, player, placed.base.location)
             return
         }
 

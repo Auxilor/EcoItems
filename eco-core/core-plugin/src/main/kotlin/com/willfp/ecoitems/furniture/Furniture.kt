@@ -3,6 +3,7 @@ package com.willfp.ecoitems.furniture
 import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.ecoitems.blocks.BlockDrops
 import com.willfp.ecoitems.blocks.BlockSounds
+import com.willfp.ecoitems.libreforge.ContentEffects
 import com.willfp.ecoitems.plugin
 import org.bukkit.entity.Display
 import org.bukkit.entity.ItemDisplay
@@ -51,6 +52,9 @@ class Furniture(val id: String, val config: Config) {
     val drops = if (config.has("drops")) BlockDrops(id, config.getSubsection("drops")) else null
 
     val sounds = if (config.has("sounds")) BlockSounds(config.getSubsection("sounds")) else null
+
+    /** Effects run when players interact with the placed furniture. */
+    val effects = ContentEffects("Furniture $id", config)
 
     val scale = config.getStringOrNull("display.scale")?.let { raw ->
         val parts = raw.split(",").mapNotNull { it.trim().toDoubleOrNull() }

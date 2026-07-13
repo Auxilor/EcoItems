@@ -45,6 +45,25 @@ A single `texture` generates a `cube_all` model; a `textures:` map auto-picks th
 
 See `items/_example_block.yml` for every option (`directional: log|furnace|dropper`, `falling`, `blast-resistant`, `sounds`, per-drop chances).
 
+## Interaction effects
+
+Blocks can run [libreforge effects](https://plugins.auxilor.io/effects) when players interact with them, configured per event inside the `block:` section:
+
+```yaml
+block:
+  effects:
+    right-click:
+      - id: send_message
+        args:
+          message: "&aHello!"
+    break:
+      - id: give_xp
+        args:
+          amount: 5
+```
+
+Events: `punch`, `shift-punch`, `right-click`, `shift-right-click`, `place`, `break`. Sneaking fires only the `shift-` variant. The full libreforge toolbox works — chances, cooldowns, conditions, filters, command execution, and so on.
+
 ## Things to know
 
 - **State assignments are permanent.** Each block gets a vanilla blockstate permutation, persisted in `block-variations.yml`. The state *is* the block's identity in the world — never edit or delete entries there once blocks have been placed. Imported Oraxen/Nexo configs can pin numbers with `variation:`.

@@ -3,6 +3,7 @@ package com.willfp.ecoitems.blocks
 import com.willfp.eco.core.drops.DropQueue
 import com.willfp.eco.core.integrations.antigrief.AntigriefManager
 import com.willfp.eco.core.items.Items
+import com.willfp.ecoitems.libreforge.ContentEvent
 import com.willfp.ecoitems.items.EcoItems
 import com.willfp.ecoitems.items.ecoItem
 import com.willfp.ecoitems.plugin
@@ -50,6 +51,36 @@ object BlockListener : Listener {
         if (EcoBlocks.at(block) != null) {
             event.setUseInteractedBlock(org.bukkit.event.Event.Result.DENY)
         }
+    }
+
+    /** Punch / right-click effects on placed custom blocks. */
+    @EventHandler
+    fun onClickEffects(event: PlayerInteractEvent) {
+        if (event.hand != EquipmentSlot.HAND) {
+            return
+        }
+
+        val rightClick = when (event.action) {
+            Action.RIGHT_CLICK_BLOCK -> true
+            Action.LEFT_CLICK_BLOCK -> false
+            else -> return
+        }
+
+        // Placing something is not a click on the block underneath.
+        val holding = event.item?.ecoItem
+        if (rightClick && (holding?.block != null || holding?.furniture != null)) {
+            return
+        }
+
+        val block = event.clickedBlock ?: return
+        val placed = EcoBlocks.at(block) ?: return
+
+        placed.block.effects.dispatch(
+            placed.block.effects.clickEvent(rightClick, event.player.isSneaking),
+            event.player,
+            block.location.add(0.5, 0.5, 0.5),
+            block
+        )
     }
 
     // Not ignoreCancelled: denying block use (above) marks the event
@@ -118,6 +149,8 @@ object BlockListener : Listener {
         }
         player.swingMainHand()
 
+        block.effects.dispatch(ContentEvent.PLACE, player, target.location.add(0.5, 0.5, 0.5), target)
+
         val sound = block.sounds?.place ?: "minecraft:block.wood.place"
         target.world.playSound(
             target.location.add(0.5, 0.5, 0.5),
@@ -136,6 +169,7 @@ object BlockListener : Listener {
         event.expToDrop = 0
 
         val block = placed.block
+        block.effects.dispatch(ContentEvent.BREAK, event.player, event.block.location.add(0.5, 0.5, 0.5), event.block)
         val sound = block.sounds?.breakSound ?: "minecraft:block.wood.break"
         event.block.world.playSound(
             event.block.location.add(0.5, 0.5, 0.5),

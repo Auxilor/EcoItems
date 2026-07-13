@@ -72,5 +72,18 @@ block:
   #   volume: 1.0
   #   pitch: 0.8
 
+  # Effects that run when players interact with the placed block, using
+  # libreforge effects (https://plugins.auxilor.io/effects). Events:
+  # punch, shift-punch, right-click, shift-right-click, place, break.
+  # effects:
+  #   right-click:
+  #     - id: send_message
+  #       args:
+  #         message: "&aYou clicked the block!"
+  #   break:
+  #     - id: give_xp
+  #       args:
+  #         amount: 5
+
 effects: []
 conditions: []
