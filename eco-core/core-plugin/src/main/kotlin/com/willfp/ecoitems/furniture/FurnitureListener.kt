@@ -69,7 +69,8 @@ object FurnitureListener : Listener {
         event.setCancelled(true)
 
         val yaw = when (face) {
-            BlockFace.UP, BlockFace.DOWN -> snapYaw(player.location.yaw + 180, furniture.effectiveRotationStep)
+            // Player yaw directly makes the model front face the player.
+            BlockFace.UP, BlockFace.DOWN -> snapYaw(player.location.yaw, furniture.effectiveRotationStep)
             else -> faceYaw(face)
         }
 

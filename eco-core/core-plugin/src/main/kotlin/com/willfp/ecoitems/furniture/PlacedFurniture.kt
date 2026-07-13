@@ -191,7 +191,10 @@ class PlacedFurniture(
                 furniture.brightness?.let { display.brightness = Display.Brightness(it, 15) }
                 furniture.viewRange?.let { display.viewRange = it.toFloat() }
                 display.isPersistent = true
-                display.setRotation(yaw, pitch)
+                // Item displays render their model rotated 180 on Y versus
+                // block space; compensating here keeps barrier/seat offsets
+                // aligned with the model as it was designed.
+                display.setRotation(yaw + 180f, pitch)
 
                 if (furniture.scale != null || furniture.translation != null) {
                     val scale = furniture.scale ?: Triple(1.0, 1.0, 1.0)
