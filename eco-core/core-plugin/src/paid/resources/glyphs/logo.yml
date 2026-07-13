@@ -1,0 +1,7 @@
+# The pack icon as a glyph. Shown as the pause menu title (see
+# pack/assets/minecraft/lang/global.json), and usable anywhere with :logo:.
+texture: glyph/logo
+ascent: 16
+height: 36
+placeholders:
+  - ":logo:"
