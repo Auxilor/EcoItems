@@ -1,6 +1,6 @@
 item:
   item: apple
-  display-name: Cyan Glazed Donut
+  name: Cyan Glazed Donut
   texture: ecoitems:donuts/cyan_glazed_donut
   texture-parent: handheld
   components:

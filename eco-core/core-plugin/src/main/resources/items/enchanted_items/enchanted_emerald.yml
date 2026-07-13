@@ -1,6 +1,6 @@
 item:
   item: emerald glint hide_attributes
-  display-name: "&bEnchanted Emerald"
+  name: "&bEnchanted Emerald"
   lore: [ ]
   craftable: true
   recipe:

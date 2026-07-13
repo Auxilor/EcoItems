@@ -1,6 +1,6 @@
 item:
   item: paper
-  display-name: <white>Seastone Pillar
+  name: <white>Seastone Pillar
 block:
   type: noteblock
   variation: 83

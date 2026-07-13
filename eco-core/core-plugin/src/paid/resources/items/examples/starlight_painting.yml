@@ -1,9 +1,9 @@
 # Places the starlight custom painting (see paintings/starlight.yml).
 item:
   item: painting
-  display-name: "&9Starlight Painting"
+  name: "&9Starlight Painting"
   components:
-    "minecraft:painting/variant": "ecoitems:starlight"
+    painting/variant: "ecoitems:starlight"
 
 effects: []
 conditions: []

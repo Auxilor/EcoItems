@@ -1,6 +1,6 @@
 item:
   item: apple
-  display-name: Pink Glazed Sprinkled Donut
+  name: Pink Glazed Sprinkled Donut
   texture: ecoitems:donuts/pink_glazed_donut_sprinkles
   texture-parent: handheld
   components:

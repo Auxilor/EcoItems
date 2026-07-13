@@ -1,6 +1,6 @@
 item:
   item: paper
-  display-name: <white>Cut Kyanite
+  name: <white>Cut Kyanite
 block:
   type: noteblock
   variation: 52

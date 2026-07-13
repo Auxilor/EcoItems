@@ -1,6 +1,6 @@
 item:
   item: paper
-  display-name: <white>Kyanite
+  name: <white>Kyanite
 block:
   type: noteblock
   variation: 49

@@ -73,7 +73,7 @@ class ItemsAdderMigration(private val plugin: EcoItemsPlugin) {
         out.set("item.item", (resource?.getString("material") ?: "PAPER").lowercase())
 
         (section.getString("display_name") ?: section.getString("name"))?.let {
-            out.set("item.display-name", it)
+            out.set("item.name", it)
         }
         if (section.isList("lore")) out.set("item.lore", section.getStringList("lore"))
 

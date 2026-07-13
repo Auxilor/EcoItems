@@ -1,10 +1,10 @@
 # A custom happy ghast harness (1.21.6+).
 item:
   item: white_harness
-  display-name: "<g:#FA7CBB>Ruby Harness</g:#F14658>"
+  name: "<g:#FA7CBB>Ruby Harness</g:#F14658>"
   texture: item/mob/ruby_harness
   components:
-    "minecraft:equippable":
+    equippable:
       slot: "body"
       asset_id: "ecoitems:ruby_harness"
       allowed_entities: "minecraft:happy_ghast"

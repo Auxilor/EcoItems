@@ -1,6 +1,6 @@
 item:
   item: paper
-  display-name: <white>Chiseled Arkose
+  name: <white>Chiseled Arkose
 block:
   type: noteblock
   variation: 66

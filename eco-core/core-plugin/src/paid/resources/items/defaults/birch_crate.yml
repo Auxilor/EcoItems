@@ -1,6 +1,6 @@
 item:
   item: paper
-  display-name: <white>Birch Crate
+  name: <white>Birch Crate
 block:
   type: noteblock
   variation: 38

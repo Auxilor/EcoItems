@@ -1,6 +1,6 @@
 item:
   item: cobblestone glint hide_attributes
-  display-name: "&bEnchanted Cobblestone"
+  name: "&bEnchanted Cobblestone"
   lore: [ ]
   craftable: true
   recipe:

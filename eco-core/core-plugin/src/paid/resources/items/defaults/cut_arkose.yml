@@ -1,6 +1,6 @@
 item:
   item: paper
-  display-name: <white>Cut Arkose
+  name: <white>Cut Arkose
 block:
   type: noteblock
   variation: 64

@@ -1,6 +1,6 @@
 item:
   item: paper
-  display-name: <white>Crimson Crate
+  name: <white>Crimson Crate
 block:
   type: noteblock
   variation: 40

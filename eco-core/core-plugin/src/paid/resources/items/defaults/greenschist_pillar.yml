@@ -1,6 +1,6 @@
 item:
   item: paper
-  display-name: <white>Greenschist Pillar
+  name: <white>Greenschist Pillar
 block:
   type: noteblock
   variation: 71

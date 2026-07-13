@@ -1,6 +1,6 @@
 item:
   item: paper
-  display-name: <white>Chiseled Kyanite
+  name: <white>Chiseled Kyanite
 block:
   type: noteblock
   variation: 54

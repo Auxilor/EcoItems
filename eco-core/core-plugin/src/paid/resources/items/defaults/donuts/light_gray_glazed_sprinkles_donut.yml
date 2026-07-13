@@ -1,6 +1,6 @@
 item:
   item: apple
-  display-name: Light Gray Glazed Sprinkled Donut
+  name: Light Gray Glazed Sprinkled Donut
   texture: ecoitems:donuts/light_gray_glazed_donut_sprinkles
   texture-parent: handheld
   components:

@@ -93,7 +93,7 @@ class OraxenLikeMigration(
         out.set("item.item", (section.getString("material") ?: "PAPER").lowercase())
 
         (section.getString("itemname") ?: section.getString("displayname"))?.let {
-            out.set("item.display-name", it)
+            out.set("item.name", it)
         }
         if (section.isList("lore")) {
             out.set("item.lore", section.getStringList("lore"))

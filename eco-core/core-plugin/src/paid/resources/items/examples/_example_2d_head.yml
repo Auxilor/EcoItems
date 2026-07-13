@@ -10,10 +10,10 @@
 
 item:
   item: player_head
-  display-name: "&6Notch Trophy"
+  name: "&6Notch Trophy"
   components:
-    "minecraft:item_model": "ecoitems:2d_player_head"
-    "minecraft:profile":
+    item_model: "ecoitems:2d_player_head"
+    profile:
       name: "Notch"
 
 effects: []

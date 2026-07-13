@@ -1,6 +1,6 @@
 item:
   item: paper
-  display-name: <white>Chiseled Limestone
+  name: <white>Chiseled Limestone
 block:
   type: noteblock
   variation: 78

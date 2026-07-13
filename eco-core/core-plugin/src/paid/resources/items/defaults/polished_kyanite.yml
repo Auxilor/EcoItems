@@ -1,6 +1,6 @@
 item:
   item: paper
-  display-name: <white>Polished Kyanite
+  name: <white>Polished Kyanite
 block:
   type: noteblock
   variation: 51

@@ -1,6 +1,6 @@
 item:
   item: paper
-  display-name: <white>Kitchen Tile
+  name: <white>Kitchen Tile
 block:
   type: noteblock
   variation: 42

@@ -1,6 +1,6 @@
 item:
   item: paper
-  display-name: <white>Arkose Pillar
+  name: <white>Arkose Pillar
 block:
   type: noteblock
   variation: 65

@@ -15,7 +15,7 @@
 
 item:
   item: paper
-  display-name: "&5Example Block"
+  name: "&5Example Block"
 
 block:
   # noteblock, stringblock, or chorus.

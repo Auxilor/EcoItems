@@ -1,10 +1,10 @@
 item:
   item: iron_horse_armor
-  display-name: "<g:#FA7CBB>Ruby Horse Armor</g:#F14658>"
+  name: "<g:#FA7CBB>Ruby Horse Armor</g:#F14658>"
   texture: item/mob/ruby_horse_armor
   components:
-    "minecraft:max_stack_size": 1
-    "minecraft:equippable":
+    max_stack_size: 1
+    equippable:
       slot: "body"
       asset_id: "ecoitems:ruby_horse"
       allowed_entities: "minecraft:horse"

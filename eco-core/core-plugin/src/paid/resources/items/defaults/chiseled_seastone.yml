@@ -1,6 +1,6 @@
 item:
   item: paper
-  display-name: <white>Chiseled Seastone
+  name: <white>Chiseled Seastone
 block:
   type: noteblock
   variation: 84

@@ -1,6 +1,6 @@
 item:
   item: paper
-  display-name: <white>Chert Pillar
+  name: <white>Chert Pillar
 block:
   type: noteblock
   variation: 47

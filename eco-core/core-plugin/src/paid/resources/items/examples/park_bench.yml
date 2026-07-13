@@ -2,7 +2,7 @@
 # east of it; the barriers and seats mirror that.
 item:
   item: paper
-  display-name: "&6Park Bench"
+  name: "&6Park Bench"
   model: furniture/park_bench
 
 furniture:

@@ -1,6 +1,6 @@
 item:
   item: paper
-  display-name: <white>Limestone Pillar
+  name: <white>Limestone Pillar
 block:
   type: noteblock
   variation: 77

@@ -1,6 +1,6 @@
 item:
   item: paper
-  display-name: <white>Snow_bricks
+  name: <white>Snow_bricks
 block:
   type: noteblock
   variation: 85

@@ -1,6 +1,6 @@
 item:
   item: paper
-  display-name: <white>Shale Bricks
+  name: <white>Shale Bricks
 block:
   type: noteblock
   variation: 56

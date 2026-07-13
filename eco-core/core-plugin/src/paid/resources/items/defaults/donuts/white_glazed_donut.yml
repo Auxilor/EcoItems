@@ -1,6 +1,6 @@
 item:
   item: apple
-  display-name: White Glazed Donut
+  name: White Glazed Donut
   texture: ecoitems:donuts/white_glazed_donut
   texture-parent: handheld
   components:

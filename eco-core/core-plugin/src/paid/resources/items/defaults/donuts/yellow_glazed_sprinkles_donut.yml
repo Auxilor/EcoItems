@@ -1,6 +1,6 @@
 item:
   item: apple
-  display-name: Yellow Glazed Sprinkled Donut
+  name: Yellow Glazed Sprinkled Donut
   texture: ecoitems:donuts/yellow_glazed_donut_sprinkles
   texture-parent: handheld
   components:

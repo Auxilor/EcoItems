@@ -1,6 +1,6 @@
 item:
   item: paper
-  display-name: <white>Kyanite Pillar
+  name: <white>Kyanite Pillar
 block:
   type: noteblock
   variation: 53

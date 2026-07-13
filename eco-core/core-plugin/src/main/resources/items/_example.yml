@@ -6,13 +6,13 @@
 
 item:
   item: iron_sword hide_attributes # The item in-game: https://hub.auxilor.io/wiki/eco/the-item-lookup-system-the-item-lookup-system
-  display-name: "<g:#f953c6>Mithril Sword</g:#b91d73>" # The display name of the item
+  name: "<g:#f953c6>Mithril Sword</g:#b91d73>" # The display name of the item
 
   # (Optional) Vanilla item components to apply to the item.
   # Any component can be used, with the same format as in vanilla commands:
   # https://minecraft.wiki/w/Data_component_format
   components:
-    "minecraft:attribute_modifiers":
+    attribute_modifiers:
       - type: "minecraft:attack_damage"
         id: "ecoitems:damage"
         amount: 11 # +11 on top of the player's base 1 damage, for 12 total

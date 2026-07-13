@@ -1,6 +1,6 @@
 item:
   item: paper
-  display-name: <white>Polished Chert
+  name: <white>Polished Chert
 block:
   type: noteblock
   variation: 45

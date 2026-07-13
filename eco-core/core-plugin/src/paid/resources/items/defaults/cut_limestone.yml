@@ -1,6 +1,6 @@
 item:
   item: paper
-  display-name: <white>Cut Limestone
+  name: <white>Cut Limestone
 block:
   type: noteblock
   variation: 76

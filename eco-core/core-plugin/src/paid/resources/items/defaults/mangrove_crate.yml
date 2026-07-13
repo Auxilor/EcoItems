@@ -1,6 +1,6 @@
 item:
   item: paper
-  display-name: <white>Mangrove Crate
+  name: <white>Mangrove Crate
 block:
   type: noteblock
   variation: 39

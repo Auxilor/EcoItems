@@ -1,6 +1,6 @@
 item:
   item: paper
-  display-name: <white>Warped Crate
+  name: <white>Warped Crate
 block:
   type: noteblock
   variation: 41

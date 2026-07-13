@@ -1,6 +1,6 @@
 item:
   item: paper
-  display-name: <white>Cut Packed Ice
+  name: <white>Cut Packed Ice
 block:
   type: noteblock
   variation: 87

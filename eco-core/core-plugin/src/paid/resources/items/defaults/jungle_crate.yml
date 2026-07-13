@@ -1,6 +1,6 @@
 item:
   item: paper
-  display-name: <white>Jungle Crate
+  name: <white>Jungle Crate
 block:
   type: noteblock
   variation: 37

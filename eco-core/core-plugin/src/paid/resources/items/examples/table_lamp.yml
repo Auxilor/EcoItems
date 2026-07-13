@@ -5,7 +5,7 @@
 # items cause a client-side ghost block flicker when placing the furniture.
 item:
   item: paper
-  display-name: "&eTable Lamp"
+  name: "&eTable Lamp"
   model: "minecraft:block/lantern"
 
 furniture:

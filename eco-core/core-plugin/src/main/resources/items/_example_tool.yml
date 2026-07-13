@@ -6,13 +6,13 @@
 
 item:
   item: netherite_pickaxe glint max_damage:4096 # The item in-game: https://hub.auxilor.io/wiki/eco/the-item-lookup-system-the-item-lookup-system
-  display-name: "<g:#FF0099>Hardened Netherite Pickaxe</g:#493240>"
+  name: "<g:#FF0099>Hardened Netherite Pickaxe</g:#493240>"
 
   # Vanilla item components, with the same format as in vanilla commands:
   # https://minecraft.wiki/w/Data_component_format
   components:
     # Read here: https://minecraft.wiki/w/Data_component_format#tool
-    "minecraft:tool":
+    tool:
       default_mining_speed: 1.0 # The mining speed, if not overridden by any rules
       damage_per_block: 1 # The durability to remove from the tool when it is used
       rules:

@@ -1,6 +1,6 @@
 item:
   item: diamond glint hide_attributes
-  display-name: "&bEnchanted Diamond"
+  name: "&bEnchanted Diamond"
   lore: [ ]
   craftable: true
   recipe:

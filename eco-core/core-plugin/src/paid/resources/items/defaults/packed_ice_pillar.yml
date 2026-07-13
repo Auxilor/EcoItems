@@ -1,6 +1,6 @@
 item:
   item: paper
-  display-name: <white>Packed Ice Pillar
+  name: <white>Packed Ice Pillar
 block:
   type: noteblock
   variation: 88

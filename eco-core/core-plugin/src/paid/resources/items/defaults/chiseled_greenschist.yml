@@ -1,6 +1,6 @@
 item:
   item: paper
-  display-name: <white>Chiseled Greenschist
+  name: <white>Chiseled Greenschist
 block:
   type: noteblock
   variation: 72

@@ -10,7 +10,7 @@
 
 item:
   item: paper
-  display-name: "&5Example Furniture"
+  name: "&5Example Furniture"
   model: furniture/example
 
 furniture:

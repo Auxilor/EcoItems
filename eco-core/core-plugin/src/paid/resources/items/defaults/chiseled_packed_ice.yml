@@ -1,6 +1,6 @@
 item:
   item: paper
-  display-name: <white>Chiseled Packed Ice
+  name: <white>Chiseled Packed Ice
 block:
   type: noteblock
   variation: 86

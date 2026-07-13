@@ -1,6 +1,6 @@
 item:
   item: paper
-  display-name: <white>Greenschist
+  name: <white>Greenschist
 block:
   type: noteblock
   variation: 67

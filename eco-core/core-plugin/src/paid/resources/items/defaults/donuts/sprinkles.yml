@@ -1,6 +1,6 @@
 item:
   item: sugar
-  display-name: Sprinkles
+  name: Sprinkles
   texture: ecoitems:donuts/sprinkles
   texture-parent: handheld
   components:

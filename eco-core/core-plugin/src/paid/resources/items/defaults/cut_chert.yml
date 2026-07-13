@@ -1,6 +1,6 @@
 item:
   item: paper
-  display-name: <white>Cut Chert
+  name: <white>Cut Chert
 block:
   type: noteblock
   variation: 46

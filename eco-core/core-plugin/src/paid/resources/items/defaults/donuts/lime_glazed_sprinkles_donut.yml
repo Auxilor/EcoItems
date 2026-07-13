@@ -1,6 +1,6 @@
 item:
   item: apple
-  display-name: Lime Glazed Sprinkled Donut
+  name: Lime Glazed Sprinkled Donut
   texture: ecoitems:donuts/lime_glazed_donut_sprinkles
   texture-parent: handheld
   components:

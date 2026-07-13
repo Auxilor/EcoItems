@@ -1,6 +1,6 @@
 item:
   item: apple
-  display-name: Rainbow Glazed Sprinkled Donut
+  name: Rainbow Glazed Sprinkled Donut
   texture: ecoitems:donuts/rainbow_glazed_donut_sprinkles
   texture-parent: handheld
   components:

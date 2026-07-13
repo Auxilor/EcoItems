@@ -38,7 +38,7 @@ IDs may only contain lowercase letters, numbers, and underscores (a-z, 0-9, _). 
 # === Item: what the player gets ===
 item:
   item: iron_sword hide_attributes # The base item: https://hub.auxilor.io/wiki/eco/the-item-lookup-system-the-item-lookup-system
-  display-name: "<g:#f953c6>Mithril Sword</g:#b91d73>" # The item display name
+  name: "<g:#f953c6>Mithril Sword</g:#b91d73>" # The item name (the item_name component)
   lore: # The item lore, one entry per line
     - "&7Damage: &c12❤"
     - "&7Attack Speed: &c1.5"
@@ -99,10 +99,10 @@ EcoItems supports both shaped and shapeless recipes. See [Recipes](https://hub.a
 ```yaml
 item:
   components:
-    "minecraft:max_stack_size": 1
-    "minecraft:use_cooldown":
+    max_stack_size: 1
+    use_cooldown:
       seconds: 2.5
-    "minecraft:attribute_modifiers":
+    attribute_modifiers:
       - type: "minecraft:attack_damage"
         id: "ecoitems:damage"
         amount: 11 # On top of the player's base 1 damage, so 12 total
@@ -110,7 +110,11 @@ item:
         slot: "mainhand"
 ```
 
-Invalid components are skipped with a warning in the console telling you what's wrong.
+Component keys without a namespace are treated as `minecraft:` components, so no quoting is needed; write `"somemod:component"` in quotes for anything namespaced. Invalid components are skipped with a warning in the console telling you what's wrong.
+
+:::tip Names
+`item.name` is shorthand for the `minecraft:item_name` component — the modern way to name items (no italics, no anvil-rename look). The older `item.display-name` still works and sets a custom name through the display system instead, which supports placeholders that update per-player.
+:::
 
 :::info Migrating from older versions
 The old `base-damage`, `base-attack-speed`, `base-attack-range`, and `effective-durability` options have been replaced by components: use `minecraft:attribute_modifiers` for combat stats (as above) and `max_damage:<amount>` on the base item lookup for durability. The old `food:` and `tool:` sections are now the `minecraft:food`, `minecraft:consumable`, and `minecraft:tool` components — see [Custom Foods](custom-foods) and [Custom Tools](custom-tools).

@@ -6,19 +6,19 @@
 
 item:
   item: cooked_beef glint item_name:"Enchanted Steak" # The item in-game: https://hub.auxilor.io/wiki/eco/the-item-lookup-system-the-item-lookup-system
-  display-name: "&6Enchanted Steak" # The display name of the item
+  name: "&6Enchanted Steak" # The display name of the item
 
   # Vanilla item components, with the same format as in vanilla commands:
   # https://minecraft.wiki/w/Data_component_format
   components:
     # Read here: https://minecraft.wiki/w/Data_component_format#food
-    "minecraft:food":
+    food:
       nutrition: 12
       saturation: 2
       can_always_eat: false
 
     # Read here: https://minecraft.wiki/w/Data_component_format#consumable
-    "minecraft:consumable":
+    consumable:
       consume_seconds: 1 # The time in seconds it takes to eat the food
       on_consume_effects:
         - type: "minecraft:apply_effects"

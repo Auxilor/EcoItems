@@ -1,6 +1,6 @@
 item:
   item: iron_ingot glint hide_attributes
-  display-name: "&bEnchanted Iron Ingot"
+  name: "&bEnchanted Iron Ingot"
   lore: [ ]
   craftable: true
   recipe:

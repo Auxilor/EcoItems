@@ -104,7 +104,16 @@ class EcoItem(
     val rarity = Rarities[config.getString("rarity")]
 
     private fun ItemStack.withComponents(itemConfig: Config): ItemStack {
-        val components = itemConfig.getSubsection("components").toComponentValues().toMutableMap()
+        // Keys without a namespace are minecraft components - saves quoting.
+        val components = itemConfig.getSubsection("components").toComponentValues()
+            .mapKeys { (key, _) -> if (":" in key) key else "minecraft:$key" }
+            .toMutableMap()
+
+        // name is shorthand for the item_name component (unlike display-name,
+        // which sets a custom name through the display system).
+        if (itemConfig.has("name")) {
+            components.putIfAbsent("minecraft:item_name", itemConfig.getFormattedString("name"))
+        }
 
         val blockAssets = this@EcoItem.block?.hasAssets == true
         if (itemConfig.has("texture") || itemConfig.has("model") || itemConfig.has("definition") || blockAssets) {

@@ -1,6 +1,6 @@
 item:
   item: paper
-  display-name: <white>Cut Seastone
+  name: <white>Cut Seastone
 block:
   type: noteblock
   variation: 82

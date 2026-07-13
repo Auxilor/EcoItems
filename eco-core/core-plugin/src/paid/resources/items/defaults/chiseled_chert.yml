@@ -1,6 +1,6 @@
 item:
   item: paper
-  display-name: <white>Chiseled Chert
+  name: <white>Chiseled Chert
 block:
   type: noteblock
   variation: 48

@@ -1,8 +1,8 @@
 item:
   item: red_carpet
-  display-name: "<g:#FA7CBB>Ruby Llama Carpet</g:#F14658>"
+  name: "<g:#FA7CBB>Ruby Llama Carpet</g:#F14658>"
   components:
-    "minecraft:equippable":
+    equippable:
       slot: "body"
       asset_id: "ecoitems:ruby_llama"
       allowed_entities: "minecraft:llama"

@@ -1,12 +1,12 @@
 item:
   item: diamond_pickaxe
-  display-name: "&5Amethyst Pickaxe"
+  name: "&5Amethyst Pickaxe"
   lore:
     - "&7Smelts ores as it mines them."
   texture: item/amethyst_pickaxe
   texture-parent: handheld
   components:
-    "minecraft:enchantments":
+    enchantments:
       "minecraft:efficiency": 4
       "minecraft:unbreaking": 3
 

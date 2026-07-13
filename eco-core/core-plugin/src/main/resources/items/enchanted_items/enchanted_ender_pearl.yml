@@ -1,6 +1,6 @@
 item:
   item: ender_pearl glint hide_attributes
-  display-name: "&bEnchanted Ender Pearl"
+  name: "&bEnchanted Ender Pearl"
   lore: [ ]
   craftable: true
   recipe:
