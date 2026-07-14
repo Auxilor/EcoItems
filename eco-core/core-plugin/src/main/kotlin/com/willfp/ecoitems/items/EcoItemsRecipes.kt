@@ -36,9 +36,16 @@ object EcoItemsRecipes : ConfigCategory("recipe", "recipes") {
         }
 
         plugin.scheduler.run {
-        registeredIds.add(id)
+            registeredIds.add(id)
             val recipeStrings = config.getStrings("recipe")
             if (recipeStrings.isEmpty()) return@run
+
+            if (item.type.isAir) {
+                plugin.logger.warning(
+                    "Recipe $id has an invalid result '${config.getString("result")}' and was skipped"
+                )
+                return@run
+            }
 
             Recipes.createAndRegisterRecipe(
                 plugin,

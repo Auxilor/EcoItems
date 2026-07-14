@@ -11,13 +11,22 @@ import org.bukkit.event.player.PlayerInteractEvent
 object ItemListener : Listener {
     @EventHandler(priority = EventPriority.LOW)
     fun onPlaceItem(event: BlockPlaceEvent) {
-        event.itemInHand.ecoItem ?: return
+        val ecoItem = event.itemInHand.ecoItem ?: return
+
+        // Placer items (custom blocks/furniture) dispatch their own synthetic
+        // place events for protection plugins - don't cancel our own placement.
+        if (ecoItem.block != null || ecoItem.furniture != null) {
+            return
+        }
 
         if (event.itemInHand.type.isBlock) {
             event.isCancelled = true
         }
     }
 
+    // Runs after the block/furniture placement handlers (HIGH): when their
+    // placement went through, the event is already cancelled; when it bailed,
+    // this still stops the base block from being placed vanilla-style.
     @EventHandler(priority = EventPriority.HIGHEST)
     fun onPlaceItem2(event: PlayerInteractEvent) {
         event.item.ecoItem ?: return
