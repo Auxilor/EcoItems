@@ -9,7 +9,7 @@ furniture:
   barriers:
     - "0,0,0"
   seats:
-    - "0,0.6,0"
+    - "0,0,0"
   sounds:
     place: block.wood.place
     break: block.wood.break

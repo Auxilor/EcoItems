@@ -23,15 +23,15 @@ furniture:
   barriers:
     - "0..1,0,0"       # collision: origin cell + one east
   seats:
-    - "0,0.55,0"
-    - "1,0.55,0"
+    - "0,0,0"
+    - "1,0,0"
 ```
 
 ## How it works
 
 - **Placement** snaps to 8 directions by default (`rotation: 4-way` or `none` to change it; multi-cell furniture always snaps to quarter turns). `placement: {floor, wall, ceiling}` controls which surfaces accept it.
 - **Breaking**: punch the furniture (its hitbox or a collision barrier - barriers insta-break for furniture) and it drops its item, or a custom `drops:` table, same format as blocks, through the eco drop queue.
-- **Seats** (`seats:` offsets): right-click to sit, sneak-dismount as usual.
+- **Seats** (`seats:` offsets): right-click to sit, sneak-dismount as usual. The y offset is relative to the natural chair sitting height (0.6 above the block bottom), the same convention as Nexo and Oraxen, so `"0,0,0"` is right for a normal chair and imported seat offsets work verbatim.
 - **Lights** (`lights: ["x,y,z level"]`): real light blocks placed with the furniture; `toggleable-lights: true` lets players right-click to switch them.
 - **Hitboxes**: clicks are caught by interaction entities - a 1×1 box by default, or `hitboxes: ["x,y,z widthxheight"]` for custom shapes.
 - **Display tuning** under `display:` - scale, translation, transform, billboard, fixed brightness, view range.

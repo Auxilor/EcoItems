@@ -254,7 +254,10 @@ class ItemsAdderMigration(private val plugin: EcoItemsPlugin) {
         }
 
         if (sit?.getBoolean("enabled") == true || sit?.contains("sit_height") == true) {
-            out.set("furniture.seats", listOf("0,${sit.getDouble("sit_height", 0.5)},0"))
+            // IA sit_height is measured from the block bottom; our seat y is
+            // relative to the natural chair height (0.6 above the bottom).
+            val y = Math.round((sit.getDouble("sit_height", 0.5) - 0.6) * 100) / 100.0
+            out.set("furniture.seats", listOf("0,$y,0"))
         }
 
         furniture.getConfigurationSection("placeable_on")?.let { placing ->

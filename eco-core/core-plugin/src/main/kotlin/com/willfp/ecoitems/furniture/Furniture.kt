@@ -39,7 +39,7 @@ class Furniture(val id: String, val config: Config) {
     val hitboxes: List<Hitbox> = config.getStrings("hitboxes").mapNotNull { parseHitbox(it) }
         .ifEmpty { if (barriers.isEmpty()) listOf(Hitbox(0.0, 0.0, 0.0, 1.0, 1.0)) else emptyList() }
 
-    /** Seat offsets: "x,y,z" with an optional yaw ("x,y,z 90"). */
+    /** Seat offsets: "x,y,z" with an optional yaw ("x,y,z 90"); y = 0 sits at natural chair height. */
     val seats: List<Seat> = config.getStrings("seats").mapNotNull { parseSeat(it) }
 
     /** Light cells: "x,y,z level". */

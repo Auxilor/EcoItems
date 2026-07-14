@@ -35,9 +35,11 @@ furniture:
   # hitboxes:
   #   - "0,0,0 1x1.5"
 
-  # Sit positions ("x,y,z", optional yaw). Right-click to sit.
+  # Sit positions ("x,y,z", optional yaw). Right-click to sit. y is relative
+  # to the natural chair sitting height (0.6 above the block bottom), the
+  # same convention as Nexo/Oraxen - "0,0,0" is right for a normal chair.
   # seats:
-  #   - "0,0.55,0"
+  #   - "0,0,0"
 
   # Light cells ("x,y,z level"). toggleable-lights lets players right-click
   # to switch them.

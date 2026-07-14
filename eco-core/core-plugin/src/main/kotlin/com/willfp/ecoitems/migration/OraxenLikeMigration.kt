@@ -461,17 +461,18 @@ class OraxenLikeMigration(
         }
         if (hitboxes.isNotEmpty()) out.set("furniture.hitboxes", hitboxes)
 
-        // Seats.
+        // Seats. Seat vectors share our convention (y = 0 sits at natural
+        // chair height) and pass through verbatim; Oraxen's legacy scalar
+        // height is measured from the block bottom with 0.6 as the standard
+        // chair, so rebase it around that.
         val seats = mutableListOf<String>()
         config.getConfigurationSection("seat")?.let {
             val yaw = if (it.contains("yaw")) " ${it.getDouble("yaw")}" else ""
-            seats += "0,${it.getDouble("height")},0$yaw"
+            val y = Math.round((it.getDouble("height") - 0.6) * 100) / 100.0
+            seats += "0,$y,0$yaw"
         }
         seats += config.getStringList("seats")
-        if (seats.isNotEmpty()) {
-            out.set("furniture.seats", seats)
-            result.warn("Item $id: seat offsets use EcoItems semantics (y from the block bottom) - check the sit height in game")
-        }
+        if (seats.isNotEmpty()) out.set("furniture.seats", seats)
 
         // Lights.
         val lights = mutableListOf<String>()

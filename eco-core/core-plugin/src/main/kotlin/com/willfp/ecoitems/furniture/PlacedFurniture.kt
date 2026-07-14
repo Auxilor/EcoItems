@@ -163,6 +163,11 @@ class PlacedFurniture(
 
         private const val SEARCH_RADIUS = 8.0
 
+        // Seat offsets follow the Nexo/Oraxen convention: y = 0 is the
+        // natural sitting height on a chair-height cushion (~0.6 above the
+        // block bottom), so seat vectors from imported setups work verbatim.
+        private const val SIT_HEIGHT = 0.6
+
         /**
          * Spawns the furniture at the origin block. The caller has already
          * checked space and protection.
@@ -233,7 +238,7 @@ class PlacedFurniture(
             val seats = furniture.seats.map { seat ->
                 val (x, z) = rotate(seat.x, seat.z, yaw)
                 world.spawn(
-                    center.clone().add(x, seat.y, z),
+                    center.clone().add(x, seat.y + SIT_HEIGHT, z),
                     ArmorStand::class.java
                 ) { stand ->
                     // Markers have a zero-height hitbox: passengers sit at the
