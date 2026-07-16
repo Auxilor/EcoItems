@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "ecoitems:item/gui_previous"
+    "model": "ecoitems:item/next_locked"
   }
 }

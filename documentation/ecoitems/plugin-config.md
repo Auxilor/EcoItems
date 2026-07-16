@@ -30,20 +30,38 @@ items-gui:
   rows: 6
   title: "&7EcoItems (%page%/%max_page%)"
 
+  # Items in folders under items/ group into categories: the GUI opens with
+  # a category menu and each folder becomes a sub-menu. With no folders, the
+  # GUI is a flat item list.
+  category-title: "&7%category% (%page%/%max_page%)"
+  category-item:
+    name: "&f%category%"
+    lore:
+      - "&7%count% items"
+  # The category for items directly in items/ (only shown if any exist).
+  root-category-name: "Other"
+
+  back-button:
+    enabled: true
+    item: arrow
+    model: ecoitems:back
+    name: "&fBack"
+    row: 6
+    column: 1
+
   background:
     enabled: true
     glyph: items_gui
 
   mask:
-    items:
-      - black_stained_glass_pane
+    items: []
     pattern:
-      - "111111111"
-      - "100000001"
-      - "100000001"
-      - "100000001"
-      - "100000001"
-      - "111111111"
+      - "000000000"
+      - "000000000"
+      - "000000000"
+      - "000000000"
+      - "000000000"
+      - "000000000"
 
   empty-item: air
 
@@ -55,19 +73,22 @@ items-gui:
       volume: 1.0
     backwards:
       item: arrow name:"&fPrevious Page"
-      model: ecoitems:gui_previous
+      model: ecoitems:previous
+      # Shown when there's no previous page; remove to hide the button instead.
+      locked-model: ecoitems:previous_locked
       row: 6
       column: 4
     forwards:
       item: arrow name:"&fNext Page"
-      model: ecoitems:gui_next
+      model: ecoitems:next
+      locked-model: ecoitems:next_locked
       row: 6
       column: 6
 
   close-button:
     enabled: true
     item: barrier
-    model: ecoitems:gui_close
+    model: ecoitems:close
     name: "&cClose"
     lore: []
     row: 6

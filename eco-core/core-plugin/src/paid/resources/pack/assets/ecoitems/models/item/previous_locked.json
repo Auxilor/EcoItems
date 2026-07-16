@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "ecoitems:item/gui_previous"
+    "layer0": "ecoitems:item/previous_locked"
   }
 }

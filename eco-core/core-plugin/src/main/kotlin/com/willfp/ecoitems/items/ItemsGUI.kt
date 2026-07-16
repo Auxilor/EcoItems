@@ -165,10 +165,16 @@ object ItemsGUI {
                 plugin.configYml.getStringOrNull("$path.model")
             ) ?: fallback
 
+            // A locked-model swaps in when there's no page to turn to;
+            // without one the button hides at the first/last page.
+            val locked = plugin.configYml.getStringOrNull("$path.locked-model")?.let {
+                PackFeatures.instance?.decorateGuiItem(plugin, fallback.clone(), it)
+            }
+
             addPageChanger(
                 direction,
                 active,
-                null,
+                locked,
                 pageSound,
                 plugin.configYml.getInt("$path.row"),
                 plugin.configYml.getInt("$path.column")

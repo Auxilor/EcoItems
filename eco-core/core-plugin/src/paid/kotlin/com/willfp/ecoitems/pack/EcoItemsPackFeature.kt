@@ -102,7 +102,7 @@ object EcoItemsPackFeature : PackFeature {
             return title
         }
 
-        return ShiftChars.shift(-8) +
+        return ShiftChars.shift(-9) +
             GlyphText.legacyChars(assigned, restore = "§r") +
             ShiftChars.shift(-161) +
             title
