@@ -48,6 +48,10 @@ block:
   # Falls like sand when unsupported (noteblock only).
   # falling: true
 
+  # Right-clicking with an axe converts this block into another custom block,
+  # like stripping a vanilla log (costs 1 axe durability):
+  # strips-to: example_stripped
+
   # Survives explosions.
   # blast-resistant: true
 

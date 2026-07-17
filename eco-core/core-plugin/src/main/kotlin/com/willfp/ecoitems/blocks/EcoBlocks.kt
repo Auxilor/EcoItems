@@ -34,6 +34,13 @@ object EcoBlocks {
 
         byId = blocks.filter { it.id in assignments }.associateBy { it.id }
 
+        for (block in byId.values) {
+            val target = block.stripsTo ?: continue
+            if (target !in byId) {
+                plugin.logger.warning("Block ${block.id} strips-to unknown block '$target'")
+            }
+        }
+
         val variationMaps = EnumMap<BlockBacking, MutableMap<Int, Placed>>(BlockBacking::class.java)
         for (block in byId.values) {
             val map = variationMaps.getOrPut(block.backing) { mutableMapOf() }

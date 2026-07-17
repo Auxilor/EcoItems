@@ -106,6 +106,74 @@ object BlockListener : Listener {
         )
     }
 
+    /** Right-clicking a custom log with an axe strips it, vanilla-style. */
+    @EventHandler(priority = EventPriority.HIGH)
+    fun onStrip(event: PlayerInteractEvent) {
+        if (event.action != Action.RIGHT_CLICK_BLOCK || event.hand != EquipmentSlot.HAND) {
+            return
+        }
+
+        val tool = event.item ?: return
+        if (!tool.type.name.endsWith("_AXE")) {
+            return
+        }
+
+        val block = event.clickedBlock ?: return
+        val placed = EcoBlocks.at(block) ?: return
+        val target = placed.block.stripsTo?.let { EcoBlocks[it] } ?: return
+        val player = event.player
+
+        if (!AntigriefManager.canBreakBlock(player, block)) {
+            return
+        }
+
+        // Keep the orientation when the stripped variant is directional too.
+        val orientation = if (target.orientations.size == placed.block.orientations.size) {
+            placed.orientation
+        } else {
+            0
+        }
+        val data = EcoBlocks.blockData(target, orientation) ?: return
+
+        event.isCancelled = true
+        block.setBlockData(data, false)
+        block.world.playSound(
+            block.location.add(0.5, 0.5, 0.5),
+            "minecraft:item.axe.strip",
+            SoundCategory.BLOCKS,
+            1.0f,
+            1.0f
+        )
+        player.swingMainHand()
+        damageTool(player, tool)
+    }
+
+    /** One point of vanilla-style durability loss, honoring unbreaking. */
+    private fun damageTool(player: Player, tool: ItemStack) {
+        if (player.gameMode == GameMode.CREATIVE) {
+            return
+        }
+
+        val meta = tool.itemMeta as? org.bukkit.inventory.meta.Damageable ?: return
+        if (meta.isUnbreakable) {
+            return
+        }
+
+        val unbreaking = tool.getEnchantmentLevel(Enchantment.UNBREAKING)
+        if (unbreaking > 0 && Random.nextInt(unbreaking + 1) != 0) {
+            return
+        }
+
+        meta.damage += 1
+        val max = if (meta.hasMaxDamage()) meta.maxDamage else tool.type.maxDurability.toInt()
+        if (meta.damage >= max) {
+            tool.amount = 0
+            player.world.playSound(player.location, "minecraft:entity.item.break", SoundCategory.PLAYERS, 1.0f, 1.0f)
+        } else {
+            tool.itemMeta = meta
+        }
+    }
+
     // Not ignoreCancelled: denying block use (above) marks the event
     // cancelled, but item use - placing - must still run.
     @EventHandler(priority = EventPriority.HIGH)

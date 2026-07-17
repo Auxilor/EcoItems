@@ -35,6 +35,9 @@ class EcoBlock(val id: String, val config: Config) {
     /** Explicit variation (for imported configs); auto-assigned when absent. */
     val configuredVariation = config.getIntOrNull("variation")
 
+    /** The block id this block becomes when stripped with an axe. */
+    val stripsTo = config.getStringOrNull("strips-to")
+
     val hardness = config.getDoubleOrNull("hardness") ?: -1.0
 
     val light = (config.getIntOrNull("light") ?: 0).coerceIn(0, 15)

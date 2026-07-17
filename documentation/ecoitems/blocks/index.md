@@ -50,6 +50,8 @@ A single `texture` generates a `cube_all` model; a `textures:` map auto-picks th
 
 See `items/_example_block.yml` for every option (`directional: log|furnace|dropper`, `falling`, `blast-resistant`, `sounds`, per-drop chances).
 
+Custom logs can be strippable: `strips-to: <block id>` converts the block into another custom block when right-clicked with an axe (costing 1 axe durability, respecting Unbreaking), exactly like vanilla log stripping. Directional orientation carries over when both blocks share the same directional type.
+
 ## Interaction effects
 
 Blocks can run [libreforge effects](https://plugins.auxilor.io/effects) when players interact with them, configured per event inside the `block:` section:
