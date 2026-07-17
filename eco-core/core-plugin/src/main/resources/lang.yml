@@ -20,3 +20,6 @@ messages:
   invalid-glyph: "&cUnknown glyph!"
   glyph-message: "&a%glyph%&r: %char%"
   glyphs-require-paid: "&cGlyphs require the paid version of EcoItems!"
+  no-glyphs: "&cThere are no glyphs you can use!"
+  glyph-picker-title: "Glyphs"
+  glyph-picker-hover: "&f%glyph%\n&7%placeholder%\n&eClick to insert into chat"

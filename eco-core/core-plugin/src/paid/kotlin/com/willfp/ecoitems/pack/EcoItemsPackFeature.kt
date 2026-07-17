@@ -14,6 +14,7 @@ import com.willfp.ecoitems.pack.delivery.PackDelivery
 import com.willfp.ecoitems.pack.delivery.PackListener
 import com.willfp.ecoitems.pack.glyphs.GlyphCodepoints
 import com.willfp.ecoitems.pack.glyphs.GlyphListeners
+import com.willfp.ecoitems.pack.glyphs.GlyphPicker
 import com.willfp.ecoitems.pack.glyphs.GlyphPlaceholder
 import com.willfp.ecoitems.pack.glyphs.GlyphTabCompletions
 import com.willfp.ecoitems.pack.glyphs.GlyphText
@@ -96,6 +97,10 @@ object EcoItemsPackFeature : PackFeature {
     override fun glyphChars(id: String): String? {
         val assigned = GlyphText.assignments[id] ?: return null
         return GlyphText.rawChars(assigned)
+    }
+
+    override fun openGlyphPicker(player: Player): Boolean {
+        return GlyphPicker.open(player)
     }
 
     override fun decorateGuiTitle(plugin: EcoItemsPlugin, title: String, glyphId: String?): String {

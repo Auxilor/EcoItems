@@ -37,6 +37,12 @@ interface PackFeature {
      * The raw characters for a glyph, or null if no such glyph is loaded.
      */
     fun glyphChars(id: String): String? = null
+
+    /**
+     * Opens the glyph picker book for a player; false if they have no
+     * usable glyphs.
+     */
+    fun openGlyphPicker(player: Player): Boolean = false
 }
 
 object PackFeatures {

@@ -56,6 +56,10 @@ Each glyph is assigned a codepoint automatically, remembered in `plugins/EcoItem
 
 `/ecoitems glyph <id>` echoes a glyph's character back to you - handy in console for copying the raw unicode character into other plugins' configs.
 
+## The glyph picker
+
+`/ecoitems glyphs` (permission `ecoitems.command.glyphs`, everyone by default) opens a book of every glyph the player is allowed to use - hover for the name and placeholders, click to drop the placeholder straight into the chat box. Glyphs the player lacks permission for don't appear.
+
 <hr/>
 
 ## Where to go next
