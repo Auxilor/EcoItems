@@ -22,6 +22,7 @@ import com.willfp.ecoitems.items.EcoItemFinder
 import com.willfp.ecoitems.items.EcoItems
 import com.willfp.ecoitems.items.EcoItemsRecipes
 import com.willfp.ecoitems.items.ItemListener
+import com.willfp.ecoitems.items.ItemUpdater
 import com.willfp.ecoitems.items.ItemsGUI
 import com.willfp.ecoitems.libreforge.ConditionHasEcoItem
 import com.willfp.ecoitems.migration.Migrations
@@ -72,6 +73,7 @@ class EcoItemsPlugin : LibreforgePlugin() {
         EcoBlocks.reload(this)
         PackFeatures.instance?.handleReload(this)
         ItemsGUI.reload()
+        ItemUpdater.updateOnlinePlayers()
     }
 
     override fun loadPacketListeners(): List<PacketListener> {
@@ -102,6 +104,7 @@ class EcoItemsPlugin : LibreforgePlugin() {
         return listOf(
             DiscoverRecipeListener,
             ItemListener,
+            ItemUpdater,
             PaintingListener,
             BlockListener,
             BlockPhysicsListener,

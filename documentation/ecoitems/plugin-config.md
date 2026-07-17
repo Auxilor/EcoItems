@@ -12,6 +12,11 @@ The paid resource-pack system has its own config at `/plugins/EcoItems/pack.yml`
 ```yaml
 discover-recipes: true # If all EcoItems recipes should be automatically unlocked for players
 
+# If items already in circulation should be rebuilt from their current configs
+# on join, on pickup, and after a reload. Durability, anvil renames, extra
+# enchantments, and other plugins' item data are preserved.
+auto-update-items: true
+
 rarity:
   enabled: false # If the rarity system should be enabled
   blank-lore-line: true # If a blank lore line should separate the rarity tag from the item lore

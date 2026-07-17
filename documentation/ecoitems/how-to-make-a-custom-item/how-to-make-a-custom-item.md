@@ -185,7 +185,7 @@ Effects and conditions are a shared eco system with their own documentation. To 
 - **Item won't load?** Check the ID rules above; capitals, spaces, or hyphens in the file name stop it loading.
 - **Effects do nothing?** The item only activates in its `slot`; a `mainhand` item does nothing in your inventory.
 - **Recipe doesn't work?** Make sure `craftable: true` is set and the ingredient IDs resolve in the Item Lookup System.
-- **Changes not showing?** Run `/ecoitems reload`, then get a fresh copy of the item; existing items in inventories are not updated.
+- **Changes not showing?** Run `/ecoitems reload`. Items in online players' inventories update automatically (with `auto-update-items` in config.yml, on by default); items in containers update when a player picks them up.
 :::
 
 <hr/>

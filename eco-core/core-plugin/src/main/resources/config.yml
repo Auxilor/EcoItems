@@ -6,6 +6,11 @@
 # If all recipes should be automatically discovered.
 discover-recipes: true
 
+# If items already in circulation should be rebuilt from their current configs
+# on join, on pickup, and after a reload. Durability, anvil renames, extra
+# enchantments, and other plugins' item data are preserved.
+auto-update-items: true
+
 rarity:
   # If the rarity system should be enabled
   enabled: false
