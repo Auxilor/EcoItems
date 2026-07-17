@@ -52,6 +52,14 @@ block:
   # like stripping a vanilla log (costs 1 axe durability):
   # strips-to: example_stripped
 
+  # Sea-pickle-style stacking (stringblock only): right-clicking with the
+  # same item grows the stack; one texture (or models:) per stack count.
+  # stackable:
+  #   textures:
+  #     - block/example_1
+  #     - block/example_2
+  #     - block/example_3
+
   # Survives explosions.
   # blast-resistant: true
 

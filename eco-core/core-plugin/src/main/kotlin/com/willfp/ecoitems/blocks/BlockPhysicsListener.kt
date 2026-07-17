@@ -129,7 +129,7 @@ object BlockPhysicsListener : Listener {
 
         event.isCancelled = true
         event.toBlock.type = Material.AIR
-        BlockListener.dropItems(placed.block, event.toBlock, null)
+        BlockListener.dropItems(placed.block, event.toBlock, null, times = placed.stackSize)
     }
 
     /**
@@ -172,7 +172,7 @@ object BlockPhysicsListener : Listener {
             iterator.remove()
             if (!placed.block.blastResistant) {
                 block.type = Material.AIR
-                BlockListener.dropItems(placed.block, block, null)
+                BlockListener.dropItems(placed.block, block, null, times = placed.stackSize)
             }
         }
     }

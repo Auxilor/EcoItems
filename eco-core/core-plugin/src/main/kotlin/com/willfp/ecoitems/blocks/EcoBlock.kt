@@ -25,11 +25,29 @@ class EcoBlock(val id: String, val config: Config) {
         }
     }
 
-    /** Orientation keys; a single empty key for non-directional blocks. */
-    val orientations = if (directional != null && backing == BlockBacking.NOTEBLOCK) {
-        directional.orientations
+    /** Sea-pickle-style stacking: one state and model per stack count. */
+    val stackable = if (config.has("stackable")) {
+        StackableBlock(id, config.getSubsection("stackable"))
     } else {
-        listOf("")
+        null
+    }.also {
+        if (it != null && backing != BlockBacking.STRINGBLOCK) {
+            plugin.logger.warning("Block $id: stackable blocks must be stringblock-backed")
+        }
+        if (it != null && directional != null) {
+            plugin.logger.warning("Block $id: stackable and directional don't combine; using directional")
+        }
+    }
+
+    /**
+     * Orientation keys; a single empty key for plain blocks. Stackable blocks
+     * reuse the orientation slots as stack counts (index 0 = one item).
+     */
+    val orientations = when {
+        directional != null && backing == BlockBacking.NOTEBLOCK -> directional.orientations
+        directional == null && stackable != null && backing == BlockBacking.STRINGBLOCK && stackable.count > 0 ->
+            List(stackable.count) { "stack${it + 1}" }
+        else -> listOf("")
     }
 
     /** Explicit variation (for imported configs); auto-assigned when absent. */
@@ -53,7 +71,8 @@ class EcoBlock(val id: String, val config: Config) {
     val minimumTier = config.getStringOrNull("minimum-tier")?.lowercase()
 
     /** Whether the pack build has anything to generate for this block. */
-    val hasAssets = config.has("texture") || config.has("textures") || config.has("model")
+    val hasAssets = config.has("texture") || config.has("textures") || config.has("model") ||
+        stackable?.count?.let { it > 0 } == true
 
     /** null = drop the placer item itself. */
     val drops = if (config.has("drops")) BlockDrops(id, config.getSubsection("drops")) else null
@@ -109,6 +128,20 @@ class BlockDropItem(
     val chance: Double,
     val amount: IntRange
 )
+
+class StackableBlock(blockId: String, config: Config) {
+    /** Model references, one per stack count (or textures to generate from). */
+    val models = config.getStrings("models")
+    val textures = config.getStrings("textures")
+
+    val count = if (models.isNotEmpty()) models.size else textures.size
+
+    init {
+        if (count == 0) {
+            plugin.logger.warning("Block $blockId: stackable needs a models: or textures: list")
+        }
+    }
+}
 
 class BlockSounds(config: Config) {
     val place = config.getStringOrNull("place")

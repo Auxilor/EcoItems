@@ -52,6 +52,18 @@ See `items/_example_block.yml` for every option (`directional: log|furnace|dropp
 
 Custom logs can be strippable: `strips-to: <block id>` converts the block into another custom block when right-clicked with an axe (costing 1 axe durability, respecting Unbreaking), exactly like vanilla log stripping. Directional orientation carries over when both blocks share the same directional type.
 
+Stringblock-backed blocks can stack like sea pickles - right-clicking with more of the same item grows the stack, and breaking drops one set of loot per stacked item:
+
+```yaml
+block:
+  type: stringblock
+  stackable:
+    textures:            # one texture (or models:) per stack count
+      - block/berries_1
+      - block/berries_2
+      - block/berries_3
+```
+
 ## Interaction effects
 
 Blocks can run [libreforge effects](https://plugins.auxilor.io/effects) when players interact with them, configured per event inside the `block:` section:

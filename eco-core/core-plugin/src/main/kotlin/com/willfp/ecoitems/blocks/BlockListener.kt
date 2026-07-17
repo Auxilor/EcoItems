@@ -190,9 +190,19 @@ object BlockListener : Listener {
         val against = event.clickedBlock ?: return
         val player = event.player
 
+        // Stacking: clicking a stackable block with its own placer grows it.
+        val againstPlaced = EcoBlocks.at(against)
+        if (block.stackable != null && againstPlaced?.block == block &&
+            againstPlaced.orientation + 1 < block.orientations.size
+        ) {
+            event.isCancelled = true
+            growStack(block, against, againstPlaced.orientation + 1, item, player, event.hand!!)
+            return
+        }
+
         // Let chests/doors/etc open unless sneaking - but custom blocks only
         // look interactable (their backing is), so they don't count.
-        if (!player.isSneaking && against.type.isInteractable && EcoBlocks.at(against) == null) {
+        if (!player.isSneaking && against.type.isInteractable && againstPlaced == null) {
             return
         }
 
@@ -256,6 +266,62 @@ object BlockListener : Listener {
         )
     }
 
+    /** Adds one to a stackable block's count, vanilla sea-pickle-style. */
+    private fun growStack(
+        block: EcoBlock,
+        worldBlock: Block,
+        newOrientation: Int,
+        item: ItemStack,
+        player: Player,
+        hand: EquipmentSlot
+    ) {
+        val data = EcoBlocks.blockData(block, newOrientation) ?: return
+
+        if (!AntigriefManager.canPlaceBlock(player, worldBlock)) {
+            return
+        }
+        if (!passesPlacementCooldown(player)) {
+            return
+        }
+
+        val previousState = worldBlock.state
+        worldBlock.setBlockData(data, false)
+
+        val placeEvent = BlockPlaceEvent(worldBlock, previousState, worldBlock, item, player, true, hand)
+        placing = true
+        try {
+            plugin.server.pluginManager.callEvent(placeEvent)
+        } finally {
+            placing = false
+        }
+
+        if (placeEvent.isCancelled || !placeEvent.canBuild()) {
+            previousState.update(true, false)
+            return
+        }
+
+        if (player.gameMode != GameMode.CREATIVE) {
+            item.amount -= 1
+        }
+        player.swingMainHand()
+
+        block.effects.dispatch(
+            ContentEvent.PLACE,
+            player,
+            worldBlock.location.add(0.5, 0.5, 0.5),
+            worldBlock
+        )
+
+        val sound = block.sounds?.place ?: "minecraft:block.wood.place"
+        worldBlock.world.playSound(
+            worldBlock.location.add(0.5, 0.5, 0.5),
+            remapSilencedSound(sound),
+            SoundCategory.BLOCKS,
+            block.sounds?.volume?.toFloat() ?: 1.0f,
+            block.sounds?.pitch?.toFloat() ?: 0.8f
+        )
+    }
+
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     fun onBreak(event: BlockBreakEvent) {
         val placed = EcoBlocks.at(event.block) ?: return
@@ -279,26 +345,29 @@ object BlockListener : Listener {
         }
 
         val tool = event.player.inventory.itemInMainHand
-        dropItems(block, event.block, tool, event.player)
+        dropItems(block, event.block, tool, event.player, placed.stackSize)
     }
 
     /**
      * Drops for a broken custom block, honoring tool/tier/silk/fortune.
      * Player breaks push through eco's DropQueue (telekinesis and the rest
      * of the eco series hook it); environmental breaks drop in-world.
+     * Stackable blocks roll their drops once per stacked item.
      */
-    fun dropItems(block: EcoBlock, worldBlock: Block, tool: ItemStack?, player: Player? = null) {
+    fun dropItems(block: EcoBlock, worldBlock: Block, tool: ItemStack?, player: Player? = null, times: Int = 1) {
         if (!canHarvest(block, tool)) {
             return
         }
 
-        spawnDrops(
-            block.drops,
-            EcoItems.getByID(block.id)?.itemStack,
-            worldBlock.location.add(0.5, 0.5, 0.5),
-            tool,
-            player
-        ) { plugin.logger.warning("Block ${block.id} drop '$it' is not a valid item") }
+        repeat(times.coerceAtLeast(1)) {
+            spawnDrops(
+                block.drops,
+                EcoItems.getByID(block.id)?.itemStack,
+                worldBlock.location.add(0.5, 0.5, 0.5),
+                tool,
+                player
+            ) { plugin.logger.warning("Block ${block.id} drop '$it' is not a valid item") }
+        }
     }
 
     /** Shared drop pipeline for blocks and furniture. */

@@ -7,6 +7,7 @@ import com.willfp.ecoitems.EcoItemsPlugin
 import com.willfp.ecoitems.blocks.BlockBacking
 import com.willfp.ecoitems.blocks.EcoBlock
 import com.willfp.ecoitems.blocks.EcoBlocks
+import com.willfp.ecoitems.blocks.StackableBlock
 import com.willfp.ecoitems.items.EcoItems
 import com.willfp.ecoitems.pack.PackLocation
 import com.willfp.ecoitems.pack.PackSettings
@@ -30,7 +31,7 @@ object BlockAssetGenerator {
             return
         }
 
-        val models = blocks.associateWith { resolveModel(plugin, it, entries) }
+        val models = blocks.associateWith { resolveModels(plugin, it, entries) }
 
         for (backing in BlockBacking.entries) {
             val forBacking = blocks.filter { it.backing == backing && models[it] != null }
@@ -66,10 +67,12 @@ object BlockAssetGenerator {
             }
 
             for (block in forBacking.sortedBy { it.id }) {
-                val model = models.getValue(block)!!
+                // One model per orientation for stackables, else one for all.
+                val modelList = models.getValue(block)!!
                 for ((orientation, variation) in EcoBlocks.variations(block).withIndex()) {
                     val key = block.orientations[orientation]
                     val (x, y) = ROTATIONS[key] ?: (0 to 0)
+                    val model = modelList.getOrElse(orientation) { modelList.last() }
                     variants.add(variantName(backing, variation), variant(model, x, y))
                 }
             }
@@ -121,6 +124,60 @@ object BlockAssetGenerator {
             "down=${variation and 32 != 0},east=${variation and 4 != 0}," +
                 "north=${variation and 1 != 0},south=${variation and 2 != 0}," +
                 "up=${variation and 16 != 0},west=${variation and 8 != 0}"
+    }
+
+    /**
+     * The model references for a block, one per orientation slot. Stackable
+     * blocks resolve one model per stack count; everything else resolves a
+     * single model shared by all orientations.
+     */
+    private fun resolveModels(
+        plugin: EcoItemsPlugin,
+        block: EcoBlock,
+        entries: MutableMap<String, ByteArray>
+    ): List<String>? {
+        val stackable = block.stackable
+        if (stackable != null && block.orientations.firstOrNull()?.startsWith("stack") == true) {
+            return resolveStackModels(plugin, block, stackable, entries)
+        }
+
+        return resolveModel(plugin, block, entries)?.let { listOf(it) }
+    }
+
+    private fun resolveStackModels(
+        plugin: EcoItemsPlugin,
+        block: EcoBlock,
+        stackable: StackableBlock,
+        entries: MutableMap<String, ByteArray>
+    ): List<String>? {
+        if (stackable.models.isNotEmpty()) {
+            return stackable.models.map { raw ->
+                val location = PackLocation.parse(raw) ?: run {
+                    warned(plugin, block, "stackable model '$raw' is not a valid location")
+                    return null
+                }
+                if (location.namespace != "minecraft" &&
+                    !location.file(plugin, "models", "json").exists() &&
+                    location.entry("models", "json") !in entries
+                ) {
+                    plugin.logger.warning("Block ${block.id}: model file ${location.entry("models", "json")} does not exist")
+                }
+                "${location.namespace}:${location.path}"
+            }
+        }
+
+        return stackable.textures.map { raw ->
+            val location = PackLocation.parse(raw) ?: run {
+                warned(plugin, block, "stackable texture '$raw' is not a valid location")
+                return null
+            }
+            checkTexture(plugin, block, location)
+
+            val parent = block.config.getStringOrNull("texture-parent") ?: "cross"
+            val textureKey = if (parent == "cube_all") "all" else "cross"
+            writeModel(plugin, location, mapOf(textureKey to location.key), parent, entries)
+            "${location.namespace}:${location.path}"
+        }
     }
 
     /**
@@ -234,12 +291,12 @@ object BlockAssetGenerator {
      */
     private fun generateItemDefinitions(
         blocks: Collection<EcoBlock>,
-        models: Map<EcoBlock, String?>,
+        models: Map<EcoBlock, List<String>?>,
         entries: MutableMap<String, ByteArray>
     ) {
         for (item in EcoItems.values()) {
             val block = item.block ?: continue
-            val model = models[block] ?: continue
+            val model = models[block]?.firstOrNull() ?: continue
 
             val itemConfig = item.config.getSubsection("item")
             if (itemConfig.has("texture") || itemConfig.has("model") || itemConfig.has("definition")) {

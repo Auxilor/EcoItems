@@ -19,7 +19,11 @@ import java.util.EnumMap
  */
 object EcoBlocks {
     /** A custom block as found in the world. */
-    data class Placed(val block: EcoBlock, val orientation: Int)
+    data class Placed(val block: EcoBlock, val orientation: Int) {
+        /** How many stacked items this state represents (1 for plain blocks). */
+        val stackSize: Int
+            get() = if (block.stackable != null) orientation + 1 else 1
+    }
 
     private var byVariation = mapOf<BlockBacking, Map<Int, Placed>>()
     private var byId = mapOf<String, EcoBlock>()
