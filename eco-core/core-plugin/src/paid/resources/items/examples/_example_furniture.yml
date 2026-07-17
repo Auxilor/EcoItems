@@ -95,6 +95,16 @@ furniture:
   #   open-sound: block.chest.open
   #   close-sound: block.chest.close
 
+  # Connectable rows (benches, counters): pieces re-model themselves as row
+  # ends/middles when the same furniture faces the same way next to them.
+  # connectable:
+  #   left:
+  #     model: furniture/example_left
+  #   right:
+  #     model: furniture/example_right
+  #   middle:
+  #     model: furniture/example_middle
+
   # Effects that run when players interact with the furniture (libreforge
   # effects). Events: punch, shift-punch, right-click, shift-right-click,
   # place, break, sit.

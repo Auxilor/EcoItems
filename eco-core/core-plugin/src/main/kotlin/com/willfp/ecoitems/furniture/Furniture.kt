@@ -71,6 +71,13 @@ class Furniture(val id: String, val config: Config) {
     /** Chest-style storage opened on right-click. */
     val storage = if (config.has("storage")) FurnitureStorage(id, config.getSubsection("storage")) else null
 
+    /** Auto-connecting rows (benches, counters, curtains). */
+    val connectable = if (config.has("connectable")) {
+        FurnitureConnectable(id, config.getSubsection("connectable"))
+    } else {
+        null
+    }
+
     /** null = drop the placer item itself. */
     val drops = if (config.has("drops")) BlockDrops(id, config.getSubsection("drops")) else null
 
@@ -122,8 +129,12 @@ class Furniture(val id: String, val config: Config) {
     val effectiveRotationStep: Int
         get() = if (barriers.any { it.x != 0 || it.z != 0 } && rotationStep != 0) 90 else rotationStep
 
+    /** Every alternative look this furniture can show (for pack generation). */
+    val stateModels: List<FurnitureState>
+        get() = states.values + listOfNotNull(door?.openState) + (connectable?.all ?: emptyList())
+
     init {
-        if (com.willfp.ecoitems.BuildConfig.FREE_VERSION && states.values.any { it.hasAssets }) {
+        if (com.willfp.ecoitems.BuildConfig.FREE_VERSION && stateModels.any { it.hasAssets }) {
             plugin.logger.warning(
                 "Furniture $id has state models, but state models require the paid version of EcoItems"
             )
@@ -238,6 +249,25 @@ class FurnitureStorage(furnitureId: String, config: Config) {
 
     val openSound = config.getStringOrNull("open-sound") ?: "minecraft:block.chest.open"
     val closeSound = config.getStringOrNull("close-sound") ?: "minecraft:block.chest.close"
+}
+
+/**
+ * Row-connecting looks: pieces re-model themselves by which sides have a
+ * matching neighbor (same furniture, same facing). Missing keys keep the
+ * item's own look for that shape.
+ */
+class FurnitureConnectable(furnitureId: String, config: Config) {
+    /** This piece is the left end of a row (neighbor only on its right). */
+    val left = if (config.has("left")) FurnitureState(furnitureId, "left", config.getSubsection("left")) else null
+
+    /** This piece is the right end of a row (neighbor only on its left). */
+    val right = if (config.has("right")) FurnitureState(furnitureId, "right", config.getSubsection("right")) else null
+
+    /** Neighbors on both sides. */
+    val middle = if (config.has("middle")) FurnitureState(furnitureId, "middle", config.getSubsection("middle")) else null
+
+    val all: List<FurnitureState>
+        get() = listOfNotNull(left, right, middle)
 }
 
 class FurnitureDoor(furnitureId: String, config: Config) {

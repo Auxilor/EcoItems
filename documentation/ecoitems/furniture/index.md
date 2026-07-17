@@ -99,6 +99,24 @@ furniture:
 - **`personal`** - each player gets their own inventory in the same furniture (contents are lost if it's broken).
 - **`disposal`** - a trash can; whatever is inside when it closes is discarded.
 
+## Connectable rows (benches, counters, curtains)
+
+A `connectable:` section makes pieces placed in a row re-model themselves as ends or middles. Each key is a state-style section (`texture:`/`model:`); missing keys keep the item's own look. Pieces connect when the neighbor is the same furniture facing the same way.
+
+```yaml
+furniture:
+  rotation: 4-way
+  connectable:
+    left:                       # left end of a row
+      model: furniture/bench_left
+    right:
+      model: furniture/bench_right
+    middle:
+      model: furniture/bench_middle
+```
+
+The item's own model is used for a lone piece. If your left/right models render mirrored, swap the two keys - "left" is from the viewpoint of a player facing the furniture's front.
+
 :::caution
 Furniture entities are real persistent entities. Don't `/kill @e` - you'd strip furniture displays and leave their barriers behind (breakable by ops).
 :::

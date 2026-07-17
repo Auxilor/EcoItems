@@ -67,6 +67,10 @@ class PlacedFurniture(
             contents.forEach { base.world.dropItemNaturally(base.location, it) }
         }
 
+        if (furniture?.connectable != null) {
+            FurnitureConnections.updateNeighborsAfterRemoval(this)
+        }
+
         for (barrier in barrierBlocks()) {
             if (barrier.type == Material.BARRIER) {
                 barrier.type = Material.AIR

@@ -104,7 +104,8 @@ object FurnitureListener : Listener {
             return
         }
 
-        PlacedFurniture.place(ecoItem, furniture, origin, yaw, 0f)
+        val placed = PlacedFurniture.place(ecoItem, furniture, origin, yaw, 0f)
+        FurnitureConnections.update(placed)
 
         if (player.gameMode != GameMode.CREATIVE) {
             item.amount -= 1
