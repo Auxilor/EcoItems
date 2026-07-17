@@ -24,6 +24,7 @@ object CommandEcoItems : PluginCommand(
             .addSubcommand(CommandRepair)
             .addSubcommand(CommandDurability)
             .addSubcommand(CommandHitbox)
+            .addSubcommand(CommandDialog)
             .addSubcommand(CommandMigrate)
     }
 

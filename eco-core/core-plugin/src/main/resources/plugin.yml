@@ -54,6 +54,7 @@ permissions:
       ecoitems.command.repair: true
       ecoitems.command.durability: true
       ecoitems.command.hitbox: true
+      ecoitems.command.dialog: true
 
   ecoitems.command.reload:
     description: Allows reloading the config
@@ -96,6 +97,9 @@ permissions:
     default: op
   ecoitems.command.hitbox:
     description: Allows visualizing furniture hitboxes
+    default: op
+  ecoitems.command.dialog:
+    description: Allows opening dialogs for players
     default: op
   ecoitems.command.ecoitems:
     description: Allows the user of /ecoitems.

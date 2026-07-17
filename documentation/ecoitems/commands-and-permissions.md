@@ -20,6 +20,7 @@ Every EcoItems command and the permission node it needs.
 | `/ecoitems repair`                        | Fully repair the held item                                               | `ecoitems.command.repair` (operators)    |
 | `/ecoitems durability <remaining>`        | Set the held item's remaining durability                                 | `ecoitems.command.durability` (operators)|
 | `/ecoitems hitbox`                        | Outline nearby furniture barriers and hitboxes with particles            | `ecoitems.command.hitbox` (operators)    |
+| `/ecoitems dialog <id> [player]`          | Open a [dialog](dialogs/index) screen                                    | `ecoitems.command.dialog` (operators)    |
 
 `ecoitems.command.gui` defaults to operators and is included in `ecoitems.command.*`.
 

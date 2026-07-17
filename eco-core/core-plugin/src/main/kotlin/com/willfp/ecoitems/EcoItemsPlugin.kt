@@ -19,6 +19,7 @@ import com.willfp.ecoitems.furniture.VehicleTicker
 import com.willfp.ecoitems.commands.CommandEcoItems
 import com.willfp.ecoitems.crops.CropListener
 import com.willfp.ecoitems.crops.CropTracker
+import com.willfp.ecoitems.dialogs.Dialogs
 import com.willfp.ecoitems.display.ItemsDisplay
 import com.willfp.ecoitems.display.RarityDisplay
 import com.willfp.ecoitems.glyphs.Glyphs
@@ -120,7 +121,8 @@ class EcoItemsPlugin : LibreforgePlugin() {
             EcoItemsRecipes,
             Glyphs,
             Huds,
-            Loots
+            Loots,
+            Dialogs
         )
     }
 
