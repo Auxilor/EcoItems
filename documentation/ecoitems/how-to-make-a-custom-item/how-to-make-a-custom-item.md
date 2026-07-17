@@ -133,6 +133,30 @@ item:
 
 `slot` accepts `mainhand`, `offhand`, `hands`, `helmet`, `chestplate`, `leggings`, `boots`, `armor`, `any`, a number from 0-40 for an exact slot, or a list like `"9, 10, 11, mainhand"`. `rarity` is optional and references a rarity from the `rarities/` folder.
 
+### Templates
+
+Items that share most of their config can extend a template instead of repeating it. Any `_`-prefixed file under `items/` is a template - it never loads as an item, and other items reference it by its file name without the underscore:
+
+```yaml
+# items/_sword_base.yml
+item:
+  item: netherite_sword unbreaking:3 hide_enchants
+  lore:
+    - "&8A blade from the armory"
+slot: mainhand
+rarity: rare
+```
+
+```yaml
+# items/reaper.yml
+template: sword_base
+item:
+  name: "&cReaper"
+  texture: item/reaper
+```
+
+The item's own keys always win over the template's; nested sections merge key-by-key and lists are replaced whole. `template:` also accepts a list (later templates override earlier ones), and templates can themselves extend other templates.
+
 ### Effects
 
 The `effects:` and `conditions:` sections are where the item gets its functionality: effects run on a trigger, and conditions gate when they're allowed to run.

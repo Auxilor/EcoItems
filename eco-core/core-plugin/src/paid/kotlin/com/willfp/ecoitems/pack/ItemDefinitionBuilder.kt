@@ -3,7 +3,7 @@ package com.willfp.ecoitems.pack
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import com.willfp.ecoitems.nms.toComponentValues
+import com.willfp.ecoitems.nms.toPlainValues
 
 /**
  * Composes the item definition node tree (the "model" value of
@@ -25,7 +25,7 @@ object ItemDefinitionBuilder {
     fun build(asset: ItemPackAsset, baseModelKey: String): Definitions {
         // The raw escape hatch wins over everything.
         asset.definition?.let { definition ->
-            return Definitions(gson.toJsonTree(definition.toComponentValues()).asJsonObject, throwingNode(asset))
+            return Definitions(gson.toJsonTree(definition.toPlainValues()).asJsonObject, throwingNode(asset))
         }
 
         var node = leaf(baseModelKey)

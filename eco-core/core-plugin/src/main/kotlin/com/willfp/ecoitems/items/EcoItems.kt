@@ -34,13 +34,17 @@ object EcoItems : ConfigCategory("item", "items") {
         registry.clear()
     }
 
+    override fun beforeReload(plugin: LibreforgePlugin) {
+        ItemTemplates.load()
+    }
+
     override fun acceptConfig(plugin: LibreforgePlugin, id: String, config: Config) {
         if (BuildConfig.FREE_VERSION && registry.values().size >= 10) {
             plugin.logger.warning("The free version of EcoItems only supports 10 items.")
             plugin.logger.warning("Purchase the full version of EcoItems to remove this restriction!")
             return
         }
-        registry.register(EcoItem(id, config.separatorAmbivalent()))
+        registry.register(EcoItem(id, ItemTemplates.resolve(id, config).separatorAmbivalent()))
     }
 
     override fun afterReload(plugin: LibreforgePlugin) {

@@ -12,7 +12,7 @@ import com.willfp.ecoitems.BuildConfig
 import com.willfp.ecoitems.blocks.EcoBlock
 import com.willfp.ecoitems.furniture.Furniture
 import com.willfp.ecoitems.nms.ItemComponentsProxy
-import com.willfp.ecoitems.nms.toComponentValues
+import com.willfp.ecoitems.nms.toPlainValues
 import com.willfp.ecoitems.paintings.Paintings
 import com.willfp.ecoitems.plugin
 import com.willfp.ecoitems.rarity.Rarities
@@ -105,7 +105,7 @@ class EcoItem(
 
     private fun ItemStack.withComponents(itemConfig: Config): ItemStack {
         // Keys without a namespace are minecraft components - saves quoting.
-        val components = itemConfig.getSubsection("components").toComponentValues()
+        val components = itemConfig.getSubsection("components").toPlainValues()
             .mapKeys { (key, _) -> if (":" in key) key else "minecraft:$key" }
             .toMutableMap()
 
