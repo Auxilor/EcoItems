@@ -113,6 +113,18 @@ object VehicleTicker {
 
         val yaw = player.location.yaw
 
+        val particle = vehicle.smokeParticle
+        if (particle != null && (throttle != 0.0 || vertical != 0.0)) {
+            val (sx, sz) = PlacedFurniture.rotate(vehicle.smokeOffset[0], vehicle.smokeOffset[2], yaw)
+            target.world?.spawnParticle(
+                particle,
+                target.clone().add(sx, vehicle.smokeOffset[1], sz),
+                vehicle.smokeAmount,
+                0.05, 0.05, 0.05,
+                0.01
+            )
+        }
+
         // Move every entity of the furniture by the same offset; the ridden
         // seat keeps its passenger through the teleport.
         for (entity in listOf(base) + placed.seatEntities() + placed.interactionEntities()) {

@@ -125,6 +125,10 @@ furniture:
   #     items:
   #       - coal
   #     per-item-seconds: 120
+  #   smoke:                # optional exhaust while driving
+  #     particle: campfire_cosy_smoke
+  #     amount: 3
+  #     offset: "0,0.5,-1"  # local position, rotates with the vehicle
 
   # Effects that run when players interact with the furniture (libreforge
   # effects). Events: punch, shift-punch, right-click, shift-right-click,

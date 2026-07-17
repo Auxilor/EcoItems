@@ -153,6 +153,7 @@ A `vehicle:` section makes the furniture driveable: the player in the **first se
 furniture:
   seats:
     - "0,0,0"          # the driver's seat
+    - "0,0,-0.8"       # extra seats ride along
   vehicle:
     speed: 0.3          # horizontal blocks per tick at full throttle
     fly-speed: 0.0      # > 0 = holding jump ascends and the vehicle hovers
@@ -160,7 +161,13 @@ furniture:
       items:
         - coal
       per-item-seconds: 120
+    smoke:              # optional exhaust while driving
+      particle: campfire_cosy_smoke
+      amount: 3
+      offset: "0,0.5,-1"   # local position, rotates with the vehicle
 ```
+
+Passengers in the other seats ride along; only the first seat steers.
 
 Ground vehicles fall off edges and step up single blocks; flying vehicles (a `fly-speed` above 0) hover and climb while jump is held. Fuel burns one matching item from the driver's inventory per `per-item-seconds` of driving; with an empty tank the vehicle refuses to move and warns in the action bar. Sneak dismounts, and the vehicle is broken like any furniture (punch it).
 

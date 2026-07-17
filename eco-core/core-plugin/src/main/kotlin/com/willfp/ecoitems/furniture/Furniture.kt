@@ -30,7 +30,7 @@ class Furniture(val id: String, val config: Config) {
     val ceiling = config.getBoolOrNull("placement.ceiling") ?: false
 
     /** Driveable furniture: no collision/light blocks, moves with the driver. */
-    val vehicle = if (config.has("vehicle")) FurnitureVehicle(config.getSubsection("vehicle")) else null
+    val vehicle = if (config.has("vehicle")) FurnitureVehicle(id, config.getSubsection("vehicle")) else null
 
     /** Solid collision cells, relative to the origin block. */
     val barriers: List<Cell> = config.getStrings("barriers").flatMap { parseCells(it) }
@@ -246,7 +246,7 @@ class FurnitureState(furnitureId: String, val name: String, val config: Config) 
     val resetAfter = config.getIntOrNull("reset-after")
 }
 
-class FurnitureVehicle(config: Config) {
+class FurnitureVehicle(furnitureId: String, config: Config) {
     /** Horizontal blocks per tick at full throttle. */
     val speed = config.getDoubleOrNull("speed") ?: 0.3
 
@@ -261,6 +261,26 @@ class FurnitureVehicle(config: Config) {
 
     val needsFuel: Boolean
         get() = fuelItems.isNotEmpty()
+
+    /** Exhaust particles while driving; null = none. */
+    val smokeParticle = if (config.has("smoke")) {
+        val name = config.getStringOrNull("smoke.particle") ?: "campfire_cosy_smoke"
+        runCatching { org.bukkit.Particle.valueOf(name.uppercase()) }.getOrElse {
+            plugin.logger.warning("Furniture $furnitureId has unknown smoke particle '$name'")
+            org.bukkit.Particle.CAMPFIRE_COSY_SMOKE
+        }
+    } else {
+        null
+    }
+
+    val smokeAmount = config.getIntOrNull("smoke.amount") ?: 3
+
+    /** Local offset of the exhaust ("x,y,z", rotates with the vehicle). */
+    val smokeOffset = (config.getStringOrNull("smoke.offset") ?: "0,0.5,0")
+        .split(",")
+        .mapNotNull { it.trim().toDoubleOrNull() }
+        .takeIf { it.size == 3 }
+        ?: listOf(0.0, 0.5, 0.0)
 }
 
 enum class StorageType {
