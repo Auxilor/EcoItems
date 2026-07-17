@@ -12,6 +12,7 @@ import com.willfp.ecoitems.blocks.BlockPhysicsListener
 import com.willfp.ecoitems.blocks.EcoBlocks
 import com.willfp.ecoitems.blocks.PaperBlockListener
 import com.willfp.ecoitems.furniture.FurnitureListener
+import com.willfp.ecoitems.furniture.FurnitureStorageManager
 import com.willfp.ecoitems.commands.CommandEcoItems
 import com.willfp.ecoitems.display.ItemsDisplay
 import com.willfp.ecoitems.display.RarityDisplay
@@ -72,6 +73,7 @@ class EcoItemsPlugin : LibreforgePlugin() {
     }
 
     override fun handleReload() {
+        FurnitureStorageManager.persistAll()
         EcoBlocks.reload(this)
         PackFeatures.instance?.handleReload(this)
         ItemsGUI.reload()
@@ -85,6 +87,7 @@ class EcoItemsPlugin : LibreforgePlugin() {
     }
 
     override fun handleDisable() {
+        FurnitureStorageManager.persistAll()
         PackFeatures.instance?.handleDisable(this)
     }
 
@@ -113,6 +116,7 @@ class EcoItemsPlugin : LibreforgePlugin() {
             BlockPhysicsListener,
             BlockBreakSpeed,
             FurnitureListener,
+            FurnitureStorageManager,
             PickBlockListener,
             LootListener
         ) + listOfNotNull(PaperBlockListener.createIfSupported()) +

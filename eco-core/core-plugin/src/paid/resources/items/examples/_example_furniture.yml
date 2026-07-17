@@ -77,6 +77,16 @@ furniture:
   # default-state: off           # first state if unset
   # cycle-states-on-click: true
 
+  # Chest-style storage opened on right-click. Types: storage (shared per
+  # placement, drops contents on break), personal (per player), disposal
+  # (trash - contents discarded on close).
+  # storage:
+  #   rows: 3
+  #   title: "&8Crate"
+  #   type: storage
+  #   open-sound: block.chest.open
+  #   close-sound: block.chest.close
+
   # Effects that run when players interact with the furniture (libreforge
   # effects). Events: punch, shift-punch, right-click, shift-right-click,
   # place, break, sit.

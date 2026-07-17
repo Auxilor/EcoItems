@@ -66,6 +66,24 @@ furniture:
 
 The current state persists with the placement. To drive states from effects instead of clicks, set `cycle-states-on-click: false` and swap looks by breaking/placing, or combine with `toggleable-lights` for lamp-style furniture.
 
+## Storage
+
+A `storage:` section opens a chest-style inventory on right-click. Contents persist with the placement, and everyone looking at the same storage shares a live view.
+
+```yaml
+furniture:
+  storage:
+    rows: 3
+    title: "&8Crate"
+    type: storage        # storage | personal | disposal
+    open-sound: block.chest.open     # defaults shown
+    close-sound: block.chest.close
+```
+
+- **`storage`** - one shared inventory per placement; contents drop when it's broken, like a chest.
+- **`personal`** - each player gets their own inventory in the same furniture (contents are lost if it's broken).
+- **`disposal`** - a trash can; whatever is inside when it closes is discarded.
+
 :::caution
 Furniture entities are real persistent entities. Don't `/kill @e` - you'd strip furniture displays and leave their barriers behind (breakable by ops).
 :::

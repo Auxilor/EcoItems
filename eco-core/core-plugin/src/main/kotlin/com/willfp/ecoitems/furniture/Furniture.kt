@@ -65,6 +65,9 @@ class Furniture(val id: String, val config: Config) {
     /** Right-clicking cycles through the states (sitting takes precedence). */
     val cycleStatesOnClick = config.getBoolOrNull("cycle-states-on-click") ?: true
 
+    /** Chest-style storage opened on right-click. */
+    val storage = if (config.has("storage")) FurnitureStorage(id, config.getSubsection("storage")) else null
+
     /** null = drop the placer item itself. */
     val drops = if (config.has("drops")) BlockDrops(id, config.getSubsection("drops")) else null
 
@@ -199,5 +202,38 @@ class FurnitureState(furnitureId: String, val name: String, val config: Config) 
 
     /** The item_model the display shows in this state; null = the item's own. */
     val modelKey: String? = if (hasAssets) "ecoitems:${furnitureId}_state_$name" else null
+}
+
+enum class StorageType {
+    /** One shared inventory per placement, contents drop on break. */
+    STORAGE,
+
+    /** A separate inventory per player; contents are lost on break. */
+    PERSONAL,
+
+    /** A trash can: contents are discarded when closed. */
+    DISPOSAL;
+
+    companion object {
+        fun fromID(id: String): StorageType? =
+            entries.firstOrNull { it.name.equals(id, ignoreCase = true) }
+    }
+}
+
+class FurnitureStorage(furnitureId: String, config: Config) {
+    val rows = (config.getIntOrNull("rows") ?: 3).coerceIn(1, 6)
+
+    val title: String = config.getStringOrNull("title") ?: "Storage"
+
+    val type = StorageType.fromID(config.getString("type").ifEmpty { "storage" })
+        ?: StorageType.STORAGE.also {
+            plugin.logger.warning(
+                "Furniture $furnitureId has unknown storage type " +
+                    "'${config.getString("type")}' (storage, personal, or disposal)"
+            )
+        }
+
+    val openSound = config.getStringOrNull("open-sound") ?: "minecraft:block.chest.open"
+    val closeSound = config.getStringOrNull("close-sound") ?: "minecraft:block.chest.close"
 }
 

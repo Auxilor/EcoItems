@@ -61,6 +61,12 @@ class PlacedFurniture(
 
     /** Removes the furniture and everything it placed. */
     fun remove(player: Player?, drop: Boolean) {
+        // Shared storage contents always drop, like a broken chest.
+        if (furniture?.storage?.type == StorageType.STORAGE) {
+            val contents = FurnitureStorageManager.takeContents(this)
+            contents.forEach { base.world.dropItemNaturally(base.location, it) }
+        }
+
         for (barrier in barrierBlocks()) {
             if (barrier.type == Material.BARRIER) {
                 barrier.type = Material.AIR
