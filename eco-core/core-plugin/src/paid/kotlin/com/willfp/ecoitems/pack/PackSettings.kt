@@ -11,6 +11,7 @@ enum class DeliveryMode {
     HOSTED,
     SELF_HOSTED,
     EXTERNAL,
+    S3,
     NONE;
 
     companion object {
@@ -43,6 +44,15 @@ class PackSettings(config: Config) {
 
     val externalDirectory: String = config.getString("delivery.external.directory")
     val externalUrl: String = config.getString("delivery.external.url")
+
+    val s3Endpoint: String = config.getString("delivery.s3.endpoint").removeSuffix("/")
+    val s3Region: String = config.getString("delivery.s3.region").ifEmpty { "us-east-1" }
+    val s3Bucket: String = config.getString("delivery.s3.bucket")
+    val s3AccessKey: String = config.getString("delivery.s3.access-key")
+    val s3SecretKey: String = config.getString("delivery.s3.secret-key")
+    val s3PublicUrl: String = config.getString("delivery.s3.public-url").removeSuffix("/")
+    val s3PublicRead = config.getBoolOrNull("delivery.s3.public-read") ?: true
+    val s3PathStyle = config.getBoolOrNull("delivery.s3.path-style") ?: true
 
     val glyphsFormatChat = config.getBool("glyphs.format-chat")
     val glyphsFormatSigns = config.getBool("glyphs.format-signs")

@@ -25,6 +25,7 @@ import com.willfp.ecoitems.pack.huds.HudTicker
 import com.willfp.ecoitems.pack.publisher.ExternalPublisher
 import com.willfp.ecoitems.pack.publisher.HostedPublisher
 import com.willfp.ecoitems.pack.publisher.PackPublisher
+import com.willfp.ecoitems.pack.publisher.S3Publisher
 import com.willfp.ecoitems.pack.publisher.SelfHostedPublisher
 import com.willfp.ecoitems.paintings.Paintings
 import com.willfp.ecoitems.sounds.Sounds
@@ -162,6 +163,17 @@ object EcoItemsPackFeature : PackFeature {
                 settings.selfHostedPublicUrl
             )
             DeliveryMode.EXTERNAL -> ExternalPublisher(plugin, settings.externalDirectory, settings.externalUrl)
+            DeliveryMode.S3 -> S3Publisher(
+                plugin,
+                settings.s3Endpoint,
+                settings.s3Region,
+                settings.s3Bucket,
+                settings.s3AccessKey,
+                settings.s3SecretKey,
+                settings.s3PublicUrl,
+                settings.s3PublicRead,
+                settings.s3PathStyle
+            )
             DeliveryMode.NONE -> null
         }
 
