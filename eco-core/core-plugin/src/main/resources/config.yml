@@ -30,6 +30,11 @@ blocks:
   # click from double-placing. Set to 0 to disable.
   place-cooldown-ms: 200
 
+  # Worlds where custom blocks and crops can be placed. Glob patterns,
+  # prefix with ! to exclude: "*", "world_*", "!creative_world".
+  worlds:
+    - "*"
+
 # Options for the /ecoitems gui item browser.
 items-gui:
   rows: 6

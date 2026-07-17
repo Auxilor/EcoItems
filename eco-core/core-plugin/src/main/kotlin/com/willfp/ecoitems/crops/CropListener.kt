@@ -39,6 +39,10 @@ object CropListener : Listener {
         val against = event.clickedBlock ?: return
         val player = event.player
 
+        if (!EcoBlocks.enabledIn(against.world)) {
+            return
+        }
+
         // Seeds never place their base item.
         event.isCancelled = true
 

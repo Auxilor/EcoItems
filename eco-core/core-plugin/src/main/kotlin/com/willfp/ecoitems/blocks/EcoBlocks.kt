@@ -78,6 +78,28 @@ object EcoBlocks {
 
     operator fun get(id: String): EcoBlock? = byId[id]
 
+    private val globCache = mutableMapOf<String, Regex>()
+
+    /** Whether custom blocks may be placed in a world (blocks.worlds globs, ! negates). */
+    fun enabledIn(world: org.bukkit.World): Boolean {
+        val patterns = com.willfp.ecoitems.plugin.configYml.getStrings("blocks.worlds")
+        if (patterns.isEmpty()) {
+            return true
+        }
+
+        val name = world.name.lowercase()
+        fun matches(glob: String): Boolean = globCache
+            .getOrPut(glob) { Regex(Regex.escape(glob.lowercase()).replace("\\*", ".*")) }
+            .matches(name)
+
+        if (patterns.filter { it.startsWith("!") }.any { matches(it.substring(1)) }) {
+            return false
+        }
+
+        val positive = patterns.filterNot { it.startsWith("!") }
+        return positive.isEmpty() || positive.any { matches(it) }
+    }
+
     /** The custom block at a world block, or null for vanilla blocks. */
     fun at(block: Block?): Placed? {
         if (block == null) return null

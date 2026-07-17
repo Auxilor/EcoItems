@@ -204,6 +204,10 @@ object BlockListener : Listener {
         val against = event.clickedBlock ?: return
         val player = event.player
 
+        if (!EcoBlocks.enabledIn(against.world)) {
+            return
+        }
+
         // Stacking: clicking a stackable block with its own placer grows it.
         val againstPlaced = EcoBlocks.at(against)
         if (block.stackable != null && againstPlaced?.block == block &&

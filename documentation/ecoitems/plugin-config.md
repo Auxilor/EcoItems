@@ -17,6 +17,11 @@ discover-recipes: true # If all EcoItems recipes should be automatically unlocke
 # enchantments, and other plugins' item data are preserved.
 auto-update-items: true
 
+blocks:
+  place-cooldown-ms: 200 # Milliseconds between custom block/furniture placements
+  worlds: # Worlds where custom blocks/crops can be placed ("*", "world_*", "!creative_world")
+    - "*"
+
 rarity:
   enabled: false # If the rarity system should be enabled
   blank-lore-line: true # If a blank lore line should separate the rarity tag from the item lore
