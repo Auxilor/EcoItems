@@ -77,6 +77,14 @@ furniture:
   # default-state: off           # first state if unset
   # cycle-states-on-click: true
 
+  # Doors: right-click opens/closes - collision barriers toggle off while
+  # open, with an optional alternative look.
+  # door:
+  #   open:
+  #     model: furniture/example_open
+  #   open-sound: block.wooden_door.open
+  #   close-sound: block.wooden_door.close
+
   # Chest-style storage opened on right-click. Types: storage (shared per
   # placement, drops contents on break), personal (per player), disposal
   # (trash - contents discarded on close).

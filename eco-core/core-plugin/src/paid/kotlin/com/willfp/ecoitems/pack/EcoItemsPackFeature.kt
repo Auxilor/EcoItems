@@ -73,7 +73,8 @@ object EcoItemsPackFeature : PackFeature {
             EcoBlocks.values().any { it.backing == BlockBacking.NOTEBLOCK }
 
         val stateAssets = EcoItems.values().mapNotNull { it.furniture }.flatMap { furniture ->
-            furniture.states.values.mapNotNull { ItemPackAsset.fromFurnitureState(furniture, it) }
+            (furniture.states.values + listOfNotNull(furniture.door?.openState))
+                .mapNotNull { ItemPackAsset.fromFurnitureState(furniture, it) }
         }
         val assets = EcoItems.values().mapNotNull { ItemPackAsset.fromItem(it) } + stateAssets
         TridentListener.update(assets)

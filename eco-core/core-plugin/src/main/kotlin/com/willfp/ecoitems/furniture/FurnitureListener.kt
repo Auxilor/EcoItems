@@ -217,6 +217,11 @@ object FurnitureListener : Listener {
 
         effects?.dispatch(ContentEvent.RIGHT_CLICK, player, placed.base.location)
 
+        placed.furniture?.door?.let { door ->
+            placed.toggleDoor(door)
+            return
+        }
+
         placed.furniture?.storage?.let { storage ->
             FurnitureStorageManager.openStorage(placed, storage, player)
             return

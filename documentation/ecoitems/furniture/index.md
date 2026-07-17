@@ -66,6 +66,21 @@ furniture:
 
 The current state persists with the placement. To drive states from effects instead of clicks, set `cycle-states-on-click: false` and swap looks by breaking/placing, or combine with `toggleable-lights` for lamp-style furniture.
 
+## Doors
+
+A `door:` section makes right-clicking open and close the furniture: while open, its collision barriers are removed and an optional `open:` look replaces the model.
+
+```yaml
+furniture:
+  rotation: 4-way
+  barriers: ["0,0,0", "0,1,0"]
+  door:
+    open:
+      model: furniture/gate_open   # optional; omit to keep the closed look
+    open-sound: block.wooden_door.open     # defaults shown
+    close-sound: block.wooden_door.close
+```
+
 ## Storage
 
 A `storage:` section opens a chest-style inventory on right-click. Contents persist with the placement, and everyone looking at the same storage shares a live view.

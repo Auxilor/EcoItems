@@ -147,6 +147,35 @@ class PlacedFurniture(
         setState(names[(names.indexOf(current) + 1).mod(names.size)])
     }
 
+    fun isDoorOpen(): Boolean =
+        base.persistentDataContainer.get(DOOR_OPEN, PersistentDataType.BYTE) == 1.toByte()
+
+    /** Opens or closes a door: toggles barrier collision and the look. */
+    fun toggleDoor(door: FurnitureDoor) {
+        val open = !isDoorOpen()
+        base.persistentDataContainer.set(DOOR_OPEN, PersistentDataType.BYTE, if (open) 1 else 0)
+
+        for (barrier in barrierBlocks()) {
+            if (open) {
+                if (barrier.type == Material.BARRIER) {
+                    barrier.type = Material.AIR
+                }
+            } else if (barrier.type.isAir || barrier.isLiquid) {
+                barrier.type = Material.BARRIER
+            }
+        }
+
+        applyModel(if (open) door.openState?.modelKey else null)
+
+        base.world.playSound(
+            base.location,
+            if (open) door.openSound else door.closeSound,
+            org.bukkit.SoundCategory.BLOCKS,
+            1.0f,
+            1.0f
+        )
+    }
+
     /** Seats the player on the nearest free seat, if any. */
     fun sit(player: Player): Boolean {
         val seat = seatEntities()
@@ -171,6 +200,7 @@ class PlacedFurniture(
         private val SEATS = NamespacedKey(plugin, "furniture-seats")
         private val INTERACTIONS = NamespacedKey(plugin, "furniture-interactions")
         private val STATE = NamespacedKey(plugin, "furniture-state")
+        private val DOOR_OPEN = NamespacedKey(plugin, "furniture-door-open")
 
         /** Resolve from any furniture entity: base, hitbox, or seat. */
         fun fromEntity(entity: Entity?): PlacedFurniture? {

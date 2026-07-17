@@ -65,6 +65,9 @@ class Furniture(val id: String, val config: Config) {
     /** Right-clicking cycles through the states (sitting takes precedence). */
     val cycleStatesOnClick = config.getBoolOrNull("cycle-states-on-click") ?: true
 
+    /** Door behaviour: right-click opens/closes, toggling barrier collision. */
+    val door = if (config.has("door")) FurnitureDoor(id, config.getSubsection("door")) else null
+
     /** Chest-style storage opened on right-click. */
     val storage = if (config.has("storage")) FurnitureStorage(id, config.getSubsection("storage")) else null
 
@@ -237,3 +240,14 @@ class FurnitureStorage(furnitureId: String, config: Config) {
     val closeSound = config.getStringOrNull("close-sound") ?: "minecraft:block.chest.close"
 }
 
+class FurnitureDoor(furnitureId: String, config: Config) {
+    /** The look while open; null keeps the closed look. */
+    val openState = if (config.has("open")) {
+        FurnitureState(furnitureId, "open", config.getSubsection("open"))
+    } else {
+        null
+    }
+
+    val openSound = config.getStringOrNull("open-sound") ?: "minecraft:block.wooden_door.open"
+    val closeSound = config.getStringOrNull("close-sound") ?: "minecraft:block.wooden_door.close"
+}
