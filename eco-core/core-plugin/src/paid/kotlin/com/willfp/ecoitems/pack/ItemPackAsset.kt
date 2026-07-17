@@ -1,6 +1,8 @@
 package com.willfp.ecoitems.pack
 
 import com.willfp.eco.core.config.interfaces.Config
+import com.willfp.ecoitems.furniture.Furniture
+import com.willfp.ecoitems.furniture.FurnitureState
 import com.willfp.ecoitems.items.EcoItem
 
 /**
@@ -99,6 +101,36 @@ class ItemPackAsset(
                 definition,
                 states,
                 itemConfig.getString("item").substringBefore(' ').equals("crossbow", ignoreCase = true),
+                invalid
+            )
+        }
+
+        /** A furniture state's alternative look, as its own item asset. */
+        fun fromFurnitureState(furniture: Furniture, state: FurnitureState): ItemPackAsset? {
+            if (!state.hasAssets) {
+                return null
+            }
+
+            val texture = state.config.getStringOrNull("texture")
+            val model = state.config.getStringOrNull("model")
+
+            val parsedTexture = texture?.let { PackLocation.parse(it) }
+            val parsedModel = model?.let { PackLocation.parse(it) }
+
+            val invalid = when {
+                texture != null && parsedTexture == null -> "texture '$texture' is not a valid location"
+                model != null && parsedModel == null -> "model '$model' is not a valid location"
+                else -> null
+            }
+
+            return ItemPackAsset(
+                "${furniture.id}_state_${state.name}",
+                parsedTexture,
+                state.config.getStringOrNull("texture-parent") ?: "generated",
+                parsedModel,
+                null,
+                emptyMap(),
+                false,
                 invalid
             )
         }

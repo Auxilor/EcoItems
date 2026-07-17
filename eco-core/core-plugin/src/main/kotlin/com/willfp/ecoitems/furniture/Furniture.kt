@@ -48,6 +48,23 @@ class Furniture(val id: String, val config: Config) {
     /** Right-clicking toggles the lights on and off. */
     val toggleableLights = config.getBool("toggleable-lights")
 
+    /** Named looks the furniture can switch between (lamps on/off, machines...). */
+    val states: Map<String, FurnitureState> = if (config.has("states")) {
+        val section = config.getSubsection("states")
+        section.getKeys(false).associateWith { state ->
+            FurnitureState(id, state, section.getSubsection(state))
+        }
+    } else {
+        emptyMap()
+    }
+
+    /** The state a fresh placement starts in. */
+    val defaultState = config.getStringOrNull("default-state")?.takeIf { it in states }
+        ?: states.keys.firstOrNull()
+
+    /** Right-clicking cycles through the states (sitting takes precedence). */
+    val cycleStatesOnClick = config.getBoolOrNull("cycle-states-on-click") ?: true
+
     /** null = drop the placer item itself. */
     val drops = if (config.has("drops")) BlockDrops(id, config.getSubsection("drops")) else null
 
@@ -98,6 +115,14 @@ class Furniture(val id: String, val config: Config) {
     /** Multi-cell collision only rotates in quarter turns. */
     val effectiveRotationStep: Int
         get() = if (barriers.any { it.x != 0 || it.z != 0 } && rotationStep != 0) 90 else rotationStep
+
+    init {
+        if (com.willfp.ecoitems.BuildConfig.FREE_VERSION && states.values.any { it.hasAssets }) {
+            plugin.logger.warning(
+                "Furniture $id has state models, but state models require the paid version of EcoItems"
+            )
+        }
+    }
 
     data class Cell(val x: Int, val y: Int, val z: Int)
     data class Hitbox(val x: Double, val y: Double, val z: Double, val width: Double, val height: Double)
@@ -163,3 +188,16 @@ class Furniture(val id: String, val config: Config) {
         return Light(coords[0], coords[1], coords[2], level)
     }
 }
+
+/**
+ * One furniture state: an alternative look for the display. An empty section
+ * keeps the item's own look; a texture/model generates a pack asset named
+ * <furniture id>_state_<name>.
+ */
+class FurnitureState(furnitureId: String, val name: String, val config: Config) {
+    val hasAssets = config.has("texture") || config.has("model")
+
+    /** The item_model the display shows in this state; null = the item's own. */
+    val modelKey: String? = if (hasAssets) "ecoitems:${furnitureId}_state_$name" else null
+}
+

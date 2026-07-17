@@ -3,6 +3,7 @@ package com.willfp.ecoitems.furniture
 import com.willfp.ecoitems.blocks.BlockListener
 import com.willfp.ecoitems.items.EcoItem
 import com.willfp.ecoitems.items.EcoItems
+import com.willfp.ecoitems.nms.ItemComponentsProxy
 import com.willfp.ecoitems.plugin
 import org.bukkit.Bukkit
 import org.bukkit.Location
@@ -106,6 +107,40 @@ class PlacedFurniture(
         }
     }
 
+    /** The current state name, or null when the furniture has none. */
+    fun state(): String? =
+        base.persistentDataContainer.get(STATE, PersistentDataType.STRING)
+
+    /** Switches the displayed model to a named state. */
+    fun setState(name: String) {
+        val furniture = this.furniture ?: return
+        val state = furniture.states[name] ?: return
+
+        base.persistentDataContainer.set(STATE, PersistentDataType.STRING, name)
+        applyModel(state.modelKey)
+    }
+
+    /** Shows an alternative item_model on the display (null = the item's own look). */
+    internal fun applyModel(modelKey: String?) {
+        val stack = item?.itemStack ?: return
+        base.setItemStack(modelKey?.let { model ->
+            plugin.getProxy(ItemComponentsProxy::class.java)
+                .withComponents(stack, mapOf("minecraft:item_model" to model)).item
+        } ?: stack)
+    }
+
+    /** Advances to the next configured state, wrapping around. */
+    fun cycleState() {
+        val furniture = this.furniture ?: return
+        val names = furniture.states.keys.toList()
+        if (names.isEmpty()) {
+            return
+        }
+
+        val current = state() ?: furniture.defaultState
+        setState(names[(names.indexOf(current) + 1).mod(names.size)])
+    }
+
     /** Seats the player on the nearest free seat, if any. */
     fun sit(player: Player): Boolean {
         val seat = seatEntities()
@@ -129,6 +164,7 @@ class PlacedFurniture(
         private val LIGHTS = NamespacedKey(plugin, "furniture-lights")
         private val SEATS = NamespacedKey(plugin, "furniture-seats")
         private val INTERACTIONS = NamespacedKey(plugin, "furniture-interactions")
+        private val STATE = NamespacedKey(plugin, "furniture-state")
 
         /** Resolve from any furniture entity: base, hitbox, or seat. */
         fun fromEntity(entity: Entity?): PlacedFurniture? {
@@ -277,7 +313,9 @@ class PlacedFurniture(
                 placeLight(cell, level)
             }
 
-            return PlacedFurniture(base, furniture.id)
+            val placed = PlacedFurniture(base, furniture.id)
+            furniture.defaultState?.let { placed.setState(it) }
+            return placed
         }
 
         private fun placeLight(block: Block, level: Int) {

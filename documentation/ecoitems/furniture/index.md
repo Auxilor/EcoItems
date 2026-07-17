@@ -50,6 +50,22 @@ furniture:
 
 See `items/_example_furniture.yml` for every option with comments.
 
+## States (lamps, machines, TVs...)
+
+A `states:` map gives the furniture named looks that players cycle through by right-clicking. Each state is an alternative model: an empty section keeps the item's own look, a `texture:` or `model:` gives it a different one (generated into the pack as `<id>_state_<name>`).
+
+```yaml
+furniture:
+  states:
+    off: {}                     # the item's own look
+    on:
+      model: furniture/lamp_on
+  default-state: off            # optional; first state otherwise
+  cycle-states-on-click: true   # default
+```
+
+The current state persists with the placement. To drive states from effects instead of clicks, set `cycle-states-on-click: false` and swap looks by breaking/placing, or combine with `toggleable-lights` for lamp-style furniture.
+
 :::caution
 Furniture entities are real persistent entities. Don't `/kill @e` - you'd strip furniture displays and leave their barriers behind (breakable by ops).
 :::

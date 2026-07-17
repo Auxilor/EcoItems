@@ -72,7 +72,10 @@ object EcoItemsPackFeature : PackFeature {
         BlockSoundState.remapActive = settings.customBlockSounds &&
             EcoBlocks.values().any { it.backing == BlockBacking.NOTEBLOCK }
 
-        val assets = EcoItems.values().mapNotNull { ItemPackAsset.fromItem(it) }
+        val stateAssets = EcoItems.values().mapNotNull { it.furniture }.flatMap { furniture ->
+            furniture.states.values.mapNotNull { ItemPackAsset.fromFurnitureState(furniture, it) }
+        }
+        val assets = EcoItems.values().mapNotNull { ItemPackAsset.fromItem(it) } + stateAssets
         TridentListener.update(assets)
         DatapackGenerator.write(plugin, Paintings.values(), Sounds.values())
         val pack = PackBuilder.build(plugin, settings, assets, glyphs.values, Sounds.values(), Huds.values(), imports)

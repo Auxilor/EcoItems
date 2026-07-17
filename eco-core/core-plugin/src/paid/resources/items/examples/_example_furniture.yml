@@ -67,6 +67,16 @@ furniture:
   #   brightness: 15        # fixed block-light level (unset = world lighting)
   #   view-range: 1.0
 
+  # Named looks players cycle through by right-clicking (lamps, machines).
+  # Each state is an alternative model; an empty section keeps the item's
+  # own look. Models generate into the pack as <furniture id>_state_<name>.
+  # states:
+  #   off: {}
+  #   on:
+  #     model: furniture/example_on
+  # default-state: off           # first state if unset
+  # cycle-states-on-click: true
+
   # Effects that run when players interact with the furniture (libreforge
   # effects). Events: punch, shift-punch, right-click, shift-right-click,
   # place, break, sit.

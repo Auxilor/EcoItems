@@ -222,8 +222,13 @@ object FurnitureListener : Listener {
             return
         }
 
-        if (placed.furniture?.toggleableLights == true) {
+        val furniture = placed.furniture
+        if (furniture?.toggleableLights == true) {
             placed.toggleLights()
+        }
+
+        if (furniture != null && furniture.states.isNotEmpty() && furniture.cycleStatesOnClick) {
+            placed.cycleState()
         }
     }
 
