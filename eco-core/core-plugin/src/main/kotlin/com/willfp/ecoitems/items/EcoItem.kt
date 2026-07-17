@@ -67,6 +67,12 @@ class EcoItem(
 
     val slot = SlotTypes[config.getString("slot")] ?: SlotTypeMainhand
 
+    /**
+     * Burn time override when used as furnace fuel. The base item must be a
+     * vanilla fuel (furnaces only consume those); 0 blocks burning entirely.
+     */
+    val fuelBurnTicks = config.getIntOrNull("fuel.burn-ticks")
+
     // Defensive copy
     private val _itemStack: ItemStack = run {
         val itemConfig = config.getSubsection("item")

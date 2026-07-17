@@ -6,6 +6,7 @@ import org.bukkit.event.Listener
 import org.bukkit.event.block.Action
 import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.event.entity.EntityShootBowEvent
+import org.bukkit.event.inventory.FurnaceBurnEvent
 import org.bukkit.event.player.PlayerInteractEvent
 
 object ItemListener : Listener {
@@ -44,6 +45,18 @@ object ItemListener : Listener {
     fun preventShootingItemsAsArrows(event: EntityShootBowEvent) {
         if (event.consumable?.ecoItem != null) {
             event.isCancelled = true
+        }
+    }
+
+    /** fuel.burn-ticks overrides how long the item burns in a furnace. */
+    @EventHandler(ignoreCancelled = true)
+    fun onFurnaceBurn(event: FurnaceBurnEvent) {
+        val ticks = event.fuel.ecoItem?.fuelBurnTicks ?: return
+
+        if (ticks <= 0) {
+            event.isCancelled = true
+        } else {
+            event.burnTime = ticks
         }
     }
 }

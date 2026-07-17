@@ -157,6 +157,17 @@ item:
 
 The item's own keys always win over the template's; nested sections merge key-by-key and lists are replaced whole. `template:` also accepts a list (later templates override earlier ones), and templates can themselves extend other templates.
 
+### Furnace fuel
+
+Items based on a vanilla fuel can override how long they burn:
+
+```yaml
+fuel:
+  burn-ticks: 3200   # 0 stops the item from being usable as fuel at all
+```
+
+Furnaces only consume items vanilla recognizes as fuel, so base the item on one (`coal`, `blaze_rod`, ...) and tune from there.
+
 ### Effects
 
 The `effects:` and `conditions:` sections are where the item gets its functionality: effects run on a trigger, and conditions gate when they're allowed to run.
