@@ -17,6 +17,12 @@ description: "EcoItems Server Pack"
 # Strip whitespace from json files when zipping (smaller downloads).
 minify-json: true
 
+# Client-side UI tweaks baked into the pack as shader patches. Text stays
+# visible - only the dark backgrounds go.
+interface:
+  hide-scoreboard-background: false
+  hide-tablist-background: false
+
 delivery:
   # How the pack reaches players:
   # hosted      - Upload to a packhost instance (packs.auxilor.io by default)

@@ -24,6 +24,9 @@ class PackSettings(config: Config) {
     val description: String = config.getString("description")
     val minifyJson = config.getBoolOrNull("minify-json") ?: true
 
+    val hideScoreboardBackground = config.getBool("interface.hide-scoreboard-background")
+    val hideTablistBackground = config.getBool("interface.hide-tablist-background")
+
     val mode = DeliveryMode.fromID(config.getString("delivery.mode")) ?: DeliveryMode.NONE
     val prompt: String = config.getString("delivery.prompt")
     val required = config.getBool("delivery.required")
