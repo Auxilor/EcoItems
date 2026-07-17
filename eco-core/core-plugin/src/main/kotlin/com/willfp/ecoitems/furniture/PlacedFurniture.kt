@@ -72,6 +72,8 @@ class PlacedFurniture(
             FurnitureConnections.updateNeighborsAfterRemoval(this)
         }
 
+        stateTimers.remove(base.uniqueId)
+
         for (barrier in barrierBlocks()) {
             if (barrier.type == Material.BARRIER) {
                 barrier.type = Material.AIR
@@ -129,6 +131,31 @@ class PlacedFurniture(
 
         base.persistentDataContainer.set(STATE, PersistentDataType.STRING, name)
         applyModel(state.modelKey)
+        scheduleStateTimer(furniture, state)
+    }
+
+    /**
+     * Self-advancing states: next-state-after cycles onward, reset-after
+     * returns to the default. Timers are in-memory - a state a chunk loads
+     * back in stays put until something switches it again.
+     */
+    private fun scheduleStateTimer(furniture: Furniture, state: FurnitureState) {
+        val ticks = state.nextStateAfter ?: state.resetAfter ?: return
+
+        // A newer setState invalidates every older pending timer.
+        val token = stateTimers.merge(base.uniqueId, 1, Int::plus)!!
+
+        plugin.scheduler.runLater(ticks.coerceAtLeast(1).toLong()) {
+            if (!base.isValid || stateTimers[base.uniqueId] != token || state() != state.name) {
+                return@runLater
+            }
+
+            if (state.nextStateAfter != null) {
+                cycleState()
+            } else {
+                furniture.defaultState?.let { setState(it) }
+            }
+        }
     }
 
     /** Shows an alternative item_model on the display (null = the item's own look). */
@@ -206,6 +233,9 @@ class PlacedFurniture(
         private val INTERACTIONS = NamespacedKey(plugin, "furniture-interactions")
         private val STATE = NamespacedKey(plugin, "furniture-state")
         private val DOOR_OPEN = NamespacedKey(plugin, "furniture-door-open")
+
+        /** Pending state-timer tokens per base entity; newer tokens win. */
+        private val stateTimers = mutableMapOf<UUID, Int>()
 
         /** Resolve from any furniture entity: base, hitbox, or seat. */
         fun fromEntity(entity: Entity?): PlacedFurniture? {

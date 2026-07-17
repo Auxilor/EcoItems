@@ -235,6 +235,12 @@ class FurnitureState(furnitureId: String, val name: String, val config: Config) 
 
     /** The item_model the display shows in this state; null = the item's own. */
     val modelKey: String? = if (hasAssets) "ecoitems:${furnitureId}_state_$name" else null
+
+    /** Ticks until the furniture advances to the next state by itself. */
+    val nextStateAfter = config.getIntOrNull("next-state-after")
+
+    /** Ticks until the furniture returns to its default state. */
+    val resetAfter = config.getIntOrNull("reset-after")
 }
 
 class FurnitureVehicle(config: Config) {

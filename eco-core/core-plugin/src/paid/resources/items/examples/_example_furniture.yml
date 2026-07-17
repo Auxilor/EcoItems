@@ -74,6 +74,8 @@ furniture:
   #   off: {}
   #   on:
   #     model: furniture/example_on
+  #     reset-after: 200         # optional: ticks until back to default
+  #     # next-state-after: 100  # or: ticks until the next state (loops)
   # default-state: off           # first state if unset
   # cycle-states-on-click: true
 

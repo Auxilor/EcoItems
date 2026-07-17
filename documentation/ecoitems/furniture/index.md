@@ -66,6 +66,20 @@ furniture:
 
 The current state persists with the placement. To drive states from effects instead of clicks, set `cycle-states-on-click: false` and swap looks by breaking/placing, or combine with `toggleable-lights` for lamp-style furniture.
 
+States can also advance by themselves: `next-state-after: <ticks>` on a state moves to the next one (two states pointing at each other = blinking), and `reset-after: <ticks>` snaps back to the default state - a machine that "runs" for ten seconds after a click:
+
+```yaml
+furniture:
+  states:
+    idle: {}
+    running:
+      model: furniture/machine_running
+      reset-after: 200
+  default-state: idle
+```
+
+Timers are in-memory: furniture in a freshly loaded chunk stays in its saved state until something switches it again.
+
 ## Doors
 
 A `door:` section makes right-clicking open and close the furniture: while open, its collision barriers are removed and an optional `open:` look replaces the model.
