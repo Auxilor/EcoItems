@@ -26,6 +26,9 @@ class Glyph(
 
     val tabComplete = config.getBool("tab-complete")
 
+    /** If the glyph is offered in the /ecoitems glyphs picker book. */
+    val showInPicker = config.getBoolOrNull("show-in-picker") ?: true
+
     /** If surrounding text color should tint the glyph (default renders white). */
     val colorable = config.getBool("colorable")
 

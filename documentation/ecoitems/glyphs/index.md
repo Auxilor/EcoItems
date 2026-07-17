@@ -58,7 +58,7 @@ Each glyph is assigned a codepoint automatically, remembered in `plugins/EcoItem
 
 ## The glyph picker
 
-`/ecoitems glyphs` (permission `ecoitems.command.glyphs`, everyone by default) opens a book of every glyph the player is allowed to use - hover for the name and placeholders, click to drop the placeholder straight into the chat box. Glyphs the player lacks permission for don't appear.
+`/ecoitems glyphs` (permission `ecoitems.command.glyphs`, everyone by default) opens a book of every glyph the player is allowed to use - hover for the name and placeholders, click to copy the placeholder to the clipboard (books can't type into chat, so paste it). Glyphs the player lacks permission for don't appear, and `show-in-picker: false` hides a glyph from the book entirely - useful for oversized glyphs like GUI backgrounds.
 
 <hr/>
 

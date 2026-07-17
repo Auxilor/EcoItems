@@ -1,3 +1,5 @@
 texture: glyph/gui/items
 ascent: 37
 height: 256
+# GUI backgrounds are far bigger than a book page; keep them out of the picker.
+show-in-picker: false

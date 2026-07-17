@@ -23,4 +23,4 @@ messages:
   no-glyphs: "&cThere are no glyphs you can use!"
   vehicle-no-fuel: "&cOut of fuel!"
   glyph-picker-title: "Glyphs"
-  glyph-picker-hover: "&f%glyph%\n&7%placeholder%\n&eClick to insert into chat"
+  glyph-picker-hover: "&f%glyph%\n&7%placeholder%\n&eClick to copy"

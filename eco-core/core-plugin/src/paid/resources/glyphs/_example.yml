@@ -23,6 +23,10 @@ permission: ""
 # (Optional) If the placeholders should be offered as chat tab-completions.
 tab-complete: true
 
+# (Optional) If the glyph is offered in the /ecoitems glyphs picker book.
+# Turn off for oversized glyphs like GUI backgrounds.
+show-in-picker: true
+
 # (Optional) If surrounding text color should tint the glyph.
 # Defaults to false, which renders the glyph white (as designed).
 colorable: false

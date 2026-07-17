@@ -223,7 +223,8 @@ object GlyphText {
         return result
     }
 
-    private fun glyphComponent(assigned: AssignedGlyph): Component {
+    /** A glyph as a component: white unless colorable, magic colors when animated. */
+    internal fun glyphComponent(assigned: AssignedGlyph): Component {
         val animation = assigned.glyph.animation
 
         if (animation == null) {
