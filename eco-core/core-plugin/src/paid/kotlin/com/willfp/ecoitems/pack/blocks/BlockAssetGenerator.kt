@@ -295,8 +295,9 @@ object BlockAssetGenerator {
         entries: MutableMap<String, ByteArray>
     ) {
         for (item in EcoItems.values()) {
-            val block = item.block ?: continue
-            val model = models[block]?.firstOrNull() ?: continue
+            val block = item.block ?: item.crop?.block ?: continue
+            // Seeds show their crop's final stage; blocks show their model.
+            val model = models[block]?.let { if (item.crop != null) it.last() else it.first() } ?: continue
 
             val itemConfig = item.config.getSubsection("item")
             if (itemConfig.has("texture") || itemConfig.has("model") || itemConfig.has("definition")) {

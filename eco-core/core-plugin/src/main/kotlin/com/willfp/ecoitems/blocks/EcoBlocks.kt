@@ -31,7 +31,7 @@ object EcoBlocks {
     private val registeredKeys = mutableSetOf<NamespacedKey>()
 
     fun reload(plugin: EcoItemsPlugin) {
-        val blocks = EcoItems.values().mapNotNull { it.block }
+        val blocks = EcoItems.values().flatMap { listOfNotNull(it.block, it.crop?.block) }
         assignments = BlockVariations.assign(plugin, blocks)
 
         recommendPaperFlags(plugin, blocks)

@@ -10,6 +10,7 @@ import com.willfp.eco.core.recipe.recipes.CraftingRecipe
 import com.willfp.eco.core.registry.Registrable
 import com.willfp.ecoitems.BuildConfig
 import com.willfp.ecoitems.blocks.EcoBlock
+import com.willfp.ecoitems.crops.EcoCrop
 import com.willfp.ecoitems.furniture.Furniture
 import com.willfp.ecoitems.nms.ItemComponentsProxy
 import com.willfp.ecoitems.nms.toPlainValues
@@ -47,6 +48,18 @@ class EcoItem(
 
     /** The furniture this item places, if it has a furniture: section. */
     val furniture = if (config.has("furniture")) Furniture(id, config.getSubsection("furniture")) else null
+
+    /** The crop this item plants, if it has a crop: section (the item is the seed). */
+    val crop = if (config.has("crop")) {
+        if (block != null) {
+            plugin.logger.warning("Item $id has both block: and crop: sections; ignoring crop")
+            null
+        } else {
+            EcoCrop(id, config.getSubsection("crop"))
+        }
+    } else {
+        null
+    }
 
     val lore: List<String> = config.getStrings("item.lore")
 
@@ -115,7 +128,7 @@ class EcoItem(
             components.putIfAbsent("minecraft:item_name", itemConfig.getFormattedString("name"))
         }
 
-        val blockAssets = this@EcoItem.block?.hasAssets == true
+        val blockAssets = this@EcoItem.block?.hasAssets == true || this@EcoItem.crop?.block?.hasAssets == true
         if (itemConfig.has("texture") || itemConfig.has("model") || itemConfig.has("definition") || blockAssets) {
             if (BuildConfig.FREE_VERSION) {
                 plugin.logger.warning(

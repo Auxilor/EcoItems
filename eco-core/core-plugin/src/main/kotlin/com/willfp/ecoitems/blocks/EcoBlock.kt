@@ -6,9 +6,14 @@ import com.willfp.ecoitems.plugin
 
 /**
  * The world-block half of an item config's `block:` section. The item is the
- * placer; this describes what exists in the world once placed.
+ * placer; this describes what exists in the world once placed. Crops
+ * synthesize one of these for their world presence, linked via [crop].
  */
-class EcoBlock(val id: String, val config: Config) {
+class EcoBlock(
+    val id: String,
+    val config: Config,
+    val crop: com.willfp.ecoitems.crops.EcoCrop? = null
+) {
     val backing = BlockBacking.parse(config.getString("type")) ?: run {
         plugin.logger.warning("Block $id has unknown type '${config.getString("type")}', using noteblock")
         BlockBacking.NOTEBLOCK

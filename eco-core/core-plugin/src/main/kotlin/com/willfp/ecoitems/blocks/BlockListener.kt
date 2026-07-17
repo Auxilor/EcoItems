@@ -60,6 +60,20 @@ object BlockListener : Listener {
     }
 
     /**
+     * Dispatches a synthetic place event with the placing flag held (so the
+     * vanilla-place normalizer stands down); true = the placement may stay.
+     */
+    internal fun callPlaceEvent(placeEvent: BlockPlaceEvent): Boolean {
+        placing = true
+        try {
+            plugin.server.pluginManager.callEvent(placeEvent)
+        } finally {
+            placing = false
+        }
+        return !placeEvent.isCancelled && placeEvent.canBuild()
+    }
+
+    /**
      * Right-clicking a custom note block would tune it (and string blocks
      * would connect hooks) - deny the vanilla block use. Item use still
      * proceeds, so placing against custom blocks keeps working.
@@ -236,15 +250,7 @@ object BlockListener : Listener {
         val previousState = target.state
         target.setBlockData(data, false)
 
-        val placeEvent = BlockPlaceEvent(target, previousState, against, item, player, true, event.hand!!)
-        placing = true
-        try {
-            plugin.server.pluginManager.callEvent(placeEvent)
-        } finally {
-            placing = false
-        }
-
-        if (placeEvent.isCancelled || !placeEvent.canBuild()) {
+        if (!callPlaceEvent(BlockPlaceEvent(target, previousState, against, item, player, true, event.hand!!))) {
             previousState.update(true, false)
             return
         }
@@ -287,15 +293,7 @@ object BlockListener : Listener {
         val previousState = worldBlock.state
         worldBlock.setBlockData(data, false)
 
-        val placeEvent = BlockPlaceEvent(worldBlock, previousState, worldBlock, item, player, true, hand)
-        placing = true
-        try {
-            plugin.server.pluginManager.callEvent(placeEvent)
-        } finally {
-            placing = false
-        }
-
-        if (placeEvent.isCancelled || !placeEvent.canBuild()) {
+        if (!callPlaceEvent(BlockPlaceEvent(worldBlock, previousState, worldBlock, item, player, true, hand))) {
             previousState.update(true, false)
             return
         }
@@ -345,21 +343,37 @@ object BlockListener : Listener {
         }
 
         val tool = event.player.inventory.itemInMainHand
-        dropItems(block, event.block, tool, event.player, placed.stackSize)
+        dropItems(placed, event.block, tool, event.player)
     }
 
     /**
      * Drops for a broken custom block, honoring tool/tier/silk/fortune.
      * Player breaks push through eco's DropQueue (telekinesis and the rest
      * of the eco series hook it); environmental breaks drop in-world.
-     * Stackable blocks roll their drops once per stacked item.
+     * Stackable blocks roll their drops once per stacked item; crops drop
+     * by growth stage.
      */
-    fun dropItems(block: EcoBlock, worldBlock: Block, tool: ItemStack?, player: Player? = null, times: Int = 1) {
+    fun dropItems(placed: EcoBlocks.Placed, worldBlock: Block, tool: ItemStack?, player: Player? = null) {
+        val block = placed.block
+
         if (!canHarvest(block, tool)) {
             return
         }
 
-        repeat(times.coerceAtLeast(1)) {
+        val crop = block.crop
+        if (crop != null) {
+            val mature = placed.orientation >= crop.stages.lastIndex
+            spawnDrops(
+                if (mature) crop.drops else crop.immatureDrops,
+                EcoItems.getByID(block.id)?.itemStack,
+                worldBlock.location.add(0.5, 0.5, 0.5),
+                tool,
+                player
+            ) { plugin.logger.warning("Crop ${block.id} drop '$it' is not a valid item") }
+            return
+        }
+
+        repeat(placed.stackSize) {
             spawnDrops(
                 block.drops,
                 EcoItems.getByID(block.id)?.itemStack,
@@ -459,7 +473,7 @@ object BlockListener : Listener {
         "iron" to 2, "diamond" to 3, "netherite" to 4
     )
 
-    private fun isReplaceable(block: Block): Boolean =
+    internal fun isReplaceable(block: Block): Boolean =
         block.type.isAir || block.isLiquid || REPLACEABLE.contains(block.type)
 
     private val REPLACEABLE = setOf(
