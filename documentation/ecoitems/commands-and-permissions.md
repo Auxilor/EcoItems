@@ -14,6 +14,12 @@ Every EcoItems command and the permission node it needs.
 | `/ecoitems glyph <id>`                    | Echo a [glyph](glyphs/index)'s character, e.g. to copy it from console   | `ecoitems.command.glyph` (operators)     |
 | `/ecoitems glyphs`                        | Open the [glyph picker](glyphs/index) book (click a glyph to chat it)   | `ecoitems.command.glyphs` (everyone)     |
 | `/ecoitems totem <item> [player]`         | Play a totem-of-undying animation showing an EcoItem's model            | `ecoitems.command.totem` (operators)     |
+| `/ecoitems drop <item> <player\|x y z world> [amount]` | Drop an EcoItem at a player or coordinates                  | `ecoitems.command.drop` (operators)      |
+| `/ecoitems take <player> <item> [amount]` | Remove an EcoItem from a player's inventory                              | `ecoitems.command.take` (operators)      |
+| `/ecoitems rename <name>`                 | Rename the held item (colors and glyphs work)                            | `ecoitems.command.rename` (operators)    |
+| `/ecoitems repair`                        | Fully repair the held item                                               | `ecoitems.command.repair` (operators)    |
+| `/ecoitems durability <remaining>`        | Set the held item's remaining durability                                 | `ecoitems.command.durability` (operators)|
+| `/ecoitems hitbox`                        | Outline nearby furniture barriers and hitboxes with particles            | `ecoitems.command.hitbox` (operators)    |
 
 `ecoitems.command.gui` defaults to operators and is included in `ecoitems.command.*`.
 

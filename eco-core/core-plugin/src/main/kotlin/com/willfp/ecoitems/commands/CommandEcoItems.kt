@@ -18,6 +18,12 @@ object CommandEcoItems : PluginCommand(
             .addSubcommand(CommandGlyph)
             .addSubcommand(CommandGlyphs)
             .addSubcommand(CommandTotem)
+            .addSubcommand(CommandDrop)
+            .addSubcommand(CommandTake)
+            .addSubcommand(CommandRename)
+            .addSubcommand(CommandRepair)
+            .addSubcommand(CommandDurability)
+            .addSubcommand(CommandHitbox)
             .addSubcommand(CommandMigrate)
     }
 

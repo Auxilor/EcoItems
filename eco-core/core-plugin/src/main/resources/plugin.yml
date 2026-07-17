@@ -46,6 +46,12 @@ permissions:
       ecoitems.command.glyph: true
       ecoitems.command.glyphs: true
       ecoitems.command.totem: true
+      ecoitems.command.drop: true
+      ecoitems.command.take: true
+      ecoitems.command.rename: true
+      ecoitems.command.repair: true
+      ecoitems.command.durability: true
+      ecoitems.command.hitbox: true
 
   ecoitems.command.reload:
     description: Allows reloading the config
@@ -70,6 +76,24 @@ permissions:
     default: true
   ecoitems.command.totem:
     description: Allows playing totem animations
+    default: op
+  ecoitems.command.drop:
+    description: Allows dropping items at locations
+    default: op
+  ecoitems.command.take:
+    description: Allows taking items from inventories
+    default: op
+  ecoitems.command.rename:
+    description: Allows renaming held items
+    default: op
+  ecoitems.command.repair:
+    description: Allows repairing held items
+    default: op
+  ecoitems.command.durability:
+    description: Allows setting held item durability
+    default: op
+  ecoitems.command.hitbox:
+    description: Allows visualizing furniture hitboxes
     default: op
   ecoitems.command.ecoitems:
     description: Allows the user of /ecoitems.
