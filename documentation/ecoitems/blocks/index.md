@@ -91,3 +91,4 @@ Events: `punch`, `shift-punch`, `right-click`, `shift-right-click`, `place`, `br
 - **Custom block sounds** (`blocks.custom-sounds` in pack.yml, on by default): the pack silences the vanilla wood sound events (which the note block backing would trigger) and the server replays them, so custom blocks get their configured `sounds:` and real wooden blocks still sound normal.
 - **Other plugins can target your blocks** anywhere eco block lookups work - `ecoitems:ruby_block` in EcoSkills mining XP, libreforge `blocks` filters, effect whitelists, and so on.
 - **Per-world gating**: `blocks.worlds` in config.yml limits where custom blocks and crops can be *placed* (glob patterns, `!` excludes). Already-placed blocks keep working everywhere.
+- **WorldEdit/FAWE**: `ecoitems:<id>` works in block patterns - `//set ecoitems:ruby_block`, masks, replacements - with tab suggestions. WorldEdit operations bypass drops, like vanilla.
