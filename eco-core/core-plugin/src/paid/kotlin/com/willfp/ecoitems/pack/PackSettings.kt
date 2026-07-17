@@ -24,6 +24,7 @@ class PackSettings(config: Config) {
     val enabled = config.getBool("enabled")
     val description: String = config.getString("description")
     val minifyJson = config.getBoolOrNull("minify-json") ?: true
+    val obfuscate = config.getBool("obfuscation")
 
     val hideScoreboardBackground = config.getBool("interface.hide-scoreboard-background")
     val hideTablistBackground = config.getBool("interface.hide-tablist-background")

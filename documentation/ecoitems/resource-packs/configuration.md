@@ -17,6 +17,13 @@ description: "EcoItems Server Pack"
 # Strip whitespace from json files when zipping (smaller downloads).
 minify-json: true
 
+# Rename textures and models to hashed names inside the zip, making the
+# pack much harder to rip and reuse. Purely cosmetic to players. Equipment
+# and painting textures keep their names (the game finds them by
+# convention), as do item definitions and sound events (items and configs
+# reference them at runtime).
+obfuscation: false
+
 # Client-side UI tweaks baked into the pack as shader patches. Text stays
 # visible - only the dark backgrounds go.
 interface:

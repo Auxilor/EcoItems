@@ -77,6 +77,10 @@ object PackBuilder {
         SoundAssetGenerator.generate(plugin, sounds, entries)
         LangAssetGenerator.generate(plugin, entries)
 
+        if (settings.obfuscate) {
+            PackObfuscator.obfuscate(entries)
+        }
+
         if (settings.minifyJson) {
             minifyJson(entries)
         }
