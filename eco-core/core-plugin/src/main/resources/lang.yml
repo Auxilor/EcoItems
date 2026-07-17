@@ -22,5 +22,6 @@ messages:
   glyphs-require-paid: "&cGlyphs require the paid version of EcoItems!"
   no-glyphs: "&cThere are no glyphs you can use!"
   vehicle-no-fuel: "&cOut of fuel!"
+  totem-played: "Played the &a%item%&r totem animation for &a%recipient%&r!"
   glyph-picker-title: "Glyphs"
   glyph-picker-hover: "&f%glyph%\n&7%placeholder%\n&eClick to copy"

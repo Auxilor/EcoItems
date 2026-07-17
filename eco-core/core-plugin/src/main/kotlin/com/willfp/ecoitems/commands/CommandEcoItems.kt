@@ -17,6 +17,7 @@ object CommandEcoItems : PluginCommand(
             .addSubcommand(CommandHud)
             .addSubcommand(CommandGlyph)
             .addSubcommand(CommandGlyphs)
+            .addSubcommand(CommandTotem)
             .addSubcommand(CommandMigrate)
     }
 

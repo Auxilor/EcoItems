@@ -45,6 +45,7 @@ permissions:
       ecoitems.command.hud.toggle: true
       ecoitems.command.glyph: true
       ecoitems.command.glyphs: true
+      ecoitems.command.totem: true
 
   ecoitems.command.reload:
     description: Allows reloading the config
@@ -67,6 +68,9 @@ permissions:
   ecoitems.command.glyphs:
     description: Allows opening the glyph picker
     default: true
+  ecoitems.command.totem:
+    description: Allows playing totem animations
+    default: op
   ecoitems.command.ecoitems:
     description: Allows the user of /ecoitems.
     default: true
