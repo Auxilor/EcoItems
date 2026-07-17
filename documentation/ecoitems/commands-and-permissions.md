@@ -11,6 +11,7 @@ Every EcoItems command and the permission node it needs.
 | `/ecoitems give <player> <item> [amount]` | Give an EcoItem to a player                                              | `ecoitems.command.give`                  |
 | `/ecoitems gui`                           | Opens the operator item browser. Left-click an item to receive one copy. | `ecoitems.command.gui` (operators)       |
 | `/ecoitems hud toggle <id>`               | Toggle a [HUD](huds/index) on or off                                     | `ecoitems.command.hud.toggle` (everyone) |
+| `/ecoitems glyph <id>`                    | Echo a [glyph](glyphs/index)'s character, e.g. to copy it from console   | `ecoitems.command.glyph` (operators)     |
 
 `ecoitems.command.gui` defaults to operators and is included in `ecoitems.command.*`.
 

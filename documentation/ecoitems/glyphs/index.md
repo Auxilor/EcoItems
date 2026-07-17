@@ -54,6 +54,8 @@ Shifts range from -2047 to +2047 pixels. For plugins building Adventure componen
 
 Each glyph is assigned a codepoint automatically, remembered in `plugins/EcoItems/glyph-codepoints.yml` so glyphs keep rendering in old chat messages, signs, and item lore across reloads and config changes. Deleting that file re-flows the assignments. To pin a glyph to a specific character, set `char:` in its config.
 
+`/ecoitems glyph <id>` echoes a glyph's character back to you - handy in console for copying the raw unicode character into other plugins' configs.
+
 <hr/>
 
 ## Where to go next

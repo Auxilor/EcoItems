@@ -43,6 +43,7 @@ permissions:
       ecoitems.command.gui: true
       ecoitems.command.hud: true
       ecoitems.command.hud.toggle: true
+      ecoitems.command.glyph: true
 
   ecoitems.command.reload:
     description: Allows reloading the config
@@ -59,6 +60,9 @@ permissions:
   ecoitems.command.hud.toggle:
     description: Allows toggling HUDs
     default: true
+  ecoitems.command.glyph:
+    description: Allows the use of /ecoitems glyph
+    default: op
   ecoitems.command.ecoitems:
     description: Allows the user of /ecoitems.
     default: true

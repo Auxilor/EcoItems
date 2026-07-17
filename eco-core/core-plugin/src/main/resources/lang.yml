@@ -16,3 +16,7 @@ messages:
   hud-toggled-on: "Enabled the &a%hud%&r HUD!"
   hud-toggled-off: "Disabled the &a%hud%&r HUD!"
   huds-require-paid: "&cHUDs require the paid version of EcoItems!"
+
+  invalid-glyph: "&cUnknown glyph!"
+  glyph-message: "&a%glyph%&r: %char%"
+  glyphs-require-paid: "&cGlyphs require the paid version of EcoItems!"

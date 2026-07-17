@@ -93,6 +93,11 @@ object EcoItemsPackFeature : PackFeature {
         return HudState.toggle(player, id)
     }
 
+    override fun glyphChars(id: String): String? {
+        val assigned = GlyphText.assignments[id] ?: return null
+        return GlyphText.rawChars(assigned)
+    }
+
     override fun decorateGuiTitle(plugin: EcoItemsPlugin, title: String, glyphId: String?): String {
         if (glyphId == null) return title
 

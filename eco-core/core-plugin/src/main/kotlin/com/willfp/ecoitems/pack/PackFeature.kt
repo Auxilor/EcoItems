@@ -32,6 +32,11 @@ interface PackFeature {
      * null = no such HUD.
      */
     fun toggleHud(player: Player, id: String): Boolean? = null
+
+    /**
+     * The raw characters for a glyph, or null if no such glyph is loaded.
+     */
+    fun glyphChars(id: String): String? = null
 }
 
 object PackFeatures {
