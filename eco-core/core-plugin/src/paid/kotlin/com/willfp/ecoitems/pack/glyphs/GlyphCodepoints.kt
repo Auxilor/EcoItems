@@ -1,7 +1,6 @@
 package com.willfp.ecoitems.pack.glyphs
 
-import com.willfp.eco.core.config.ConfigType
-import com.willfp.eco.core.config.TransientConfig
+import com.willfp.eco.core.config.readConfig
 import com.willfp.ecoitems.EcoItemsPlugin
 import com.willfp.ecoitems.glyphs.Glyph
 
@@ -41,7 +40,7 @@ object GlyphCodepoints {
         val animatedAssignments = sortedMapOf<String, IntRange>()
 
         if (file.exists()) {
-            val config = TransientConfig(file.readText(), ConfigType.YAML)
+            val config = file.readConfig()
             for (id in config.getSubsection("glyphs").getKeys(false)) {
                 staticAssignments[id] = config.getString("glyphs.$id").toInt(16)
             }

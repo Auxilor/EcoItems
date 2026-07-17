@@ -1,7 +1,6 @@
 package com.willfp.ecoitems.blocks
 
-import com.willfp.eco.core.config.ConfigType
-import com.willfp.eco.core.config.TransientConfig
+import com.willfp.eco.core.config.readConfig
 import com.willfp.ecoitems.EcoItemsPlugin
 
 /**
@@ -21,7 +20,7 @@ object BlockVariations {
         }
 
         if (file.exists()) {
-            val config = TransientConfig(file.readText(), ConfigType.YAML)
+            val config = file.readConfig()
             for (backing in BlockBacking.entries) {
                 for (id in config.getSubsection(backing.id).getKeys(false)) {
                     val variations = config.getString("${backing.id}.$id")
