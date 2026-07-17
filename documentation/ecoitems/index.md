@@ -11,7 +11,9 @@ EcoItems is a Minecraft plugin that adds fully customizable weapons, tools, armo
 - **Driven by the eco effects system:** attach the same effects, triggers, and conditions used across every eco plugin, no code required.
 - **Full item component support:** set any vanilla item component (food, tools, attributes, cooldowns, and everything else) with the same format as vanilla commands.
 - **Custom textures (paid version):** give items their own textures and models, delivered to players automatically with a generated resource pack.
-- **Craftable items:** give any item a shaped or shapeless recipe, with an optional crafting permission.
+- **Custom blocks, furniture, and crops:** placeable [blocks](blocks/index) (with stripping and stacking), [furniture](furniture/index) with seats, doors, storage, connecting rows, and even driveable vehicles, and staged [crops](crops/index).
+- **Loot injection:** drop custom items from vanilla [blocks, mobs, and fishing](loots/index).
+- **Craftable items:** give any item a shaped or shapeless recipe, with an optional crafting permission. Item [templates](how-to-make-a-custom-item/how-to-make-a-custom-item#templates) keep big item sets DRY.
 - **Rarity system:** categorize items by rarity with lore tags and weights.
 
 <hr/>
