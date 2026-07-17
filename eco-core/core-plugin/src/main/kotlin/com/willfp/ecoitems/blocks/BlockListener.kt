@@ -112,6 +112,13 @@ object BlockListener : Listener {
         val block = event.clickedBlock ?: return
         val placed = EcoBlocks.at(block) ?: return
 
+        if (!com.willfp.ecoitems.util.WorldGuardFlags.test(
+                event.player, block.location, com.willfp.ecoitems.util.WorldGuardFlags.BLOCK_INTERACT
+            )
+        ) {
+            return
+        }
+
         placed.block.effects.dispatch(
             placed.block.effects.clickEvent(rightClick, event.player.isSneaking),
             event.player,

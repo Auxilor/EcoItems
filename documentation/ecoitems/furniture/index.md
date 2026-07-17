@@ -171,6 +171,10 @@ Passengers in the other seats ride along; only the first seat steers.
 
 Ground vehicles fall off edges and step up single blocks; flying vehicles (a `fly-speed` above 0) hover and climb while jump is held. Fuel burns one matching item from the driver's inventory per `per-item-seconds` of driving; with an empty tank the vehicle refuses to move and warns in the action bar. Sneak dismounts, and the vehicle is broken like any furniture (punch it).
 
+## WorldGuard flags
+
+With WorldGuard installed, EcoItems registers region flags (all default to allow): `ecoitems-furniture-interact`, `ecoitems-furniture-sit`, `ecoitems-furniture-storage`, `ecoitems-vehicle`, and `ecoitems-block-interact` for [custom block](../blocks/index) click effects. Deny them per region for spawn furniture that shouldn't be sat on, vehicles that park inside protected zones, and so on. Placing and breaking already respect regions through the normal build flags.
+
 :::caution
 Furniture entities are real persistent entities. Don't `/kill @e` - you'd strip furniture displays and leave their barriers behind (breakable by ops).
 :::

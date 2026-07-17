@@ -92,6 +92,7 @@ allprojects {
         maven("https://repo.papermc.io/repository/maven-public/")
         maven("https://repo.auxilor.io/repository/maven-public/")
         maven("https://jitpack.io")
+        maven("https://maven.enginehub.org/repo/")
     }
 
     dependencies {

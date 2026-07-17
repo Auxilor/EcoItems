@@ -8,6 +8,8 @@ depend:
   - eco
 softdepend:
   - libreforge
+  - WorldGuard
+  - WorldEdit
 loadbefore:
   - EcoArmor
   - Talismans

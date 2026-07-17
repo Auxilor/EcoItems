@@ -42,6 +42,7 @@ import com.willfp.ecoitems.sounds.Sounds
 import com.willfp.ecoitems.items.EcoItemTag
 import com.willfp.ecoitems.util.DiscoverRecipeListener
 import com.willfp.ecoitems.util.PickBlockListener
+import com.willfp.ecoitems.util.WorldGuardFlags
 import com.willfp.libreforge.conditions.Conditions
 import com.willfp.libreforge.loader.LibreforgePlugin
 import com.willfp.libreforge.loader.configs.ConfigCategory
@@ -60,6 +61,11 @@ class EcoItemsPlugin : LibreforgePlugin() {
     /** The plugin jar, for reading bundled resources. */
     internal val jar: File
         get() = file
+
+    override fun handleLoad() {
+        // WorldGuard locks its flag registry once it enables.
+        WorldGuardFlags.register()
+    }
 
     override fun handleEnable() {
         Items.registerArgParser(ArgParserRarity)

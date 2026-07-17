@@ -66,6 +66,13 @@ object VehicleTicker {
             return
         }
 
+        if (!com.willfp.ecoitems.util.WorldGuardFlags.test(
+                player, placed.base.location, com.willfp.ecoitems.util.WorldGuardFlags.VEHICLE
+            )
+        ) {
+            return
+        }
+
         val input = player.currentInput
         var throttle = 0.0
         if (input.isForward) throttle += 1.0

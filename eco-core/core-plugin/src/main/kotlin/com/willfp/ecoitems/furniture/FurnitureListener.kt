@@ -5,6 +5,7 @@ import com.willfp.ecoitems.blocks.BlockListener
 import com.willfp.ecoitems.items.ecoItem
 import com.willfp.ecoitems.libreforge.ContentEvent
 import com.willfp.ecoitems.plugin
+import com.willfp.ecoitems.util.WorldGuardFlags
 import org.bukkit.GameMode
 import org.bukkit.Material
 import org.bukkit.SoundCategory
@@ -209,6 +210,10 @@ object FurnitureListener : Listener {
     }
 
     private fun handleInteract(placed: PlacedFurniture, player: Player) {
+        if (!WorldGuardFlags.test(player, placed.base.location, WorldGuardFlags.FURNITURE_INTERACT)) {
+            return
+        }
+
         val effects = placed.furniture?.effects
 
         if (player.isSneaking) {
@@ -224,7 +229,9 @@ object FurnitureListener : Listener {
         }
 
         placed.furniture?.storage?.let { storage ->
-            FurnitureStorageManager.openStorage(placed, storage, player)
+            if (WorldGuardFlags.test(player, placed.base.location, WorldGuardFlags.FURNITURE_STORAGE)) {
+                FurnitureStorageManager.openStorage(placed, storage, player)
+            }
             return
         }
 
@@ -232,6 +239,10 @@ object FurnitureListener : Listener {
             if (FurnitureBeds.tryLie(placed, furniture, player)) {
                 return
             }
+        }
+
+        if (!WorldGuardFlags.test(player, placed.base.location, WorldGuardFlags.FURNITURE_SIT)) {
+            return
         }
 
         if (placed.sit(player)) {
