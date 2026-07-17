@@ -76,7 +76,27 @@ object PackBuilder {
         SoundAssetGenerator.generate(plugin, sounds, entries)
         LangAssetGenerator.generate(plugin, entries)
 
+        if (settings.minifyJson) {
+            minifyJson(entries)
+        }
+
         return write(plugin.dataFolder.resolve("pack.zip"), entries)
+    }
+
+    /** Compacts json entries for size; malformed files are left as-is. */
+    private fun minifyJson(entries: MutableMap<String, ByteArray>) {
+        val gson = com.google.gson.Gson()
+
+        for (path in entries.keys.toList()) {
+            if (!path.endsWith(".json") && !path.endsWith(".mcmeta")) {
+                continue
+            }
+
+            runCatching {
+                val parsed = com.google.gson.JsonParser.parseString(entries.getValue(path).decodeToString())
+                entries[path] = gson.toJson(parsed).encodeToByteArray()
+            }
+        }
     }
 
     private fun userMcmetaOverlays(plugin: EcoItemsPlugin): List<com.google.gson.JsonObject> {

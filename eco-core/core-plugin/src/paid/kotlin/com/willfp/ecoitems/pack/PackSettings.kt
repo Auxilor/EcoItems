@@ -22,6 +22,7 @@ enum class DeliveryMode {
 class PackSettings(config: Config) {
     val enabled = config.getBool("enabled")
     val description: String = config.getString("description")
+    val minifyJson = config.getBoolOrNull("minify-json") ?: true
 
     val mode = DeliveryMode.fromID(config.getString("delivery.mode")) ?: DeliveryMode.NONE
     val prompt: String = config.getString("delivery.prompt")

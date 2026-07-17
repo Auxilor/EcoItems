@@ -14,6 +14,9 @@ enabled: true
 # The pack description shown in the pack menu.
 description: "EcoItems Server Pack"
 
+# Strip whitespace from json files when zipping (smaller downloads).
+minify-json: true
+
 delivery:
   # How the pack reaches players:
   # hosted      - Upload to a packhost instance (packs.auxilor.io by default)
