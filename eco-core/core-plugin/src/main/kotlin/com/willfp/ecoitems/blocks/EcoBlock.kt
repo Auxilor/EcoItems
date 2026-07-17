@@ -96,7 +96,7 @@ class BlockDrops(blockId: String, config: Config) {
     /** Fortune multiplies loot amounts. */
     val fortune = config.getBool("fortune")
 
-    val xp = parseRange(config.getString("xp"))
+    val xp = parseIntRange(config.getString("xp"))
 
     val items = config.getSubsections("items").mapNotNull { drop ->
         val item = drop.getStringOrNull("item")
@@ -107,19 +107,20 @@ class BlockDrops(blockId: String, config: Config) {
             BlockDropItem(
                 item,
                 drop.getDoubleOrNull("chance") ?: 1.0,
-                parseRange(drop.getStringOrNull("amount") ?: "1")
+                parseIntRange(drop.getStringOrNull("amount") ?: "1")
             )
         }
     }
+}
 
-    private fun parseRange(value: String): IntRange {
-        if (value.isBlank()) return IntRange.EMPTY
-        val parts = value.split("-", limit = 2).mapNotNull { it.trim().toIntOrNull() }
-        return when (parts.size) {
-            2 -> parts[0]..parts[1]
-            1 -> parts[0]..parts[0]
-            else -> IntRange.EMPTY
-        }
+/** Parses "2" or "1-3" into a range; blank/invalid parses empty. */
+internal fun parseIntRange(value: String): IntRange {
+    if (value.isBlank()) return IntRange.EMPTY
+    val parts = value.split("-", limit = 2).mapNotNull { it.trim().toIntOrNull() }
+    return when (parts.size) {
+        2 -> parts[0]..parts[1]
+        1 -> parts[0]..parts[0]
+        else -> IntRange.EMPTY
     }
 }
 

@@ -25,6 +25,8 @@ import com.willfp.ecoitems.items.ItemListener
 import com.willfp.ecoitems.items.ItemUpdater
 import com.willfp.ecoitems.items.ItemsGUI
 import com.willfp.ecoitems.libreforge.ConditionHasEcoItem
+import com.willfp.ecoitems.loots.LootListener
+import com.willfp.ecoitems.loots.Loots
 import com.willfp.ecoitems.migration.Migrations
 import com.willfp.ecoitems.pack.PackFeatures
 import com.willfp.ecoitems.paintings.PaintingListener
@@ -96,7 +98,8 @@ class EcoItemsPlugin : LibreforgePlugin() {
             EcoItems,
             EcoItemsRecipes,
             Glyphs,
-            Huds
+            Huds,
+            Loots
         )
     }
 
@@ -110,7 +113,8 @@ class EcoItemsPlugin : LibreforgePlugin() {
             BlockPhysicsListener,
             BlockBreakSpeed,
             FurnitureListener,
-            PickBlockListener
+            PickBlockListener,
+            LootListener
         ) + listOfNotNull(PaperBlockListener.createIfSupported()) +
             (PackFeatures.instance?.listeners(this) ?: emptyList())
     }
