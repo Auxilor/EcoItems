@@ -1,6 +1,7 @@
 package com.willfp.ecoitems.pack.huds
 
 import com.willfp.eco.core.placeholder.context.placeholderContext
+import com.willfp.eco.util.NumberUtils
 import com.willfp.eco.util.asAudience
 import com.willfp.eco.util.formatEco
 import com.willfp.eco.util.toComponent
@@ -21,6 +22,7 @@ import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerQuitEvent
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
+import kotlin.math.roundToInt
 
 /**
  * Re-sends visible HUDs on a 5-tick heartbeat; each HUD sends when its own
@@ -144,7 +146,7 @@ object HudTicker {
     }
 
     private fun render(hud: Hud, player: Player): Component {
-        val text = hud.text.formatEco(placeholderContext(player = player))
+        val text = rawText(hud, player).formatEco(placeholderContext(player = player))
         var component = text.toComponent()
 
         if (hud.textAscent != null) {
@@ -152,6 +154,17 @@ object HudTicker {
         }
 
         return component
+    }
+
+    private fun rawText(hud: Hud, player: Player): String {
+        val frames = hud.frames?.takeIf { it.frames.isNotEmpty() } ?: return hud.text
+
+        val value = NumberUtils.evaluateExpression(frames.value, placeholderContext(player = player))
+        val span = (frames.max - frames.min).takeIf { it > 0 } ?: 1.0
+        val fraction = ((value - frames.min) / span).coerceIn(0.0, 1.0)
+        val frame = frames.frames[(fraction * (frames.frames.size - 1)).roundToInt()]
+
+        return if ("%frame%" in hud.text) hud.text.replace("%frame%", frame) else frame
     }
 
     private fun isVisible(player: Player, hud: Hud): Boolean {

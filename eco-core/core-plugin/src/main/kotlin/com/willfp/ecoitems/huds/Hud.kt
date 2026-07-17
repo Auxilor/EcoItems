@@ -46,6 +46,13 @@ class Hud(
 
     val bossBar = BossBarOptions(id, config.getSubsection("boss-bar"))
 
+    /** Value-driven frame bars (mana/thirst-style); null for plain text HUDs. */
+    val frames = if (config.has("frames")) {
+        HudFrames(id, this, config.getSubsection("frames"))
+    } else {
+        null
+    }
+
     override fun equals(other: Any?): Boolean {
         if (other !is Hud) {
             return false
@@ -60,6 +67,35 @@ class Hud(
 
     override fun toString(): String {
         return "Hud{$id}"
+    }
+}
+
+/**
+ * Picks one frame by where a numeric value sits between min and max - the
+ * classic image bar (each frame is usually a single :glyph:). The HUD's
+ * `text` becomes a template: `%frame%` marks where the frame renders, and an
+ * empty text shows the frame alone.
+ */
+class HudFrames(hudId: String, hud: Hud, config: Config) {
+    /** A placeholder/math expression evaluated per player, e.g. "%libreforge_points_mana%". */
+    val value: String = config.getString("value")
+
+    val min = config.getDoubleOrNull("min") ?: 0.0
+    val max = config.getDoubleOrNull("max") ?: 100.0
+
+    /** Rendered lines, lowest value first. */
+    val frames: List<String> = config.getStrings("frames")
+
+    init {
+        if (frames.isEmpty()) {
+            plugin.logger.warning("HUD $hudId has a frames: section with no frames list")
+        }
+        if (max <= min) {
+            plugin.logger.warning("HUD $hudId frames: max must be greater than min")
+        }
+        if (hud.text.isNotEmpty() && "%frame%" !in hud.text) {
+            plugin.logger.warning("HUD $hudId has frames but its text has no %frame% placeholder; text will be ignored")
+        }
     }
 }
 
