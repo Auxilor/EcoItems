@@ -64,6 +64,8 @@ object GlyphAssetGenerator {
         entries: MutableMap<String, ByteArray>,
         shaders: Boolean = true
     ) {
+        materializeGifs(plugin, glyphs)
+
         val (providers, spaceProvider) = buildProviders(plugin, glyphs)
 
         // The standalone shift font, for components that want an explicit font.
@@ -105,6 +107,40 @@ object GlyphAssetGenerator {
                     "compatibility.glyph-shaders is disabled: ${animated.size} animated glyph(s) won't animate"
                 )
             }
+        }
+    }
+
+    /**
+     * Glyphs with a .gif texture get it decoded into the vertical sprite
+     * sheet png the animation pipeline expects, written next to the gif so
+     * the artist can see (or tweak) the result. Regenerates when the gif is
+     * newer than the sheet.
+     */
+    private fun materializeGifs(plugin: EcoItemsPlugin, glyphs: Collection<AssignedGlyph>) {
+        for (assigned in glyphs) {
+            val glyph = assigned.glyph
+            val animation = glyph.animation ?: continue
+
+            val location = PackLocation.parse(glyph.texture.removeSuffix(".png")) ?: continue
+            val gif = location.file(plugin, "textures", "gif")
+            if (!gif.isFile) {
+                continue
+            }
+
+            val png = location.file(plugin, "textures", "png")
+            if (png.isFile && png.lastModified() >= gif.lastModified()) {
+                continue
+            }
+
+            val sheet = com.willfp.ecoitems.glyphs.GifTexture.sheet(gif, animation.frames)
+            if (sheet == null) {
+                plugin.logger.warning("Glyph ${glyph.id}: could not decode ${gif.name}")
+                continue
+            }
+
+            png.parentFile.mkdirs()
+            javax.imageio.ImageIO.write(sheet, "png", png)
+            plugin.logger.info("Glyph ${glyph.id}: converted ${gif.name} to a ${animation.frames}-frame sprite sheet")
         }
     }
 

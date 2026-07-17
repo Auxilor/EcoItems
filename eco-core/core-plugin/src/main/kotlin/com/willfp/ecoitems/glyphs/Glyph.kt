@@ -32,10 +32,14 @@ class Glyph(
     /** If surrounding text color should tint the glyph (default renders white). */
     val colorable = config.getBool("colorable")
 
-    val animation: GlyphAnimation? = if (config.has("animation")) {
-        GlyphAnimation(id, config.getSubsection("animation"))
-    } else {
-        null
+    val animation: GlyphAnimation? = run {
+        // A .gif texture animates by itself; explicit config overrides it.
+        val gif = GifTexture.meta(GifTexture.file(texture))
+        when {
+            config.has("animation") -> GlyphAnimation.fromConfig(id, config.getSubsection("animation"), gif)
+            gif != null -> GlyphAnimation(id, gif.frames, gif.fps, loop = true, offset = 0)
+            else -> null
+        }
     }
 
     /** When set, this glyph is one cell of a shared sprite sheet. */
@@ -96,20 +100,22 @@ class GlyphBitmap(id: String, config: Config) {
     }
 }
 
-class GlyphAnimation(id: String, config: Config) {
+class GlyphAnimation(
+    id: String,
+    frames: Int,
+    fps: Int,
+    val loop: Boolean,
+    /** Extra pixels to advance after the glyph, e.g. to add spacing. */
+    val offset: Int
+) {
     // The shader encodes the frame index and count in 4 bits each, and the
     // fps in 7 bits, so these limits are hard.
-    val frames = config.getInt("frames").coerceIn(1, MAX_FRAMES)
+    val frames = frames.coerceIn(1, MAX_FRAMES)
 
-    val fps = config.getInt("fps").coerceIn(1, MAX_FPS)
-
-    val loop = config.getBoolOrNull("loop") ?: true
-
-    /** Extra pixels to advance after the glyph, e.g. to add spacing. */
-    val offset = config.getIntOrNull("offset") ?: 0
+    val fps = fps.coerceIn(1, MAX_FPS)
 
     init {
-        if (config.getInt("frames") > MAX_FRAMES) {
+        if (frames > MAX_FRAMES) {
             plugin.logger.warning(
                 "Glyph $id has more than $MAX_FRAMES animation frames; clamped to $MAX_FRAMES"
             )
@@ -119,5 +125,15 @@ class GlyphAnimation(id: String, config: Config) {
     companion object {
         const val MAX_FRAMES = 16
         const val MAX_FPS = 127
+
+        /** From an animation: section; a gif texture supplies the defaults. */
+        fun fromConfig(id: String, config: Config, gif: GifTexture.Meta?): GlyphAnimation =
+            GlyphAnimation(
+                id,
+                config.getIntOrNull("frames") ?: gif?.frames ?: 1,
+                config.getIntOrNull("fps") ?: gif?.fps ?: 1,
+                config.getBoolOrNull("loop") ?: true,
+                config.getIntOrNull("offset") ?: 0
+            )
     }
 }

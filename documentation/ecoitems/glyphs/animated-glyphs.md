@@ -23,6 +23,10 @@ animation:
   offset: 0 # Optional extra pixels to advance after the glyph
 ```
 
+## Straight from a GIF
+
+Drop a `.gif` at the texture path instead (`pack/assets/ecoitems/textures/glyph/spinner.gif`) and the whole `animation:` section becomes optional: the frame count and speed are read from the GIF, and the pack build converts it into the sprite-sheet png next to it (regenerated whenever the gif is newer). An `animation:` section still works to override `fps`, `loop`, or `offset`. GIFs are capped at the same 16 frames.
+
 ## How it works (and its limits)
 
 Every frame gets its own font character; the frames are stacked at the same position using negative font advances, and a small patch to Minecraft's text shaders (included in the generated pack automatically) shows only the frame matching the current game time. Because the shader does the work, the animation runs anywhere text renders.
