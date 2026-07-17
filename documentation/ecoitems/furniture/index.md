@@ -131,6 +131,18 @@ furniture:
 
 The item's own model is used for a lone piece. If your left/right models render mirrored, swap the two keys - "left" is from the viewpoint of a player facing the furniture's front.
 
+## Beds
+
+`beds:` cells (same `"x,y,z [yaw]"` format as seats) make furniture sleepable: right-click at night (or during a thunderstorm) to lie down with the real sleeping pose and overlay - no bed block involved. Lying down resets the phantom timer, and once enough of the world sleeps (`playersSleepingPercentage` gamerule), the night skips and the weather clears, vanilla-style. Sneak, move, or take damage to get up.
+
+```yaml
+furniture:
+  rotation: 4-way
+  barriers: ["0,0,0", "1,0,0"]
+  beds:
+    - "0.5,0,0"      # lying position, head toward the furniture's facing
+```
+
 ## Vehicles
 
 A `vehicle:` section makes the furniture driveable: the player in the **first seat** steers with their look direction and W/S. Requires **Paper 1.21.2+** (vehicles stay parked elsewhere). Vehicles can't have `barriers:` or `lights:` - blocks can't move.

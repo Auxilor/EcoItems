@@ -73,6 +73,7 @@ class PlacedFurniture(
         }
 
         stateTimers.remove(base.uniqueId)
+        FurnitureBeds.wakeAllOn(base.uniqueId)
 
         for (barrier in barrierBlocks()) {
             if (barrier.type == Material.BARRIER) {

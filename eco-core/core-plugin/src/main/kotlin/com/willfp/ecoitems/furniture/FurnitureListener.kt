@@ -228,6 +228,12 @@ object FurnitureListener : Listener {
             return
         }
 
+        placed.furniture?.let { furniture ->
+            if (FurnitureBeds.tryLie(placed, furniture, player)) {
+                return
+            }
+        }
+
         if (placed.sit(player)) {
             effects?.dispatch(ContentEvent.SIT, player, placed.base.location)
             return

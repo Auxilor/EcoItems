@@ -11,6 +11,7 @@ import com.willfp.ecoitems.blocks.BlockListener
 import com.willfp.ecoitems.blocks.BlockPhysicsListener
 import com.willfp.ecoitems.blocks.EcoBlocks
 import com.willfp.ecoitems.blocks.PaperBlockListener
+import com.willfp.ecoitems.furniture.FurnitureBeds
 import com.willfp.ecoitems.furniture.FurnitureListener
 import com.willfp.ecoitems.furniture.FurnitureStorageManager
 import com.willfp.ecoitems.furniture.VehicleTicker
@@ -83,6 +84,7 @@ class EcoItemsPlugin : LibreforgePlugin() {
         ItemUpdater.updateOnlinePlayers()
         CropTracker.start(this)
         VehicleTicker.start(this)
+        FurnitureBeds.start(this)
     }
 
     override fun loadPacketListeners(): List<PacketListener> {
@@ -122,6 +124,7 @@ class EcoItemsPlugin : LibreforgePlugin() {
             BlockBreakSpeed,
             FurnitureListener,
             FurnitureStorageManager,
+            FurnitureBeds,
             CropListener,
             PickBlockListener,
             LootListener

@@ -53,6 +53,9 @@ class Furniture(val id: String, val config: Config) {
     /** Seat offsets: "x,y,z" with an optional yaw ("x,y,z 90"); y = 0 sits at natural chair height. */
     val seats: List<Seat> = config.getStrings("seats").mapNotNull { parseSeat(it) }
 
+    /** Bed cells: "x,y,z" with an optional yaw; right-click at night to sleep. */
+    val beds: List<Seat> = config.getStrings("beds").mapNotNull { parseSeat(it) }
+
     /** Light cells: "x,y,z level". */
     val lights: List<Light> = config.getStrings("lights").mapNotNull { parseLight(it) }
         .let { lights ->
