@@ -117,6 +117,25 @@ furniture:
 
 The item's own model is used for a lone piece. If your left/right models render mirrored, swap the two keys - "left" is from the viewpoint of a player facing the furniture's front.
 
+## Vehicles
+
+A `vehicle:` section makes the furniture driveable: the player in the **first seat** steers with their look direction and W/S. Requires **Paper 1.21.2+** (vehicles stay parked elsewhere). Vehicles can't have `barriers:` or `lights:` - blocks can't move.
+
+```yaml
+furniture:
+  seats:
+    - "0,0,0"          # the driver's seat
+  vehicle:
+    speed: 0.3          # horizontal blocks per tick at full throttle
+    fly-speed: 0.0      # > 0 = holding jump ascends and the vehicle hovers
+    fuel:               # optional; no fuel section = drives for free
+      items:
+        - coal
+      per-item-seconds: 120
+```
+
+Ground vehicles fall off edges and step up single blocks; flying vehicles (a `fly-speed` above 0) hover and climb while jump is held. Fuel burns one matching item from the driver's inventory per `per-item-seconds` of driving; with an empty tank the vehicle refuses to move and warns in the action bar. Sneak dismounts, and the vehicle is broken like any furniture (punch it).
+
 :::caution
 Furniture entities are real persistent entities. Don't `/kill @e` - you'd strip furniture displays and leave their barriers behind (breakable by ops).
 :::

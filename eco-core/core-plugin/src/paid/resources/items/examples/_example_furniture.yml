@@ -105,6 +105,16 @@ furniture:
   #   middle:
   #     model: furniture/example_middle
 
+  # Vehicles (Paper): the player in the first seat drives with look
+  # + W/S. No barriers/lights on vehicles - blocks can't move.
+  # vehicle:
+  #   speed: 0.3            # horizontal blocks/tick at full throttle
+  #   fly-speed: 0.0        # > 0 hovers and ascends while jump is held
+  #   fuel:                 # optional fuel from the driver's inventory
+  #     items:
+  #       - coal
+  #     per-item-seconds: 120
+
   # Effects that run when players interact with the furniture (libreforge
   # effects). Events: punch, shift-punch, right-click, shift-right-click,
   # place, break, sit.

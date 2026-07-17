@@ -29,8 +29,19 @@ class Furniture(val id: String, val config: Config) {
     val wall = config.getBoolOrNull("placement.wall") ?: false
     val ceiling = config.getBoolOrNull("placement.ceiling") ?: false
 
+    /** Driveable furniture: no collision/light blocks, moves with the driver. */
+    val vehicle = if (config.has("vehicle")) FurnitureVehicle(config.getSubsection("vehicle")) else null
+
     /** Solid collision cells, relative to the origin block. */
     val barriers: List<Cell> = config.getStrings("barriers").flatMap { parseCells(it) }
+        .let { cells ->
+            if (vehicle != null && cells.isNotEmpty()) {
+                plugin.logger.warning("Furniture $id is a vehicle; barriers are ignored (they can't move)")
+                emptyList()
+            } else {
+                cells
+            }
+        }
 
     /**
      * Click hitboxes: "x,y,z" or "x,y,z widthxheight". Defaults to a single
@@ -44,6 +55,14 @@ class Furniture(val id: String, val config: Config) {
 
     /** Light cells: "x,y,z level". */
     val lights: List<Light> = config.getStrings("lights").mapNotNull { parseLight(it) }
+        .let { lights ->
+            if (vehicle != null && lights.isNotEmpty()) {
+                plugin.logger.warning("Furniture $id is a vehicle; lights are ignored (they can't move)")
+                emptyList()
+            } else {
+                lights
+            }
+        }
 
     /** Right-clicking toggles the lights on and off. */
     val toggleableLights = config.getBool("toggleable-lights")
@@ -216,6 +235,23 @@ class FurnitureState(furnitureId: String, val name: String, val config: Config) 
 
     /** The item_model the display shows in this state; null = the item's own. */
     val modelKey: String? = if (hasAssets) "ecoitems:${furnitureId}_state_$name" else null
+}
+
+class FurnitureVehicle(config: Config) {
+    /** Horizontal blocks per tick at full throttle. */
+    val speed = config.getDoubleOrNull("speed") ?: 0.3
+
+    /** Vertical blocks per tick while holding jump; 0 = a ground vehicle. */
+    val flySpeed = config.getDoubleOrNull("fly-speed") ?: 0.0
+
+    /** Item lookups consumed as fuel; empty = no fuel needed. */
+    val fuelItems = config.getStrings("fuel.items")
+
+    /** How long one fuel item lasts. */
+    val fuelSeconds = config.getIntOrNull("fuel.per-item-seconds") ?: 120
+
+    val needsFuel: Boolean
+        get() = fuelItems.isNotEmpty()
 }
 
 enum class StorageType {

@@ -58,6 +58,7 @@ class PlacedFurniture(
     fun barrierBlocks(): List<Block> = cells(BARRIERS)
     fun lightBlocks(): List<Block> = cells(LIGHTS)
     fun seatEntities(): List<ArmorStand> = entities(SEATS).filterIsInstance<ArmorStand>()
+    fun interactionEntities(): List<Entity> = entities(INTERACTIONS)
 
     /** Removes the furniture and everything it placed. */
     fun remove(player: Player?, drop: Boolean) {

@@ -13,6 +13,7 @@ import com.willfp.ecoitems.blocks.EcoBlocks
 import com.willfp.ecoitems.blocks.PaperBlockListener
 import com.willfp.ecoitems.furniture.FurnitureListener
 import com.willfp.ecoitems.furniture.FurnitureStorageManager
+import com.willfp.ecoitems.furniture.VehicleTicker
 import com.willfp.ecoitems.commands.CommandEcoItems
 import com.willfp.ecoitems.crops.CropListener
 import com.willfp.ecoitems.crops.CropTracker
@@ -81,6 +82,7 @@ class EcoItemsPlugin : LibreforgePlugin() {
         ItemsGUI.reload()
         ItemUpdater.updateOnlinePlayers()
         CropTracker.start(this)
+        VehicleTicker.start(this)
     }
 
     override fun loadPacketListeners(): List<PacketListener> {
