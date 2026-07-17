@@ -2,10 +2,14 @@
 # Remove the leading _ from the file name to enable this example.
 #
 # EcoItems retextures unused vanilla blockstates:
-#   noteblock   - 774 solid blocks (the default; full hardness support)
-#   stringblock - 127 no-collision blocks (plants; always insta-break)
-#   chorus      - 63 blocks (avoid if your server visits the End - custom
-#                 chorus blocks corrupt how natural chorus plants render)
+#   noteblock     - 774 solid blocks (the default; full hardness support)
+#   stringblock   - 127 no-collision blocks (plants; always insta-break)
+#   chorus        - 63 blocks (avoid if your server visits the End - custom
+#                   chorus blocks corrupt how natural chorus plants render)
+#   mushroom      - 63 solid blocks (brown mushroom backing); also
+#   mushroom_red / mushroom_stem for 63 more each. No update physics to
+#                   fight, but naturally generated giant mushrooms can render
+#                   as custom blocks - avoid in mushroom-heavy worlds.
 #
 # States are assigned automatically and persisted to block-variations.yml -
 # never edit or delete entries there once blocks have been placed in worlds.

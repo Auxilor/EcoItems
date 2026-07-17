@@ -42,11 +42,7 @@ object BlockBreakSpeed : Listener {
         }
 
         val tool = event.player.inventory.itemInMainHand
-        val backingHardness = when (block.backing) {
-            BlockBacking.NOTEBLOCK -> 0.8
-            BlockBacking.CHORUS -> 0.4
-            BlockBacking.STRINGBLOCK -> return
-        }
+        val backingHardness = block.backing.vanillaHardness
 
         // What vanilla thinks: axes speed up both backings.
         val actualSpeed = if (tool.type.name.endsWith("_AXE")) toolSpeed(tool) else 1.0

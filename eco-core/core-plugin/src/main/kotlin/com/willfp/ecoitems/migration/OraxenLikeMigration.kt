@@ -418,6 +418,9 @@ class OraxenLikeMigration(
             }
 
             BlockBacking.CHORUS -> variation.takeIf { it in backing.variations }
+
+            // Oraxen/Nexo have no mushroom mechanic; nothing maps here.
+            BlockBacking.MUSHROOM, BlockBacking.MUSHROOM_RED, BlockBacking.MUSHROOM_STEM -> null
         }
     }
 

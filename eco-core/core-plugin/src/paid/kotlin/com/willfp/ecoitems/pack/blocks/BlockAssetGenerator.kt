@@ -56,6 +56,13 @@ object BlockAssetGenerator {
                     "down=false,east=false,north=false,south=false,up=false,west=false",
                     variant("minecraft:block/chorus_plant")
                 )
+
+                // The player-placed all-faces state; the vanilla model file
+                // shares the material's name.
+                BlockBacking.MUSHROOM, BlockBacking.MUSHROOM_RED, BlockBacking.MUSHROOM_STEM -> variants.add(
+                    "down=true,east=true,north=true,south=true,up=true,west=true",
+                    variant("minecraft:block/${backing.material.key.key}")
+                )
             }
 
             for (block in forBacking.sortedBy { it.id }) {
@@ -107,7 +114,10 @@ object BlockAssetGenerator {
                 "powered=${variation and 64 != 0},south=${variation and 4 != 0}," +
                 "west=${variation and 2 != 0}"
 
-        BlockBacking.CHORUS ->
+        BlockBacking.CHORUS,
+        BlockBacking.MUSHROOM,
+        BlockBacking.MUSHROOM_RED,
+        BlockBacking.MUSHROOM_STEM ->
             "down=${variation and 32 != 0},east=${variation and 4 != 0}," +
                 "north=${variation and 1 != 0},south=${variation and 2 != 0}," +
                 "up=${variation and 16 != 0},west=${variation and 8 != 0}"

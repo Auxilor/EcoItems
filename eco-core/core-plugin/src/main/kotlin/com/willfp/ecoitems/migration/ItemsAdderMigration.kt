@@ -180,6 +180,7 @@ class ItemsAdderMigration(private val plugin: EcoItemsPlugin) {
         val backing = when (type.uppercase()) {
             "REAL_NOTE" -> BlockBacking.NOTEBLOCK
             "REAL_WIRE" -> BlockBacking.STRINGBLOCK
+            "REAL" -> BlockBacking.MUSHROOM
             else -> {
                 result.warn("Item $id: IA block type '$type' has no EcoItems equivalent; block section skipped")
                 return
@@ -188,14 +189,24 @@ class ItemsAdderMigration(private val plugin: EcoItemsPlugin) {
 
         out.set("block.type", backing.id)
 
-        // IA assigns state ids at runtime and caches them; those ids use the
-        // same legacy encoding as Oraxen, so they pin directly.
-        val cache = if (backing == BlockBacking.NOTEBLOCK) noteIds else wireIds
+        // IA assigns state ids at runtime and caches them; note/wire ids use
+        // the same legacy encoding as Oraxen, so they pin directly. Mushroom
+        // (REAL) ids use an internal encoding we can't translate.
+        val cache = when (backing) {
+            BlockBacking.NOTEBLOCK -> noteIds
+            BlockBacking.STRINGBLOCK -> wireIds
+            else -> emptyMap()
+        }
         val cached = cache["$namespace:$rawId"]
         if (cached != null && cached in backing.variations) {
             out.set("block.variation", cached)
         } else if (cache.isNotEmpty()) {
             result.warn("Item $id: no usable cached state id - auto-assigning (already-placed blocks of it will look wrong)")
+        } else if (backing in BlockBacking.mushrooms) {
+            result.warn(
+                "Item $id: IA REAL (mushroom) state ids can't be translated - " +
+                    "new placements work, but already-placed blocks of it will render wrong"
+            )
         }
 
         // The block shows the item's texture; nothing extra to wire.

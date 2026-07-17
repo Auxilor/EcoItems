@@ -24,6 +24,7 @@ import org.bukkit.event.entity.EntityChangeBlockEvent
 import org.bukkit.event.entity.EntityDropItemEvent
 import org.bukkit.event.entity.EntityExplodeEvent
 import org.bukkit.event.world.GenericGameEvent
+import org.bukkit.event.world.StructureGrowEvent
 
 /**
  * Stops vanilla from normalizing the hijacked blockstates. On Paper the
@@ -122,13 +123,33 @@ object BlockPhysicsListener : Listener {
     @EventHandler(ignoreCancelled = true)
     fun onWaterFlow(event: BlockFromToEvent) {
         val placed = EcoBlocks.at(event.toBlock) ?: return
-        if (placed.block.backing == BlockBacking.NOTEBLOCK) {
+        if (placed.block.backing.solid) {
             return
         }
 
         event.isCancelled = true
         event.toBlock.type = Material.AIR
         BlockListener.dropItems(placed.block, event.toBlock, null)
+    }
+
+    /**
+     * Giant mushrooms grown from bonemeal are built from assorted face
+     * combinations that can collide with assigned mushroom variations - bump
+     * colliding pieces to the vanilla all-faces state before they're placed.
+     */
+    @EventHandler(ignoreCancelled = true)
+    fun onStructureGrow(event: StructureGrowEvent) {
+        for (state in event.blocks) {
+            val backing = BlockBacking.byMaterial(state.type) ?: continue
+            if (backing !in BlockBacking.mushrooms) {
+                continue
+            }
+
+            val variation = backing.variationOf(state.blockData) ?: continue
+            if (EcoBlocks.lookup(backing, variation) != null) {
+                state.blockData = backing.material.createBlockData()
+            }
+        }
     }
 
     @EventHandler(ignoreCancelled = true)

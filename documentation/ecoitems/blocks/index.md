@@ -18,6 +18,11 @@ Add a `block:` section to any item config and the item places a real custom bloc
 | `noteblock` (default) | 774 | Solid | Full hardness support; the workhorse. |
 | `stringblock` | 127 | None | For plants/decorations; always breaks instantly. |
 | `chorus` | 63 | Solid | Corrupts how *natural* chorus plants render - avoid if your players visit the End. |
+| `mushroom` | 63 | Solid | Brown mushroom block backing. Full hardness support. |
+| `mushroom_red` | 63 | Solid | Red mushroom block backing. |
+| `mushroom_stem` | 63 | Solid | Mushroom stem backing. |
+
+The three mushroom backings add 189 more solid states with no block-update physics to fight. The trade-off is worldgen: naturally generated giant mushrooms are built from the same states, so pieces of them can render as your custom blocks in mushroom-heavy biomes (bonemeal-grown mushrooms are protected automatically). Avoid them if your worlds feature mushroom fields; plain `noteblock` has no such conflict.
 
 ```yaml
 # items/ruby_block.yml
