@@ -28,6 +28,9 @@ crop:
   requires-farmland: true        # false = plants on any solid block
   min-light: 9                   # growth pauses below this light level
   bonemeal: true                 # bonemeal advances one stage
+  rain-multiplier: 1.5           # optional weather growth speeds (1 = neutral,
+  thunder-multiplier: 2.0        # above 1 = faster, below 1 = slower)
+  snow-multiplier: 0.5           # applies instead of rain in cold biomes
   drops:                         # broken fully grown; without this, drops the seed
     items:
       - item: ecoitems:golden_wheat

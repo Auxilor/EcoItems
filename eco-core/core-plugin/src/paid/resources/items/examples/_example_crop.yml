@@ -32,6 +32,12 @@ crop:
   # If bonemeal advances the crop one stage.
   bonemeal: true
 
+  # Weather growth multipliers (1 = neutral, above 1 = faster). The snow
+  # multiplier applies instead of rain in cold biomes.
+  # rain-multiplier: 1.5
+  # thunder-multiplier: 2.0
+  # snow-multiplier: 0.5
+
   # Drops when broken fully grown. Without this section, drops the seed.
   drops:
     items:

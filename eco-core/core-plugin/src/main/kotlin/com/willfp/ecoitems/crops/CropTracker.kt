@@ -90,12 +90,24 @@ object CropTracker {
             return "${prefix(block)}${now()}"
         }
 
+        // Weather speeds growth up (or slows it): the stage time divides by
+        // the multiplier for the weather at the crop right now.
+        val world = chunk.world
+        val multiplier = when {
+            !world.hasStorm() && !world.isThundering -> 1.0
+            world.isThundering -> crop.thunderMultiplier
+            block.temperature < 0.15 -> crop.snowMultiplier
+            else -> crop.rainMultiplier
+        }.coerceAtLeast(0.01)
+
+        val perStage = (crop.perStageSeconds / multiplier).toLong().coerceAtLeast(1)
+
         val elapsed = now() - last
-        if (elapsed < crop.perStageSeconds) {
+        if (elapsed < perStage) {
             return entry
         }
 
-        val advance = (elapsed / crop.perStageSeconds).toInt()
+        val advance = (elapsed / perStage).toInt()
             .coerceAtMost(crop.stages.lastIndex - stage)
         EcoBlocks.blockData(placed.block, stage + advance)?.let { block.setBlockData(it, false) }
 

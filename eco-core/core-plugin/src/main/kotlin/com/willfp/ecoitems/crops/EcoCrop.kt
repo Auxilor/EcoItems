@@ -24,6 +24,11 @@ class EcoCrop(val id: String, val config: Config) {
 
     val bonemeal = config.getBoolOrNull("bonemeal") ?: true
 
+    /** Growth speed multipliers by weather (above 1 = faster). */
+    val rainMultiplier = config.getDoubleOrNull("rain-multiplier") ?: 1.0
+    val thunderMultiplier = config.getDoubleOrNull("thunder-multiplier") ?: 1.0
+    val snowMultiplier = config.getDoubleOrNull("snow-multiplier") ?: 1.0
+
     /** Drops when broken fully grown; null = the seed item. */
     val drops = if (config.has("drops")) BlockDrops(id, config.getSubsection("drops")) else null
 
