@@ -34,6 +34,7 @@ object ItemsGUI {
     fun reload() {
         val folders = itemFolders()
         val grouped = EcoItems.values()
+            .filterNot { it.excludeFromGui }
             .sortedBy { it.id.key }
             .groupBy { folders[it.id.key] ?: "" }
 

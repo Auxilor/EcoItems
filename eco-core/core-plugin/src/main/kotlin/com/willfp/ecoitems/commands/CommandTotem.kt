@@ -50,7 +50,11 @@ object CommandTotem : Subcommand(plugin, "totem", "ecoitems.command.totem", fals
         val completions = mutableListOf<String>()
 
         if (args.size == 1) {
-            StringUtil.copyPartialMatches(args[0], EcoItems.values().map { it.id.key }, completions)
+            StringUtil.copyPartialMatches(
+                args[0],
+                EcoItems.values().filterNot { it.excludeFromCommands }.map { it.id.key },
+                completions
+            )
             completions.sort()
             return completions
         }

@@ -73,6 +73,12 @@ class EcoItem(
      */
     val fuelBurnTicks = config.getIntOrNull("fuel.burn-ticks")
 
+    /** Hidden from the /ecoitems gui browser. */
+    val excludeFromGui = config.getBool("exclude-from-gui")
+
+    /** Hidden from command tab-completion (the exact id still works). */
+    val excludeFromCommands = config.getBool("exclude-from-commands")
+
     // Defensive copy
     private val _itemStack: ItemStack = run {
         val itemConfig = config.getSubsection("item")

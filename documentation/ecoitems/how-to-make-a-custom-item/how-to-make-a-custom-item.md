@@ -157,6 +157,10 @@ item:
 
 The item's own keys always win over the template's; nested sections merge key-by-key and lists are replaced whole. `template:` also accepts a list (later templates override earlier ones), and templates can themselves extend other templates.
 
+### Hiding items
+
+`exclude-from-gui: true` hides an item from the `/ecoitems gui` browser, and `exclude-from-commands: true` hides it from tab-completion (giving it by exact id still works). Useful for internal items like quest rewards or crafting intermediates.
+
 ### Furnace fuel
 
 Items based on a vanilla fuel can override how long they burn:
