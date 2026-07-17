@@ -52,6 +52,26 @@ See `items/_example_block.yml` for every option (`directional: log|furnace|dropp
 
 Custom logs can be strippable: `strips-to: <block id>` converts the block into another custom block when right-clicked with an axe (costing 1 axe durability, respecting Unbreaking), exactly like vanilla log stripping. Directional orientation carries over when both blocks share the same directional type.
 
+Stringblock-backed blocks can also be saplings that grow into pasted WorldEdit schematics (drop `.schem` files into `plugins/EcoItems/schematics/`):
+
+```yaml
+block:
+  type: stringblock
+  texture: block/pine_sapling
+  sapling:
+    schematics:               # weighted random pick
+      - schematic: pine.schem
+        weight: 10
+      - schematic: pine_large.schem
+        weight: 2
+    growth-time: 600           # seconds; 0 = bonemeal only
+    bonemeal: true
+    min-light: 9
+    require-space: true        # only grow when nothing solid is in the way
+```
+
+Copy the tree with its origin at the trunk base (stand where the sapling would be when you `//copy`) - the schematic pastes with its origin at the sapling. Custom EcoItems blocks inside schematics survive the round-trip, since the blockstate is the identity. Growth needs WorldEdit or FAWE installed; a blocked or dark sapling just tries again later.
+
 Stringblock-backed blocks can stack like sea pickles - right-clicking with more of the same item grows the stack, and breaking drops one set of loot per stacked item:
 
 ```yaml

@@ -28,13 +28,17 @@ object WorldEditIntegration {
         }
     }
 
-    /** Pastes a .schem at a location (air skipped); false on failure. */
-    fun pasteSchematic(file: File, location: Location): Boolean {
+    /**
+     * Pastes a .schem at a location (air skipped). With [requireSpace], the
+     * paste only happens when every non-air block lands on something
+     * replaceable (air, plants, leaves); false when blocked or failed.
+     */
+    fun pasteSchematic(file: File, location: Location, requireSpace: Boolean = false): Boolean {
         if (!present) {
             return false
         }
 
-        return runCatching { Hook.paste(file, location) }.getOrElse {
+        return runCatching { Hook.paste(file, location, requireSpace) }.getOrElse {
             plugin.logger.warning("Could not paste ${file.name}: $it")
             false
         }
@@ -54,8 +58,12 @@ object WorldEditIntegration {
             com.sk89q.worldedit.WorldEdit.getInstance().blockFactory.register(Parser)
         }
 
-        fun paste(file: File, location: Location): Boolean {
+        fun paste(file: File, location: Location, requireSpace: Boolean): Boolean {
             val clipboard = load(file) ?: return false
+
+            if (requireSpace && !fits(clipboard, location)) {
+                return false
+            }
 
             com.sk89q.worldedit.WorldEdit.getInstance().newEditSessionBuilder()
                 .world(com.sk89q.worldedit.bukkit.BukkitAdapter.adapt(location.world))
@@ -80,6 +88,37 @@ object WorldEditIntegration {
             val clipboard = load(file) ?: return null
             val dimensions = clipboard.dimensions
             return Triple(dimensions.x(), dimensions.y(), dimensions.z())
+        }
+
+        /** Every non-air clipboard block must land on something replaceable. */
+        private fun fits(
+            clipboard: com.sk89q.worldedit.extent.clipboard.Clipboard,
+            location: Location
+        ): Boolean {
+            val origin = clipboard.origin
+            val world = location.world ?: return false
+
+            for (point in clipboard.region) {
+                if (clipboard.getBlock(point).blockType.material.isAir) {
+                    continue
+                }
+
+                val target = world.getBlockAt(
+                    location.blockX + point.x() - origin.x(),
+                    location.blockY + point.y() - origin.y(),
+                    location.blockZ + point.z() - origin.z()
+                )
+
+                val replaceable = target.type.isAir ||
+                    target.isLiquid ||
+                    org.bukkit.Tag.LEAVES.isTagged(target.type) ||
+                    org.bukkit.Tag.REPLACEABLE.isTagged(target.type)
+                if (!replaceable) {
+                    return false
+                }
+            }
+
+            return true
         }
 
         private fun load(file: File): com.sk89q.worldedit.extent.clipboard.Clipboard? {

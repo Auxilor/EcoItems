@@ -11,6 +11,7 @@ import com.willfp.ecoitems.blocks.BlockListener
 import com.willfp.ecoitems.blocks.BlockPhysicsListener
 import com.willfp.ecoitems.blocks.EcoBlocks
 import com.willfp.ecoitems.blocks.PaperBlockListener
+import com.willfp.ecoitems.blocks.SaplingGrowth
 import com.willfp.ecoitems.furniture.FurnitureBeds
 import com.willfp.ecoitems.furniture.FurnitureListener
 import com.willfp.ecoitems.furniture.FurnitureStorageManager
@@ -92,6 +93,7 @@ class EcoItemsPlugin : LibreforgePlugin() {
         ItemsGUI.reload()
         ItemUpdater.updateOnlinePlayers()
         CropTracker.start(this)
+        SaplingGrowth.start(this)
         VehicleTicker.start(this)
         FurnitureBeds.start(this)
     }
@@ -131,6 +133,7 @@ class EcoItemsPlugin : LibreforgePlugin() {
             BlockListener,
             BlockPhysicsListener,
             BlockBreakSpeed,
+            SaplingGrowth,
             FurnitureListener,
             FurnitureStorageManager,
             FurnitureBeds,

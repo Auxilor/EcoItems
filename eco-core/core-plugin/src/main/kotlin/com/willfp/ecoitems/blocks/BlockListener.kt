@@ -273,6 +273,10 @@ object BlockListener : Listener {
 
         block.effects.dispatch(ContentEvent.PLACE, player, target.location.add(0.5, 0.5, 0.5), target)
 
+        if (block.sapling != null) {
+            SaplingGrowth.add(target)
+        }
+
         val sound = block.sounds?.place ?: "minecraft:block.wood.place"
         target.world.playSound(
             target.location.add(0.5, 0.5, 0.5),

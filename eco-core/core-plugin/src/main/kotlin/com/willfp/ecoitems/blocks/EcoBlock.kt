@@ -61,6 +61,17 @@ class EcoBlock(
     /** The block id this block becomes when stripped with an axe. */
     val stripsTo = config.getStringOrNull("strips-to")
 
+    /** Grows into a pasted schematic over time (needs WorldEdit). */
+    val sapling = if (config.has("sapling")) {
+        SaplingBlock(id, config.getSubsection("sapling"))
+    } else {
+        null
+    }.also {
+        if (it != null && backing != BlockBacking.STRINGBLOCK) {
+            plugin.logger.warning("Block $id: saplings must be stringblock-backed")
+        }
+    }
+
     val hardness = config.getDoubleOrNull("hardness") ?: -1.0
 
     val light = (config.getIntOrNull("light") ?: 0).coerceIn(0, 15)
@@ -134,6 +145,35 @@ class BlockDropItem(
     val chance: Double,
     val amount: IntRange
 )
+
+class SaplingBlock(blockId: String, config: Config) {
+    /** Weighted .schem files from plugins/EcoItems/schematics/. */
+    val schematics = config.getSubsections("schematics").mapNotNull { entry ->
+        val schematic = entry.getStringOrNull("schematic")
+        if (schematic == null) {
+            plugin.logger.warning("Block $blockId has a sapling schematic with no file")
+            null
+        } else {
+            schematic to (entry.getDoubleOrNull("weight") ?: 1.0)
+        }
+    }
+
+    /** Average seconds until it grows; 0 = bonemeal only. */
+    val growthTime = config.getIntOrNull("growth-time") ?: 600
+
+    val bonemeal = config.getBoolOrNull("bonemeal") ?: true
+
+    val minLight = (config.getIntOrNull("min-light") ?: 9).coerceIn(0, 15)
+
+    /** Only grow when the tree fits (nothing solid in the way). */
+    val requireSpace = config.getBoolOrNull("require-space") ?: true
+
+    init {
+        if (schematics.isEmpty()) {
+            plugin.logger.warning("Block $blockId has a sapling with no schematics")
+        }
+    }
+}
 
 class StackableBlock(blockId: String, config: Config) {
     /** Model references, one per stack count (or textures to generate from). */

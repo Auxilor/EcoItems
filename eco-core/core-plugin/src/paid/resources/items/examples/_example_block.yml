@@ -52,6 +52,18 @@ block:
   # like stripping a vanilla log (costs 1 axe durability):
   # strips-to: example_stripped
 
+  # Saplings (stringblock only): grows into a pasted schematic from
+  # plugins/EcoItems/schematics/ (needs WorldEdit; copy trees with the
+  # origin at the trunk base).
+  # sapling:
+  #   schematics:
+  #     - schematic: example_tree.schem
+  #       weight: 1
+  #   growth-time: 600      # seconds; 0 = bonemeal only
+  #   bonemeal: true
+  #   min-light: 9
+  #   require-space: true
+
   # Sea-pickle-style stacking (stringblock only): right-clicking with the
   # same item grows the stack; one texture (or models:) per stack count.
   # stackable:
