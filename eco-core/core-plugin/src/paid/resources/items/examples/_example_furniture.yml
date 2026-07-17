@@ -111,6 +111,10 @@ furniture:
   #     model: furniture/example_right
   #   middle:
   #     model: furniture/example_middle
+  #   inner:                       # optional corners for counter-style rows
+  #     model: furniture/example_inner
+  #   outer:
+  #     model: furniture/example_outer
 
   # Vehicles (Paper): the player in the first seat drives with look
   # + W/S. No barriers/lights on vehicles - blocks can't move.

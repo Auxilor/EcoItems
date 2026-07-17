@@ -299,7 +299,8 @@ class FurnitureStorage(furnitureId: String, config: Config) {
 /**
  * Row-connecting looks: pieces re-model themselves by which sides have a
  * matching neighbor (same furniture, same facing). Missing keys keep the
- * item's own look for that shape.
+ * item's own look for that shape. Corner keys connect rows meeting at 90
+ * degrees, counter-style.
  */
 class FurnitureConnectable(furnitureId: String, config: Config) {
     /** This piece is the left end of a row (neighbor only on its right). */
@@ -311,8 +312,14 @@ class FurnitureConnectable(furnitureId: String, config: Config) {
     /** Neighbors on both sides. */
     val middle = if (config.has("middle")) FurnitureState(furnitureId, "middle", config.getSubsection("middle")) else null
 
+    /** Two rows meeting at this piece, bending toward its front. */
+    val inner = if (config.has("inner")) FurnitureState(furnitureId, "inner", config.getSubsection("inner")) else null
+
+    /** Two rows meeting at this piece, bending away from its front. */
+    val outer = if (config.has("outer")) FurnitureState(furnitureId, "outer", config.getSubsection("outer")) else null
+
     val all: List<FurnitureState>
-        get() = listOfNotNull(left, right, middle)
+        get() = listOfNotNull(left, right, middle, inner, outer)
 }
 
 class FurnitureDoor(furnitureId: String, config: Config) {

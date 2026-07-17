@@ -131,6 +131,8 @@ furniture:
 
 The item's own model is used for a lone piece. If your left/right models render mirrored, swap the two keys - "left" is from the viewpoint of a player facing the furniture's front.
 
+Counter-style corners work too: `inner:` and `outer:` states apply when a piece joins a sideways row to a perpendicular one (the neighbor facing 90° off). Place the corner piece facing the direction you want the bend; swap the two keys if your models come out inverted.
+
 ## Beds
 
 `beds:` cells (same `"x,y,z [yaw]"` format as seats) make furniture sleepable: right-click at night (or during a thunderstorm) to lie down with the real sleeping pose and overlay - no bed block involved. Lying down resets the phantom timer, and once enough of the world sleeps (`playersSleepingPercentage` gamerule), the night skips and the weather clears, vanilla-style. Sneak, move, or take damage to get up.
