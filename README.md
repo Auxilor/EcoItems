@@ -16,7 +16,7 @@
     <a href="https://bstats.org/plugin/bukkit/EcoItems" alt="bstats players">
         <img src="https://img.shields.io/bstats/players/12205?color=ff0000&style=for-the-badge"/>
     </a>
-    <a href="https://hub.auxilor.io/ecoitems/ecoitems/" alt="Docs (gitbook)">
+    <a href="https://plugins.auxilor.io/ecoitems/" alt="Docs (gitbook)">
         <img src="https://img.shields.io/badge/docs-gitbook-ff0000?style=for-the-badge&logo=appveyor"/>
     </a>
     <a href="https://discord.gg/ZcwpSsE/" alt="Discord">
@@ -25,7 +25,7 @@
 </p>
 
 
-[![Picture](https://i.imgur.com/z37jIZt.png)](https://hub.auxilor.io/ecoitems/ecoitems)
+[![Picture](https://i.imgur.com/z37jIZt.png)](https://plugins.auxilor.io/ecoitems)
 
 ## License
 *Click here to read [the entire license](https://github.com/Auxilor/EcoItems/blob/master/LICENSE.md).*

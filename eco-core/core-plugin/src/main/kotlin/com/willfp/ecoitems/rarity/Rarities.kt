@@ -1,6 +1,6 @@
 package com.willfp.ecoitems.rarity
 
-import com.github.benmanes.caffeine.cache.Caffeine
+import com.willfp.eco.core.cache.EcoCache
 import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.eco.core.fast.FastItemStack
 import com.willfp.eco.core.fast.fast
@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataContainer
 import org.bukkit.persistence.PersistentDataType
 import java.util.Optional
-import java.util.concurrent.TimeUnit
+import java.time.Duration
 import kotlin.jvm.optionals.getOrNull
 
 object Rarities : RegistrableCategory<Rarity>("rarity", "rarities") {
@@ -31,9 +31,9 @@ object Rarities : RegistrableCategory<Rarity>("rarity", "rarities") {
             ?: throw IllegalStateException("Invalid default rarity!")
 }
 
-private val cache = Caffeine.newBuilder()
-    .expireAfterAccess(5, TimeUnit.SECONDS)
-    .build<HashedItem, Optional<Rarity>>()
+private val cache = EcoCache.builder<HashedItem, Optional<Rarity>>()
+    .expireAfterAccess(Duration.ofSeconds(5))
+    .build()
 
 val ItemStack.ecoItemRarity: Rarity?
     get() {
