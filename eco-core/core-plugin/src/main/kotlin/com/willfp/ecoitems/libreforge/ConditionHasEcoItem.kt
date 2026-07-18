@@ -3,6 +3,7 @@ package com.willfp.ecoitems.libreforge
 import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.eco.util.containsIgnoreCase
 import com.willfp.ecoitems.items.EcoItem
+import com.willfp.libreforge.ArgType
 import com.willfp.libreforge.Dispatcher
 import com.willfp.libreforge.NoCompileData
 import com.willfp.libreforge.ProvidedHolder
@@ -14,8 +15,18 @@ import com.willfp.libreforge.toDispatcher
 import org.bukkit.entity.LivingEntity
 
 object ConditionHasEcoItem : Condition<NoCompileData>("has_ecoitem") {
+    override val description = "Passes when the player has the specified EcoItem in their inventory, " +
+        "armor, or held items."
+
+    override val categories = setOf("inventory")
+
     override val arguments = arguments {
-        require("item", "You must specify the item!")
+        require(
+            "item",
+            "You must specify the item!",
+            description = "The ID of the EcoItem to check for.",
+            type = ArgType.STRING
+        )
     }
 
     override fun isMet(

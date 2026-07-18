@@ -5,7 +5,7 @@
 # _example.yml is not loaded.
 
 item:
-  item: netherite_pickaxe glint max_damage:4096 # The item in-game: https://plugins.auxilor.io/all-plugins/the-item-lookup-system
+  item: netherite_pickaxe glint max_damage:4096 # The item in-game: https://hub.auxilor.io/wiki/eco/the-item-lookup-system-the-item-lookup-system
   display-name: "<g:#FF0099>Hardened Netherite Pickaxe</g:#493240>"
   lore:
     - "&7A pickaxe made from hardened netherite."
@@ -18,7 +18,7 @@ item:
   recipe-give-amount: 1 # (Optional) Set the amount of items to give, defaults to 1
   crafting-permission: ecoitems.craft.custom_tool # (Optional) The permission required to craft the item
   shapeless: false # (Optional) Whether the crafting recipe is shapeless or not, defaults to false
-  recipe: # The recipe, read here for more: https://plugins.auxilor.io/all-plugins/the-item-lookup-system#crafting-recipes
+  recipe: # The recipe, read here for more: https://hub.auxilor.io/wiki/eco/the-item-lookup-system-the-item-lookup-system#crafting-recipes
     - netherite_ingot
     - netherite_ingot
     - netherite_ingot
@@ -67,7 +67,7 @@ base-attack-range: 3.0 # (Optional) The item base attack range (entity interacti
 rarity: rare
 
 # The effects of the item (i.e. the functionality)
-# See here: https://plugins.auxilor.io/effects/configuring-an-effect
+# See here: https://hub.auxilor.io/wiki/libreforge/configuring-an-effect
 effects:
   - id: autosmelt
     args:
