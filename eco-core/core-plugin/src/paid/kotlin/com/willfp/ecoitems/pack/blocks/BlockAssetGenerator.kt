@@ -1,6 +1,7 @@
 package com.willfp.ecoitems.pack.blocks
 
 import com.google.gson.GsonBuilder
+import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import com.willfp.ecoitems.EcoItemsPlugin
@@ -324,7 +325,7 @@ object BlockAssetGenerator {
         for (event in listOf("break", "fall", "hit", "place", "step")) {
             val silenced = JsonObject()
             silenced.addProperty("replace", true)
-            silenced.add("sounds", com.google.gson.JsonArray())
+            silenced.add("sounds", JsonArray())
             minecraft.add("block.wood.$event", silenced)
         }
 
@@ -347,7 +348,7 @@ object BlockAssetGenerator {
         )
         for ((event, sounds) in samples) {
             val definition = JsonObject()
-            val array = com.google.gson.JsonArray()
+            val array = JsonArray()
             sounds.forEach { array.add(it) }
             definition.add("sounds", array)
             ecoitems.add("required.wood.$event", definition)

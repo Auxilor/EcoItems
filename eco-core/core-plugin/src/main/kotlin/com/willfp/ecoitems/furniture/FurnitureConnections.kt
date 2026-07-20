@@ -1,5 +1,6 @@
 package com.willfp.ecoitems.furniture
 
+import com.willfp.ecoitems.plugin
 import org.bukkit.entity.ItemDisplay
 import org.bukkit.util.BoundingBox
 import kotlin.math.abs
@@ -60,7 +61,7 @@ object FurnitureConnections {
         )
 
         // Next tick: the removed piece must be gone before neighbors look.
-        com.willfp.ecoitems.plugin.scheduler.run {
+        plugin.scheduler.run {
             neighbors.forEach { if (it.base.isValid) update(it, includeNeighbors = false) }
         }
     }

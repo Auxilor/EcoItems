@@ -7,14 +7,14 @@ import kotlin.math.abs
  * powers-of-two advances, composed by binary decomposition. Injected into
  * minecraft:default and the standalone ecoitems:shift font.
  *
- * Fixed private-use-area codepoints, deliberately disjoint from Oraxen's
- * 0xF800 range so merged packs can coexist.
+ * Fixed private-use-area codepoints, deliberately disjoint from the
+ * 0xF800 range imported packs commonly use, so merged packs can coexist.
  */
 object ShiftChars {
     private const val BASE = 0xF850
     private const val MAX_POWER = 10
 
-    const val MAX_SHIFT = (1 shl (MAX_POWER + 1)) - 1 // 2047
+    const val MAX_SHIFT = (1 shl (MAX_POWER + 1)) - 1
 
     /** Codepoint -> advance in pixels. */
     val advances: Map<Int, Int> = buildMap {

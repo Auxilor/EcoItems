@@ -22,9 +22,9 @@ class AssignedGlyph(
  * restores its old codepoint.
  */
 object GlyphCodepoints {
-    // Off the 0xA410+ region Oraxen/Nexo auto-assign from, so imported
-    // explicit chars don't fight our auto assignments. Existing persisted
-    // assignments are unaffected (persisted always wins).
+    // Off the 0xA410+ region imported packs commonly auto-assign from, so
+    // imported explicit chars don't fight our auto assignments. Existing
+    // persisted assignments are unaffected (persisted always wins).
     private const val STATIC_BASE = 0xA800
     private const val ANIMATED_BASE = 0xE800
     private const val ANIMATED_CAP = 0xF850 // exclusive; shift chars live here

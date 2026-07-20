@@ -1,5 +1,9 @@
 package com.willfp.ecoitems.util
 
+import com.sk89q.worldedit.bukkit.BukkitAdapter
+import com.sk89q.worldguard.WorldGuard
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin
+import com.sk89q.worldguard.protection.flags.StateFlag
 import com.willfp.ecoitems.plugin
 import org.bukkit.Bukkit
 import org.bukkit.Location
@@ -57,10 +61,10 @@ object WorldGuardFlags {
     private object Hook {
         private val flags = listOf(
             FURNITURE_INTERACT, FURNITURE_SIT, FURNITURE_STORAGE, VEHICLE, BLOCK_INTERACT
-        ).associateWith { com.sk89q.worldguard.protection.flags.StateFlag(it, true) }
+        ).associateWith { StateFlag(it, true) }
 
         fun register() {
-            val registry = com.sk89q.worldguard.WorldGuard.getInstance().flagRegistry
+            val registry = WorldGuard.getInstance().flagRegistry
             for (flag in flags.values) {
                 runCatching { registry.register(flag) }
             }
@@ -68,17 +72,17 @@ object WorldGuardFlags {
 
         fun test(player: Player, location: Location, flag: String): Boolean {
             val stateFlag = flags[flag] ?: return true
-            val localPlayer = com.sk89q.worldguard.bukkit.WorldGuardPlugin.inst().wrapPlayer(player)
+            val localPlayer = WorldGuardPlugin.inst().wrapPlayer(player)
 
-            if (com.sk89q.worldguard.WorldGuard.getInstance().platform.sessionManager
+            if (WorldGuard.getInstance().platform.sessionManager
                     .hasBypass(localPlayer, localPlayer.world)
             ) {
                 return true
             }
 
-            return com.sk89q.worldguard.WorldGuard.getInstance().platform.regionContainer
+            return WorldGuard.getInstance().platform.regionContainer
                 .createQuery()
-                .testState(com.sk89q.worldedit.bukkit.BukkitAdapter.adapt(location), localPlayer, stateFlag)
+                .testState(BukkitAdapter.adapt(location), localPlayer, stateFlag)
         }
     }
 }

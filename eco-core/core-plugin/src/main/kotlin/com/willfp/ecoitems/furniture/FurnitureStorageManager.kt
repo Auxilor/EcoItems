@@ -1,6 +1,7 @@
 package com.willfp.ecoitems.furniture
 
 import com.willfp.eco.util.formatEco
+import com.willfp.ecoitems.plugin
 import org.bukkit.Bukkit
 import org.bukkit.NamespacedKey
 import org.bukkit.SoundCategory
@@ -127,10 +128,10 @@ object FurnitureStorageManager : Listener {
         )
     }
 
-    private val sharedKey = NamespacedKey(com.willfp.ecoitems.plugin, "furniture-storage")
+    private val sharedKey = NamespacedKey(plugin, "furniture-storage")
 
     private fun personalKey(player: Player) =
-        NamespacedKey(com.willfp.ecoitems.plugin, "furniture-storage-${player.uniqueId}")
+        NamespacedKey(plugin, "furniture-storage-${player.uniqueId}")
 
     private fun serialize(contents: Array<ItemStack?>): ByteArray =
         ByteArrayOutputStream().use { bytes ->

@@ -6,9 +6,11 @@ import com.willfp.ecoitems.items.EcoItems
 import com.willfp.ecoitems.nms.ItemComponentsProxy
 import com.willfp.ecoitems.plugin
 import org.bukkit.Bukkit
+import org.bukkit.GameMode
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
+import org.bukkit.SoundCategory
 import org.bukkit.block.Block
 import org.bukkit.block.data.type.Light as LightData
 import org.bukkit.entity.ArmorStand
@@ -19,6 +21,7 @@ import org.bukkit.entity.ItemDisplay
 import org.bukkit.entity.Player
 import org.bukkit.persistence.PersistentDataType
 import org.bukkit.util.BoundingBox
+import org.bukkit.util.Transformation
 import org.joml.Quaternionf
 import org.joml.Vector3f
 import java.util.UUID
@@ -96,7 +99,7 @@ class PlacedFurniture(
         val location = base.location
         base.remove()
 
-        if (drop && player?.gameMode != org.bukkit.GameMode.CREATIVE) {
+        if (drop && player?.gameMode != GameMode.CREATIVE) {
             val item = this.item
             val furniture = this.furniture
             if (item != null) {
@@ -203,7 +206,7 @@ class PlacedFurniture(
         base.world.playSound(
             base.location,
             if (open) door.openSound else door.closeSound,
-            org.bukkit.SoundCategory.BLOCKS,
+            SoundCategory.BLOCKS,
             1.0f,
             1.0f
         )
@@ -217,7 +220,7 @@ class PlacedFurniture(
             ?: return false
 
         // Mounting mid-interact-packet desyncs the client; next tick is safe.
-        com.willfp.ecoitems.plugin.scheduler.run {
+        plugin.scheduler.run {
             if (seat.isValid && seat.passengers.isEmpty()) {
                 seat.addPassenger(player)
             }
@@ -271,9 +274,9 @@ class PlacedFurniture(
 
         private const val SEARCH_RADIUS = 8.0
 
-        // Seat offsets follow the Nexo/Oraxen convention: y = 0 is the
-        // natural sitting height on a chair-height cushion (~0.6 above the
-        // block bottom), so seat vectors from imported setups work verbatim.
+        // Seat offsets follow the convention imported setups use: y = 0 is
+        // the natural sitting height on a chair-height cushion (~0.6 above
+        // the block bottom), so imported seat vectors work verbatim.
         private const val SIT_HEIGHT = 0.6
 
         /**
@@ -312,7 +315,7 @@ class PlacedFurniture(
                 if (furniture.scale != null || furniture.translation != null) {
                     val scale = furniture.scale ?: Triple(1.0, 1.0, 1.0)
                     val translation = furniture.translation ?: Triple(0.0, 0.0, 0.0)
-                    display.transformation = org.bukkit.util.Transformation(
+                    display.transformation = Transformation(
                         Vector3f(translation.first.toFloat(), translation.second.toFloat(), translation.third.toFloat()),
                         Quaternionf(),
                         Vector3f(scale.first.toFloat(), scale.second.toFloat(), scale.third.toFloat()),

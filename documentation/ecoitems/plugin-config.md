@@ -21,6 +21,13 @@ blocks:
   place-cooldown-ms: 200 # Milliseconds between custom block/furniture placements
   worlds: # Worlds where custom blocks/crops can be placed ("*", "world_*", "!creative_world")
     - "*"
+  tool-speeds: # Mining speed per tool tier (hand = 1), used for custom block hardness
+    wooden: 2
+    stone: 4
+    iron: 6
+    diamond: 8
+    netherite: 9
+    golden: 12
 
 rarity:
   enabled: false # If the rarity system should be enabled

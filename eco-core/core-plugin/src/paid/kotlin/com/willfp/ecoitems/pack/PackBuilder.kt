@@ -1,5 +1,8 @@
 package com.willfp.ecoitems.pack
 
+import com.google.gson.Gson
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
 import com.willfp.ecoitems.EcoItemsPlugin
 import com.willfp.ecoitems.huds.Hud
 import com.willfp.ecoitems.pack.blocks.BlockAssetGenerator
@@ -90,7 +93,7 @@ object PackBuilder {
 
     /** Compacts json entries for size; malformed files are left as-is. */
     private fun minifyJson(entries: MutableMap<String, ByteArray>) {
-        val gson = com.google.gson.Gson()
+        val gson = Gson()
 
         for (path in entries.keys.toList()) {
             if (!path.endsWith(".json") && !path.endsWith(".mcmeta")) {
@@ -98,13 +101,13 @@ object PackBuilder {
             }
 
             runCatching {
-                val parsed = com.google.gson.JsonParser.parseString(entries.getValue(path).decodeToString())
+                val parsed = JsonParser.parseString(entries.getValue(path).decodeToString())
                 entries[path] = gson.toJson(parsed).encodeToByteArray()
             }
         }
     }
 
-    private fun userMcmetaOverlays(plugin: EcoItemsPlugin): List<com.google.gson.JsonObject> {
+    private fun userMcmetaOverlays(plugin: EcoItemsPlugin): List<JsonObject> {
         val file = plugin.dataFolder.resolve("pack/pack.mcmeta")
         if (!file.isFile) {
             return emptyList()

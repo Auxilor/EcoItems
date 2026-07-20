@@ -7,13 +7,18 @@ import com.willfp.ecoitems.libreforge.ContentEvent
 import com.willfp.ecoitems.items.EcoItems
 import com.willfp.ecoitems.items.ecoItem
 import com.willfp.ecoitems.plugin
+import com.willfp.ecoitems.util.WorldGuardFlags
 import org.bukkit.GameMode
+import org.bukkit.Location
 import org.bukkit.Material
+import org.bukkit.Sound
 import org.bukkit.SoundCategory
 import org.bukkit.block.Block
 import org.bukkit.block.BlockFace
 import org.bukkit.enchantments.Enchantment
+import org.bukkit.entity.ExperienceOrb
 import org.bukkit.entity.Player
+import org.bukkit.event.Event
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
@@ -21,9 +26,12 @@ import org.bukkit.event.block.Action
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.event.player.PlayerInteractEvent
+import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.Damageable
 import org.bukkit.util.BoundingBox
+import java.util.UUID
 import kotlin.random.Random
 
 /**
@@ -38,7 +46,7 @@ object BlockListener : Listener {
 
     // Vanilla paces held-down placement at 4 ticks; without this, a single
     // click can double-fire and place two blocks back to back.
-    private val lastPlacement = mutableMapOf<java.util.UUID, Long>()
+    private val lastPlacement = mutableMapOf<UUID, Long>()
 
     internal fun passesPlacementCooldown(player: Player): Boolean {
         val cooldown = plugin.configYml.getIntOrNull("blocks.place-cooldown-ms") ?: 200
@@ -55,7 +63,7 @@ object BlockListener : Listener {
     }
 
     @EventHandler
-    fun onQuit(event: org.bukkit.event.player.PlayerQuitEvent) {
+    fun onQuit(event: PlayerQuitEvent) {
         lastPlacement.remove(event.player.uniqueId)
     }
 
@@ -86,7 +94,7 @@ object BlockListener : Listener {
 
         val block = event.clickedBlock ?: return
         if (EcoBlocks.at(block) != null) {
-            event.setUseInteractedBlock(org.bukkit.event.Event.Result.DENY)
+            event.setUseInteractedBlock(Event.Result.DENY)
         }
     }
 
@@ -112,10 +120,7 @@ object BlockListener : Listener {
         val block = event.clickedBlock ?: return
         val placed = EcoBlocks.at(block) ?: return
 
-        if (!com.willfp.ecoitems.util.WorldGuardFlags.test(
-                event.player, block.location, com.willfp.ecoitems.util.WorldGuardFlags.BLOCK_INTERACT
-            )
-        ) {
+        if (!WorldGuardFlags.test(event.player, block.location, WorldGuardFlags.BLOCK_INTERACT)) {
             return
         }
 
@@ -160,7 +165,7 @@ object BlockListener : Listener {
         block.setBlockData(data, false)
         block.world.playSound(
             block.location.add(0.5, 0.5, 0.5),
-            "minecraft:item.axe.strip",
+            Sound.ITEM_AXE_STRIP,
             SoundCategory.BLOCKS,
             1.0f,
             1.0f
@@ -175,7 +180,7 @@ object BlockListener : Listener {
             return
         }
 
-        val meta = tool.itemMeta as? org.bukkit.inventory.meta.Damageable ?: return
+        val meta = tool.itemMeta as? Damageable ?: return
         if (meta.isUnbreakable) {
             return
         }
@@ -189,7 +194,7 @@ object BlockListener : Listener {
         val max = if (meta.hasMaxDamage()) meta.maxDamage else tool.type.maxDurability.toInt()
         if (meta.damage >= max) {
             tool.amount = 0
-            player.world.playSound(player.location, "minecraft:entity.item.break", SoundCategory.PLAYERS, 1.0f, 1.0f)
+            player.world.playSound(player.location, Sound.ENTITY_ITEM_BREAK, SoundCategory.PLAYERS, 1.0f, 1.0f)
         } else {
             tool.itemMeta = meta
         }
@@ -202,7 +207,7 @@ object BlockListener : Listener {
         if (event.action != Action.RIGHT_CLICK_BLOCK || event.hand != EquipmentSlot.HAND) {
             return
         }
-        if (event.useItemInHand() == org.bukkit.event.Event.Result.DENY) {
+        if (event.useItemInHand() == Event.Result.DENY) {
             return
         }
 
@@ -277,7 +282,7 @@ object BlockListener : Listener {
             SaplingGrowth.add(target)
         }
 
-        val sound = block.sounds?.place ?: "minecraft:block.wood.place"
+        val sound = block.sounds?.place ?: Sound.BLOCK_WOOD_PLACE.key().toString()
         target.world.playSound(
             target.location.add(0.5, 0.5, 0.5),
             remapSilencedSound(sound),
@@ -325,7 +330,7 @@ object BlockListener : Listener {
             worldBlock
         )
 
-        val sound = block.sounds?.place ?: "minecraft:block.wood.place"
+        val sound = block.sounds?.place ?: Sound.BLOCK_WOOD_PLACE.key().toString()
         worldBlock.world.playSound(
             worldBlock.location.add(0.5, 0.5, 0.5),
             remapSilencedSound(sound),
@@ -344,7 +349,7 @@ object BlockListener : Listener {
 
         val block = placed.block
         block.effects.dispatch(ContentEvent.BREAK, event.player, event.block.location.add(0.5, 0.5, 0.5), event.block)
-        val sound = block.sounds?.breakSound ?: "minecraft:block.wood.break"
+        val sound = block.sounds?.breakSound ?: Sound.BLOCK_WOOD_BREAK.key().toString()
         event.block.world.playSound(
             event.block.location.add(0.5, 0.5, 0.5),
             remapSilencedSound(sound),
@@ -403,7 +408,7 @@ object BlockListener : Listener {
     fun spawnDrops(
         drops: BlockDrops?,
         self: ItemStack?,
-        location: org.bukkit.Location,
+        location: Location,
         tool: ItemStack?,
         player: Player?,
         onInvalid: (String) -> Unit = {}
@@ -461,7 +466,7 @@ object BlockListener : Listener {
         val world = location.world ?: return
         items.forEach { world.dropItemNaturally(location, it) }
         if (xp > 0) {
-            world.spawn(location, org.bukkit.entity.ExperienceOrb::class.java).experience = xp
+            world.spawn(location, ExperienceOrb::class.java).experience = xp
         }
     }
 

@@ -2,6 +2,7 @@ package com.willfp.ecoitems.blocks
 
 import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.ecoitems.libreforge.ContentEffects
+import com.willfp.ecoitems.crops.EcoCrop
 import com.willfp.ecoitems.plugin
 
 /**
@@ -12,7 +13,7 @@ import com.willfp.ecoitems.plugin
 class EcoBlock(
     val id: String,
     val config: Config,
-    val crop: com.willfp.ecoitems.crops.EcoCrop? = null
+    val crop: EcoCrop? = null
 ) {
     val backing = BlockBacking.parse(config.getString("type")) ?: run {
         plugin.logger.warning("Block $id has unknown type '${config.getString("type")}', using noteblock")

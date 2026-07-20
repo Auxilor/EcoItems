@@ -1,5 +1,6 @@
 package com.willfp.ecoitems.pack.glyphs
 
+import com.willfp.eco.core.Prerequisite
 import com.willfp.ecoitems.EcoItemsPlugin
 import io.papermc.paper.event.player.AsyncChatEvent
 import org.bukkit.Bukkit
@@ -15,9 +16,7 @@ import java.util.UUID
 
 /** The chat/sign/tab-complete surfaces; the right chat listener per platform. */
 object GlyphListeners {
-    val isPaper: Boolean = runCatching {
-        Class.forName("io.papermc.paper.event.player.AsyncChatEvent")
-    }.isSuccess
+    val isPaper: Boolean = Prerequisite.HAS_PAPER.isMet
 
     fun listeners(): List<Listener> = listOf(
         if (isPaper) PaperGlyphChatListener else SpigotGlyphChatListener,

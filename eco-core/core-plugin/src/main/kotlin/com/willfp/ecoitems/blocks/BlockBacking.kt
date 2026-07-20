@@ -13,7 +13,8 @@ import org.bukkit.block.data.type.Tripwire
  * The vanilla blocks custom blocks hijack. Each backing maps a "variation"
  * number to one unused blockstate permutation - the state itself is the
  * block's identity, so no per-location storage is needed. The state math
- * matches Oraxen/Nexo exactly so worlds and configs can migrate.
+ * matches what the migration tools import from, so worlds and configs
+ * carry over exactly.
  */
 @Suppress("DEPRECATION") // Instrument type ids are the vanilla state values.
 enum class BlockBacking(
@@ -27,7 +28,7 @@ enum class BlockBacking(
     /**
      * instrument (16) x note (25) x powered (2). Variation + 26 skips the
      * states a fresh vanilla note block can occupy; the modulo wrap above
-     * raw state 799 makes Oraxen's tail variations (774/775) ambiguous, so
+     * raw state 799 makes imported tail variations (774/775) ambiguous, so
      * we stop at 773.
      */
     NOTEBLOCK(Material.NOTE_BLOCK, 0..773, solid = true, vanillaHardness = 0.8) {

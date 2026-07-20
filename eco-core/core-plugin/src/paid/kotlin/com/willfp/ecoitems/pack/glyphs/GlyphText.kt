@@ -1,6 +1,7 @@
 package com.willfp.ecoitems.pack.glyphs
 
 import com.willfp.eco.core.integrations.placeholder.PlaceholderIntegration
+import com.willfp.ecoitems.glyphs.Glyph
 import com.willfp.ecoitems.pack.PackSettings
 import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
@@ -81,7 +82,7 @@ object GlyphText {
         assignments = emptyMap()
     }
 
-    fun hasPermission(player: Player, glyph: com.willfp.ecoitems.glyphs.Glyph): Boolean =
+    fun hasPermission(player: Player, glyph: Glyph): Boolean =
         glyph.permission.isEmpty() || player.hasPermission(glyph.permission)
 
     fun shiftString(pixels: Int): String = ShiftChars.shift(pixels)

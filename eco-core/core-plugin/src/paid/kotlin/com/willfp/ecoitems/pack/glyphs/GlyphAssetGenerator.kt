@@ -5,6 +5,7 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import com.willfp.ecoitems.EcoItemsPlugin
+import com.willfp.ecoitems.glyphs.GifTexture
 import com.willfp.ecoitems.pack.PackLocation
 import java.io.File
 import kotlin.math.max
@@ -132,7 +133,7 @@ object GlyphAssetGenerator {
                 continue
             }
 
-            val sheet = com.willfp.ecoitems.glyphs.GifTexture.sheet(gif, animation.frames)
+            val sheet = GifTexture.sheet(gif, animation.frames)
             if (sheet == null) {
                 plugin.logger.warning("Glyph ${glyph.id}: could not decode ${gif.name}")
                 continue

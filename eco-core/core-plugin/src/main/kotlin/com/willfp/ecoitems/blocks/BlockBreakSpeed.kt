@@ -4,6 +4,7 @@ import com.willfp.ecoitems.plugin
 import org.bukkit.NamespacedKey
 import org.bukkit.attribute.Attribute
 import org.bukkit.attribute.AttributeModifier
+import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
@@ -78,17 +79,10 @@ object BlockBreakSpeed : Listener {
     }
 
     private fun toolSpeed(tool: ItemStack): Double {
-        val base = when (tool.type.name.substringBefore("_")) {
-            "WOODEN" -> 2.0
-            "STONE" -> 4.0
-            "IRON" -> 6.0
-            "DIAMOND" -> 8.0
-            "NETHERITE" -> 9.0
-            "GOLDEN" -> 12.0
-            else -> 1.0
-        }
+        val tier = tool.type.name.substringBefore("_").lowercase()
+        val base = plugin.configYml.getDoubleOrNull("blocks.tool-speeds.$tier") ?: 1.0
 
-        val efficiency = tool.getEnchantmentLevel(org.bukkit.enchantments.Enchantment.EFFICIENCY)
+        val efficiency = tool.getEnchantmentLevel(Enchantment.EFFICIENCY)
         return base + if (efficiency > 0) efficiency * efficiency + 1.0 else 0.0
     }
 }

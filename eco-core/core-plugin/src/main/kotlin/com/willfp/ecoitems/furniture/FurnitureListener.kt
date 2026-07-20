@@ -2,21 +2,25 @@ package com.willfp.ecoitems.furniture
 
 import com.willfp.eco.core.integrations.antigrief.AntigriefManager
 import com.willfp.ecoitems.blocks.BlockListener
+import com.willfp.ecoitems.blocks.EcoBlocks
 import com.willfp.ecoitems.items.ecoItem
 import com.willfp.ecoitems.libreforge.ContentEvent
 import com.willfp.ecoitems.plugin
 import com.willfp.ecoitems.util.WorldGuardFlags
 import org.bukkit.GameMode
 import org.bukkit.Material
+import org.bukkit.Sound
 import org.bukkit.SoundCategory
 import org.bukkit.block.Block
 import org.bukkit.block.BlockFace
 import org.bukkit.entity.Player
+import org.bukkit.event.Event
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.block.Action
 import org.bukkit.event.block.BlockBreakEvent
+import org.bukkit.event.block.BlockDamageEvent
 import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.player.PlayerInteractEntityEvent
@@ -36,7 +40,7 @@ object FurnitureListener : Listener {
         if (event.action != Action.RIGHT_CLICK_BLOCK || event.hand != EquipmentSlot.HAND) {
             return
         }
-        if (event.useItemInHand() == org.bukkit.event.Event.Result.DENY) {
+        if (event.useItemInHand() == Event.Result.DENY) {
             return
         }
 
@@ -47,7 +51,7 @@ object FurnitureListener : Listener {
         val player = event.player
 
         if (!player.isSneaking && against.type.isInteractable &&
-            com.willfp.ecoitems.blocks.EcoBlocks.at(against) == null
+            EcoBlocks.at(against) == null
         ) {
             return
         }
@@ -113,7 +117,7 @@ object FurnitureListener : Listener {
         }
         player.swingMainHand()
         furniture.effects.dispatch(ContentEvent.PLACE, player, origin.location.add(0.5, 0.5, 0.5))
-        playSound(origin, furniture, furniture.sounds?.place ?: "minecraft:block.wood.place")
+        playSound(origin, furniture, furniture.sounds?.place ?: Sound.BLOCK_WOOD_PLACE.key().toString())
     }
 
     /** Attacking the furniture (via its interaction hitbox) breaks it. */
@@ -137,7 +141,7 @@ object FurnitureListener : Listener {
      * in onBarrierBreak below.
      */
     @EventHandler(ignoreCancelled = true)
-    fun onBarrierDamage(event: org.bukkit.event.block.BlockDamageEvent) {
+    fun onBarrierDamage(event: BlockDamageEvent) {
         val placed = PlacedFurniture.atBarrier(event.block) ?: return
         placed.furniture?.effects?.dispatch(
             if (event.player.isSneaking) ContentEvent.SHIFT_PUNCH else ContentEvent.PUNCH,
@@ -178,7 +182,7 @@ object FurnitureListener : Listener {
         }
 
         placed.furniture?.effects?.dispatch(ContentEvent.BREAK, player, placed.base.location)
-        playSound(block, placed.furniture, placed.furniture?.sounds?.breakSound ?: "minecraft:block.wood.break")
+        playSound(block, placed.furniture, placed.furniture?.sounds?.breakSound ?: Sound.BLOCK_WOOD_BREAK.key().toString())
         placed.remove(player, drop = true)
     }
 

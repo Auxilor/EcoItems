@@ -23,7 +23,7 @@ class ImportedPacks(
 ) {
     /**
      * Every codepoint the imported fonts define, so glyph auto-assignment
-     * can route around them instead of colliding (imported Oraxen packs use
+     * can route around them instead of colliding (imported packs often use
      * the same private-use ranges we do).
      */
     val fontCodepoints: Set<Int> by lazy {

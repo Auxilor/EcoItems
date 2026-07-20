@@ -10,6 +10,7 @@ import org.bukkit.Material
 import org.bukkit.Particle
 import org.bukkit.SoundCategory
 import org.bukkit.block.BlockFace
+import org.bukkit.event.Event
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
@@ -30,7 +31,7 @@ object CropListener : Listener {
         if (event.action != Action.RIGHT_CLICK_BLOCK || event.hand != EquipmentSlot.HAND) {
             return
         }
-        if (event.useItemInHand() == org.bukkit.event.Event.Result.DENY) {
+        if (event.useItemInHand() == Event.Result.DENY) {
             return
         }
 

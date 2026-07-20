@@ -1,10 +1,22 @@
 package com.willfp.ecoitems.util
 
+import com.sk89q.worldedit.WorldEdit
+import com.sk89q.worldedit.bukkit.BukkitAdapter
+import com.sk89q.worldedit.extension.input.ParserContext
+import com.sk89q.worldedit.extent.clipboard.Clipboard
+import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormats
+import com.sk89q.worldedit.function.operation.Operations
+import com.sk89q.worldedit.internal.registry.InputParser
+import com.sk89q.worldedit.math.BlockVector3
+import com.sk89q.worldedit.session.ClipboardHolder
+import com.sk89q.worldedit.world.block.BaseBlock
 import com.willfp.ecoitems.blocks.EcoBlocks
 import com.willfp.ecoitems.plugin
 import org.bukkit.Bukkit
 import org.bukkit.Location
+import org.bukkit.Tag
 import java.io.File
+import java.util.stream.Stream
 
 /**
  * WorldEdit/FAWE support: `ecoitems:<id>` resolves in block patterns
@@ -55,7 +67,7 @@ object WorldEditIntegration {
 
     private object Hook {
         fun register() {
-            com.sk89q.worldedit.WorldEdit.getInstance().blockFactory.register(Parser)
+            WorldEdit.getInstance().blockFactory.register(Parser)
         }
 
         fun paste(file: File, location: Location, requireSpace: Boolean): Boolean {
@@ -65,15 +77,15 @@ object WorldEditIntegration {
                 return false
             }
 
-            com.sk89q.worldedit.WorldEdit.getInstance().newEditSessionBuilder()
-                .world(com.sk89q.worldedit.bukkit.BukkitAdapter.adapt(location.world))
+            WorldEdit.getInstance().newEditSessionBuilder()
+                .world(BukkitAdapter.adapt(location.world))
                 .build()
                 .use { session ->
-                    com.sk89q.worldedit.function.operation.Operations.complete(
-                        com.sk89q.worldedit.session.ClipboardHolder(clipboard)
+                    Operations.complete(
+                        ClipboardHolder(clipboard)
                             .createPaste(session)
                             .to(
-                                com.sk89q.worldedit.math.BlockVector3.at(
+                                BlockVector3.at(
                                     location.blockX, location.blockY, location.blockZ
                                 )
                             )
@@ -92,7 +104,7 @@ object WorldEditIntegration {
 
         /** Every non-air clipboard block must land on something replaceable. */
         private fun fits(
-            clipboard: com.sk89q.worldedit.extent.clipboard.Clipboard,
+            clipboard: Clipboard,
             location: Location
         ): Boolean {
             val origin = clipboard.origin
@@ -111,8 +123,8 @@ object WorldEditIntegration {
 
                 val replaceable = target.type.isAir ||
                     target.isLiquid ||
-                    org.bukkit.Tag.LEAVES.isTagged(target.type) ||
-                    org.bukkit.Tag.REPLACEABLE.isTagged(target.type)
+                    Tag.LEAVES.isTagged(target.type) ||
+                    Tag.REPLACEABLE.isTagged(target.type)
                 if (!replaceable) {
                     return false
                 }
@@ -121,20 +133,18 @@ object WorldEditIntegration {
             return true
         }
 
-        private fun load(file: File): com.sk89q.worldedit.extent.clipboard.Clipboard? {
-            val format = com.sk89q.worldedit.extent.clipboard.io.ClipboardFormats.findByFile(file) ?: return null
+        private fun load(file: File): Clipboard? {
+            val format = ClipboardFormats.findByFile(file) ?: return null
             return file.inputStream().use { stream ->
                 format.getReader(stream).use { it.read() }
             }
         }
 
-        private object Parser : com.sk89q.worldedit.internal.registry.InputParser<
-            com.sk89q.worldedit.world.block.BaseBlock
-        >(com.sk89q.worldedit.WorldEdit.getInstance()) {
+        private object Parser : InputParser<BaseBlock>(WorldEdit.getInstance()) {
             override fun parseFromInput(
                 input: String,
-                context: com.sk89q.worldedit.extension.input.ParserContext
-            ): com.sk89q.worldedit.world.block.BaseBlock? {
+                context: ParserContext
+            ): BaseBlock? {
                 val id = input.removePrefix("ecoitems:")
                 if (id == input) {
                     return null
@@ -143,13 +153,13 @@ object WorldEditIntegration {
                 val block = EcoBlocks[id.lowercase()] ?: return null
                 val data = EcoBlocks.blockData(block) ?: return null
 
-                return com.sk89q.worldedit.bukkit.BukkitAdapter.adapt(data).toBaseBlock()
+                return BukkitAdapter.adapt(data).toBaseBlock()
             }
 
             override fun getSuggestions(
                 input: String,
-                context: com.sk89q.worldedit.extension.input.ParserContext
-            ): java.util.stream.Stream<String> =
+                context: ParserContext
+            ): Stream<String> =
                 EcoBlocks.values()
                     .map { "ecoitems:${it.id}" }
                     .filter { it.startsWith(input) }

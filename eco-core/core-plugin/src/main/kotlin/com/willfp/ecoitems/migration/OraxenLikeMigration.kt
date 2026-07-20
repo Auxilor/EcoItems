@@ -1,5 +1,8 @@
 package com.willfp.ecoitems.migration
 
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonArray
+import com.google.gson.JsonObject
 import com.willfp.ecoitems.EcoItemsPlugin
 import com.willfp.ecoitems.blocks.BlockBacking
 import org.bukkit.configuration.ConfigurationSection
@@ -902,12 +905,12 @@ class OraxenLikeMigration(
                 result.warn("Armor asset $assetId: no ${name}_layer_2.png - leggings will render invisible")
             }
 
-            val json = com.google.gson.JsonObject()
-            val layers = com.google.gson.JsonObject()
+            val json = JsonObject()
+            val layers = JsonObject()
             for (layerKey in listOf("humanoid", "humanoid_leggings")) {
-                val entry = com.google.gson.JsonObject()
+                val entry = JsonObject()
                 entry.addProperty("texture", "$textureNamespace:$name")
-                val array = com.google.gson.JsonArray()
+                val array = JsonArray()
                 array.add(entry)
                 layers.add(layerKey, array)
             }
@@ -915,7 +918,7 @@ class OraxenLikeMigration(
 
             definition.parentFile.mkdirs()
             definition.writeText(
-                com.google.gson.GsonBuilder().setPrettyPrinting().create().toJson(json) + "\n"
+                GsonBuilder().setPrettyPrinting().create().toJson(json) + "\n"
             )
         }
     }

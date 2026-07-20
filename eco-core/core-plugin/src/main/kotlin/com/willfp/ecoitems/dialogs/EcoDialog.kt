@@ -2,9 +2,16 @@ package com.willfp.ecoitems.dialogs
 
 import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.eco.core.registry.KRegistrable
+import com.willfp.eco.util.StringUtils
 import com.willfp.eco.util.formatEco
-import com.willfp.eco.util.toComponent
 import com.willfp.ecoitems.plugin
+import io.papermc.paper.dialog.Dialog
+import io.papermc.paper.registry.data.dialog.ActionButton
+import io.papermc.paper.registry.data.dialog.DialogBase
+import io.papermc.paper.registry.data.dialog.action.DialogAction
+import io.papermc.paper.registry.data.dialog.body.DialogBody
+import io.papermc.paper.registry.data.dialog.type.DialogType
+import net.kyori.adventure.text.event.ClickCallback
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import java.util.Objects
@@ -53,24 +60,24 @@ class EcoDialog(
     @Suppress("UnstableApiUsage")
     private object Paper {
         fun open(dialog: EcoDialog, player: Player) {
-            val base = io.papermc.paper.registry.data.dialog.DialogBase.builder(
+            val base = DialogBase.builder(
                 dialog.title.toComponent()
             )
                 .canCloseWithEscape(dialog.canCloseWithEscape)
                 .body(dialog.body.map {
-                    io.papermc.paper.registry.data.dialog.body.DialogBody.plainMessage(it.toComponent())
+                    DialogBody.plainMessage(it.toComponent())
                 })
                 .build()
 
             val type = if (dialog.buttons.isEmpty()) {
-                io.papermc.paper.registry.data.dialog.type.DialogType.notice()
+                DialogType.notice()
             } else {
-                io.papermc.paper.registry.data.dialog.type.DialogType.multiAction(
+                DialogType.multiAction(
                     dialog.buttons.map { actionButton(it) }
                 ).build()
             }
 
-            val built = io.papermc.paper.dialog.Dialog.create { factory ->
+            val built = Dialog.create { factory ->
                 factory.empty().base(base).type(type)
             }
 
@@ -79,8 +86,8 @@ class EcoDialog(
 
         private fun actionButton(
             button: DialogButton
-        ): io.papermc.paper.registry.data.dialog.ActionButton {
-            val action = io.papermc.paper.registry.data.dialog.action.DialogAction.customClick(
+        ): ActionButton {
+            val action = DialogAction.customClick(
                 { _, audience ->
                     val player = audience as? Player ?: return@customClick
                     for (command in button.commands) {
@@ -93,17 +100,17 @@ class EcoDialog(
                         )
                     }
                 },
-                net.kyori.adventure.text.event.ClickCallback.Options.builder().build()
+                ClickCallback.Options.builder().build()
             )
 
-            return io.papermc.paper.registry.data.dialog.ActionButton.builder(button.label.toComponent())
+            return ActionButton.builder(button.label.toComponent())
                 .tooltip(button.tooltip?.toComponent())
                 .action(action)
                 .build()
         }
 
         private fun String.toComponent() = formatEco().let {
-            com.willfp.eco.util.StringUtils.toComponent(it)
+            StringUtils.toComponent(it)
         }
     }
 

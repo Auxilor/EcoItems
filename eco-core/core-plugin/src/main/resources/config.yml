@@ -35,6 +35,16 @@ blocks:
   worlds:
     - "*"
 
+  # Mining speed per tool tier (hand = 1), used when rescaling break times
+  # for custom block hardness. These are the vanilla values.
+  tool-speeds:
+    wooden: 2
+    stone: 4
+    iron: 6
+    diamond: 8
+    netherite: 9
+    golden: 12
+
 # Options for the /ecoitems gui item browser.
 items-gui:
   rows: 6

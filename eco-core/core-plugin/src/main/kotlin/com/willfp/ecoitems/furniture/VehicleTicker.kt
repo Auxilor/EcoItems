@@ -7,10 +7,12 @@ import com.willfp.eco.util.toComponent
 import com.willfp.ecoitems.EcoItemsPlugin
 import com.willfp.ecoitems.items.EcoItems
 import com.willfp.ecoitems.plugin
+import com.willfp.ecoitems.util.WorldGuardFlags
 import io.papermc.paper.entity.TeleportFlag
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.entity.ArmorStand
+import org.bukkit.entity.ItemDisplay
 import org.bukkit.entity.Player
 import java.util.UUID
 import kotlin.math.cos
@@ -66,10 +68,7 @@ object VehicleTicker {
             return
         }
 
-        if (!com.willfp.ecoitems.util.WorldGuardFlags.test(
-                player, placed.base.location, com.willfp.ecoitems.util.WorldGuardFlags.VEHICLE
-            )
-        ) {
+        if (!WorldGuardFlags.test(player, placed.base.location, WorldGuardFlags.VEHICLE)) {
             return
         }
 
@@ -136,7 +135,7 @@ object VehicleTicker {
         // seat keeps its passenger through the teleport.
         for (entity in listOf(base) + placed.seatEntities() + placed.interactionEntities()) {
             val to = entity.location.add(delta.x, delta.y, delta.z)
-            if (entity is org.bukkit.entity.ItemDisplay) {
+            if (entity is ItemDisplay) {
                 to.yaw = yaw + 180f
             }
             entity.teleport(to, TeleportFlag.EntityState.RETAIN_PASSENGERS)

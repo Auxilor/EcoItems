@@ -6,8 +6,10 @@ import com.willfp.eco.core.blocks.TestableBlock
 import com.willfp.eco.core.blocks.provider.BlockProvider
 import com.willfp.ecoitems.EcoItemsPlugin
 import com.willfp.ecoitems.items.EcoItems
+import com.willfp.ecoitems.plugin as ecoItemsPlugin
 import org.bukkit.Location
 import org.bukkit.NamespacedKey
+import org.bukkit.World
 import org.bukkit.block.Block
 import org.bukkit.block.data.BlockData
 import java.util.EnumMap
@@ -81,8 +83,8 @@ object EcoBlocks {
     private val globCache = mutableMapOf<String, Regex>()
 
     /** Whether custom blocks may be placed in a world (blocks.worlds globs, ! negates). */
-    fun enabledIn(world: org.bukkit.World): Boolean {
-        val patterns = com.willfp.ecoitems.plugin.configYml.getStrings("blocks.worlds")
+    fun enabledIn(world: World): Boolean {
+        val patterns = ecoItemsPlugin.configYml.getStrings("blocks.worlds")
         if (patterns.isEmpty()) {
             return true
         }
@@ -174,7 +176,7 @@ object EcoBlocks {
         override fun provideForKey(key: String): TestableBlock? {
             val block = byId[key] ?: return null
             return CustomBlock(
-                com.willfp.ecoitems.plugin.namespacedKeyFactory.create(block.id),
+                ecoItemsPlugin.namespacedKeyFactory.create(block.id),
                 { test -> at(test)?.block?.id == block.id },
                 { location -> place(block, location) },
                 block.hardness.toFloat()

@@ -1,14 +1,24 @@
-**/.gradle/
-**/build/
+# Java
+*.class
+
+# Eclipse IDE
+.settings/
 bin/
-.superpowers/
-plans/context/
+.classpath
+.project
+
+# IntelliJ IDEA
 .idea/
-*.log
+*.iml
 
-# Claude Code local configuration
-.claude/
+# Gradle
+.gradle
+**/build/
+!src/**/build/
+.gradletasknamecache
+!gradle-wrapper.jar
+gradle-app.setting
 
-# Agent instructions (local only)
-AGENTS.md
-CLAUDE.md
+# Mac OSX
+.DS_Store
+.worktrees

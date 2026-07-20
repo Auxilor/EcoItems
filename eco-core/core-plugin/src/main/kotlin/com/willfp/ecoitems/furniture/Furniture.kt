@@ -1,10 +1,13 @@
 package com.willfp.ecoitems.furniture
 
 import com.willfp.eco.core.config.interfaces.Config
+import com.willfp.ecoitems.BuildConfig
 import com.willfp.ecoitems.blocks.BlockDrops
 import com.willfp.ecoitems.blocks.BlockSounds
 import com.willfp.ecoitems.libreforge.ContentEffects
 import com.willfp.ecoitems.plugin
+import org.bukkit.Particle
+import org.bukkit.Sound
 import org.bukkit.entity.Display
 import org.bukkit.entity.ItemDisplay
 
@@ -33,7 +36,7 @@ class Furniture(val id: String, val config: Config) {
     val vehicle = if (config.has("vehicle")) FurnitureVehicle(id, config.getSubsection("vehicle")) else null
 
     /** Solid collision cells, relative to the origin block. */
-    val barriers: List<Cell> = config.getStrings("barriers").flatMap { parseCells(it) }
+    internal val barriers: List<Cell> = config.getStrings("barriers").flatMap { parseCells(it) }
         .let { cells ->
             if (vehicle != null && cells.isNotEmpty()) {
                 plugin.logger.warning("Furniture $id is a vehicle; barriers are ignored (they can't move)")
@@ -47,17 +50,17 @@ class Furniture(val id: String, val config: Config) {
      * Click hitboxes: "x,y,z" or "x,y,z widthxheight". Defaults to a single
      * 1x1 box at the origin when there are no barriers to click instead.
      */
-    val hitboxes: List<Hitbox> = config.getStrings("hitboxes").mapNotNull { parseHitbox(it) }
+    internal val hitboxes: List<Hitbox> = config.getStrings("hitboxes").mapNotNull { parseHitbox(it) }
         .ifEmpty { if (barriers.isEmpty()) listOf(Hitbox(0.0, 0.0, 0.0, 1.0, 1.0)) else emptyList() }
 
     /** Seat offsets: "x,y,z" with an optional yaw ("x,y,z 90"); y = 0 sits at natural chair height. */
-    val seats: List<Seat> = config.getStrings("seats").mapNotNull { parseSeat(it) }
+    internal val seats: List<Seat> = config.getStrings("seats").mapNotNull { parseSeat(it) }
 
     /** Bed cells: "x,y,z" with an optional yaw; right-click at night to sleep. */
-    val beds: List<Seat> = config.getStrings("beds").mapNotNull { parseSeat(it) }
+    internal val beds: List<Seat> = config.getStrings("beds").mapNotNull { parseSeat(it) }
 
     /** Light cells: "x,y,z level". */
-    val lights: List<Light> = config.getStrings("lights").mapNotNull { parseLight(it) }
+    internal val lights: List<Light> = config.getStrings("lights").mapNotNull { parseLight(it) }
         .let { lights ->
             if (vehicle != null && lights.isNotEmpty()) {
                 plugin.logger.warning("Furniture $id is a vehicle; lights are ignored (they can't move)")
@@ -156,17 +159,17 @@ class Furniture(val id: String, val config: Config) {
         get() = states.values + listOfNotNull(door?.openState) + (connectable?.all ?: emptyList())
 
     init {
-        if (com.willfp.ecoitems.BuildConfig.FREE_VERSION && stateModels.any { it.hasAssets }) {
+        if (BuildConfig.FREE_VERSION && stateModels.any { it.hasAssets }) {
             plugin.logger.warning(
                 "Furniture $id has state models, but state models require the paid version of EcoItems"
             )
         }
     }
 
-    data class Cell(val x: Int, val y: Int, val z: Int)
-    data class Hitbox(val x: Double, val y: Double, val z: Double, val width: Double, val height: Double)
-    data class Seat(val x: Double, val y: Double, val z: Double, val yaw: Float?)
-    data class Light(val x: Int, val y: Int, val z: Int, val level: Int)
+    internal data class Cell(val x: Int, val y: Int, val z: Int)
+    internal data class Hitbox(val x: Double, val y: Double, val z: Double, val width: Double, val height: Double)
+    internal data class Seat(val x: Double, val y: Double, val z: Double, val yaw: Float?)
+    internal data class Light(val x: Int, val y: Int, val z: Int, val level: Int)
 
     /** "x,y,z" with ranges: "0..1,0,2" expands along each axis. */
     private fun parseCells(raw: String): List<Cell> {
@@ -265,9 +268,9 @@ class FurnitureVehicle(furnitureId: String, config: Config) {
     /** Exhaust particles while driving; null = none. */
     val smokeParticle = if (config.has("smoke")) {
         val name = config.getStringOrNull("smoke.particle") ?: "campfire_cosy_smoke"
-        runCatching { org.bukkit.Particle.valueOf(name.uppercase()) }.getOrElse {
+        runCatching { Particle.valueOf(name.uppercase()) }.getOrElse {
             plugin.logger.warning("Furniture $furnitureId has unknown smoke particle '$name'")
-            org.bukkit.Particle.CAMPFIRE_COSY_SMOKE
+            Particle.CAMPFIRE_COSY_SMOKE
         }
     } else {
         null
@@ -350,6 +353,6 @@ class FurnitureDoor(furnitureId: String, config: Config) {
         null
     }
 
-    val openSound = config.getStringOrNull("open-sound") ?: "minecraft:block.wooden_door.open"
-    val closeSound = config.getStringOrNull("close-sound") ?: "minecraft:block.wooden_door.close"
+    val openSound = config.getStringOrNull("open-sound") ?: Sound.BLOCK_WOODEN_DOOR_OPEN.key().toString()
+    val closeSound = config.getStringOrNull("close-sound") ?: Sound.BLOCK_WOODEN_DOOR_CLOSE.key().toString()
 }
