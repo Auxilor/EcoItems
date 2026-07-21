@@ -68,6 +68,8 @@ furniture:
   #   scale: 1.0            # or "x,y,z"
   #   translation: "0,0,0"
   #   transform: none       # none, fixed, head, ground, gui, ...
+  #   y-rotation: 0         # extra yaw for the look only (degrees); 180 flips
+  #                         # models built to face the opposite way
   #   billboard: fixed      # fixed, vertical, horizontal, center
   #   brightness: 15        # fixed block-light level (unset = world lighting)
   #   view-range: 1.0

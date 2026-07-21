@@ -312,7 +312,8 @@ class PlacedFurniture(
                 // Other transforms bake their own rotation - correcting those
                 // too would double-rotate (e.g. imported FIXED furniture).
                 val quirkYaw = if (furniture.transform == ItemDisplay.ItemDisplayTransform.NONE) yaw + 180f else yaw
-                display.setRotation(quirkYaw, pitch)
+                // displayYaw spins the look only, not collision or hitboxes.
+                display.setRotation(quirkYaw + furniture.displayYaw.toFloat(), pitch)
 
                 if (furniture.scale != null || furniture.translation != null) {
                     val scale = furniture.scale ?: Triple(1.0, 1.0, 1.0)

@@ -509,9 +509,26 @@ class OraxenLikeMigration(
         if (config.getBoolean("lights.toggleable")) out.set("furniture.toggleable-lights", true)
 
         config.getConfigurationSection("limited_placing")?.let { placing ->
-            out.set("furniture.placement.floor", placing.getBoolean("floor", true))
-            out.set("furniture.placement.wall", placing.getBoolean("wall"))
-            out.set("furniture.placement.ceiling", placing.getBoolean("roof"))
+            val floor = placing.getBoolean("floor", true)
+            val wall = placing.getBoolean("wall")
+            val roof = placing.getBoolean("roof")
+            out.set("furniture.placement.floor", floor)
+            out.set("furniture.placement.wall", wall)
+            out.set("furniture.placement.ceiling", roof)
+
+            // Oraxen/Nexo wall models face out of the wall; our wall placement
+            // orients them the opposite way, so imports land 180 backwards.
+            // Spin the display to compensate. Floor/ceiling already face the
+            // player, so only pure wall furniture can take a blanket flip.
+            if (wall && !floor && !roof) {
+                out.set("furniture.display.y-rotation", 180)
+            } else if (wall) {
+                result.warn(
+                    "Item $id: imported wall furniture can render 180 backwards, but it " +
+                        "also allows floor/ceiling placement, so no automatic rotation was " +
+                        "applied - set furniture.display.y-rotation manually if it looks wrong"
+                )
+            }
         }
 
         // Display properties (Oraxen display_entity_properties / Nexo properties).

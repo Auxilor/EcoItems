@@ -150,6 +150,9 @@ class Furniture(val id: String, val config: Config) {
 
     val viewRange = config.getDoubleOrNull("display.view-range")
 
+    /** Extra yaw on the look only (degrees), not collision; 180 fixes models built to face the opposite way. */
+    val displayYaw = config.getDoubleOrNull("display.y-rotation") ?: 0.0
+
     /** Multi-cell collision only rotates in quarter turns. */
     val effectiveRotationStep: Int
         get() = if (barriers.any { it.x != 0 || it.z != 0 } && rotationStep != 0) 90 else rotationStep
