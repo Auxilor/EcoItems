@@ -3,6 +3,7 @@ package com.willfp.ecoitems.migration
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import com.google.gson.JsonParser
 import com.willfp.ecoitems.EcoItemsPlugin
 import com.willfp.ecoitems.blocks.BlockBacking
 import org.bukkit.configuration.ConfigurationSection
@@ -119,7 +120,7 @@ class OraxenLikeMigration(
                     "noteblock", "stringblock", "chorusblock", "block", "custom_block" ->
                         convertBlock(id, mechanic, config, section.getConfigurationSection("Pack"), out)
 
-                    "furniture" -> convertFurniture(id, config, out)
+                    "furniture" -> convertFurniture(id, config, section.getConfigurationSection("Pack"), out)
 
                     else -> result.warn("Item $id: mechanic '$mechanic' is not supported and was skipped")
                 }
@@ -183,6 +184,17 @@ class OraxenLikeMigration(
 
         if (section.getBoolean("unbreakable")) {
             components["minecraft:unbreakable"] = emptyMap<String, Any>()
+        }
+
+        // Leather-dye tint (LEATHER_* base + "color"); without it the tinted
+        // model renders white.
+        section.getString("color")?.let { raw ->
+            val rgb = parseDyeColor(raw)
+            if (rgb != null) {
+                components["minecraft:dyed_color"] = rgb
+            } else {
+                result.warn("Item $id: couldn't parse color '$raw' - dye tint not converted")
+            }
         }
 
         section.getConfigurationSection("Components")?.let { comps ->
@@ -429,7 +441,12 @@ class OraxenLikeMigration(
 
     // -------------------------------------------------------------- furniture
 
-    private fun convertFurniture(id: String, config: ConfigurationSection, out: YamlConfiguration) {
+    private fun convertFurniture(
+        id: String,
+        config: ConfigurationSection,
+        pack: ConfigurationSection?,
+        out: YamlConfiguration
+    ) {
         config.getString("type")?.let {
             if (it != "DISPLAY_ENTITY") {
                 result.warn("Item $id: $it furniture converts, but EcoItems furniture is display-entity based - re-check its look")
@@ -470,11 +487,11 @@ class OraxenLikeMigration(
         // Seats. Seat vectors share our convention (y = 0 sits at natural
         // chair height) and pass through verbatim; Oraxen's legacy scalar
         // height is measured from the block bottom with 0.6 as the standard
-        // chair, so rebase it around that.
+        // chair. Rebasing on 0.6 alone sinks the player a full cell, so +1.0.
         val seats = mutableListOf<String>()
         config.getConfigurationSection("seat")?.let {
             val yaw = if (it.contains("yaw")) " ${it.getDouble("yaw")}" else ""
-            val y = Math.round((it.getDouble("height") - 0.6) * 100) / 100.0
+            val y = Math.round((it.getDouble("height") - 0.6 + 1.0) * 100) / 100.0
             seats += "0,$y,0$yaw"
         }
         seats += config.getStringList("seats")
@@ -501,7 +518,17 @@ class OraxenLikeMigration(
         val display = config.getConfigurationSection("display_entity_properties")
             ?: config.getConfigurationSection("properties")
         display?.let {
-            it.getString("display_transform")?.let { t -> out.set("furniture.display.transform", t.lowercase()) }
+            // Oraxen bakes furniture against the FIXED (item-frame) context,
+            // which tilts geometry flat. Our furniture is a freestanding entity
+            // wanting the raw upright geometry (NONE), so FIXED would lay it on
+            // its side - drop it and forward only genuinely different contexts.
+            it.getString("display_transform")?.let { t ->
+                if (!t.equals("FIXED", ignoreCase = true)) {
+                    out.set("furniture.display.transform", t.lowercase())
+                } else {
+                    result.warn("Item $id: furniture display_transform FIXED is Oraxen-specific and was skipped - EcoItems renders the model upright by default")
+                }
+            }
             it.getString("tracking_rotation")?.let { t -> out.set("furniture.display.billboard", t.lowercase()) }
             if (it.contains("view_range")) out.set("furniture.display.view-range", it.getDouble("view_range"))
             if (it.contains("brightness.block_light")) {
@@ -525,6 +552,24 @@ class OraxenLikeMigration(
             }
         }
 
+        // Tall furniture (poles, canopies) often has model elements below y=0,
+        // which clip into the floor under NONE-transform raw rendering. Nudge
+        // the display up by that reach so the base rests on y=0.
+        if (!out.isSet("furniture.display.transform")) {
+            furnitureFloorOffset(pack)?.let { offset ->
+                val existing = out.getString("furniture.display.translation")
+                    ?.split(",")?.mapNotNull { it.trim().toDoubleOrNull() }
+                val x = existing?.getOrNull(0) ?: 0.0
+                val y = Math.round(((existing?.getOrNull(1) ?: 0.0) + offset) * 1000) / 1000.0
+                val z = existing?.getOrNull(2) ?: 0.0
+                out.set("furniture.display.translation", "$x,$y,$z")
+                result.warn(
+                    "Item $id: furniture model reaches ${Math.round(offset * 100) / 100.0} blocks below its " +
+                        "origin - added a matching vertical display offset so it doesn't clip into the floor"
+                )
+            }
+        }
+
         config.getConfigurationSection("drop")?.let { drop ->
             val loots = drop.getMapList("loots").mapNotNull { loot -> convertLoot(loot) }
             if (loots.isNotEmpty()) out.set("furniture.drops.items", loots)
@@ -541,7 +586,49 @@ class OraxenLikeMigration(
         result.furniture++
     }
 
+    /** How far (in blocks) the furniture's model reaches below its origin, if any. */
+    private fun furnitureFloorOffset(pack: ConfigurationSection?): Double? {
+        if (pack == null || pack.getBoolean("generate_model")) return null
+        val modelRef = pack.getString("model") ?: return null
+        val relative = modelRef.removeSuffix(".json").replace("\\", "/").substringAfter(":")
+
+        val modelsDirs = listOf(source.resolve("pack/models"), source.resolve("pack/assets/minecraft/models")) +
+            source.resolve("pack/assets").listFiles().orEmpty()
+                .filter { it.isDirectory }
+                .map { it.resolve("models") }
+        val file = modelsDirs.map { it.resolve("$relative.json") }.firstOrNull { it.isFile } ?: return null
+
+        // Model files are JSON, not YAML - Bukkit's SnakeYAML chokes on them,
+        // so parse with Gson (the JSON parser we already depend on).
+        val elements = runCatching {
+            file.bufferedReader().use { JsonParser.parseReader(it).asJsonObject }
+                .getAsJsonArray("elements")
+        }.getOrNull() ?: return null
+
+        val minY = elements.mapNotNull { element ->
+            runCatching {
+                val obj = element.asJsonObject
+                minOf(
+                    obj.getAsJsonArray("from").get(1).asDouble,
+                    obj.getAsJsonArray("to").get(1).asDouble
+                )
+            }.getOrNull()
+        }.minOrNull() ?: return null
+
+        return (-minY / 16.0).takeIf { it > 0.01 }
+    }
+
     // ----------------------------------------------------------------- shared
+
+    /** Parse an Oraxen color ("r, g, b" or "#rrggbb") into packed RGB. */
+    private fun parseDyeColor(raw: String): Int? {
+        val s = raw.trim()
+        if (s.startsWith("#")) return s.removePrefix("#").toIntOrNull(16)
+        val parts = s.split(",").map { it.trim().toIntOrNull() ?: return null }
+        if (parts.size != 3) return null
+        val (r, g, b) = parts
+        return (r shl 16) or (g shl 8) or b
+    }
 
     private fun convertLoot(loot: Map<*, *>): Map<String, Any>? {
         val item = loot[dialect.itemRef]?.toString()?.let { "ecoitems:$it" }

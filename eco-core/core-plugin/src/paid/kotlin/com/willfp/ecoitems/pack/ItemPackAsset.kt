@@ -4,6 +4,7 @@ import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.ecoitems.furniture.Furniture
 import com.willfp.ecoitems.furniture.FurnitureState
 import com.willfp.ecoitems.items.EcoItem
+import com.willfp.ecoitems.nms.toPlainValues
 
 /**
  * A state's models: either explicit model locations or textures to generate
@@ -47,7 +48,9 @@ class ItemPackAsset(
     val definition: Config?,
     val states: Map<String, StateModel>,
     val isCrossbow: Boolean,
-    val invalid: String?
+    val invalid: String?,
+    /** Packed RGB dye tint for the base model, from a dyed_color component. */
+    val dyeTint: Int? = null
 ) {
     val throwing: StateModel?
         get() = states["throwing"]
@@ -86,6 +89,10 @@ class ItemPackAsset(
             val parsedTexture = texture?.let { PackLocation.parse(it) }
             val parsedModel = model?.let { PackLocation.parse(it) }
 
+            val dyeTint = (itemConfig.getSubsection("components").toPlainValues().let {
+                it["minecraft:dyed_color"] ?: it["dyed_color"]
+            } as? Number)?.toInt()
+
             invalid = when {
                 texture != null && parsedTexture == null -> "texture '$texture' is not a valid location"
                 model != null && parsedModel == null -> "model '$model' is not a valid location"
@@ -101,7 +108,8 @@ class ItemPackAsset(
                 definition,
                 states,
                 itemConfig.getString("item").substringBefore(' ').equals("crossbow", ignoreCase = true),
-                invalid
+                invalid,
+                dyeTint
             )
         }
 

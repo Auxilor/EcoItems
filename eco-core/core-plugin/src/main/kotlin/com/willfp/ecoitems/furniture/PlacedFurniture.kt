@@ -307,10 +307,12 @@ class PlacedFurniture(
                 furniture.brightness?.let { display.brightness = Display.Brightness(it, 15) }
                 furniture.viewRange?.let { display.viewRange = it.toFloat() }
                 display.isPersistent = true
-                // Item displays render their model rotated 180 on Y versus
-                // block space; compensating here keeps barrier/seat offsets
-                // aligned with the model as it was designed.
-                display.setRotation(yaw + 180f, pitch)
+                // NONE-transform item displays render raw block geometry
+                // rotated 180 on Y; correct it to align barrier/seat offsets.
+                // Other transforms bake their own rotation - correcting those
+                // too would double-rotate (e.g. imported FIXED furniture).
+                val quirkYaw = if (furniture.transform == ItemDisplay.ItemDisplayTransform.NONE) yaw + 180f else yaw
+                display.setRotation(quirkYaw, pitch)
 
                 if (furniture.scale != null || furniture.translation != null) {
                     val scale = furniture.scale ?: Triple(1.0, 1.0, 1.0)

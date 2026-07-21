@@ -28,7 +28,7 @@ object ItemDefinitionBuilder {
             return Definitions(gson.toJsonTree(definition.toPlainValues()).asJsonObject, throwingNode(asset))
         }
 
-        var node = leaf(baseModelKey)
+        var node = leaf(baseModelKey, asset.dyeTint)
 
         // Innermost to outermost, mirroring the vanilla trees.
         asset.states["damaged"]?.let { damaged ->
@@ -86,9 +86,19 @@ object ItemDefinitionBuilder {
     private fun throwingNode(asset: ItemPackAsset): JsonObject? =
         asset.throwing?.let { leaf(it.locations.first().key) }
 
-    private fun leaf(modelKey: String): JsonObject = JsonObject().apply {
+    private fun leaf(modelKey: String, dyeTint: Int? = null): JsonObject = JsonObject().apply {
         addProperty("type", "minecraft:model")
         addProperty("model", modelKey)
+        // Re-declare the dye tint dropped by overriding item_model, so
+        // tintindex faces pick up the item's dyed_color (default when unset).
+        if (dyeTint != null) {
+            add("tints", JsonArray().apply {
+                add(JsonObject().apply {
+                    addProperty("type", "minecraft:dye")
+                    addProperty("default", dyeTint)
+                })
+            })
+        }
     }
 
     private fun condition(property: String, onFalse: JsonObject, onTrue: JsonObject): JsonObject =
