@@ -1,0 +1,35 @@
+item:
+  item: paper
+  name: <#FFFFFF>Andesite Brick Small
+  craftable: true
+  recipe:
+  - air
+  - air
+  - air
+  - air
+  - polished_andesite_slab
+  - polished_andesite_slab
+  - air
+  - polished_andesite_slab
+  - polished_andesite_slab
+block:
+  type: noteblock
+  variation: 3
+  texture: block/andesite_brick_small
+  hardness: 10.0
+  drops:
+    silk-touch: false
+    items:
+    - item: ecoitems:andesite_brick_small
+      chance: 1.0
+  minimum-tier: wooden
+  sounds:
+    place: block.stone.place
+    break: block.stone.break
+    hit: block.stone.hit
+    step: block.stone.step
+    fall: block.stone.fall
+    volume: 0.8
+    pitch: 0.8
+effects: []
+conditions: []

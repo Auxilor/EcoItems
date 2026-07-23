@@ -1,0 +1,35 @@
+item:
+  item: paper
+  name: <#FFFFFF>Calcite Bricks
+  craftable: true
+  recipe:
+  - air
+  - air
+  - air
+  - air
+  - ecoitems:polished_calcite
+  - ecoitems:polished_calcite
+  - air
+  - ecoitems:polished_calcite
+  - ecoitems:polished_calcite
+block:
+  type: noteblock
+  variation: 20
+  texture: block/calcite_bricks
+  hardness: 10.0
+  drops:
+    silk-touch: false
+    items:
+    - item: ecoitems:calcite_bricks
+      chance: 1.0
+  minimum-tier: wooden
+  sounds:
+    place: block.calcite.place
+    break: block.calcite.break
+    hit: block.calcite.hit
+    step: block.calcite.step
+    fall: block.calcite.fall
+    volume: 0.8
+    pitch: 0.8
+effects: []
+conditions: []

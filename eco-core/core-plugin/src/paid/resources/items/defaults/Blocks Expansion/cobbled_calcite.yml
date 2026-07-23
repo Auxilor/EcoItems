@@ -1,0 +1,35 @@
+item:
+  item: paper
+  name: <#FFFFFF>Cobbled Calcite
+  craftable: true
+  recipe:
+  - air
+  - air
+  - air
+  - cobblestone
+  - air
+  - air
+  - calcite
+  - air
+  - air
+block:
+  type: noteblock
+  variation: 424
+  texture: block/cobbled_calcite
+  hardness: 10.0
+  drops:
+    silk-touch: false
+    items:
+    - item: ecoitems:cobbled_calcite
+      chance: 1.0
+  minimum-tier: wooden
+  sounds:
+    place: block.calcite.place
+    break: block.calcite.break
+    hit: block.calcite.hit
+    step: block.calcite.step
+    fall: block.calcite.fall
+    volume: 0.8
+    pitch: 0.8
+effects: []
+conditions: []

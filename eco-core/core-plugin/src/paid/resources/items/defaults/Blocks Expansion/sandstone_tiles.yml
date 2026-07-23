@@ -1,0 +1,35 @@
+item:
+  item: paper
+  name: <#FFFFFF>Sandstone Tiles
+  craftable: true
+  recipe:
+  - air
+  - air
+  - air
+  - smooth_sandstone_slab
+  - air
+  - air
+  - smooth_sandstone_slab
+  - air
+  - air
+block:
+  type: noteblock
+  variation: 34
+  texture: block/sandstone_tiles
+  hardness: 10.0
+  drops:
+    silk-touch: false
+    items:
+    - item: ecoitems:sandstone_tiles
+      chance: 1.0
+  minimum-tier: wooden
+  sounds:
+    place: block.stone.place
+    break: block.stone.break
+    hit: block.stone.hit
+    step: block.stone.step
+    fall: block.stone.fall
+    volume: 0.8
+    pitch: 0.8
+effects: []
+conditions: []

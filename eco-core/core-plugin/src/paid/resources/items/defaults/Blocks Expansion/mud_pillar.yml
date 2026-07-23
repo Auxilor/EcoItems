@@ -1,0 +1,39 @@
+item:
+  item: paper
+  name: <#FFFFFF>Mud Pillar
+  craftable: true
+  recipe:
+  - air
+  - air
+  - air
+  - ecoitems:polished_mud
+  - air
+  - air
+  - ecoitems:polished_mud
+  - air
+  - air
+block:
+  type: noteblock
+  variation: 42
+  textures:
+    top: block/mud_pillar_top
+    bottom: block/mud_pillar_top
+    side: block/mud_pillar_sides
+  texture-parent: cube_bottom_top
+  hardness: 10.0
+  drops:
+    silk-touch: false
+    items:
+    - item: ecoitems:mud_pillar
+      chance: 1.0
+  minimum-tier: wooden
+  sounds:
+    place: block.packed_mud.place
+    break: block.packed_mud.break
+    hit: block.packed_mud.hit
+    step: block.packed_mud.step
+    fall: block.packed_mud.fall
+    volume: 0.8
+    pitch: 0.8
+effects: []
+conditions: []

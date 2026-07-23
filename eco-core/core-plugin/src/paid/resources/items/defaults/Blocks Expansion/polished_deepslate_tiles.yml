@@ -1,0 +1,35 @@
+item:
+  item: paper
+  name: <#FFFFFF>Polished Deepslate Tiles
+  craftable: true
+  recipe:
+  - air
+  - air
+  - air
+  - polished_deepslate_slab
+  - air
+  - air
+  - polished_deepslate_slab
+  - air
+  - air
+block:
+  type: noteblock
+  variation: 48
+  texture: block/polished_deepslate_tiles
+  hardness: 10.0
+  drops:
+    silk-touch: false
+    items:
+    - item: ecoitems:polished_deepslate_tiles
+      chance: 1.0
+  minimum-tier: wooden
+  sounds:
+    place: block.deepslate.place
+    break: block.deepslate.break
+    hit: block.deepslate.hit
+    step: block.deepslate.step
+    fall: block.deepslate.fall
+    volume: 0.8
+    pitch: 0.8
+effects: []
+conditions: []
