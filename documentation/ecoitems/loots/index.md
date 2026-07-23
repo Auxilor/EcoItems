@@ -10,7 +10,7 @@ Loot configs drop custom items from **vanilla** gameplay - breaking vanilla bloc
 ```yaml
 # loots/ruby_from_stone.yml
 type: block          # block, mob, or fishing
-targets:             # block materials (or entity types for mob loot)
+targets:             # block lookups (or entity types for mob loot)
   - stone
   - deepslate
 chance: 0.02         # chance for the loot to roll at all
@@ -35,7 +35,7 @@ biomes:              # optional filters; also worlds:
 
 ## How each type behaves
 
-- **`block`** - rolls when a player breaks a matching vanilla block (survival mode, and not when another plugin already cancelled the drops). Drops go through eco's DropQueue, so telekinesis and similar mechanics work. Custom EcoItems blocks are skipped - they have their own `drops:` system.
+- **`block`** - rolls when a player breaks a matching block (survival mode, and not when another plugin already cancelled the drops). Drops go through eco's DropQueue, so telekinesis and similar mechanics work.
 - **`mob`** - rolls when a player kills a matching entity; items join the death drops at the mob's location.
 - **`fishing`** - rolls on a successful catch; the first rolled item **replaces** the vanilla catch. `targets` is ignored.
 

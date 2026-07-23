@@ -1,9 +1,14 @@
 package com.willfp.ecoitems.blocks
 
 import com.willfp.eco.core.config.interfaces.Config
+import com.willfp.eco.core.items.Items
+import com.willfp.eco.core.items.TestableItem
+import com.willfp.eco.core.recipe.parts.EmptyTestableItem
 import com.willfp.ecoitems.libreforge.ContentEffects
 import com.willfp.ecoitems.crops.EcoCrop
 import com.willfp.ecoitems.plugin
+import org.bukkit.Material
+import org.bukkit.inventory.ItemStack
 
 /**
  * The world-block half of an item config's `block:` section. The item is the
@@ -145,7 +150,19 @@ class BlockDropItem(
     val item: String,
     val chance: Double,
     val amount: IntRange
-)
+) {
+    private var cached: TestableItem? = null
+
+    /** A fresh stack of this drop, or null if the lookup is invalid. */
+    fun toItemStack(): ItemStack? {
+        val testable = cached ?: Items.lookup(item)
+            .takeUnless { it is EmptyTestableItem }
+            ?.also { cached = it }
+            ?: return null
+
+        return testable.item.takeIf { it.type != Material.AIR }
+    }
+}
 
 class SaplingBlock(blockId: String, config: Config) {
     /** Weighted .schem files from plugins/EcoItems/schematics/. */

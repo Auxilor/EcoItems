@@ -1,6 +1,5 @@
 package com.willfp.ecoitems.furniture
 
-import com.willfp.eco.core.items.Items
 import com.willfp.eco.util.asAudience
 import com.willfp.eco.util.formatEco
 import com.willfp.eco.util.toComponent
@@ -160,9 +159,8 @@ object VehicleTicker {
             return true
         }
 
-        val testables = vehicle.fuelItems.map { Items.lookup(it) }
         for (stack in player.inventory.storageContents) {
-            if (stack == null || testables.none { it.matches(stack) }) {
+            if (stack == null || vehicle.fuelTestables().none { it.matches(stack) }) {
                 continue
             }
 

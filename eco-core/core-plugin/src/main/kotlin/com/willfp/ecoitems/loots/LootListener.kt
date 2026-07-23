@@ -1,11 +1,8 @@
 package com.willfp.ecoitems.loots
 
 import com.willfp.eco.core.drops.DropQueue
-import com.willfp.eco.core.items.Items
 import com.willfp.ecoitems.blocks.EcoBlocks
-import com.willfp.ecoitems.plugin
 import org.bukkit.GameMode
-import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Item
 import org.bukkit.event.EventHandler
@@ -19,25 +16,28 @@ import kotlin.random.Random
 
 /**
  * Injects loot configs into vanilla gameplay: block breaks, mob kills, and
- * fishing. Custom blocks are skipped - they have their own drops.
+ * fishing. Targets are resolved through eco's block lookup.
  */
 object LootListener : Listener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     fun onBlockBreak(event: BlockBreakEvent) {
         val player = event.player
-        if (player.gameMode == GameMode.CREATIVE || !event.isDropItems) {
-            return
-        }
-        if (EcoBlocks.at(event.block) != null) {
+        if (player.gameMode == GameMode.CREATIVE) {
             return
         }
 
         val block = event.block
-        val target = block.type.name.lowercase()
+
+        // Custom blocks clear isDropItems themselves to suppress the vanilla
+        // drop, so only treat it as another plugin cancelling drops otherwise.
+        if (!event.isDropItems && EcoBlocks.at(block) == null) {
+            return
+        }
+
         val tool = player.inventory.itemInMainHand
 
         for (loot in Loots.values()) {
-            if (loot.type != LootType.BLOCK || !loot.rolls(target, block.world, block.biome, player)) {
+            if (!loot.rollsForBlock(block, player)) {
                 continue
             }
 
@@ -53,13 +53,9 @@ object LootListener : Listener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     fun onMobKill(event: EntityDeathEvent) {
         val killer = event.entity.killer ?: return
-        val target = event.entity.type.name.lowercase()
-        val location = event.entity.location
 
         for (loot in Loots.values()) {
-            if (loot.type != LootType.MOB ||
-                !loot.rolls(target, location.world ?: return, location.block.biome, killer)
-            ) {
+            if (!loot.rollsForEntity(event.entity, killer)) {
                 continue
             }
 
@@ -79,9 +75,7 @@ object LootListener : Listener {
         val hook = event.hook.location
 
         for (loot in Loots.values()) {
-            if (loot.type != LootType.FISHING ||
-                !loot.rolls(null, hook.world ?: return, hook.block.biome, event.player)
-            ) {
+            if (!loot.rollsForFishing(hook.world ?: return, hook.block.biome, event.player)) {
                 continue
             }
 
@@ -103,11 +97,7 @@ object LootListener : Listener {
                 continue
             }
 
-            val stack = Items.lookup(drop.item).item
-            if (stack.type == Material.AIR) {
-                plugin.logger.warning("Loot ${loot.id} drop '${drop.item}' is not a valid item")
-                continue
-            }
+            val stack = drop.toItemStack() ?: continue
 
             var amount = if (drop.amount.isEmpty()) 1 else drop.amount.random()
             if (fortune > 0) {

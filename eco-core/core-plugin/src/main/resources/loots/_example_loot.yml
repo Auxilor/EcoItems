@@ -4,7 +4,10 @@
 # block (breaking vanilla blocks), mob (player kills), or fishing.
 type: block
 
-# Block materials or entity types this loot drops from (not used by fishing).
+# What this loot drops from (not used by fishing).
+# Block loot takes any eco block lookup - materials, #tags, ecoitems:my_block,
+# or another plugin's custom blocks. Mob loot takes any eco entity lookup -
+# entity types, #tags, or custom entities.
 targets:
   - stone
   - deepslate

@@ -6,6 +6,7 @@ import com.willfp.eco.core.items.CustomItem
 import com.willfp.eco.core.items.Items
 import com.willfp.eco.core.items.builder.ItemStackBuilder
 import com.willfp.eco.core.recipe.Recipes
+import com.willfp.eco.core.recipe.parts.EmptyTestableItem
 import com.willfp.eco.core.recipe.recipes.CraftingRecipe
 import com.willfp.eco.core.registry.Registrable
 import com.willfp.ecoitems.BuildConfig
@@ -82,7 +83,11 @@ class EcoItem(
     // Defensive copy
     private val _itemStack: ItemStack = run {
         val itemConfig = config.getSubsection("item")
-        val built = ItemStackBuilder(Items.lookup(itemConfig.getString("item")).item).apply {
+        val base = Items.lookup(itemConfig.getString("item"))
+        if (base is EmptyTestableItem) {
+            plugin.logger.warning("Item $id has an invalid base item '${itemConfig.getString("item")}'")
+        }
+        val built = ItemStackBuilder(base.item).apply {
             if (itemConfig.has("display-name")) {
                 setDisplayName(itemConfig.getFormattedString("display-name"))
             }

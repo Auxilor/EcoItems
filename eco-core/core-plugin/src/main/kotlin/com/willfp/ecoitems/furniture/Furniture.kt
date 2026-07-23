@@ -1,6 +1,9 @@
 package com.willfp.ecoitems.furniture
 
 import com.willfp.eco.core.config.interfaces.Config
+import com.willfp.eco.core.items.Items
+import com.willfp.eco.core.items.TestableItem
+import com.willfp.eco.core.recipe.parts.EmptyTestableItem
 import com.willfp.ecoitems.BuildConfig
 import com.willfp.ecoitems.blocks.BlockDrops
 import com.willfp.ecoitems.blocks.BlockSounds
@@ -261,6 +264,23 @@ class FurnitureVehicle(furnitureId: String, config: Config) {
 
     /** Item lookups consumed as fuel; empty = no fuel needed. */
     val fuelItems = config.getStrings("fuel.items")
+
+    private var cachedFuelTestables: List<TestableItem>? = null
+
+    /** Fuel items resolved through eco's item lookup. */
+    fun fuelTestables(): List<TestableItem> {
+        cachedFuelTestables?.let { return it }
+
+        val compiled = fuelItems
+            .map { Items.lookup(it) }
+            .filterNot { it is EmptyTestableItem }
+
+        return compiled.also {
+            if (it.size == fuelItems.size) {
+                cachedFuelTestables = it
+            }
+        }
+    }
 
     /** How long one fuel item lasts. */
     val fuelSeconds = config.getIntOrNull("fuel.per-item-seconds") ?: 120

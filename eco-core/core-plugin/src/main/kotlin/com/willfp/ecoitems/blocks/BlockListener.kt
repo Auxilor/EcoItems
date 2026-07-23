@@ -2,7 +2,6 @@ package com.willfp.ecoitems.blocks
 
 import com.willfp.eco.core.drops.DropQueue
 import com.willfp.eco.core.integrations.antigrief.AntigriefManager
-import com.willfp.eco.core.items.Items
 import com.willfp.ecoitems.libreforge.ContentEvent
 import com.willfp.ecoitems.items.EcoItems
 import com.willfp.ecoitems.items.ecoItem
@@ -433,8 +432,8 @@ object BlockListener : Listener {
                     continue
                 }
 
-                val stack = Items.lookup(drop.item).item
-                if (stack.type == Material.AIR) {
+                val stack = drop.toItemStack()
+                if (stack == null) {
                     onInvalid(drop.item)
                     continue
                 }
