@@ -20,7 +20,7 @@ A rarity is a category you attach to items to show how good or rare they are: ea
 
 ## Naming and IDs
 
-The file name without `.yml` is the rarity's ID. That ID is what you put in an item's `rarity:` field and in the [Item Lookup System](https://plugins.auxilor.io/the-item-lookup-system), so `legendary.yml` has the ID `legendary`.
+The file name without `.yml` is the rarity's ID. That ID is what you put in an item's `rarity:` field and in the [Item Lookup System](https://hub.auxilor.io/wiki/eco/the-item-lookup-system-the-item-lookup-system), so `legendary.yml` has the ID `legendary`.
 
 :::warning ID rules
 IDs may only contain lowercase letters, numbers, and underscores (a-z, 0-9, _). No spaces, capitals, or hyphens, or the rarity will not load.

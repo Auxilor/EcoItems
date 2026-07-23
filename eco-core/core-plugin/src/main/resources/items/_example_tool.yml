@@ -31,7 +31,7 @@ item:
     - "&8» &#FF0099Mines blocks faster"
     - "&8» &#FF0099Has 4096 durability"
   # How the item is made. Read here for more:
-  # https://plugins.auxilor.io/ecoitems/additional-configuration-options/workstation-recipes
+  # https://hub.auxilor.io/wiki/ecoitems/additional-configuration-options-workstation-recipes
   recipes:
     type: crafting_table # (Optional) Where the recipe is made, defaults to crafting_table
     give-amount: 1 # (Optional) Set the amount of items to give, defaults to 1

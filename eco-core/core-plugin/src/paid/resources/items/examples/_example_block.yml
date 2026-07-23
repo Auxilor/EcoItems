@@ -101,7 +101,7 @@ block:
   #   pitch: 0.8
 
   # Effects that run when players interact with the placed block, using
-  # libreforge effects (https://plugins.auxilor.io/effects). Events:
+  # libreforge effects (https://hub.auxilor.io/wiki/libreforge/configuring-an-effect). Events:
   # punch, shift-punch, right-click, shift-right-click, place, break.
   # effects:
   #   right-click:

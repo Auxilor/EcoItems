@@ -86,7 +86,7 @@ block:
 
 ## Interaction effects
 
-Blocks can run [libreforge effects](https://plugins.auxilor.io/effects) when players interact with them, configured per event inside the `block:` section:
+Blocks can run [libreforge effects](https://hub.auxilor.io/wiki/libreforge/configuring-an-effect) when players interact with them, configured per event inside the `block:` section:
 
 ```yaml
 block:

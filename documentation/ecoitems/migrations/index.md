@@ -51,7 +51,7 @@ Block state numbers are first-come-first-served. Run the migration on a **fresh*
 
 Anything skipped is logged with the item id during migration. The notable ones:
 
-- **Behavior mechanics** (Oraxen's `commands`, `lifeleech`, IA's `events`, etc.) - rebuild these with [libreforge effects](https://plugins.auxilor.io/effects), which are far more powerful.
+- **Behavior mechanics** (Oraxen's `commands`, `lifeleech`, IA's `events`, etc.) - rebuild these with [libreforge effects](https://hub.auxilor.io/wiki/libreforge/configuring-an-effect), which are far more powerful.
 - **Storage blocks/furniture, evolving crops, saplings, farmblocks, doors, beds, connectables** - not yet supported in EcoItems.
 - **Anvil repairs** (ItemsAdder) - they restore durability rather than make an item, so there's nothing to convert them into.
 - **Extra recipes for an item beyond the first.** An EcoItem has one recipe, so where several make the same item the first is kept and the rest are logged. Recipes using an item **tag** as an ingredient are skipped too.

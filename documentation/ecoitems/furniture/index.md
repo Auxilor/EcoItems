@@ -37,7 +37,7 @@ furniture:
 - **Display tuning** under `display:` - scale, translation, transform, billboard, fixed brightness, view range.
 - **Protection plugins** see real place/break events, so WorldGuard regions and friends work unchanged. Furniture is naturally blast-proof (barrier blocks and display entities are immune to explosions).
 
-- **Interaction effects**: run [libreforge effects](https://plugins.auxilor.io/effects) per event under `furniture.effects` - events are `punch`, `shift-punch`, `right-click`, `shift-right-click`, `place`, `break`, and `sit`:
+- **Interaction effects**: run [libreforge effects](https://hub.auxilor.io/wiki/libreforge/configuring-an-effect) per event under `furniture.effects` - events are `punch`, `shift-punch`, `right-click`, `shift-right-click`, `place`, `break`, and `sit`:
 
 ```yaml
 furniture:

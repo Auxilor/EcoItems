@@ -37,7 +37,7 @@ item:
     - "<g:#f953c6>MITHRIL BONUS</g:#b91d73>"
     - "&8» &#f953c6Deal 50% more damage in the nether"
   # How the item is made. Read here for more:
-  # https://plugins.auxilor.io/ecoitems/additional-configuration-options/workstation-recipes
+  # https://hub.auxilor.io/wiki/ecoitems/additional-configuration-options-workstation-recipes
   recipes:
     # (Optional) Where the recipe is made, defaults to crafting_table. The other options
     # are furnace, blast_furnace, smoker, campfire, stonecutter, smithing_table, anvil,
