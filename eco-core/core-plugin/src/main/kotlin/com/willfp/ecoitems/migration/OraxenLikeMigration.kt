@@ -274,6 +274,32 @@ class OraxenLikeMigration(
         "cube_column" to listOf("end", "side") // Nexo list order: [top, sides]
     )
 
+    /**
+     * Nexo/Oraxen key a pillar's shared top-and-bottom texture as vanilla's
+     * `end` (from block/cube_column); our generated block models key faces
+     * top/bottom/side, so split `end` across both faces - the same path
+     * twice - and move the parent to the equivalent cube_bottom_top.
+     */
+    private fun normalizeTextureKeys(textures: Map<String, String>): Map<String, String> {
+        val end = textures["end"] ?: return textures
+
+        val normalized = linkedMapOf(
+            "top" to (textures["top"] ?: end),
+            "bottom" to (textures["bottom"] ?: end)
+        )
+
+        for ((key, texture) in textures) {
+            if (key !in normalized && key != "end") {
+                normalized[key] = texture
+            }
+        }
+
+        return normalized
+    }
+
+    private fun normalizeTextureParent(parent: String?, textures: Map<String, String>): String? =
+        if (parent == "cube_column" && "end" in textures) "cube_bottom_top" else parent
+
     /** Oraxen forks vary between snake_case and kebab-case keys. */
     private fun ConfigurationSection.any(key: String): Any? =
         get(key) ?: get(key.replace("_", "-"))
@@ -334,18 +360,20 @@ class OraxenLikeMigration(
             ?.takeIf { "/" in it || ":" in it }
         when {
             textureMap != null -> {
-                for (key in textureMap.getKeys(false)) {
-                    out.set("block.textures.$key", assetRef(textureMap.getString(key)!!))
+                val raw = textureMap.getKeys(false).associateWith { textureMap.getString(it)!! }
+                for ((key, texture) in normalizeTextureKeys(raw)) {
+                    out.set("block.textures.$key", assetRef(texture))
                 }
-                parentModel?.let { out.set("block.texture-parent", it) }
+                normalizeTextureParent(parentModel, raw)?.let { out.set("block.texture-parent", it) }
                 out.set("item.texture", null)
             }
 
             listKeys != null && listKeys.size == listTextures.size && listTextures.size > 1 -> {
-                for ((key, texture) in listKeys.zip(listTextures)) {
+                val raw = listKeys.zip(listTextures).toMap()
+                for ((key, texture) in normalizeTextureKeys(raw)) {
                     out.set("block.textures.$key", assetRef(texture))
                 }
-                out.set("block.texture-parent", parentModel)
+                out.set("block.texture-parent", normalizeTextureParent(parentModel, raw))
                 out.set("item.texture", null)
             }
 
