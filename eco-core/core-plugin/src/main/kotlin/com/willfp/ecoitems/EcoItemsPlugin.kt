@@ -140,9 +140,11 @@ class EcoItemsPlugin : LibreforgePlugin() {
             FurnitureStorageManager,
             FurnitureBeds,
             CropListener,
-            PickBlockListener,
             LootListener
-        ) + listOfNotNull(PaperBlockListener.createIfSupported()) +
+        ) + listOfNotNull(
+            PaperBlockListener.createIfSupported(),
+            PickBlockListener.createIfSupported()
+        ) +
             (PackFeatures.instance?.listeners(this) ?: emptyList())
     }
 
