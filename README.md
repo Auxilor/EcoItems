@@ -10,6 +10,12 @@
     <a href="https://hub.auxilor.io/wiki/ecoitems/ecoitems" alt="Documentation">
         <img src="https://img.shields.io/badge/docs-hub.auxilor.io-brightgreen?style=for-the-badge"/>
     </a>
+    <a href="https://bstats.org/plugin/bukkit/EcoItems" alt="bstats servers">
+        <img src="https://img.shields.io/bstats/servers/12205?label=servers&style=for-the-badge"/>
+    </a>
+    <a href="https://bstats.org/plugin/bukkit/EcoItems" alt="bstats players">
+        <img src="https://img.shields.io/bstats/players/12205?label=players&style=for-the-badge"/>
+    </a>
     <a href="https://discord.gg/ZcwpSsE" alt="Discord">
         <img src="https://img.shields.io/discord/452518336627081236?label=discord&style=for-the-badge"/>
     </a>
