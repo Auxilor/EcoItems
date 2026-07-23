@@ -91,7 +91,9 @@ object EcoBlocks {
 
         val name = world.name.lowercase()
         fun matches(glob: String): Boolean = globCache
-            .getOrPut(glob) { Regex(Regex.escape(glob.lowercase()).replace("\\*", ".*")) }
+            .getOrPut(glob) {
+                Regex(glob.lowercase().split("*").joinToString(".*") { Regex.escape(it) })
+            }
             .matches(name)
 
         if (patterns.filter { it.startsWith("!") }.any { matches(it.substring(1)) }) {

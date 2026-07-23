@@ -261,6 +261,19 @@ class OraxenLikeMigration(
 
     // ----------------------------------------------------------------- blocks
 
+    /**
+     * Positional texture-list ordering for parent models where a Nexo/Oraxen
+     * dialect gives `textures:` as a plain list instead of a keyed map.
+     * Only includes parents we have confirmed real-world ordering for -
+     * unlisted parents with a list-form `textures:` are left for the model
+     * fallback rather than guessed at and silently mismatched.
+     */
+    private val LIST_TEXTURE_KEYS = mapOf(
+        "cube_all" to listOf("all"),
+        "cross" to listOf("cross"),
+        "cube_column" to listOf("end", "side") // Nexo list order: [top, sides]
+    )
+
     /** Oraxen forks vary between snake_case and kebab-case keys. */
     private fun ConfigurationSection.any(key: String): Any? =
         get(key) ?: get(key.replace("_", "-"))
@@ -307,18 +320,32 @@ class OraxenLikeMigration(
         }
 
         // The block's look: a map of textures (generated model, like our
-        // block.textures), an explicit model, or the item's single texture -
-        // which then belongs on the block, not the item.
+        // block.textures), a positional textures list keyed by parent_model,
+        // an explicit model, or the item's single texture - which then
+        // belongs on the block, not the item.
         val textureMap = pack?.getConfigurationSection("textures")
-        val model = config.anyString("model") ?: config.anySection("appearance")?.anyString("model")
+        val listTextures = pack?.let { textureList(it, "textures", "texture") } ?: emptyList()
+        val parentModel = pack?.getString("parent_model")?.removePrefix("block/")
+        val listKeys = parentModel?.let { LIST_TEXTURE_KEYS[it] }
+        // Mechanics-level `model` is often just Nexo's internal model name
+        // (e.g. "andesite_bricks"), not an asset path - only trust it as a
+        // literal override when it looks like a real location.
+        val model = (config.anyString("model") ?: config.anySection("appearance")?.anyString("model"))
+            ?.takeIf { "/" in it || ":" in it }
         when {
             textureMap != null -> {
                 for (key in textureMap.getKeys(false)) {
                     out.set("block.textures.$key", assetRef(textureMap.getString(key)!!))
                 }
-                pack.getString("parent_model")?.takeIf { it.startsWith("block/") }?.let {
-                    out.set("block.texture-parent", it.removePrefix("block/"))
+                parentModel?.let { out.set("block.texture-parent", it) }
+                out.set("item.texture", null)
+            }
+
+            listKeys != null && listKeys.size == listTextures.size && listTextures.size > 1 -> {
+                for ((key, texture) in listKeys.zip(listTextures)) {
+                    out.set("block.textures.$key", assetRef(texture))
                 }
+                out.set("block.texture-parent", parentModel)
                 out.set("item.texture", null)
             }
 
