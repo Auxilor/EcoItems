@@ -32,7 +32,8 @@ import com.willfp.ecoitems.items.ItemListener
 import com.willfp.ecoitems.items.ItemUpdater
 import com.willfp.ecoitems.items.ItemsGUI
 import com.willfp.ecoitems.libreforge.ConditionHasEcoItem
-import com.willfp.ecoitems.loots.LootListener
+import com.willfp.ecoitems.loots.LootContributor
+import com.willfp.ecoitems.loots.LootFishingListener
 import com.willfp.ecoitems.loots.Loots
 import com.willfp.ecoitems.migration.Migrations
 import com.willfp.ecoitems.pack.PackFeatures
@@ -47,6 +48,7 @@ import com.willfp.ecoitems.util.PickBlockListener
 import com.willfp.ecoitems.util.WorldEditIntegration
 import com.willfp.ecoitems.util.WorldGuardFlags
 import com.willfp.libreforge.conditions.Conditions
+import com.willfp.libreforge.drops.LibreforgeDrops
 import com.willfp.libreforge.loader.LibreforgePlugin
 import com.willfp.libreforge.loader.configs.ConfigCategory
 import com.willfp.libreforge.registerHolderProvider
@@ -79,6 +81,8 @@ class EcoItemsPlugin : LibreforgePlugin() {
         registerHolderProvider(EcoItemFinder.toHolderProvider())
 
         Blocks.registerBlockProvider(EcoBlocks.Provider)
+
+        LibreforgeDrops.registerContributor(LootContributor)
 
         Migrations.ensureFolders(this)
 
@@ -140,7 +144,7 @@ class EcoItemsPlugin : LibreforgePlugin() {
             FurnitureStorageManager,
             FurnitureBeds,
             CropListener,
-            LootListener
+            LootFishingListener
         ) + listOfNotNull(
             PaperBlockListener.createIfSupported(),
             PickBlockListener.createIfSupported()

@@ -427,7 +427,12 @@ class PlacedFurniture(
                 item.itemStack,
                 location,
                 player?.inventory?.itemInMainHand,
-                player
+                player,
+                block = null,
+                rolls = 1,
+                // Furniture isn't a block: keep it out of the block drop
+                // pipeline so block effects don't multiply or cancel it.
+                pipeline = false
             ) { plugin.logger.warning("Furniture ${furniture?.id} drop '$it' is not a valid item") }
         }
     }

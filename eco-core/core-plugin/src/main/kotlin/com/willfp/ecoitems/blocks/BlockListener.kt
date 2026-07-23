@@ -1,8 +1,11 @@
 package com.willfp.ecoitems.blocks
 
-import com.willfp.eco.core.drops.DropQueue
 import com.willfp.eco.core.integrations.antigrief.AntigriefManager
+import com.willfp.eco.core.drops.DropQueue
 import com.willfp.ecoitems.libreforge.ContentEvent
+import com.willfp.libreforge.drops.LibreforgeDrops
+import com.willfp.libreforge.triggers.event.DropCause
+import com.willfp.libreforge.triggers.event.DropContext
 import com.willfp.ecoitems.items.EcoItems
 import com.willfp.ecoitems.items.ecoItem
 import com.willfp.ecoitems.plugin
@@ -387,20 +390,23 @@ object BlockListener : Listener {
                 EcoItems.getByID(block.id)?.itemStack,
                 worldBlock.location.add(0.5, 0.5, 0.5),
                 tool,
-                player
+                player,
+                worldBlock
             ) { plugin.logger.warning("Crop ${block.id} drop '$it' is not a valid item") }
             return
         }
 
-        repeat(placed.stackSize) {
-            spawnDrops(
-                block.drops,
-                EcoItems.getByID(block.id)?.itemStack,
-                worldBlock.location.add(0.5, 0.5, 0.5),
-                tool,
-                player
-            ) { plugin.logger.warning("Block ${block.id} drop '$it' is not a valid item") }
-        }
+        // Stacked blocks roll once per stacked item, but deliver as one break so
+        // the drop pipeline runs (and its trigger fires) a single time.
+        spawnDrops(
+            block.drops,
+            EcoItems.getByID(block.id)?.itemStack,
+            worldBlock.location.add(0.5, 0.5, 0.5),
+            tool,
+            player,
+            worldBlock,
+            placed.stackSize
+        ) { plugin.logger.warning("Block ${block.id} drop '$it' is not a valid item") }
     }
 
     /** Shared drop pipeline for blocks and furniture. */
@@ -410,8 +416,62 @@ object BlockListener : Listener {
         location: Location,
         tool: ItemStack?,
         player: Player?,
+        block: Block? = null,
+        rolls: Int = 1,
+        pipeline: Boolean = true,
         onInvalid: (String) -> Unit = {}
     ) {
+        val items = mutableListOf<ItemStack>()
+        var xp = 0
+
+        repeat(rolls) {
+            val rolled = rollDrops(drops, self, tool, onInvalid)
+            items += rolled.first
+            xp += rolled.second
+        }
+
+        // Player breaks go through libreforge's drop pipeline: the drop effects
+        // (multiply_drops, cancel_drops, autosmelt, ...) and the block_item_drop
+        // trigger never see custom blocks otherwise, since suppressing the
+        // vanilla drop means BlockDropItemEvent never fires. The pipeline pushes
+        // through a DropQueue, so telekinesis still applies.
+        if (player != null && pipeline) {
+            LibreforgeDrops.dropAll(
+                items,
+                DropCause.BLOCK,
+                DropContext(player = player, block = block, tool = tool),
+                // eco's queue centers the location itself; hand it the corner.
+                location.block.location,
+                xp
+            )
+            return
+        }
+
+        // Furniture isn't a block, so it stays out of the block drop pipeline -
+        // a DropQueue still gives it telekinesis.
+        if (player != null) {
+            DropQueue(player)
+                .addItems(items)
+                .addXP(xp)
+                .setLocation(location.block.location)
+                .push()
+            return
+        }
+
+        val world = location.world ?: return
+        items.forEach { world.dropItemNaturally(location, it) }
+        if (xp > 0) {
+            world.spawn(location, ExperienceOrb::class.java).experience = xp
+        }
+    }
+
+    /** One roll of a drop table: the items it yields and the xp it grants. */
+    private fun rollDrops(
+        drops: BlockDrops?,
+        self: ItemStack?,
+        tool: ItemStack?,
+        onInvalid: (String) -> Unit
+    ): Pair<List<ItemStack>, Int> {
         val items = mutableListOf<ItemStack>()
         var xp = 0
 
@@ -452,21 +512,7 @@ object BlockListener : Listener {
             }
         }
 
-        if (player != null) {
-            DropQueue(player)
-                .addItems(items)
-                .addXP(xp)
-                // eco's queue centers the location itself; hand it the corner.
-                .setLocation(location.block.location)
-                .push()
-            return
-        }
-
-        val world = location.world ?: return
-        items.forEach { world.dropItemNaturally(location, it) }
-        if (xp > 0) {
-            world.spawn(location, ExperienceOrb::class.java).experience = xp
-        }
+        return items to xp
     }
 
     private fun canHarvest(block: EcoBlock, tool: ItemStack?): Boolean {

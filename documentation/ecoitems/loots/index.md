@@ -35,7 +35,7 @@ biomes:              # optional filters; also worlds:
 
 ## How each type behaves
 
-- **`block`** - rolls when a player breaks a matching block (survival mode, and not when another plugin already cancelled the drops). Drops go through eco's DropQueue, so telekinesis and similar mechanics work.
+- **`block`** - rolls when a player breaks a matching block (survival mode, and not when another plugin already cancelled the drops). Works on custom EcoItems blocks too, on top of their own `drops:`.
 - **`mob`** - rolls when a player kills a matching entity; items join the death drops at the mob's location.
 - **`fishing`** - rolls on a successful catch; the first rolled item **replaces** the vanilla catch. `targets` is ignored.
 
