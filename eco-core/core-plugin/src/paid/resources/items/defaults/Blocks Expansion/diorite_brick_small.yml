@@ -1,17 +1,17 @@
 item:
   item: paper
   name: <#FFFFFF>Diorite Brick Small
-  craftable: true
-  recipe:
-  - air
-  - air
-  - air
-  - air
-  - polished_diorite_slab
-  - polished_diorite_slab
-  - air
-  - polished_diorite_slab
-  - polished_diorite_slab
+  recipes:
+    recipe:
+      - air
+      - air
+      - air
+      - air
+      - polished_diorite_slab
+      - polished_diorite_slab
+      - air
+      - polished_diorite_slab
+      - polished_diorite_slab
 block:
   type: noteblock
   variation: 9

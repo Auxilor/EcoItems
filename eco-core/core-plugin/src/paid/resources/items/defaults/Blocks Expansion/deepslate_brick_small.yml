@@ -1,17 +1,17 @@
 item:
   item: paper
   name: <#FFFFFF>Deepslate Brick Small
-  craftable: true
-  recipe:
-  - air
-  - air
-  - air
-  - air
-  - deepslate_brick_slab
-  - deepslate_brick_slab
-  - air
-  - deepslate_brick_slab
-  - deepslate_brick_slab
+  recipes:
+    recipe:
+      - air
+      - air
+      - air
+      - air
+      - deepslate_brick_slab
+      - deepslate_brick_slab
+      - air
+      - deepslate_brick_slab
+      - deepslate_brick_slab
 block:
   type: noteblock
   variation: 46

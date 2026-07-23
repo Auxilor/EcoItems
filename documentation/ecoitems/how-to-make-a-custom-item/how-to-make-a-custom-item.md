@@ -52,20 +52,21 @@ item:
         amount: 11
         operation: "add_value"
         slot: "mainhand"
-  craftable: true # If the item can be crafted
-  crafting-permission: ecoitems.craft.custom_item # Optional; permission required to craft the item
-  shapeless: false # Optional; whether the recipe is shapeless, defaults to false
-  recipe-give-amount: 1 # Optional; how many items the recipe gives, defaults to 1
-  recipe: # The recipe: https://hub.auxilor.io/wiki/eco/the-item-lookup-system-the-item-lookup-system/recipes
-    - ""
-    - ecoitems:mithril 2
-    - ""
-    - ""
-    - ecoitems:mithril 2
-    - ""
-    - ""
-    - stick
-    - ""
+  recipes: # How the item is made
+    type: crafting_table # Optional; where it's made, defaults to crafting_table
+    permission: ecoitems.craft.custom_item # Optional; permission required to craft the item
+    shapeless: false # Optional; whether the recipe is shapeless, defaults to false
+    give-amount: 1 # Optional; how many items the recipe gives, defaults to 1
+    recipe: # The recipe: https://hub.auxilor.io/wiki/eco/the-item-lookup-system-the-item-lookup-system/recipes
+      - ""
+      - ecoitems:mithril 2
+      - ""
+      - ""
+      - ecoitems:mithril 2
+      - ""
+      - ""
+      - stick
+      - ""
 
 # === Behaviour: where it works ===
 slot: mainhand # The slot the item must be in to activate; defaults to mainhand
@@ -90,6 +91,10 @@ The `item:` section defines the base item players receive and how it's crafted. 
 
 :::tip
 EcoItems supports both shaped and shapeless recipes. See [Recipes](https://hub.auxilor.io/wiki/eco/the-item-lookup-system-the-item-lookup-system/recipes) for the full format.
+:::
+
+:::tip Other workstations
+A `recipe` is crafted at a crafting table by default. Add `type:` to make the item at a furnace, smithing table, stonecutter, anvil, or brewing stand instead - see [Workstation Recipes](../additional-configuration-options/workstation-recipes).
 :::
 
 ### Components
@@ -199,7 +204,7 @@ Effects and conditions are a shared eco system with their own documentation. To 
 :::tip Troubleshooting
 - **Item won't load?** Check the ID rules above; capitals, spaces, or hyphens in the file name stop it loading.
 - **Effects do nothing?** The item only activates in its `slot`; a `mainhand` item does nothing in your inventory.
-- **Recipe doesn't work?** Make sure `craftable: true` is set and the ingredient IDs resolve in the Item Lookup System.
+- **Recipe doesn't work?** Make sure the ingredient IDs resolve in the Item Lookup System.
 - **Changes not showing?** Run `/ecoitems reload`. Items in online players' inventories update automatically (with `auto-update-items` in config.yml, on by default); items in containers update when a player picks them up.
 :::
 
@@ -208,6 +213,7 @@ Effects and conditions are a shared eco system with their own documentation. To 
 ## Where to go next
 
 - **Foods and tools:** [Custom Foods](custom-foods) and [Custom Tools](custom-tools) add eating and mining behaviour to an item.
+- **Workstations:** [Workstation Recipes](../additional-configuration-options/workstation-recipes) to craft the item at a furnace, anvil, stonecutter, and more.
 - **Rarities:** [Item Rarity](../additional-configuration-options/item-rarity) for the rarity tags used by `rarity:`.
 - **Textures:** [Resource Packs](../resource-packs/index) for custom item textures and models (paid).
 - **Default configs:** the shipped items live [here](https://github.com/Auxilor/EcoItems/blob/master/eco-core/core-plugin/src/main/resources/items/), and you can find community items on [lrcdb](https://lrcdb.auxilor.io/).

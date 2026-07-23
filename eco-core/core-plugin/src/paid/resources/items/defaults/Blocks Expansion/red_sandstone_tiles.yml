@@ -1,17 +1,17 @@
 item:
   item: paper
   name: <#FFFFFF>Red Sandstone Tiles
-  craftable: true
-  recipe:
-  - air
-  - air
-  - air
-  - smooth_red_sandstone_slab
-  - air
-  - air
-  - smooth_red_sandstone_slab
-  - air
-  - air
+  recipes:
+    recipe:
+      - air
+      - air
+      - air
+      - smooth_red_sandstone_slab
+      - air
+      - air
+      - smooth_red_sandstone_slab
+      - air
+      - air
 block:
   type: noteblock
   variation: 39

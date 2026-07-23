@@ -1,17 +1,17 @@
 item:
   item: paper
   name: <#FFFFFF>Mud Brick Small
-  craftable: true
-  recipe:
-  - air
-  - air
-  - air
-  - air
-  - mud_brick_slab
-  - mud_brick_slab
-  - air
-  - mud_brick_slab
-  - mud_brick_slab
+  recipes:
+    recipe:
+      - air
+      - air
+      - air
+      - air
+      - mud_brick_slab
+      - mud_brick_slab
+      - air
+      - mud_brick_slab
+      - mud_brick_slab
 block:
   type: noteblock
   variation: 41

@@ -1,17 +1,17 @@
 item:
   item: paper
   name: <#FFFFFF>Polished Mud
-  craftable: true
-  recipe:
-  - air
-  - air
-  - air
-  - air
-  - mud_bricks
-  - mud_bricks
-  - air
-  - mud_bricks
-  - mud_bricks
+  recipes:
+    recipe:
+      - air
+      - air
+      - air
+      - air
+      - mud_bricks
+      - mud_bricks
+      - air
+      - mud_bricks
+      - mud_bricks
 block:
   type: noteblock
   variation: 44

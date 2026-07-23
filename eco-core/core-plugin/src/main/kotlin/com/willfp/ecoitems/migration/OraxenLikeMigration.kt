@@ -38,7 +38,7 @@ class OraxenLikeMigration(
         val items = loadItems()
         itemIds.addAll(items.keys)
 
-        val recipes = loadShapedRecipes()
+        val recipes = loadRecipes()
 
         for ((id, section) in items) {
             convertItem(id, section, recipes[id])
@@ -92,7 +92,7 @@ class OraxenLikeMigration(
         return out
     }
 
-    private fun convertItem(id: String, section: ConfigurationSection, recipe: List<String>?) {
+    private fun convertItem(id: String, section: ConfigurationSection, recipe: Map<String, Any>?) {
         val out = YamlConfiguration()
 
         out.set("item.item", (section.getString("material") ?: "PAPER").lowercase())
@@ -108,8 +108,9 @@ class OraxenLikeMigration(
         convertComponents(id, section, out)
 
         recipe?.let {
-            out.set("item.craftable", true)
-            out.set("item.recipe", it)
+            for ((key, value) in it) {
+                out.set("item.recipes.$key", value)
+            }
             result.recipes++
         }
 
@@ -751,44 +752,135 @@ class OraxenLikeMigration(
 
     // ---------------------------------------------------------------- recipes
 
-    /** Shaped recipes keyed by result item id, as our 9-slot lookup lists. */
-    private fun loadShapedRecipes(): Map<String, List<String>> {
-        val recipes = mutableMapOf<String, List<String>>()
-        val file = source.resolve("recipes/shaped.yml")
-        if (!file.exists()) {
-            for (other in listOf("shapeless", "furnace", "blasting", "smoking", "campfire", "stonecutting")) {
-                if (source.resolve("recipes/$other.yml").exists()) {
-                    result.warn("Recipes: $other recipes are not supported and were skipped")
+    /**
+     * Every recipe, keyed by the id of the item it makes. Each entry is the set of
+     * values that go under the item's recipes section.
+     *
+     * An item gets one recipe, so where a setup has several for the same result the
+     * first wins and the rest are reported.
+     */
+    private fun loadRecipes(): Map<String, Map<String, Any>> {
+        val recipes = mutableMapOf<String, Map<String, Any>>()
+        val folder = source.resolve("recipes")
+        if (!folder.isDirectory) return recipes
+
+        // Rotations and mirrors of one recipe are usually written out as separate
+        // recipes, so duplicates are the norm rather than a mistake - counted and
+        // reported once instead of once each.
+        var duplicates = 0
+
+        fun load(fileName: String, build: (ConfigurationSection) -> Map<String, Any>?) {
+            val file = folder.resolve("$fileName.yml")
+            if (!file.exists()) return
+
+            val yaml = YamlConfiguration.loadConfiguration(file)
+            for (name in yaml.getKeys(false)) {
+                val recipe = yaml.getConfigurationSection(name) ?: continue
+                val resultId = recipe.getString("result.${dialect.itemRef}") ?: run {
+                    result.warn("Recipe $name: only recipes resulting in a converted item are supported")
+                    null
+                } ?: continue
+
+                val built = build(recipe) ?: run {
+                    result.warn("Recipe $name: an ingredient couldn't be converted, so it was skipped")
+                    null
+                } ?: continue
+
+                val amount = recipe.getInt("result.amount", 1)
+                val entry = if (amount > 1) built + ("give-amount" to amount) else built
+
+                if (recipes.putIfAbsent(resultId, entry) != null) {
+                    duplicates++
                 }
             }
-            return recipes
         }
 
-        val yaml = YamlConfiguration.loadConfiguration(file)
-        for (name in yaml.getKeys(false)) {
-            val recipe = yaml.getConfigurationSection(name) ?: continue
-            val resultRef = recipe.getConfigurationSection("result") ?: continue
-            val resultId = resultRef.getString(dialect.itemRef) ?: run {
-                result.warn("Recipe $name: only recipes resulting in a converted item are supported")
-                continue
-            }
+        load("shaped") { shapedRecipe(it) }
+        load("shapeless") { shapelessRecipe(it) }
 
-            val shape = recipe.getStringList("shape").map { it.padEnd(3) }.take(3)
-            val rows = shape + List(3 - shape.size) { "   " }
-            val slots = rows.flatMap { row -> row.toCharArray().take(3).map { it } }
+        for ((fileName, type) in listOf(
+            "furnace" to "furnace",
+            "blasting" to "blast_furnace",
+            "smoking" to "smoker",
+            "campfire" to "campfire"
+        )) {
+            load(fileName) { cookedRecipe(type, it) }
+        }
 
-            val lookups = slots.map { char ->
-                if (char == ' ' || char == '_') return@map "air"
-                val ingredient = recipe.getConfigurationSection("ingredients.$char") ?: return@map "air"
-                ingredient.getString(dialect.itemRef)?.let { "ecoitems:$it" }
-                    ?: ingredient.getString("minecraft_type")?.lowercase()
-                    ?: "air"
-            }
+        load("stonecutting") { stonecuttingRecipe(it) }
+        load("brewing") { brewingRecipe(it) }
 
-            recipes[resultId] = lookups
+        if (duplicates > 0) {
+            result.warn(
+                "Recipes: kept one recipe per item and skipped $duplicates others " +
+                        "(rotated and mirrored variants don't need their own recipe here)"
+            )
         }
 
         return recipes
+    }
+
+    private fun shapedRecipe(recipe: ConfigurationSection): Map<String, Any>? {
+        val shape = recipe.getStringList("shape").map { it.padEnd(3) }.take(3)
+        if (shape.isEmpty()) return null
+
+        val rows = shape + List(3 - shape.size) { "   " }
+        val slots = rows.flatMap { row -> row.toCharArray().take(3).map { it } }
+
+        val lookups = slots.map { char ->
+            // Both dialects use _ (and plain spaces) for an empty slot.
+            if (char == ' ' || char == '_') return@map "air"
+            ingredient(recipe.getConfigurationSection("ingredients.$char")) ?: "air"
+        }
+
+        return if (lookups.all { it == "air" }) null else mapOf("recipe" to lookups)
+    }
+
+    private fun shapelessRecipe(recipe: ConfigurationSection): Map<String, Any>? {
+        val ingredients = recipe.getConfigurationSection("ingredients") ?: return null
+
+        val parts = ingredients.getKeys(false).mapNotNull {
+            ingredient(ingredients.getConfigurationSection(it))
+        }
+
+        return if (parts.isEmpty()) null else mapOf("shapeless" to true, "recipe" to parts)
+    }
+
+    private fun cookedRecipe(type: String, recipe: ConfigurationSection): Map<String, Any>? {
+        val input = ingredient(recipe.getConfigurationSection("input")) ?: return null
+
+        return buildMap {
+            put("type", type)
+            put("input", input)
+            if (recipe.contains("cookingTime")) put("cook-time", recipe.getInt("cookingTime"))
+            if (recipe.contains("experience")) put("experience", recipe.getDouble("experience"))
+        }
+    }
+
+    private fun stonecuttingRecipe(recipe: ConfigurationSection): Map<String, Any>? {
+        val input = ingredient(recipe.getConfigurationSection("input")) ?: return null
+        return mapOf("type" to "stonecutter", "input" to input)
+    }
+
+    private fun brewingRecipe(recipe: ConfigurationSection): Map<String, Any>? {
+        // input is the bottle in the lower slots, ingredient is the one on top.
+        val base = ingredient(recipe.getConfigurationSection("input")) ?: return null
+        val addition = ingredient(recipe.getConfigurationSection("ingredient")) ?: return null
+
+        return mapOf("type" to "brewing_stand", "base" to base, "ingredient" to addition)
+    }
+
+    /** An ingredient as one of our lookup strings, or null if it can't be converted. */
+    private fun ingredient(section: ConfigurationSection?): String? {
+        section ?: return null
+
+        val item = section.getString(dialect.itemRef)?.let { "ecoitems:$it" }
+            ?: section.getString("minecraft_type")?.lowercase()
+            // Item tags have no single-item equivalent in a recipe slot.
+            ?: return null
+
+        val amount = section.getInt("amount", 1)
+        return if (amount > 1) "$item $amount" else item
     }
 
     // ----------------------------------------------------------------- glyphs

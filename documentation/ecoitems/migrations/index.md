@@ -31,7 +31,10 @@ Converted configs land in `items/imported/<source>/`, `glyphs/imported/<source>/
 | Furniture (hitboxes, seats, lights, placement, display) | ✅ | ✅ | ✅ |
 | Glyphs (incl. bitmap sheets) | ✅ | ✅ | - |
 | Sounds + jukebox songs | ✅ | ✅ | - |
-| Shaped recipes | ✅ | ✅ | - |
+| Crafting recipes (shaped and shapeless) | ✅ | ✅ | ✅ |
+| Furnace, blast furnace, smoker, campfire recipes | ✅ | ✅ | ✅ |
+| Stonecutter and brewing stand recipes | ✅ | ✅ | ✅ |
+| Smithing table recipes | - | - | ✅ |
 | Resource pack files | ✅ | ✅ | ✅ |
 
 ## World compatibility
@@ -50,6 +53,8 @@ Anything skipped is logged with the item id during migration. The notable ones:
 
 - **Behavior mechanics** (Oraxen's `commands`, `lifeleech`, IA's `events`, etc.) - rebuild these with [libreforge effects](https://plugins.auxilor.io/effects), which are far more powerful.
 - **Storage blocks/furniture, evolving crops, saplings, farmblocks, doors, beds, connectables** - not yet supported in EcoItems.
-- Shapeless/furnace recipes, `ItemFlags`, `PotionEffects`, legacy list-style attribute modifiers.
+- **Anvil repairs** (ItemsAdder) - they restore durability rather than make an item, so there's nothing to convert them into.
+- **Extra recipes for an item beyond the first.** An EcoItem has one recipe, so where several make the same item the first is kept and the rest are logged. Recipes using an item **tag** as an ingredient are skipped too.
+- `ItemFlags`, `PotionEffects`, legacy list-style attribute modifiers.
 - Item-frame or armor-stand furniture converts to display-entity furniture - check how it looks.
 - Messages/settings - EcoItems' own config layout differs; reconfigure `config.yml`/`lang.yml`/`pack.yml` manually.

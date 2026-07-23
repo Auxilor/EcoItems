@@ -1,17 +1,17 @@
 item:
   item: paper
   name: <#FFFFFF>Sandstone Bricks
-  craftable: true
-  recipe:
-  - air
-  - air
-  - air
-  - air
-  - ecoitems:polished_sandstone
-  - ecoitems:polished_sandstone
-  - air
-  - ecoitems:polished_sandstone
-  - ecoitems:polished_sandstone
+  recipes:
+    recipe:
+      - air
+      - air
+      - air
+      - air
+      - ecoitems:polished_sandstone
+      - ecoitems:polished_sandstone
+      - air
+      - ecoitems:polished_sandstone
+      - ecoitems:polished_sandstone
 block:
   type: noteblock
   variation: 31

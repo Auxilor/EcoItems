@@ -1,17 +1,17 @@
 item:
   item: paper
   name: <#FFFFFF>Deepslate Pillar
-  craftable: true
-  recipe:
-  - air
-  - air
-  - air
-  - polished_deepslate
-  - air
-  - air
-  - polished_deepslate
-  - air
-  - air
+  recipes:
+    recipe:
+      - air
+      - air
+      - air
+      - polished_deepslate
+      - air
+      - air
+      - polished_deepslate
+      - air
+      - air
 block:
   type: noteblock
   variation: 47

@@ -1,17 +1,17 @@
 item:
   item: paper
   name: <#FFFFFF>Stone Tiles
-  craftable: true
-  recipe:
-  - air
-  - air
-  - air
-  - stone_slab
-  - air
-  - air
-  - stone_slab
-  - air
-  - air
+  recipes:
+    recipe:
+      - air
+      - air
+      - air
+      - stone_slab
+      - air
+      - air
+      - stone_slab
+      - air
+      - air
 block:
   type: noteblock
   variation: 29

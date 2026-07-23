@@ -1,17 +1,17 @@
 item:
   item: paper
   name: <#FFFFFF>Cobbled Andesite
-  craftable: true
-  recipe:
-  - air
-  - air
-  - air
-  - cobblestone
-  - air
-  - air
-  - andesite
-  - air
-  - air
+  recipes:
+    recipe:
+      - air
+      - air
+      - air
+      - cobblestone
+      - air
+      - air
+      - andesite
+      - air
+      - air
 block:
   type: noteblock
   variation: 6

@@ -2,17 +2,17 @@ item:
   item: diamond glint hide_attributes
   name: "&bEnchanted Diamond"
   lore: [ ]
-  craftable: true
-  recipe:
-    - ""
-    - diamond 32
-    - ""
-    - diamond 32
-    - diamond 32
-    - diamond 32
-    - ""
-    - diamond 32
-    - ""
+  recipes:
+    recipe:
+      - ""
+      - diamond 32
+      - ""
+      - diamond 32
+      - diamond 32
+      - diamond 32
+      - ""
+      - diamond 32
+      - ""
 
 
 effects: [ ]

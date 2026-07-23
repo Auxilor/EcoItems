@@ -1,17 +1,17 @@
 item:
   item: paper
   name: <#FFFFFF>Calcite Bricks
-  craftable: true
-  recipe:
-  - air
-  - air
-  - air
-  - air
-  - ecoitems:polished_calcite
-  - ecoitems:polished_calcite
-  - air
-  - ecoitems:polished_calcite
-  - ecoitems:polished_calcite
+  recipes:
+    recipe:
+      - air
+      - air
+      - air
+      - air
+      - ecoitems:polished_calcite
+      - ecoitems:polished_calcite
+      - air
+      - ecoitems:polished_calcite
+      - ecoitems:polished_calcite
 block:
   type: noteblock
   variation: 20

@@ -1,17 +1,17 @@
 item:
   item: paper
   name: <#FFFFFF>Mud Pillar
-  craftable: true
-  recipe:
-  - air
-  - air
-  - air
-  - ecoitems:polished_mud
-  - air
-  - air
-  - ecoitems:polished_mud
-  - air
-  - air
+  recipes:
+    recipe:
+      - air
+      - air
+      - air
+      - ecoitems:polished_mud
+      - air
+      - air
+      - ecoitems:polished_mud
+      - air
+      - air
 block:
   type: noteblock
   variation: 42

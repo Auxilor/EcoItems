@@ -1,17 +1,17 @@
 item:
   item: paper
   name: <#FFFFFF>Diorite Tiles
-  craftable: true
-  recipe:
-  - air
-  - air
-  - air
-  - polished_diorite_slab
-  - air
-  - air
-  - polished_diorite_slab
-  - air
-  - air
+  recipes:
+    recipe:
+      - air
+      - air
+      - air
+      - polished_diorite_slab
+      - air
+      - air
+      - polished_diorite_slab
+      - air
+      - air
 block:
   type: noteblock
   variation: 13

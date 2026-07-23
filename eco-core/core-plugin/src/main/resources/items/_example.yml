@@ -36,20 +36,26 @@ item:
     - ""
     - "<g:#f953c6>MITHRIL BONUS</g:#b91d73>"
     - "&8» &#f953c6Deal 50% more damage in the nether"
-  craftable: true # If the item can be crafted
-  recipe-give-amount: 1 # (Optional) Set the amount of items to give, defaults to 1
-  crafting-permission: ecoitems.craft.custom_item # (Optional) The permission required to craft the item
-  shapeless: false # (Optional) Whether the crafting recipe is shapeless or not, defaults to false
-  recipe: # The recipe, read here for more: https://hub.auxilor.io/wiki/eco/the-item-lookup-system-the-item-lookup-system#crafting-recipes
-    - ""
-    - ecoitems:mithril 2
-    - ""
-    - ""
-    - ecoitems:mithril 2
-    - ""
-    - ""
-    - stick
-    - ""
+  # How the item is made. Read here for more:
+  # https://plugins.auxilor.io/ecoitems/additional-configuration-options/workstation-recipes
+  recipes:
+    # (Optional) Where the recipe is made, defaults to crafting_table. The other options
+    # are furnace, blast_furnace, smoker, campfire, stonecutter, smithing_table, anvil,
+    # and brewing_stand - each takes its own ingredients instead of a recipe grid.
+    type: crafting_table
+    give-amount: 1 # (Optional) Set the amount of items to give, defaults to 1
+    permission: ecoitems.craft.custom_item # (Optional) The permission required to craft the item
+    shapeless: false # (Optional) Whether the crafting recipe is shapeless or not, defaults to false
+    recipe: # The recipe, read here for more: https://hub.auxilor.io/wiki/eco/the-item-lookup-system-the-item-lookup-system#crafting-recipes
+      - ""
+      - ecoitems:mithril 2
+      - ""
+      - ""
+      - ecoitems:mithril 2
+      - ""
+      - ""
+      - stick
+      - ""
 
 # The slot the item has to be in to activate its effects.
 # The options for slot are mainhand, offhand, hands, helmet, chestplate,

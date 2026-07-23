@@ -1,17 +1,17 @@
 item:
   item: paper
   name: <#FFFFFF>Blackstone Tiles
-  craftable: true
-  recipe:
-  - air
-  - air
-  - air
-  - polished_blackstone_slab
-  - air
-  - air
-  - polished_blackstone_slab
-  - air
-  - air
+  recipes:
+    recipe:
+      - air
+      - air
+      - air
+      - polished_blackstone_slab
+      - air
+      - air
+      - polished_blackstone_slab
+      - air
+      - air
 block:
   type: noteblock
   variation: 52

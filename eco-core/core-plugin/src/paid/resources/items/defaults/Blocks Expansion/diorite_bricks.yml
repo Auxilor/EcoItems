@@ -1,17 +1,17 @@
 item:
   item: paper
   name: <#FFFFFF>Diorite Bricks
-  craftable: true
-  recipe:
-  - air
-  - air
-  - air
-  - air
-  - polished_diorite
-  - polished_diorite
-  - air
-  - polished_diorite
-  - polished_diorite
+  recipes:
+    recipe:
+      - air
+      - air
+      - air
+      - air
+      - polished_diorite
+      - polished_diorite
+      - air
+      - polished_diorite
+      - polished_diorite
 block:
   type: noteblock
   variation: 8

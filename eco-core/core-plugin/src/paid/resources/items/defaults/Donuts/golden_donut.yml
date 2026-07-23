@@ -7,16 +7,16 @@ item:
     minecraft:food:
       nutrition: 6
       saturation: 2.4
-  craftable: true
-  recipe:
-  - gold_nugget
-  - gold_nugget
-  - gold_nugget
-  - gold_nugget
-  - ecoitems:plain_donut
-  - gold_nugget
-  - gold_nugget
-  - gold_nugget
-  - gold_nugget
+  recipes:
+    recipe:
+      - gold_nugget
+      - gold_nugget
+      - gold_nugget
+      - gold_nugget
+      - ecoitems:plain_donut
+      - gold_nugget
+      - gold_nugget
+      - gold_nugget
+      - gold_nugget
 effects: []
 conditions: []

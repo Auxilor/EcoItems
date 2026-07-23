@@ -1,17 +1,17 @@
 item:
   item: paper
   name: <#FFFFFF>Andesite Pillar
-  craftable: true
-  recipe:
-  - air
-  - air
-  - air
-  - polished_andesite
-  - air
-  - air
-  - polished_andesite
-  - air
-  - air
+  recipes:
+    recipe:
+      - air
+      - air
+      - air
+      - polished_andesite
+      - air
+      - air
+      - polished_andesite
+      - air
+      - air
 block:
   type: noteblock
   variation: 4

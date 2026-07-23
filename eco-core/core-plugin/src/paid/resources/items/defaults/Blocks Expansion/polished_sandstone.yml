@@ -1,17 +1,17 @@
 item:
   item: paper
   name: <#FFFFFF>Polished Sandstone
-  craftable: true
-  recipe:
-  - air
-  - air
-  - air
-  - air
-  - sandstone
-  - sandstone
-  - air
-  - sandstone
-  - sandstone
+  recipes:
+    recipe:
+      - air
+      - air
+      - air
+      - air
+      - sandstone
+      - sandstone
+      - air
+      - sandstone
+      - sandstone
 block:
   type: noteblock
   variation: 35

@@ -2,17 +2,17 @@ item:
   item: emerald glint hide_attributes
   name: "&bEnchanted Emerald"
   lore: [ ]
-  craftable: true
-  recipe:
-    - ""
-    - emerald 32
-    - ""
-    - emerald 32
-    - emerald 32
-    - emerald 32
-    - ""
-    - emerald 32
-    - ""
+  recipes:
+    recipe:
+      - ""
+      - emerald 32
+      - ""
+      - emerald 32
+      - emerald 32
+      - emerald 32
+      - ""
+      - emerald 32
+      - ""
 
 
 effects: [ ]

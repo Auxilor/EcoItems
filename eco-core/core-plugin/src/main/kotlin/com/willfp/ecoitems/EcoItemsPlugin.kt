@@ -31,6 +31,7 @@ import com.willfp.ecoitems.items.EcoItemsRecipes
 import com.willfp.ecoitems.items.ItemListener
 import com.willfp.ecoitems.items.ItemUpdater
 import com.willfp.ecoitems.items.ItemsGUI
+import com.willfp.ecoitems.items.WorkstationRecipePermissions
 import com.willfp.ecoitems.libreforge.ConditionHasEcoItem
 import com.willfp.ecoitems.loots.LootContributor
 import com.willfp.ecoitems.loots.LootFishingListener
@@ -144,7 +145,8 @@ class EcoItemsPlugin : LibreforgePlugin() {
             FurnitureStorageManager,
             FurnitureBeds,
             CropListener,
-            LootFishingListener
+            LootFishingListener,
+            WorkstationRecipePermissions
         ) + listOfNotNull(
             PaperBlockListener.createIfSupported(),
             PickBlockListener.createIfSupported()

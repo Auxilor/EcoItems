@@ -1,17 +1,17 @@
 item:
   item: paper
   name: <#FFFFFF>Stone Brick Small
-  craftable: true
-  recipe:
-  - air
-  - air
-  - air
-  - air
-  - stone_slab
-  - stone_slab
-  - air
-  - stone_slab
-  - stone_slab
+  recipes:
+    recipe:
+      - air
+      - air
+      - air
+      - air
+      - stone_slab
+      - stone_slab
+      - air
+      - stone_slab
+      - stone_slab
 block:
   type: noteblock
   variation: 27

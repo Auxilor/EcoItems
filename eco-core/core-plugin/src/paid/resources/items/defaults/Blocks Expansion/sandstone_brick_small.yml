@@ -1,17 +1,17 @@
 item:
   item: paper
   name: <#FFFFFF>Sandstone Brick Small
-  craftable: true
-  recipe:
-  - air
-  - air
-  - air
-  - air
-  - sandstone_slab
-  - sandstone_slab
-  - air
-  - sandstone_slab
-  - sandstone_slab
+  recipes:
+    recipe:
+      - air
+      - air
+      - air
+      - air
+      - sandstone_slab
+      - sandstone_slab
+      - air
+      - sandstone_slab
+      - sandstone_slab
 block:
   type: noteblock
   variation: 32

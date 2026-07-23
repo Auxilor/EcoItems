@@ -8,6 +8,14 @@ import com.willfp.libreforge.loader.LibreforgePlugin
 import com.willfp.libreforge.loader.configs.ConfigCategory
 import com.willfp.libreforge.loader.configs.LegacyLocation
 
+/**
+ * Deprecated: standalone recipes in the recipes/ folder, which craft any item rather
+ * than an EcoItem. Kept loading so existing setups keep working, but no longer
+ * documented and deliberately silent - it never logs, so a server that isn't using
+ * it never hears about it.
+ *
+ * Give the item its own config with a recipe instead; see WorkstationRecipeLoader.
+ */
 object EcoItemsRecipes : ConfigCategory("recipe", "recipes") {
     private val registeredIds = mutableSetOf<String>()
 
@@ -24,8 +32,6 @@ object EcoItemsRecipes : ConfigCategory("recipe", "recipes") {
 
     override fun acceptConfig(plugin: LibreforgePlugin, id: String, config: Config) {
         if (BuildConfig.FREE_VERSION && id !in registeredIds && registeredIds.size >= 10) {
-            plugin.logger.warning("The free version of EcoItems only supports 10 recipes.")
-            plugin.logger.warning("Purchase the full version of EcoItems to remove this restriction!")
             return
         }
         val result = Items.lookup(config.getString("result"))
@@ -41,9 +47,6 @@ object EcoItemsRecipes : ConfigCategory("recipe", "recipes") {
             if (recipeStrings.isEmpty()) return@run
 
             if (item.type.isAir) {
-                plugin.logger.warning(
-                    "Recipe $id has an invalid result '${config.getString("result")}' and was skipped"
-                )
                 return@run
             }
 

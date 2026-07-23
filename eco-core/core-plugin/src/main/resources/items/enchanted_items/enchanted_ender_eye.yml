@@ -2,17 +2,17 @@ item:
   item: ender_eye glint hide_attributes
   name: "&bEnchanted Ender Eye"
   lore: [ ]
-  craftable: true
-  recipe:
-    - ""
-    - ender_eye 4
-    - ""
-    - ender_eye 4
-    - ender_eye 4
-    - ender_eye 4
-    - ""
-    - ender_eye 4
-    - ""
+  recipes:
+    recipe:
+      - ""
+      - ender_eye 4
+      - ""
+      - ender_eye 4
+      - ender_eye 4
+      - ender_eye 4
+      - ""
+      - ender_eye 4
+      - ""
 
 
 effects: [ ]

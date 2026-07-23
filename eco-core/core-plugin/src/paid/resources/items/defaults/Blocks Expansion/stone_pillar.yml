@@ -1,17 +1,17 @@
 item:
   item: paper
   name: <#FFFFFF>Stone Pillar
-  craftable: true
-  recipe:
-  - air
-  - air
-  - air
-  - ecoitems:polished_stone
-  - air
-  - air
-  - ecoitems:polished_stone
-  - air
-  - air
+  recipes:
+    recipe:
+      - air
+      - air
+      - air
+      - ecoitems:polished_stone
+      - air
+      - air
+      - ecoitems:polished_stone
+      - air
+      - air
 block:
   type: noteblock
   variation: 28

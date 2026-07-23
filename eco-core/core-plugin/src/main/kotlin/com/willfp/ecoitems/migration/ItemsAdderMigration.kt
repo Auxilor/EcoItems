@@ -20,6 +20,7 @@ class ItemsAdderMigration(private val plugin: EcoItemsPlugin) {
         "contents", "storage"
     )
     private val usedIds = mutableSetOf<String>()
+    private val recipes = ItemsAdderRecipes(result)
 
     private val noteIds = loadCache("real_blocks_note_ids_cache.yml")
     private val wireIds = loadCache("real_wire_ids_cache.yml")
@@ -31,7 +32,21 @@ class ItemsAdderMigration(private val plugin: EcoItemsPlugin) {
             return result
         }
 
-        for (pack in contents.listFiles().orEmpty().filter { it.isDirectory }) {
+        val packs = contents.listFiles().orEmpty().filter { it.isDirectory }
+
+        // Recipes first: they sit in their own section keyed by the item they make,
+        // which needn't be in the same file as that item.
+        for (pack in packs) {
+            for (file in pack.walkTopDown().filter { it.extension == "yml" }) {
+                YamlConfiguration.loadConfiguration(file)
+                    .getConfigurationSection("recipes")
+                    ?.let { recipes.load(it) }
+            }
+        }
+
+        recipes.finish()
+
+        for (pack in packs) {
             for (file in pack.walkTopDown().filter { it.extension == "yml" }) {
                 val yaml = YamlConfiguration.loadConfiguration(file)
                 val items = yaml.getConfigurationSection("items") ?: continue
@@ -76,6 +91,13 @@ class ItemsAdderMigration(private val plugin: EcoItemsPlugin) {
             out.set("item.name", it)
         }
         if (section.isList("lore")) out.set("item.lore", section.getStringList("lore"))
+
+        recipes[rawId]?.let { recipe ->
+            for ((key, value) in recipe) {
+                out.set("item.recipes.$key", value)
+            }
+            result.recipes++
+        }
 
         convertComponents(id, section, out)
 

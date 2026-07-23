@@ -1,17 +1,17 @@
 item:
   item: paper
   name: <#FFFFFF>Red Sandstone Brick Small
-  craftable: true
-  recipe:
-  - air
-  - air
-  - air
-  - air
-  - red_sandstone_slab
-  - red_sandstone_slab
-  - air
-  - red_sandstone_slab
-  - red_sandstone_slab
+  recipes:
+    recipe:
+      - air
+      - air
+      - air
+      - air
+      - red_sandstone_slab
+      - red_sandstone_slab
+      - air
+      - red_sandstone_slab
+      - red_sandstone_slab
 block:
   type: noteblock
   variation: 37

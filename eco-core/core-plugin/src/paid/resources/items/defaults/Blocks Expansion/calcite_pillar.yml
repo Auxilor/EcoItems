@@ -1,17 +1,17 @@
 item:
   item: paper
   name: <#FFFFFF>Calcite Pillar
-  craftable: true
-  recipe:
-  - air
-  - air
-  - air
-  - ecoitems:polished_calcite
-  - air
-  - air
-  - ecoitems:polished_calcite
-  - air
-  - air
+  recipes:
+    recipe:
+      - air
+      - air
+      - air
+      - ecoitems:polished_calcite
+      - air
+      - air
+      - ecoitems:polished_calcite
+      - air
+      - air
 block:
   type: noteblock
   variation: 22

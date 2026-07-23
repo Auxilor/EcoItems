@@ -1,17 +1,17 @@
 item:
   item: paper
   name: <#FFFFFF>Andesite Brick Small
-  craftable: true
-  recipe:
-  - air
-  - air
-  - air
-  - air
-  - polished_andesite_slab
-  - polished_andesite_slab
-  - air
-  - polished_andesite_slab
-  - polished_andesite_slab
+  recipes:
+    recipe:
+      - air
+      - air
+      - air
+      - air
+      - polished_andesite_slab
+      - polished_andesite_slab
+      - air
+      - polished_andesite_slab
+      - polished_andesite_slab
 block:
   type: noteblock
   variation: 3

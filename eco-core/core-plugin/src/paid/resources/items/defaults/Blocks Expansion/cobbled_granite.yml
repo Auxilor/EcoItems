@@ -1,17 +1,17 @@
 item:
   item: paper
   name: <#FFFFFF>Cobbled Granite
-  craftable: true
-  recipe:
-  - air
-  - air
-  - air
-  - cobblestone
-  - air
-  - air
-  - granite
-  - air
-  - air
+  recipes:
+    recipe:
+      - air
+      - air
+      - air
+      - cobblestone
+      - air
+      - air
+      - granite
+      - air
+      - air
 block:
   type: noteblock
   variation: 18

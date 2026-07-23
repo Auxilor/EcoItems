@@ -114,20 +114,57 @@ class EcoItem(
         private set
 
     fun registerRecipe() {
-        if (!config.getBool("item.craftable")) return
+        // Having a recipe is what makes an item craftable. craftable is kept only
+        // so existing configs that switch it off still switch it off.
+        if (config.has("item.craftable") && !config.getBool("item.craftable")) return
 
-        val recipeStrings = config.getStrings("item.recipe")
+        // The recipe lives in its own section, keyed the same way as EcoCrafting so
+        // a recipe reads the same in either plugin. It's called recipes rather than
+        // recipe because item.recipe is already the crafting grid below.
+        val recipeConfig = config.getSubsectionOrNull("item.recipes")
+
+        if (recipeConfig != null) {
+            val type = recipeConfig.getStringOrNull("type")?.lowercase() ?: "crafting_table"
+
+            if (type == "crafting_table") {
+                registerCraftingRecipe(
+                    recipeConfig.getStrings("recipe"),
+                    recipeConfig.getStringOrNull("permission"),
+                    recipeConfig.getBool("shapeless"),
+                    recipeConfig.getIntOrNull("give-amount") ?: 1
+                )
+            } else {
+                registerWorkstationRecipe(type, recipeConfig)
+            }
+
+            return
+        }
+
+        // The original flat layout, kept working for configs written before the
+        // recipes section existed. Crafting tables only.
+        registerCraftingRecipe(
+            config.getStrings("item.recipe"),
+            config.getStringOrNull("item.crafting-permission"),
+            config.getBool("item.shapeless"),
+            config.getIntOrNull("item.recipe-give-amount") ?: 1
+        )
+    }
+
+    private fun registerCraftingRecipe(
+        recipeStrings: List<String>,
+        permission: String?,
+        shapeless: Boolean,
+        giveAmount: Int
+    ) {
         if (recipeStrings.isEmpty()) return
 
         craftingRecipe = Recipes.createAndRegisterRecipe(
             plugin,
             id.key,
-            itemStack.apply {
-                amount = config.getIntOrNull("item.recipe-give-amount") ?: 1
-            },
+            itemStack.apply { amount = giveAmount },
             recipeStrings,
-            config.getStringOrNull("item.crafting-permission"),
-            config.getBool("item.shapeless")
+            permission,
+            shapeless
         )
     }
 

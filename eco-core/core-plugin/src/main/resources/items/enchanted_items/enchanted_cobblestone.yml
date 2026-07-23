@@ -2,17 +2,17 @@ item:
   item: cobblestone glint hide_attributes
   name: "&bEnchanted Cobblestone"
   lore: [ ]
-  craftable: true
-  recipe:
-    - ""
-    - cobblestone 32
-    - ""
-    - cobblestone 32
-    - cobblestone 32
-    - cobblestone 32
-    - ""
-    - cobblestone 32
-    - ""
+  recipes:
+    recipe:
+      - ""
+      - cobblestone 32
+      - ""
+      - cobblestone 32
+      - cobblestone 32
+      - cobblestone 32
+      - ""
+      - cobblestone 32
+      - ""
 
 
 effects: [ ]

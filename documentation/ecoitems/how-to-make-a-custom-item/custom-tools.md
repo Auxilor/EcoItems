@@ -53,17 +53,17 @@ item:
           speed: 1.0
           correct_for_drops: false
 
-  craftable: true # If the item can be crafted
-  recipe:
-    - netherite_ingot
-    - netherite_ingot
-    - netherite_ingot
-    - netherite_ingot
-    - netherite_pickaxe
-    - netherite_ingot
-    - netherite_ingot
-    - netherite_ingot
-    - netherite_ingot
+  recipes:
+    recipe:
+      - netherite_ingot
+      - netherite_ingot
+      - netherite_ingot
+      - netherite_ingot
+      - netherite_pickaxe
+      - netherite_ingot
+      - netherite_ingot
+      - netherite_ingot
+      - netherite_ingot
 ```
 
 ### Item

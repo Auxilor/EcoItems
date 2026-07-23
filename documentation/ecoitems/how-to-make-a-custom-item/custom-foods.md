@@ -59,17 +59,17 @@ item:
               amplifier: 0 # The effect level, starting at 0
           probability: 1.0 # Chance the effects are applied, 0.0 to 1.0
 
-  craftable: true # If the item can be crafted
-  recipe:
-    - ""
-    - cooked_beef 64
-    - ""
-    - cooked_beef 64
-    - cooked_beef 64
-    - cooked_beef 64
-    - ""
-    - cooked_beef 64
-    - ""
+  recipes:
+    recipe:
+      - ""
+      - cooked_beef 64
+      - ""
+      - cooked_beef 64
+      - cooked_beef 64
+      - cooked_beef 64
+      - ""
+      - cooked_beef 64
+      - ""
 ```
 
 ### Item

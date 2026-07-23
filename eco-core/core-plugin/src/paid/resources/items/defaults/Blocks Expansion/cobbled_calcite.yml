@@ -1,17 +1,17 @@
 item:
   item: paper
   name: <#FFFFFF>Cobbled Calcite
-  craftable: true
-  recipe:
-  - air
-  - air
-  - air
-  - cobblestone
-  - air
-  - air
-  - calcite
-  - air
-  - air
+  recipes:
+    recipe:
+      - air
+      - air
+      - air
+      - cobblestone
+      - air
+      - air
+      - calcite
+      - air
+      - air
 block:
   type: noteblock
   variation: 424

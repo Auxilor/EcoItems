@@ -1,17 +1,17 @@
 item:
   item: paper
   name: <#FFFFFF>Blackstone Brick Small
-  craftable: true
-  recipe:
-  - air
-  - air
-  - air
-  - air
-  - blackstone_slab
-  - blackstone_slab
-  - air
-  - blackstone_slab
-  - blackstone_slab
+  recipes:
+    recipe:
+      - air
+      - air
+      - air
+      - air
+      - blackstone_slab
+      - blackstone_slab
+      - air
+      - blackstone_slab
+      - blackstone_slab
 block:
   type: noteblock
   variation: 50

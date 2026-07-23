@@ -1,17 +1,17 @@
 item:
   item: paper
   name: <#FFFFFF>Polished Calcite
-  craftable: true
-  recipe:
-  - air
-  - air
-  - air
-  - air
-  - calcite
-  - calcite
-  - air
-  - calcite
-  - calcite
+  recipes:
+    recipe:
+      - air
+      - air
+      - air
+      - air
+      - calcite
+      - calcite
+      - air
+      - calcite
+      - calcite
 block:
   type: noteblock
   variation: 26

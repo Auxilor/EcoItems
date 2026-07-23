@@ -1,17 +1,17 @@
 item:
   item: paper
   name: <#FFFFFF>Diorite Pillar
-  craftable: true
-  recipe:
-  - air
-  - air
-  - air
-  - polished_diorite
-  - air
-  - air
-  - polished_diorite
-  - air
-  - air
+  recipes:
+    recipe:
+      - air
+      - air
+      - air
+      - polished_diorite
+      - air
+      - air
+      - polished_diorite
+      - air
+      - air
 block:
   type: noteblock
   variation: 10
