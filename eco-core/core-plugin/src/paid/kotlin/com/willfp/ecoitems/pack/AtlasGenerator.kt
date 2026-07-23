@@ -25,17 +25,33 @@ object AtlasGenerator {
     fun generate(plugin: EcoItemsPlugin, entries: MutableMap<String, ByteArray>) {
         val roots = sortedSetOf<String>()
 
+        // Loose textures sitting directly in textures/ (no root folder). Vanilla
+        // only stitches the block/ and item/ roots, and a directory source can't
+        // target the textures/ root without also re-stitching every subfolder, so
+        // these need per-file single sources. Migrated packs (ItemsAdder in
+        // particular) lay their block textures out this way.
+        val looseTextures = sortedSetOf<String>()
+
         // Texture roots from the pack folder and from anything already
         // assembled (imports, migrated content).
         val assets = plugin.dataFolder.resolve("pack/assets")
         for (namespace in assets.listFiles().orEmpty().filter { it.isDirectory }) {
-            for (root in namespace.resolve("textures").listFiles().orEmpty().filter { it.isDirectory }) {
-                roots += root.name
+            for (child in namespace.resolve("textures").listFiles().orEmpty()) {
+                when {
+                    child.isDirectory -> roots += child.name
+                    child.extension == "png" -> looseTextures += "${namespace.name}:${child.nameWithoutExtension}"
+                }
             }
         }
         for (path in entries.keys) {
-            val match = Regex("assets/[^/]+/textures/([^/]+)/.+").matchEntire(path) ?: continue
-            roots += match.groupValues[1]
+            val subfolder = Regex("assets/[^/]+/textures/([^/]+)/.+").matchEntire(path)
+            if (subfolder != null) {
+                roots += subfolder.groupValues[1]
+                continue
+            }
+            Regex("assets/([^/]+)/textures/([^/]+)\\.png").matchEntire(path)?.let {
+                looseTextures += "${it.groupValues[1]}:${it.groupValues[2]}"
+            }
         }
 
         roots.removeAll(SPECIAL_ROOTS)
@@ -43,16 +59,23 @@ object AtlasGenerator {
         val existing = entries[ATLAS]?.let {
             runCatching { JsonParser.parseString(it.decodeToString()).asJsonObject }.getOrNull()
         }
-        if (roots.isEmpty() && existing == null) {
+        if (roots.isEmpty() && looseTextures.isEmpty() && existing == null) {
             return
         }
 
         val sources = JsonArray()
         val present = mutableSetOf<String>()
+        val presentSingles = mutableSetOf<String>()
 
         existing?.getAsJsonArray("sources")?.forEach { source ->
             sources.add(source)
-            (source as? JsonObject)?.get("source")?.asString?.let { present += it }
+            (source as? JsonObject)?.let { obj ->
+                if (obj.get("type")?.asString == "single") {
+                    obj.get("resource")?.asString?.let { presentSingles += it }
+                } else {
+                    obj.get("source")?.asString?.let { present += it }
+                }
+            }
         }
 
         for (root in roots) {
@@ -61,6 +84,15 @@ object AtlasGenerator {
             source.addProperty("type", "directory")
             source.addProperty("source", root)
             source.addProperty("prefix", "$root/")
+            sources.add(source)
+        }
+
+        for (texture in looseTextures) {
+            if (texture in presentSingles) continue
+            val source = JsonObject()
+            source.addProperty("type", "single")
+            source.addProperty("resource", texture)
+            source.addProperty("sprite", texture)
             sources.add(source)
         }
 

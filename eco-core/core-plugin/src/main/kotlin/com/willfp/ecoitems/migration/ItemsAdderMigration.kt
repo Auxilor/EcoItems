@@ -77,30 +77,32 @@ class ItemsAdderMigration(private val plugin: EcoItemsPlugin) {
         }
         if (section.isList("lore")) out.set("item.lore", section.getStringList("lore"))
 
-        resource?.let {
-            val modelPath = it.getString("model_path")
-            val texture = it.getStringList("textures").firstOrNull() ?: it.getString("texture")
-            when {
-                modelPath != null -> out.set("item.model", "$namespace:${strip(modelPath)}")
-                texture != null -> out.set("item.texture", "$namespace:${strip(texture)}")
-            }
-        }
-
         convertComponents(id, section, out)
 
-        section.getConfigurationSection("behaviours")?.let { behaviours ->
-            val block = behaviours.getConfigurationSection("block")
-                ?: section.getConfigurationSection("specific_properties.block")
-            block?.let { convertBlock(namespace, rawId, id, it, out) }
+        // Block/furniture behaviours live under behaviours: (modern IA) or
+        // specific_properties: (legacy) - accept either regardless of which
+        // top-level section exists.
+        val behaviours = section.getConfigurationSection("behaviours")
+        val blockConfig = behaviours?.getConfigurationSection("block")
+            ?: section.getConfigurationSection("specific_properties.block")
+        val furnitureConfig = behaviours?.getConfigurationSection("furniture")
+            ?: section.getConfigurationSection("specific_properties.furniture")
+        val sitConfig = behaviours?.getConfigurationSection("furniture_sit")
+            ?: section.getConfigurationSection("specific_properties.furniture_sit")
 
-            behaviours.getConfigurationSection("furniture")?.let {
-                convertFurniture(id, it, behaviours.getConfigurationSection("furniture_sit"), out)
-            }
+        // A custom block renders as its generated block model, so its textures
+        // belong on block.*, not as a flat item texture. Everything else (plain
+        // items, furniture) keeps the item-level texture/model.
+        val madeBlock = blockConfig != null && convertBlock(namespace, rawId, id, blockConfig, resource, out)
+        if (!madeBlock) {
+            applyItemResource(namespace, resource, out)
+        }
 
-            for (unsupported in behaviours.getKeys(false)) {
-                if (unsupported !in setOf("block", "furniture", "furniture_sit")) {
-                    result.warn("Item $id: behaviour '$unsupported' is not supported and was skipped")
-                }
+        furnitureConfig?.let { convertFurniture(id, it, sitConfig, out) }
+
+        behaviours?.getKeys(false)?.forEach { unsupported ->
+            if (unsupported !in setOf("block", "furniture", "furniture_sit")) {
+                result.warn("Item $id: behaviour '$unsupported' is not supported and was skipped")
             }
         }
 
@@ -174,8 +176,9 @@ class ItemsAdderMigration(private val plugin: EcoItemsPlugin) {
         rawId: String,
         id: String,
         block: ConfigurationSection,
+        resource: ConfigurationSection?,
         out: YamlConfiguration
-    ) {
+    ): Boolean {
         val type = block.getString("placed_model.type") ?: block.getString("placed.type") ?: "REAL_NOTE"
         val backing = when (type.uppercase()) {
             "REAL_NOTE" -> BlockBacking.NOTEBLOCK
@@ -183,7 +186,7 @@ class ItemsAdderMigration(private val plugin: EcoItemsPlugin) {
             "REAL" -> BlockBacking.MUSHROOM
             else -> {
                 result.warn("Item $id: IA block type '$type' has no EcoItems equivalent; block section skipped")
-                return
+                return false
             }
         }
 
@@ -209,7 +212,13 @@ class ItemsAdderMigration(private val plugin: EcoItemsPlugin) {
             )
         }
 
-        // The block shows the item's texture; nothing extra to wire.
+        // The placed block renders its own generated model, built from the
+        // IA resource textures; fall back to a flat item texture only if there
+        // were none to generate from.
+        if (!applyBlockTextures(id, namespace, resource, out)) {
+            applyItemResource(namespace, resource, out)
+        }
+
         if (block.contains("hardness")) out.set("block.hardness", block.getDouble("hardness"))
         if (block.contains("light_level")) out.set("block.light", block.getInt("light_level"))
         if (block.getBoolean("no_explosion")) out.set("block.blast-resistant", true)
@@ -233,6 +242,88 @@ class ItemsAdderMigration(private val plugin: EcoItemsPlugin) {
         }
 
         result.blocks++
+        return true
+    }
+
+    /** Item-level texture/model for plain items and furniture (first texture wins). */
+    private fun applyItemResource(namespace: String, resource: ConfigurationSection?, out: YamlConfiguration) {
+        resource ?: return
+        val modelPath = resource.getString("model_path")
+        val texture = resource.getStringList("textures").firstOrNull() ?: resource.getString("texture")
+        when {
+            modelPath != null -> out.set("item.model", "$namespace:${strip(modelPath)}")
+            texture != null -> out.set("item.texture", "$namespace:${strip(texture)}")
+        }
+    }
+
+    /**
+     * Build our block texture keys from an IA `resource`. An explicit model_path
+     * passes through; otherwise IA's `generate: true` texture list is collapsed
+     * to the smallest vanilla parent that fits. IA lists a block's faces in the
+     * fixed order down, east, north, south, up, west, so a single texture is an
+     * all-faces cube, a uniform-sided list is a cube_bottom_top pillar, and
+     * anything else is a full per-face cube. Returns false if there was nothing
+     * to generate from (the caller falls back to an item texture).
+     */
+    private fun applyBlockTextures(
+        id: String,
+        namespace: String,
+        resource: ConfigurationSection?,
+        out: YamlConfiguration
+    ): Boolean {
+        resource ?: return false
+
+        resource.getString("model_path")?.let {
+            out.set("block.model", "$namespace:${strip(it)}")
+            return true
+        }
+
+        val textures = resource.getStringList("textures").ifEmpty {
+            listOfNotNull(resource.getString("texture"))
+        }.map { "$namespace:${strip(it)}" }
+
+        when (textures.size) {
+            0 -> return false
+
+            1 -> out.set("block.texture", textures[0])
+
+            6 -> {
+                val down = textures[0]; val east = textures[1]; val north = textures[2]
+                val south = textures[3]; val up = textures[4]; val west = textures[5]
+                val sides = listOf(east, north, south, west)
+                when {
+                    sides.distinct().size == 1 && up == down && up == east ->
+                        out.set("block.texture", up)
+
+                    sides.distinct().size == 1 -> {
+                        out.set("block.textures.top", up)
+                        out.set("block.textures.bottom", down)
+                        out.set("block.textures.side", east)
+                        out.set("block.texture-parent", "cube_bottom_top")
+                    }
+
+                    else -> {
+                        out.set("block.textures.up", up)
+                        out.set("block.textures.down", down)
+                        out.set("block.textures.north", north)
+                        out.set("block.textures.south", south)
+                        out.set("block.textures.east", east)
+                        out.set("block.textures.west", west)
+                        out.set("block.texture-parent", "cube")
+                    }
+                }
+            }
+
+            else -> {
+                out.set("block.texture", textures[0])
+                result.warn(
+                    "Item $id: block has ${textures.size} textures (expected 1 or 6) - " +
+                        "only the first was used; set block.textures manually"
+                )
+            }
+        }
+
+        return true
     }
 
     private fun convertFurniture(
