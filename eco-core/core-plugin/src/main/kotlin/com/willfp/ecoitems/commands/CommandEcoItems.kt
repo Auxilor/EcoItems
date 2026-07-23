@@ -13,6 +13,23 @@ object CommandEcoItems : PluginCommand(
     init {
         this.addSubcommand(CommandReload)
             .addSubcommand(CommandGive)
+            .addSubcommand(CommandGUI)
+            .addSubcommand(CommandHud)
+            .addSubcommand(CommandGlyph)
+            .addSubcommand(CommandGlyphs)
+            .addSubcommand(CommandTotem)
+            .addSubcommand(CommandDrop)
+            .addSubcommand(CommandTake)
+            .addSubcommand(CommandRename)
+            .addSubcommand(CommandRepair)
+            .addSubcommand(CommandDurability)
+            .addSubcommand(CommandHitbox)
+            .addSubcommand(CommandDialog)
+            .addSubcommand(CommandMigrate)
+    }
+
+    override fun getAliases(): List<String> {
+        return listOf("ei", "e", "ecoi", "items")
     }
 
     override fun onExecute(sender: CommandSender, args: List<String>) {

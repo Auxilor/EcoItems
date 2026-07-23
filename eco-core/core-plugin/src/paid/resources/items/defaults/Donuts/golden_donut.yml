@@ -1,0 +1,22 @@
+item:
+  item: apple
+  name: Golden Donut
+  texture: ecoitems:donuts/golden_donut
+  texture-parent: handheld
+  components:
+    minecraft:food:
+      nutrition: 6
+      saturation: 2.4
+  recipes:
+    recipe:
+      - gold_nugget
+      - gold_nugget
+      - gold_nugget
+      - gold_nugget
+      - ecoitems:plain_donut
+      - gold_nugget
+      - gold_nugget
+      - gold_nugget
+      - gold_nugget
+effects: []
+conditions: []

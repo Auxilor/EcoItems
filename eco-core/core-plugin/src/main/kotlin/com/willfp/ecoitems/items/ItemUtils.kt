@@ -3,10 +3,6 @@ package com.willfp.ecoitems.items
 import com.willfp.eco.core.fast.FastItemStack
 import com.willfp.eco.core.fast.fast
 import com.willfp.eco.util.namespacedKeyOf
-import org.bukkit.Material
-import org.bukkit.attribute.Attribute
-import org.bukkit.attribute.AttributeModifier
-import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
 
@@ -29,9 +25,10 @@ var FastItemStack.ecoItem: EcoItem?
     get() {
         val pdc = this.persistentDataContainer
 
-        if (pdc.get(legacyKey, PersistentDataType.STRING) != null) {
+        val legacyId = pdc.get(legacyKey, PersistentDataType.STRING)
+        if (legacyId != null) {
             pdc.remove(legacyKey)
-            pdc.set(key, PersistentDataType.STRING, pdc.get(legacyKey, PersistentDataType.STRING)!!)
+            pdc.set(key, PersistentDataType.STRING, legacyId)
         }
 
         return EcoItems.getByID(pdc.get(key, PersistentDataType.STRING))
@@ -45,21 +42,3 @@ var FastItemStack.ecoItem: EcoItem?
             pdc.set(key, PersistentDataType.STRING, value.id.key)
         }
     }
-
-private fun Material.defaultAddNumberSum(attribute: Attribute): Double =
-    EquipmentSlot.values().sumOf { slot ->
-        runCatching { getDefaultAttributeModifiers(slot).get(attribute) }
-            .getOrNull()
-            ?.filter { it.operation == AttributeModifier.Operation.ADD_NUMBER }
-            ?.sumOf { it.amount }
-            ?: 0.0
-    }
-
-val Material.attackDamageModifier: Double
-    get() = defaultAddNumberSum(Attribute.ATTACK_DAMAGE)
-
-val Material.attackSpeedModifier: Double
-    get() = defaultAddNumberSum(Attribute.ATTACK_SPEED)
-
-val Material.entityInteractionRangeModifier: Double
-    get() = defaultAddNumberSum(Attribute.ENTITY_INTERACTION_RANGE)

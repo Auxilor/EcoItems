@@ -1,26 +1,33 @@
 package com.willfp.ecoitems.items
 
-import com.willfp.eco.util.NumberUtils
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.block.Action
 import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.event.entity.EntityShootBowEvent
+import org.bukkit.event.inventory.FurnaceBurnEvent
 import org.bukkit.event.player.PlayerInteractEvent
-import org.bukkit.event.player.PlayerItemDamageEvent
-import kotlin.math.roundToInt
 
 object ItemListener : Listener {
     @EventHandler(priority = EventPriority.LOW)
     fun onPlaceItem(event: BlockPlaceEvent) {
-        event.itemInHand.ecoItem ?: return
+        val ecoItem = event.itemInHand.ecoItem ?: return
+
+        // Placer items (custom blocks/furniture) dispatch their own synthetic
+        // place events for protection plugins - don't cancel our own placement.
+        if (ecoItem.block != null || ecoItem.furniture != null) {
+            return
+        }
 
         if (event.itemInHand.type.isBlock) {
             event.isCancelled = true
         }
     }
 
+    // Runs after the block/furniture placement handlers (HIGH): when their
+    // placement went through, the event is already cancelled; when it bailed,
+    // this still stops the base block from being placed vanilla-style.
     @EventHandler(priority = EventPriority.HIGHEST)
     fun onPlaceItem2(event: PlayerInteractEvent) {
         event.item.ecoItem ?: return
@@ -35,26 +42,21 @@ object ItemListener : Listener {
     }
 
     @EventHandler
-    fun effectiveDurabilityListener(event: PlayerItemDamageEvent) {
-        val ecoItem = event.item.ecoItem ?: return
-
-        val maxDurability = event.item.type.maxDurability.toInt()
-
-        val ratio = maxDurability.toDouble() / ecoItem.effectiveDurability
-
-        if (ratio < 1) {
-            if (NumberUtils.randFloat(0.0, 1.0) > ratio) {
-                event.isCancelled = true
-            }
-        } else if (ratio > 1) {
-            event.damage *= ratio.roundToInt()
-        }
-    }
-
-    @EventHandler
     fun preventShootingItemsAsArrows(event: EntityShootBowEvent) {
         if (event.consumable?.ecoItem != null) {
             event.isCancelled = true
+        }
+    }
+
+    /** fuel.burn-ticks overrides how long the item burns in a furnace. */
+    @EventHandler(ignoreCancelled = true)
+    fun onFurnaceBurn(event: FurnaceBurnEvent) {
+        val ticks = event.fuel.ecoItem?.fuelBurnTicks ?: return
+
+        if (ticks <= 0) {
+            event.isCancelled = true
+        } else {
+            event.burnTime = ticks
         }
     }
 }

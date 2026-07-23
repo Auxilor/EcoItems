@@ -1,0 +1,65 @@
+package com.willfp.ecoitems.pack
+
+import com.willfp.ecoitems.BuildConfig
+import com.willfp.ecoitems.EcoItemsPlugin
+import com.willfp.ecoitems.plugin
+import org.bukkit.entity.Player
+import org.bukkit.event.Listener
+import org.bukkit.inventory.ItemStack
+
+/**
+ * The resource pack system, only present in paid builds.
+ */
+interface PackFeature {
+    fun listeners(plugin: EcoItemsPlugin): List<Listener>
+
+    fun handleEnable(plugin: EcoItemsPlugin) {}
+
+    fun handleReload(plugin: EcoItemsPlugin)
+
+    fun handleDisable(plugin: EcoItemsPlugin)
+
+    fun decorateGuiTitle(plugin: EcoItemsPlugin, title: String, glyphId: String?): String = title
+
+    fun decorateGuiItem(
+        plugin: EcoItemsPlugin,
+        item: ItemStack,
+        model: String?
+    ): ItemStack = item
+
+    /**
+     * Toggles a HUD for a player; true/false = the HUD's new visibility,
+     * null = no such HUD.
+     */
+    fun toggleHud(player: Player, id: String): Boolean? = null
+
+    /**
+     * The raw characters for a glyph, or null if no such glyph is loaded.
+     */
+    fun glyphChars(id: String): String? = null
+
+    /**
+     * Opens the glyph picker book for a player; false if they have no
+     * usable glyphs.
+     */
+    fun openGlyphPicker(player: Player): Boolean = false
+}
+
+object PackFeatures {
+    // The implementation lives in the paid source set, so free builds can't
+    // reference it directly; it's looked up reflectively instead.
+    val instance: PackFeature? by lazy {
+        if (BuildConfig.FREE_VERSION) {
+            null
+        } else {
+            try {
+                Class.forName("com.willfp.ecoitems.pack.EcoItemsPackFeature")
+                    .getField("INSTANCE")
+                    .get(null) as PackFeature
+            } catch (e: Exception) {
+                plugin.logger.severe("Failed to load the resource pack system: $e")
+                null
+            }
+        }
+    }
+}

@@ -1,0 +1,123 @@
+# The EcoItems resource pack.
+#
+# The /pack folder mirrors a vanilla resource pack: put textures, models,
+# sounds, fonts, and anything else under /pack/assets/<namespace>/ exactly
+# as they'd sit in a normal pack. Other plugins' packs can be dropped into
+# /pack/imports. The pack is rebuilt on every reload.
+
+# If the resource pack system is enabled.
+enabled: true
+
+# The pack description shown in the pack menu.
+description: "EcoItems Server Pack"
+
+# Strip whitespace from json files when zipping (smaller downloads).
+minify-json: true
+
+# Rename textures and models to hashed names inside the zip, making the
+# pack much harder to rip and reuse. Purely cosmetic to players.
+obfuscation: false
+
+# Client-side UI tweaks baked into the pack as shader patches.
+interface:
+  # Remove the dark background behind the scoreboard sidebar.
+  hide-scoreboard-background: false
+  # Remove the dark background behind the tab player list.
+  hide-tablist-background: false
+
+delivery:
+  # How the pack reaches players:
+  # hosted      - Upload to a packhost instance (packs.auxilor.io by default)
+  # self-hosted - Serve the pack over HTTP from this server
+  # external    - Export the pack to a folder for you to host yourself
+  # s3          - Upload to S3-compatible object storage (AWS, R2, MinIO, ...)
+  # none        - Build the pack but don't deliver it
+  mode: hosted
+
+  # The message shown on the pack prompt.
+  prompt: "&fThis server uses a resource pack for custom items"
+
+  # If players must accept the pack to play.
+  required: false
+
+  # If players who decline a required pack should be kicked.
+  kick-on-decline: false
+
+  # If the pack should be sent to players when they join.
+  send-on-join: true
+
+  # Ticks to wait after join before sending the pack.
+  join-delay-ticks: 0
+
+  # If the pack should be re-sent to online players after a reload.
+  send-on-reload: true
+
+  hosted:
+    # The packhost instance to upload to. See the packhost README to host your own.
+    url: "https://packs.auxilor.io"
+
+  self-hosted:
+    # The address and port to serve the pack on.
+    bind: "0.0.0.0"
+    port: 8163
+
+    # The address players download from, e.g. "http://203.0.113.4:8163".
+    public-url: ""
+
+  external:
+    # Where to export the pack, relative to /plugins/EcoItems.
+    directory: "pack-export"
+
+    # The public URL of the exported pack.zip. If empty, the pack is only exported.
+    url: ""
+
+  s3:
+    # Any S3-compatible endpoint: AWS, Cloudflare R2, MinIO, Backblaze B2...
+    endpoint: "https://s3.amazonaws.com"
+    region: "us-east-1"
+    bucket: ""
+    access-key: ""
+    secret-key: ""
+
+    # Where players download from. Empty derives it from the endpoint and
+    # bucket - set it when serving through a CDN or custom domain.
+    public-url: ""
+
+    # Send x-amz-acl: public-read with the upload (most buckets need it;
+    # turn off if your bucket policy handles public access).
+    public-read: true
+
+    # Path-style requests (endpoint/bucket/key) vs virtual-hosted
+    # (bucket.endpoint/key). MinIO needs path-style; AWS accepts both.
+    path-style: true
+
+glyphs:
+  # If glyph placeholders (like :heart:) should be replaced in chat messages.
+  format-chat: true
+
+  # If glyph placeholders should be replaced on signs.
+  format-signs: true
+
+  # If glyph placeholders should be offered as chat tab-completions.
+  tab-complete: true
+
+blocks:
+  # Custom blocks are backed by note blocks, which play wood sounds on their
+  # own. When enabled, the pack silences the vanilla wood sound events and the
+  # server replays them - so custom blocks can have their own sounds and real
+  # wooden blocks still sound right. Disable to leave vanilla sounds untouched
+  # (custom noteblock-backed blocks will then always sound like wood).
+  custom-sounds: true
+
+# Compatibility with resource packs from other plugins (shader-based UIs,
+# nameplates, ...) dropped into pack/imports/.
+compatibility:
+  # Extract EcoItems' bundled default assets (example textures and models)
+  # into the pack folder, and re-ship new ones on updates. Disable if they
+  # conflict with an imported pack - deleted files then stay deleted.
+  default-assets: true
+
+  # EcoItems' text core shaders power animated glyphs and win over shaders
+  # from imported packs. Disable to let an imported pack's shaders through;
+  # animated glyphs will stop animating.
+  glyph-shaders: true

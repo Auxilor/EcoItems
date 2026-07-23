@@ -1,0 +1,14 @@
+item:
+  item: wolf_armor
+  name: "<g:#FA7CBB>Ruby Wolf Armor</g:#F14658>"
+  texture: item/mob/ruby_wolf_armor
+  components:
+    max_stack_size: 1
+    max_damage: 64
+    equippable:
+      slot: "body"
+      asset_id: "ecoitems:ruby_wolf"
+      allowed_entities: "minecraft:wolf"
+
+effects: []
+conditions: []

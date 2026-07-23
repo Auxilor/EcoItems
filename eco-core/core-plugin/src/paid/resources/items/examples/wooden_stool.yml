@@ -1,0 +1,18 @@
+# A simple stool. Right-click to sit.
+item:
+  item: paper
+  name: "&6Wooden Stool"
+  model: furniture/wooden_stool
+
+furniture:
+  rotation: none
+  barriers:
+    - "0,0,0"
+  seats:
+    - "0,0,0"
+  sounds:
+    place: block.wood.place
+    break: block.wood.break
+
+effects: []
+conditions: []

@@ -1,0 +1,9 @@
+# Places the Triple T custom painting (see paintings/tungtung.yml).
+item:
+  item: painting
+  name: "&9Triple T Painting"
+  components:
+    painting/variant: "ecoitems:tungtung"
+
+effects: []
+conditions: []

@@ -1,0 +1,11 @@
+item:
+  item: sugar
+  name: Sprinkles
+  texture: ecoitems:donuts/sprinkles
+  texture-parent: handheld
+  components:
+    minecraft:food:
+      nutrition: 0
+      saturation: 0.1
+effects: []
+conditions: []

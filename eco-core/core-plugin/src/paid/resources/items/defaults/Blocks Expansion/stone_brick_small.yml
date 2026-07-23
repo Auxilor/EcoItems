@@ -1,0 +1,35 @@
+item:
+  item: paper
+  name: <#FFFFFF>Stone Brick Small
+  recipes:
+    recipe:
+      - air
+      - air
+      - air
+      - air
+      - stone_slab
+      - stone_slab
+      - air
+      - stone_slab
+      - stone_slab
+block:
+  type: noteblock
+  variation: 27
+  texture: block/stone_brick_small
+  hardness: 10.0
+  drops:
+    silk-touch: false
+    items:
+    - item: ecoitems:stone_brick_small
+      chance: 1.0
+  minimum-tier: wooden
+  sounds:
+    place: block.stone.place
+    break: block.stone.break
+    hit: block.stone.hit
+    step: block.stone.step
+    fall: block.stone.fall
+    volume: 0.8
+    pitch: 0.8
+effects: []
+conditions: []

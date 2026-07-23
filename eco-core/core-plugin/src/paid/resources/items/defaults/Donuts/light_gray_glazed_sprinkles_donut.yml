@@ -1,0 +1,11 @@
+item:
+  item: apple
+  name: Light Gray Glazed Sprinkled Donut
+  texture: ecoitems:donuts/light_gray_glazed_donut_sprinkles
+  texture-parent: handheld
+  components:
+    minecraft:food:
+      nutrition: 3
+      saturation: 1.2
+effects: []
+conditions: []

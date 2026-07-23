@@ -1,0 +1,11 @@
+item:
+  item: apple
+  name: Plain Donut
+  texture: ecoitems:donuts/plain_donut
+  texture-parent: handheld
+  components:
+    minecraft:food:
+      nutrition: 1
+      saturation: 0.4
+effects: []
+conditions: []

@@ -1,0 +1,6 @@
+# An example custom painting. Place it with the starlight_painting item,
+# or /give @s painting[painting/variant="ecoitems:starlight"]
+width: 2
+height: 2
+title: "Starlight"
+author: "EcoItems"

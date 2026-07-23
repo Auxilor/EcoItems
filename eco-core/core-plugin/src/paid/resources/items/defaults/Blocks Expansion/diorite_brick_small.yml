@@ -1,0 +1,35 @@
+item:
+  item: paper
+  name: <#FFFFFF>Diorite Brick Small
+  recipes:
+    recipe:
+      - air
+      - air
+      - air
+      - air
+      - polished_diorite_slab
+      - polished_diorite_slab
+      - air
+      - polished_diorite_slab
+      - polished_diorite_slab
+block:
+  type: noteblock
+  variation: 9
+  texture: block/diorite_brick_small
+  hardness: 10.0
+  drops:
+    silk-touch: false
+    items:
+    - item: ecoitems:diorite_brick_small
+      chance: 1.0
+  minimum-tier: wooden
+  sounds:
+    place: block.stone.place
+    break: block.stone.break
+    hit: block.stone.hit
+    step: block.stone.step
+    fall: block.stone.fall
+    volume: 0.8
+    pitch: 0.8
+effects: []
+conditions: []

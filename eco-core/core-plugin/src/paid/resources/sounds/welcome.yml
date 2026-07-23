@@ -1,0 +1,16 @@
+# An example custom sound
+# Play it with /playsound ecoitems:welcome record @s
+
+category: record
+subtitle: "Welcome"
+
+sounds:
+  - sound: welcome # pack/assets/ecoitems/sounds/welcome.ogg
+    stream: false # Long sounds like music should stream instead of preloading
+
+# Registers the sound as a jukebox song (via a generated datapack, so this
+# needs a restart). Playable from any item with a jukebox_playable component.
+jukebox:
+  description: "Welcome"
+  length-seconds: 7
+  comparator-output: 4

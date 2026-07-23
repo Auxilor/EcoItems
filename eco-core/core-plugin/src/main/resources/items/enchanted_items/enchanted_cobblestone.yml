@@ -1,21 +1,19 @@
 item:
-  item: cobblestone unbreaking:1 hide_enchants hide_attributes
-  display-name: "&bEnchanted Cobblestone"
+  item: cobblestone glint hide_attributes
+  name: "&bEnchanted Cobblestone"
   lore: [ ]
-  craftable: true
-  recipe:
-    - ""
-    - cobblestone 32
-    - ""
-    - cobblestone 32
-    - cobblestone 32
-    - cobblestone 32
-    - ""
-    - cobblestone 32
-    - ""
+  recipes:
+    recipe:
+      - ""
+      - cobblestone 32
+      - ""
+      - cobblestone 32
+      - cobblestone 32
+      - cobblestone 32
+      - ""
+      - cobblestone 32
+      - ""
 
-base-damage: 0
-base-attack-speed: 1
 
 effects: [ ]
 conditions: [ ]

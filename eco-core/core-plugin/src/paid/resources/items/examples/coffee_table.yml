@@ -1,0 +1,16 @@
+# A low two-block coffee table.
+item:
+  item: paper
+  name: "&6Coffee Table"
+  model: furniture/coffee_table
+
+furniture:
+  rotation: 4-way
+  barriers:
+    - "0..1,0,0"
+  sounds:
+    place: block.wood.place
+    break: block.wood.break
+
+effects: []
+conditions: []

@@ -1,0 +1,20 @@
+# 2D player heads: flat player-skin icons, great for GUIs and trophies.
+#
+# EcoItems ships two ready-made item models you can put on any player head,
+# no item config needed:
+#   /give @s player_head[item_model="ecoitems:2d_player_head",profile={name:"Notch"}]
+#   /give @s player_head[item_model="ecoitems:2d_player_head_large",profile={name:"Notch"}]
+#
+# Or make an EcoItem out of one, like this example (remove the leading _ from
+# the file name to enable it):
+
+item:
+  item: player_head
+  name: "&6Notch Trophy"
+  components:
+    item_model: "ecoitems:2d_player_head"
+    profile:
+      name: "Notch"
+
+effects: []
+conditions: []
