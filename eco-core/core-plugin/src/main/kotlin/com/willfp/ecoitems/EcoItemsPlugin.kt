@@ -80,6 +80,9 @@ class EcoItemsPlugin : LibreforgePlugin() {
         },
         EcoMetricsChart.SimplePie("discover_recipes") {
             if (configYml.getBool("discover-recipes")) "enabled" else "disabled"
+        },
+        EcoMetricsChart.SimplePie("plugin_version") {
+            if (BuildConfig.FREE_VERSION) "Free" else "Premium"
         }
     )
 }
