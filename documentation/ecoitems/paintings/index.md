@@ -1,9 +1,7 @@
 ---
-title: Custom Paintings
+title: "Custom Paintings"
 sidebar_position: 1
 ---
-
-# Custom Paintings
 
 :::info
 Paintings are part of the resource pack system, which requires the paid version of EcoItems.

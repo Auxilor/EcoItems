@@ -1,9 +1,7 @@
 ---
-title: Migrating to EcoItems
+title: "Migrating to EcoItems"
 sidebar_position: 1
 ---
-
-# Migrating to EcoItems
 
 EcoItems can import your setup from **Oraxen**, **Nexo**, or **ItemsAdder** - items, custom blocks, furniture, glyphs, sounds, and resource pack assets.
 

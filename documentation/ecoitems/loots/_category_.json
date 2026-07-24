@@ -1,8 +1,4 @@
 {
-  "label": "Loot Injection",
-  "position": 13,
-  "link": {
-    "type": "doc",
-    "id": "ecoitems/loots/index"
-  }
+    "label": "Loot Injection",
+    "position": 13
 }

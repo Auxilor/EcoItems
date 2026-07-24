@@ -1,8 +1,4 @@
 {
-  "label": "Custom Blocks",
-  "position": 10,
-  "link": {
-    "type": "doc",
-    "id": "ecoitems/blocks/index"
-  }
+    "label": "Custom Blocks",
+    "position": 10
 }

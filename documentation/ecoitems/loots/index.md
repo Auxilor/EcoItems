@@ -1,9 +1,7 @@
 ---
-title: Loot Injection
+title: "Loot Injection"
 sidebar_position: 1
 ---
-
-# Loot Injection
 
 Loot configs drop custom items from **vanilla** gameplay - breaking vanilla blocks, killing mobs, and fishing - without touching datapacks. Each config in the `loots/` folder is one loot entry; the file name is its ID.
 

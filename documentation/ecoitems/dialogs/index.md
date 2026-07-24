@@ -1,9 +1,7 @@
 ---
-title: Dialogs
+title: "Dialogs"
 sidebar_position: 1
 ---
-
-# Dialogs
 
 :::info
 Dialogs use the native Minecraft dialog system: they need a **Paper 1.21.6+** server, and every player sees them - no resource pack involved.

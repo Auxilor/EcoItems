@@ -3,8 +3,6 @@ title: "Item States"
 sidebar_position: 5
 ---
 
-# Item States
-
 :::info
 Item state models are part of the resource pack system, which requires the paid version of EcoItems.
 :::

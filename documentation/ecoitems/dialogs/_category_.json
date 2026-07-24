@@ -1,8 +1,4 @@
 {
-  "label": "Dialogs",
-  "position": 15,
-  "link": {
-    "type": "doc",
-    "id": "ecoitems/dialogs/index"
-  }
+    "label": "Dialogs",
+    "position": 15
 }

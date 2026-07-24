@@ -3,8 +3,6 @@ title: "Custom Armor"
 sidebar_position: 4
 ---
 
-# Custom Armor
-
 :::info
 Armor textures are part of the resource pack system, which requires the paid version of EcoItems.
 :::

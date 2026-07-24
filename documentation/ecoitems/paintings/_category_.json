@@ -1,8 +1,4 @@
 {
-  "label": "Paintings",
-  "position": 9,
-  "link": {
-    "type": "doc",
-    "id": "ecoitems/paintings/index"
-  }
+    "label": "Paintings",
+    "position": 9
 }

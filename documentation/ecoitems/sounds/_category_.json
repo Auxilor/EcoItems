@@ -1,8 +1,4 @@
 {
-  "label": "Sounds",
-  "position": 7,
-  "link": {
-    "type": "doc",
-    "id": "ecoitems/sounds/index"
-  }
+    "label": "Sounds",
+    "position": 7
 }

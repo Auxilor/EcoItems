@@ -1,9 +1,7 @@
 ---
-title: Custom Crops
+title: "Custom Crops"
 sidebar_position: 1
 ---
-
-# Custom Crops
 
 :::info
 Crop stage textures are part of the resource pack system, which requires the paid version of EcoItems.

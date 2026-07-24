@@ -1,9 +1,7 @@
 ---
-title: Merging Other Packs
+title: "Merging Other Packs"
 sidebar_position: 4
 ---
-
-# Merging Other Packs
 
 Large servers usually have several plugins that need a resource pack - MythicMobs model packs, CustomNameplates, hand-made map packs. Since a client can only comfortably use one server pack, EcoItems can merge them all into the pack it generates and delivers.
 
@@ -31,11 +29,11 @@ Imported `pack.mcmeta` files aren't copied, but their **overlay entries** carry 
 
 ## Glyph collision safety
 
-Imported packs often define their own font characters in the same private-use unicode ranges EcoItems assigns [glyphs](../glyphs/index.md) from (packs made for other custom item plugins in particular). EcoItems reads every character the imported fonts define and assigns its own glyphs **around** them, so new glyphs never collide. If a glyph was assigned *before* the import was added (or uses an explicit `char:`) and now collides, you'll get a console warning - the imported pack's character wins in that case, and the warning tells you how to re-assign the glyph.
+Imported packs often define their own font characters in the same private-use unicode ranges EcoItems assigns [glyphs](../glyphs/index) from (packs made for other custom item plugins in particular). EcoItems reads every character the imported fonts define and assigns its own glyphs **around** them, so new glyphs never collide. If a glyph was assigned *before* the import was added (or uses an explicit `char:`) and now collides, you'll get a console warning - the imported pack's character wins in that case, and the warning tells you how to re-assign the glyph.
 
 ## Caveats
 
-- If you use [animated glyphs](../glyphs/animated-glyphs.md), EcoItems overrides the vanilla text core shaders. An imported pack that also ships text shaders (some nameplate/text-effect packs do) will have those replaced - you'll get a console warning when this happens.
+- If you use [animated glyphs](../glyphs/animated-glyphs), EcoItems overrides the vanilla text core shaders. An imported pack that also ships text shaders (some nameplate/text-effect packs do) will have those replaced - you'll get a console warning when this happens.
 - Imported packs are included as-is; EcoItems doesn't rewrite their custom model data or item definitions. Plugins that reference their own pack's assets keep working because paths are preserved.
 
 ## Integrating shader-based packs

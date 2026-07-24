@@ -1,8 +1,4 @@
 {
-  "label": "Glyphs",
-  "position": 6,
-  "link": {
-    "type": "doc",
-    "id": "ecoitems/glyphs/index"
-  }
+    "label": "Glyphs",
+    "position": 6
 }
