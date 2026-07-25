@@ -1,0 +1,12 @@
+bitmap:
+  texture: glyph/hearts_sheet
+  rows: 2
+  columns: 2
+  row: 0
+  column: 0
+ascent: 8
+height: 8
+placeholders:
+  - ":heart:"
+  - "<3"
+tab-complete: true

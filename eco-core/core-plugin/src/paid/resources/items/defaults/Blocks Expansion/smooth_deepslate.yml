@@ -1,0 +1,24 @@
+item:
+  item: paper
+  name: <#FFFFFF>Smooth Deepslate
+block:
+  type: noteblock
+  variation: 449
+  texture: block/smooth_deepslate
+  hardness: 10.0
+  drops:
+    silk-touch: false
+    items:
+    - item: ecoitems:smooth_deepslate
+      chance: 1.0
+  minimum-tier: wooden
+  sounds:
+    place: block.deepslate.place
+    break: block.deepslate.break
+    hit: block.deepslate.hit
+    step: block.deepslate.step
+    fall: block.deepslate.fall
+    volume: 0.8
+    pitch: 0.8
+effects: []
+conditions: []

@@ -1,0 +1,18 @@
+# The ID of the painting is the name of the .yml file.
+# Paintings register through a generated datapack, so adding or removing
+# them needs a server restart (a console notice tells you when).
+# _example.yml is not loaded.
+
+# (Optional) The texture, a [namespace:]path relative to textures/painting/.
+# Defaults to the painting's ID, i.e.
+# pack/assets/ecoitems/textures/painting/<id>.png
+texture: my_painting
+
+# The size in blocks. Each block is 16 texture pixels, so a 2x2 painting
+# wants a 32x32 texture.
+width: 2
+height: 2
+
+# (Optional) Shown when hovering the painting item.
+title: "My Painting"
+author: "Me"

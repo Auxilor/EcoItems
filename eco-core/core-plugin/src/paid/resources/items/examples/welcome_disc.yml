@@ -1,0 +1,13 @@
+# A custom music disc playing the welcome song (see sounds/welcome.yml).
+item:
+  item: paper
+  name: "&dMusic Disc"
+  lore:
+    - "&7Welcome"
+  texture: item/welcome_disc
+  components:
+    max_stack_size: 1
+    jukebox_playable: "ecoitems:welcome"
+
+effects: []
+conditions: []

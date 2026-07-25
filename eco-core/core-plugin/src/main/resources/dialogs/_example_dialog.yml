@@ -1,0 +1,24 @@
+# Native Minecraft dialog screens (1.21.6+ clients on Paper servers).
+# Remove the leading _ from the file name to enable this example, then open
+# it with /ecoitems dialog example_dialog <player>.
+
+title: "&6Welcome!"
+
+# Lines of body text.
+body:
+  - "&fWelcome to the server."
+  - "&7Pick a kit to get started."
+
+can-close-with-escape: true
+
+# Action buttons. Without any, the dialog is a simple notice with an OK
+# button. %player% works in every command.
+buttons:
+  - label: "&aWarrior"
+    tooltip: "&7Sword and shield"
+    commands: # run as the player
+      - "kit warrior"
+  - label: "&bArcher"
+    commands: []
+    console-commands: # run from the console
+      - "give %player% bow"

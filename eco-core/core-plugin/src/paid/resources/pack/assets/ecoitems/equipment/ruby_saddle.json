@@ -1,0 +1,54 @@
+{
+  "layers": {
+    "camel_husk_saddle": [
+      {
+        "texture": "ecoitems:ruby_saddle"
+      }
+    ],
+    "camel_saddle": [
+      {
+        "texture": "ecoitems:ruby_saddle"
+      }
+    ],
+    "donkey_saddle": [
+      {
+        "texture": "ecoitems:ruby_saddle"
+      }
+    ],
+    "horse_saddle": [
+      {
+        "texture": "ecoitems:ruby_saddle"
+      }
+    ],
+    "mule_saddle": [
+      {
+        "texture": "ecoitems:ruby_saddle"
+      }
+    ],
+    "nautilus_saddle": [
+      {
+        "texture": "ecoitems:ruby_saddle"
+      }
+    ],
+    "pig_saddle": [
+      {
+        "texture": "ecoitems:ruby_saddle"
+      }
+    ],
+    "skeleton_horse_saddle": [
+      {
+        "texture": "ecoitems:ruby_saddle"
+      }
+    ],
+    "strider_saddle": [
+      {
+        "texture": "ecoitems:ruby_saddle"
+      }
+    ],
+    "zombie_horse_saddle": [
+      {
+        "texture": "ecoitems:ruby_saddle"
+      }
+    ]
+  }
+}

@@ -1,0 +1,39 @@
+item:
+  item: paper
+  name: <#FFFFFF>Diorite Pillar
+  recipes:
+    recipe:
+      - air
+      - air
+      - air
+      - polished_diorite
+      - air
+      - air
+      - polished_diorite
+      - air
+      - air
+block:
+  type: noteblock
+  variation: 10
+  textures:
+    top: block/diorite_pillar_top
+    bottom: block/diorite_pillar_top
+    side: block/diorite_pillar_sides
+  texture-parent: cube_bottom_top
+  hardness: 10.0
+  drops:
+    silk-touch: false
+    items:
+    - item: ecoitems:diorite_pillar
+      chance: 1.0
+  minimum-tier: wooden
+  sounds:
+    place: block.stone.place
+    break: block.stone.break
+    hit: block.stone.hit
+    step: block.stone.step
+    fall: block.stone.fall
+    volume: 0.8
+    pitch: 0.8
+effects: []
+conditions: []

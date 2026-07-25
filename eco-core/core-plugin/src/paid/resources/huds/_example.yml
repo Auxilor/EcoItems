@@ -1,0 +1,44 @@
+# The ID of the HUD is the name of the .yml file,
+# for example balance.yml has the ID of balance.
+# Toggle HUDs in-game with /ecoitems hud toggle <id>
+# _example.yml is not loaded.
+
+# The text to display. Supports color codes, eco/PAPI placeholders,
+# :glyph: placeholders, and %ecoitems_shift_<pixels>% for positioning.
+# (This example needs PlaceholderAPI + Vault for the balance placeholder,
+# and a "coin" glyph in the glyphs folder.)
+text: "%ecoitems_shift_100%&6$%vault_eco_balance% :coin:"
+
+# Where to display: action-bar or boss-bar.
+# Players have one action-bar HUD active at a time; boss-bar HUDs stack.
+type: action-bar
+
+# (Optional) Vertical offset for the text. The vanilla position is 7;
+# lower values move the text down (e.g. -13 sits just above the hotbar,
+# below where the action bar normally renders). Glyphs keep their own
+# configured ascents. Maximum is 8.
+text-ascent: -13
+
+# (Optional) How often the HUD refreshes, in ticks. Defaults to 40 -
+# much higher and the action bar starts fading between updates.
+update-ticks: 40
+
+# If the HUD should show for players who haven't toggled it.
+enabled-by-default: true
+
+# (Optional) A permission required to see the HUD.
+permission: ""
+
+# (Optional) libreforge conditions required for the HUD to show,
+# checked on every update. https://hub.auxilor.io/wiki/libreforge/configuring-a-condition
+# For example, to hide it underwater (so the oxygen bar is readable):
+# conditions:
+#   - id: in_water
+#     inverted: true
+conditions: []
+
+# Only used when type is boss-bar:
+boss-bar:
+  color: white # white, pink, blue, red, green, yellow, purple
+  style: progress # progress, notched_6, notched_10, notched_12, notched_20
+  progress: 1.0 # How full the bar is, 0.0 to 1.0

@@ -1,0 +1,145 @@
+# Furniture: an item displayed in the world as a decoration, with optional
+# collision, seats, and lights. Remove the leading _ to enable this example.
+#
+# The furniture shows THIS item - give it a texture/model like any other
+# item. Use a NON-PLACEABLE base item (like paper): placeable items ghost-
+# flicker client-side, and remember vanilla ITEM models are flat sprites -
+# reference a block model (model: "minecraft:block/lantern") or your own 3D
+# model for real furniture. Punch the furniture (or its collision barrier)
+# to break it and get the item back.
+
+item:
+  item: paper
+  name: "&5Example Furniture"
+  model: furniture/example
+
+furniture:
+  # Yaw snapping when placed: 8-way (default), 4-way, or none.
+  # Furniture with multi-cell barriers always snaps to 4-way.
+  rotation: 8-way
+
+  # Where it can be placed (default: floor only).
+  placement:
+    floor: true
+    wall: false
+    ceiling: false
+
+  # Solid collision cells relative to the placed block; ranges expand,
+  # so "0..1,0,0" is the origin cell and the one east of it.
+  # Without barriers, the furniture has no collision.
+  barriers:
+    - "0,0,0"
+
+  # Click hitboxes ("x,y,z widthxheight"). Defaults to a 1x1 box at the
+  # origin when there are no barriers.
+  # hitboxes:
+  #   - "0,0,0 1x1.5"
+
+  # Sit positions ("x,y,z", optional yaw). Right-click to sit. y is relative
+  # to the natural chair sitting height (0.6 above the block bottom), the
+  # same convention as Nexo/Oraxen - "0,0,0" is right for a normal chair.
+  # seats:
+  #   - "0,0,0"
+
+  # Bed cells ("x,y,z", optional yaw). Right-click at night to sleep - real
+  # sleeping pose, phantom reset, night skip - without a bed block.
+  # beds:
+  #   - "0.5,0,0"
+
+  # Light cells ("x,y,z level"). toggleable-lights lets players right-click
+  # to switch them.
+  # lights:
+  #   - "0,1,0 15"
+  # toggleable-lights: true
+
+  # Drops (same format as blocks). Without this, drops the item itself.
+  # drops:
+  #   items:
+  #     - item: ecoitems:example
+  #       chance: 1.0
+
+  # Sounds on place/break.
+  # sounds:
+  #   place: block.wood.place
+  #   break: block.wood.break
+
+  # ItemDisplay tuning.
+  # display:
+  #   scale: 1.0            # or "x,y,z"
+  #   translation: "0,0,0"
+  #   transform: none       # none, fixed, head, ground, gui, ...
+  #   y-rotation: 0         # extra yaw for the look only (degrees); 180 flips
+  #                         # models built to face the opposite way
+  #   billboard: fixed      # fixed, vertical, horizontal, center
+  #   brightness: 15        # fixed block-light level (unset = world lighting)
+  #   view-range: 1.0
+
+  # Named looks players cycle through by right-clicking (lamps, machines).
+  # Each state is an alternative model; an empty section keeps the item's
+  # own look. Models generate into the pack as <furniture id>_state_<name>.
+  # states:
+  #   off: {}
+  #   on:
+  #     model: furniture/example_on
+  #     reset-after: 200         # optional: ticks until back to default
+  #     # next-state-after: 100  # or: ticks until the next state (loops)
+  # default-state: off           # first state if unset
+  # cycle-states-on-click: true
+
+  # Doors: right-click opens/closes - collision barriers toggle off while
+  # open, with an optional alternative look.
+  # door:
+  #   open:
+  #     model: furniture/example_open
+  #   open-sound: block.wooden_door.open
+  #   close-sound: block.wooden_door.close
+
+  # Chest-style storage opened on right-click. Types: storage (shared per
+  # placement, drops contents on break), personal (per player), disposal
+  # (trash - contents discarded on close).
+  # storage:
+  #   rows: 3
+  #   title: "&8Crate"
+  #   type: storage
+  #   open-sound: block.chest.open
+  #   close-sound: block.chest.close
+
+  # Connectable rows (benches, counters): pieces re-model themselves as row
+  # ends/middles when the same furniture faces the same way next to them.
+  # connectable:
+  #   left:
+  #     model: furniture/example_left
+  #   right:
+  #     model: furniture/example_right
+  #   middle:
+  #     model: furniture/example_middle
+  #   inner:                       # optional corners for counter-style rows
+  #     model: furniture/example_inner
+  #   outer:
+  #     model: furniture/example_outer
+
+  # Vehicles (Paper): the player in the first seat drives with look
+  # + W/S. No barriers/lights on vehicles - blocks can't move.
+  # vehicle:
+  #   speed: 0.3            # horizontal blocks/tick at full throttle
+  #   fly-speed: 0.0        # > 0 hovers and ascends while jump is held
+  #   fuel:                 # optional fuel from the driver's inventory
+  #     items:
+  #       - coal
+  #     per-item-seconds: 120
+  #   smoke:                # optional exhaust while driving
+  #     particle: campfire_cosy_smoke
+  #     amount: 3
+  #     offset: "0,0.5,-1"  # local position, rotates with the vehicle
+
+  # Effects that run when players interact with the furniture (libreforge
+  # effects). Events: punch, shift-punch, right-click, shift-right-click,
+  # place, break, sit.
+  # effects:
+  #   sit:
+  #     - id: send_message
+  #       args:
+  #         message: "&7Take a seat!"
+
+effects: []
+conditions: []

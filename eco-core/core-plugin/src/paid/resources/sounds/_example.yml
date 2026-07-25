@@ -1,0 +1,37 @@
+# The ID of the sound is the name of the .yml file,
+# for example battle_horn.yml has the ID of battle_horn
+# The sound plays as ecoitems:<id>, for example with
+# /playsound ecoitems:battle_horn, or with the play_sound effect:
+# https://hub.auxilor.io/wiki/libreforge/all-effects
+# _example.yml is not loaded.
+
+# (Optional) The sound category, used for the client's volume sliders.
+# One of: master, music, record, weather, block, hostile, neutral, player,
+# ambient, voice. Defaults to master.
+category: master
+
+# (Optional) The subtitle shown when the sound plays (with subtitles enabled).
+subtitle: "Battle Horn"
+
+# The sound files. Each entry is a .ogg file in pack/assets/ecoitems/sounds/ (without the
+# extension), or a namespaced key like minecraft:dig/stone1 to reuse a
+# vanilla sample. Multiple entries play randomly, weighted by weight.
+sounds:
+  - sound: battle_horn # pack/assets/ecoitems/sounds/battle_horn.ogg
+    volume: 1.0 # (Optional) The playback volume, defaults to 1.0
+    pitch: 1.0 # (Optional) The playback pitch, defaults to 1.0
+    weight: 1 # (Optional) The random-pick weight, defaults to 1
+    stream: false # (Optional) Stream from disk instead of preloading, for long sounds like music
+    attenuation-distance: 16 # (Optional) How many blocks away the sound is audible, defaults to 16
+    preload: false # (Optional) Load the sound when the pack loads, defaults to false
+
+# For simple sounds you can use a single file instead:
+# sound: battle_horn
+
+# (Optional) Register the sound as a jukebox song, playable from items with
+# a jukebox_playable component. Registering needs a server restart.
+# jukebox:
+#   description: "Battle Horn" # The disc tooltip / now-playing text
+#   length-seconds: 10 # How long the jukebox stays busy
+#   comparator-output: 3 # Redstone comparator level, 1-15
+#   range: 48 # (Optional) Audible range in blocks

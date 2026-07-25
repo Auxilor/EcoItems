@@ -1,0 +1,44 @@
+# The ID of the glyph is the name of the .yml file.
+# _example.yml is not loaded.
+
+# The glyph texture: a [namespace:]path relative to textures/, so
+# glyph/heart reads pack/assets/ecoitems/textures/glyph/heart.png
+texture: glyph/heart
+
+# How far above the text baseline the glyph sits. Must not exceed height.
+ascent: 8
+
+# The rendered height of the glyph in pixels.
+height: 8
+
+# (Optional) Placeholders that insert this glyph in chat, signs, and configs.
+placeholders:
+  - ":heart:"
+  - "<3"
+
+# (Optional) Permission required to use the glyph in chat and on signs.
+# Empty = everyone. Doesn't apply to config-authored text.
+permission: ""
+
+# (Optional) If the placeholders should be offered as chat tab-completions.
+tab-complete: true
+
+# (Optional) If the glyph is offered in the /ecoitems glyphs picker book.
+# Turn off for oversized glyphs like GUI backgrounds.
+show-in-picker: true
+
+# (Optional) If surrounding text color should tint the glyph.
+# Defaults to false, which renders the glyph white (as designed).
+colorable: false
+
+# (Optional) A fixed character for the glyph. If omitted, a stable codepoint
+# is assigned automatically and remembered in glyph-codepoints.yml.
+# char: "ꐐ"
+
+# (Optional) Animate the glyph from a sprite sheet (frames stacked
+# vertically or in one horizontal row).
+# animation:
+#   frames: 16 # Number of frames in the sprite sheet (max 16)
+#   fps: 16 # Frames per second (1-127)
+#   loop: true # If the animation should repeat
+#   offset: 0 # Extra pixels to advance after the glyph

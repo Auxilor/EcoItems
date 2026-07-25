@@ -1,21 +1,19 @@
 item:
-  item: diamond unbreaking:1 hide_enchants hide_attributes
-  display-name: "&bEnchanted Diamond"
+  item: diamond glint hide_attributes
+  name: "&bEnchanted Diamond"
   lore: [ ]
-  craftable: true
-  recipe:
-    - ""
-    - diamond 32
-    - ""
-    - diamond 32
-    - diamond 32
-    - diamond 32
-    - ""
-    - diamond 32
-    - ""
+  recipes:
+    recipe:
+      - ""
+      - diamond 32
+      - ""
+      - diamond 32
+      - diamond 32
+      - diamond 32
+      - ""
+      - diamond 32
+      - ""
 
-base-damage: 0
-base-attack-speed: 1
 
 effects: [ ]
 conditions: [ ]

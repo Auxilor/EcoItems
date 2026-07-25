@@ -1,0 +1,117 @@
+# Custom blocks: add a block: section to any item and the item places it.
+# Remove the leading _ from the file name to enable this example.
+#
+# EcoItems retextures unused vanilla blockstates:
+#   noteblock     - 774 solid blocks (the default; full hardness support)
+#   stringblock   - 127 no-collision blocks (plants; always insta-break)
+#   chorus        - 63 blocks (avoid if your server visits the End - custom
+#                   chorus blocks corrupt how natural chorus plants render)
+#   mushroom      - 63 solid blocks (brown mushroom backing); also
+#   mushroom_red / mushroom_stem for 63 more each. No update physics to
+#                   fight, but naturally generated giant mushrooms can render
+#                   as custom blocks - avoid in mushroom-heavy worlds.
+#
+# States are assigned automatically and persisted to block-variations.yml -
+# never edit or delete entries there once blocks have been placed in worlds.
+# On Paper, also set the block-updates flags recommended in the console for
+# the smoothest experience.
+
+item:
+  item: paper
+  name: "&5Example Block"
+
+block:
+  # noteblock, stringblock, or chorus.
+  type: noteblock
+
+  # A texture generates a model automatically (relative to textures/, so this
+  # reads pack/assets/ecoitems/textures/block/example.png):
+  texture: block/example
+  # For multi-texture blocks, use a map + optional texture-parent
+  # (cube_bottom_top, cube_column, cross, orientable are auto-guessed):
+  # textures:
+  #   top: block/example_top
+  #   bottom: block/example_bottom
+  #   side: block/example_side
+  # Or point at a model json directly:
+  # model: block/example
+
+  # Seconds-ish of mining resistance, like vanilla hardness. 0 = insta-break,
+  # unset = the backing block's vanilla hardness. (Not supported for
+  # stringblock - strings always break instantly.)
+  hardness: 2
+
+  # Directional blocks place oriented like logs/furnaces/droppers and use
+  # one extra state per orientation (noteblock only):
+  # directional: log
+
+  # Falls like sand when unsupported (noteblock only).
+  # falling: true
+
+  # Right-clicking with an axe converts this block into another custom block,
+  # like stripping a vanilla log (costs 1 axe durability):
+  # strips-to: example_stripped
+
+  # Saplings (stringblock only): grows into a pasted schematic from
+  # plugins/EcoItems/schematics/ (needs WorldEdit; copy trees with the
+  # origin at the trunk base).
+  # sapling:
+  #   schematics:
+  #     - schematic: example_tree.schem
+  #       weight: 1
+  #   growth-time: 600      # seconds; 0 = bonemeal only
+  #   bonemeal: true
+  #   min-light: 9
+  #   require-space: true
+
+  # Sea-pickle-style stacking (stringblock only): right-clicking with the
+  # same item grows the stack; one texture (or models:) per stack count.
+  # stackable:
+  #   textures:
+  #     - block/example_1
+  #     - block/example_2
+  #     - block/example_3
+
+  # Survives explosions.
+  # blast-resistant: true
+
+  # Tool gating for drops (any tool still breaks the block eventually):
+  # correct-tools:
+  #   - PICKAXE
+  # minimum-tier: iron
+
+  # Drops. Without this section, the block drops its own item.
+  # drops:
+  #   silk-touch: true    # silk touch drops the block item itself
+  #   fortune: true       # fortune multiplies loot
+  #   items:
+  #     - item: diamond   # any eco item lookup (ecoitems:x, vanilla, ...)
+  #       chance: 0.5
+  #       amount: 1-3
+  #   xp: 1-3
+
+  # Sounds (vanilla or custom ecoitems:<sound> ids). Defaults to wood sounds.
+  # sounds:
+  #   place: block.stone.place
+  #   break: block.stone.break
+  #   step: block.stone.step
+  #   hit: block.stone.hit
+  #   fall: block.stone.fall
+  #   volume: 1.0
+  #   pitch: 0.8
+
+  # Effects that run when players interact with the placed block, using
+  # libreforge effects (https://hub.auxilor.io/wiki/libreforge/configuring-an-effect). Events:
+  # punch, shift-punch, right-click, shift-right-click, place, break.
+  # effects:
+  #   right-click:
+  #     - id: send_message
+  #       args:
+  #         message: "&aYou clicked the block!"
+  #   break:
+  #     - id: give_xp
+  #       args:
+  #         amount: 5
+
+effects: []
+conditions: []

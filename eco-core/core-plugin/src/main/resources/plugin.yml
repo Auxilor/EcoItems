@@ -8,6 +8,8 @@ depend:
   - eco
 softdepend:
   - libreforge
+  - WorldGuard
+  - WorldEdit
 loadbefore:
   - EcoArmor
   - Talismans
@@ -21,6 +23,11 @@ commands:
   ecoitems:
     description: Base Command
     permission: ecoitems.command.ecoitems
+    aliases:
+      - ei
+      - e
+      - ecoi
+      - items
 
 permissions:
   ecoitems.*:
@@ -35,12 +42,64 @@ permissions:
       ecoitems.command.reload: true
       ecoitems.command.ecoitems: true
       ecoitems.command.give: true
+      ecoitems.command.gui: true
+      ecoitems.command.hud: true
+      ecoitems.command.hud.toggle: true
+      ecoitems.command.glyph: true
+      ecoitems.command.glyphs: true
+      ecoitems.command.totem: true
+      ecoitems.command.drop: true
+      ecoitems.command.take: true
+      ecoitems.command.rename: true
+      ecoitems.command.repair: true
+      ecoitems.command.durability: true
+      ecoitems.command.hitbox: true
+      ecoitems.command.dialog: true
 
   ecoitems.command.reload:
     description: Allows reloading the config
     default: op
   ecoitems.command.give:
     description: Allows the use of /ecoitems give
+    default: op
+  ecoitems.command.gui:
+    description: Allows the use of /ecoitems gui.
+    default: op
+  ecoitems.command.hud:
+    description: Allows the use of /ecoitems hud.
+    default: true
+  ecoitems.command.hud.toggle:
+    description: Allows toggling HUDs
+    default: true
+  ecoitems.command.glyph:
+    description: Allows the use of /ecoitems glyph
+    default: op
+  ecoitems.command.glyphs:
+    description: Allows opening the glyph picker
+    default: true
+  ecoitems.command.totem:
+    description: Allows playing totem animations
+    default: op
+  ecoitems.command.drop:
+    description: Allows dropping items at locations
+    default: op
+  ecoitems.command.take:
+    description: Allows taking items from inventories
+    default: op
+  ecoitems.command.rename:
+    description: Allows renaming held items
+    default: op
+  ecoitems.command.repair:
+    description: Allows repairing held items
+    default: op
+  ecoitems.command.durability:
+    description: Allows setting held item durability
+    default: op
+  ecoitems.command.hitbox:
+    description: Allows visualizing furniture hitboxes
+    default: op
+  ecoitems.command.dialog:
+    description: Allows opening dialogs for players
     default: op
   ecoitems.command.ecoitems:
     description: Allows the user of /ecoitems.

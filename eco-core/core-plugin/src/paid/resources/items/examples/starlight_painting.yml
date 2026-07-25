@@ -1,0 +1,9 @@
+# Places the starlight custom painting (see paintings/starlight.yml).
+item:
+  item: painting
+  name: "&9Starlight Painting"
+  components:
+    painting/variant: "ecoitems:starlight"
+
+effects: []
+conditions: []

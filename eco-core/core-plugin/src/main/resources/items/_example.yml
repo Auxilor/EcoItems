@@ -6,27 +6,56 @@
 
 item:
   item: iron_sword hide_attributes # The item in-game: https://hub.auxilor.io/wiki/eco/the-item-lookup-system-the-item-lookup-system
-  display-name: "<g:#f953c6>Mithril Sword</g:#b91d73>" # The display name of the item
+  name: "<g:#f953c6>Mithril Sword</g:#b91d73>" # The display name of the item
+
+  # (Optional) Vanilla item components to apply to the item.
+  # Any component can be used, with the same format as in vanilla commands:
+  # https://minecraft.wiki/w/Data_component_format
+  components:
+    attribute_modifiers:
+      - type: "minecraft:attack_damage"
+        id: "ecoitems:damage"
+        amount: 11 # +11 on top of the player's base 1 damage, for 12 total
+        operation: "add_value"
+        slot: "mainhand"
+      - type: "minecraft:attack_speed"
+        id: "ecoitems:attack_speed"
+        amount: -2.5 # -2.5 from the player's base 4.0 attack speed, for 1.5 total
+        operation: "add_value"
+        slot: "mainhand"
+
+  # (Optional, paid version only) A custom texture for the item: a
+  # [namespace:]path relative to textures/, so item/mithril_sword reads
+  # pack/assets/ecoitems/textures/item/mithril_sword.png. Delivered to
+  # players with the resource pack; see pack.yml for delivery options.
+  # texture: item/mithril_sword
+  # texture-parent: handheld # generated (default), handheld, or any model key
   lore: # The item lore
     - "&7Damage: &c12❤"
     - "&7Attack Speed: &c1.5"
     - ""
     - "<g:#f953c6>MITHRIL BONUS</g:#b91d73>"
     - "&8» &#f953c6Deal 50% more damage in the nether"
-  craftable: true # If the item can be crafted
-  recipe-give-amount: 1 # (Optional) Set the amount of items to give, defaults to 1
-  crafting-permission: ecoitems.craft.custom_item # (Optional) The permission required to craft the item
-  shapeless: false # (Optional) Whether the crafting recipe is shapeless or not, defaults to false
-  recipe: # The recipe, read here for more: https://hub.auxilor.io/wiki/eco/the-item-lookup-system-the-item-lookup-system#crafting-recipes
-    - ""
-    - ecoitems:mithril 2
-    - ""
-    - ""
-    - ecoitems:mithril 2
-    - ""
-    - ""
-    - stick
-    - ""
+  # How the item is made. Read here for more:
+  # https://hub.auxilor.io/wiki/ecoitems/additional-configuration-options-workstation-recipes
+  recipes:
+    # (Optional) Where the recipe is made, defaults to crafting_table. The other options
+    # are furnace, blast_furnace, smoker, campfire, stonecutter, smithing_table, anvil,
+    # and brewing_stand - each takes its own ingredients instead of a recipe grid.
+    type: crafting_table
+    give-amount: 1 # (Optional) Set the amount of items to give, defaults to 1
+    permission: ecoitems.craft.custom_item # (Optional) The permission required to craft the item
+    shapeless: false # (Optional) Whether the crafting recipe is shapeless or not, defaults to false
+    recipe: # The recipe, read here for more: https://hub.auxilor.io/wiki/eco/the-item-lookup-system-the-item-lookup-system#crafting-recipes
+      - ""
+      - ecoitems:mithril 2
+      - ""
+      - ""
+      - ecoitems:mithril 2
+      - ""
+      - ""
+      - stick
+      - ""
 
 # The slot the item has to be in to activate its effects.
 # The options for slot are mainhand, offhand, hands, helmet, chestplate,
@@ -35,9 +64,6 @@ item:
 # Use to choose weather this is a weapon, tool, armor piece, charm, etc.
 # If you don't specify this, it will default to mainhand.
 slot: mainhand
-
-base-damage: 12 # (Optional) The item base damage
-base-attack-speed: 1.5 # (Optional) The item base attack speed
 
 # (Optional) The rarity of the item
 rarity: rare

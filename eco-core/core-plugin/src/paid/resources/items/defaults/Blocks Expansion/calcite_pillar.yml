@@ -1,0 +1,39 @@
+item:
+  item: paper
+  name: <#FFFFFF>Calcite Pillar
+  recipes:
+    recipe:
+      - air
+      - air
+      - air
+      - ecoitems:polished_calcite
+      - air
+      - air
+      - ecoitems:polished_calcite
+      - air
+      - air
+block:
+  type: noteblock
+  variation: 22
+  textures:
+    top: block/calcite_pillar_top
+    bottom: block/calcite_pillar_top
+    side: block/calcite_pillar_sides
+  texture-parent: cube_bottom_top
+  hardness: 10.0
+  drops:
+    silk-touch: false
+    items:
+    - item: ecoitems:calcite_pillar
+      chance: 1.0
+  minimum-tier: wooden
+  sounds:
+    place: block.calcite.place
+    break: block.calcite.break
+    hit: block.calcite.hit
+    step: block.calcite.step
+    fall: block.calcite.fall
+    volume: 0.8
+    pitch: 0.8
+effects: []
+conditions: []

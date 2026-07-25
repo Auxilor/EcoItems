@@ -6,6 +6,11 @@
 # If all recipes should be automatically discovered.
 discover-recipes: true
 
+# If items already in circulation should be rebuilt from their current configs
+# on join, on pickup, and after a reload. Durability, anvil renames, extra
+# enchantments, and other plugins' item data are preserved.
+auto-update-items: true
+
 rarity:
   # If the rarity system should be enabled
   enabled: false
@@ -18,3 +23,102 @@ rarity:
 
   # If items with no specified rarity should be given the default rarity
   display-default: true
+
+blocks:
+  # Milliseconds between custom block/furniture placements. Vanilla paces
+  # held-down placement at 4 ticks (200ms); this also prevents a single
+  # click from double-placing. Set to 0 to disable.
+  place-cooldown-ms: 200
+
+  # Worlds where custom blocks and crops can be placed. Glob patterns,
+  # prefix with ! to exclude: "*", "world_*", "!creative_world".
+  worlds:
+    - "*"
+
+  # Mining speed per tool tier (hand = 1), used when rescaling break times
+  # for custom block hardness. These are the vanilla values.
+  tool-speeds:
+    wooden: 2
+    stone: 4
+    iron: 6
+    diamond: 8
+    netherite: 9
+    golden: 12
+
+# Options for the /ecoitems gui item browser.
+items-gui:
+  rows: 6
+  title: "&7EcoItems (%page%/%max_page%)"
+
+  # Items in folders under items/ group into categories: the GUI opens with
+  # a category menu and each folder becomes a sub-menu. With no folders, the
+  # GUI is a flat item list.
+  category-title: "&7%category% (%page%/%max_page%)"
+  category-item:
+    name: "&f%category%"
+    lore:
+      - "&7%count% items"
+  # The category for items directly in items/ (only shown if any exist).
+  root-category-name: "Other"
+
+  back-button:
+    enabled: true
+    item: arrow
+    model: ecoitems:back
+    name: "&fBack"
+    row: 6
+    column: 2
+
+  background:
+    enabled: true
+    glyph: items_gui
+
+  mask:
+    items: []
+    pattern:
+      - "000000000"
+      - "000000000"
+      - "000000000"
+      - "000000000"
+      - "000000000"
+      - "000000000"
+
+  empty-item: air
+
+  page-change:
+    sound:
+      enabled: true
+      sound: ui.button.click
+      pitch: 1.0
+      volume: 1.0
+    backwards:
+      item: arrow name:"&fPrevious Page"
+      model: ecoitems:previous
+      # Shown when there's no previous page; remove to hide the button instead.
+      locked-model: ecoitems:previous_locked
+      row: 6
+      column: 4
+    forwards:
+      item: arrow name:"&fNext Page"
+      model: ecoitems:next
+      locked-model: ecoitems:next_locked
+      row: 6
+      column: 6
+
+  close-button:
+    enabled: true
+    item: barrier
+    model: ecoitems:close
+    name: "&cClose"
+    lore: []
+    row: 6
+    column: 5
+
+  item-area:
+    width: 7
+    height: 4
+    row: 2
+    column: 2
+
+  # Custom GUI slots; see https://hub.auxilor.io/wiki/eco/pages#custom-gui-slots
+  custom-slots: []

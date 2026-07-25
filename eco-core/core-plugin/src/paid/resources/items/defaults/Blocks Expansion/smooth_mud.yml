@@ -1,0 +1,24 @@
+item:
+  item: paper
+  name: <#FFFFFF>Smooth Mud
+block:
+  type: noteblock
+  variation: 45
+  texture: block/smooth_mud
+  hardness: 10.0
+  drops:
+    silk-touch: false
+    items:
+    - item: ecoitems:smooth_mud
+      chance: 1.0
+  minimum-tier: wooden
+  sounds:
+    place: block.packed_mud.place
+    break: block.packed_mud.break
+    hit: block.packed_mud.hit
+    step: block.packed_mud.step
+    fall: block.packed_mud.fall
+    volume: 0.8
+    pitch: 0.8
+effects: []
+conditions: []

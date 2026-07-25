@@ -6,50 +6,51 @@
 
 item:
   item: cooked_beef glint item_name:"Enchanted Steak" # The item in-game: https://hub.auxilor.io/wiki/eco/the-item-lookup-system-the-item-lookup-system
-  display-name: "&6Enchanted Steak" # The display name of the item
+  name: "&6Enchanted Steak" # The display name of the item
+
+  # Vanilla item components, with the same format as in vanilla commands:
+  # https://minecraft.wiki/w/Data_component_format
+  components:
+    # Read here: https://minecraft.wiki/w/Data_component_format#food
+    food:
+      nutrition: 12
+      saturation: 2
+      can_always_eat: false
+
+    # Read here: https://minecraft.wiki/w/Data_component_format#consumable
+    consumable:
+      consume_seconds: 1 # The time in seconds it takes to eat the food
+      on_consume_effects:
+        - type: "minecraft:apply_effects"
+          effects:
+            - id: "minecraft:regeneration"
+              duration: 40 # The duration of the potion effect in ticks
+              amplifier: 0 # The level of the potion effect, starting at 0
+          probability: 1.0
+
   lore: # The item lore
     - "&7The most delicious steak in all the land."
     - "&7Restores &a12 &7hunger and &a2 &7saturation."
     - ""
     - "&6Special Effects:"
     - "&8» &7Grants &aRegeneration I &7for &a2 &7seconds."
-  craftable: true # If the item can be crafted
-  recipe-give-amount: 1 # (Optional) Set the amount of items to give, defaults to 1
-  crafting-permission: ecoitems.craft.custom_food # (Optional) The permission required to craft the item
-  shapeless: false # (Optional) Whether the crafting recipe is shapeless or not, defaults to false
-  recipe: # The recipe, read here for more: https://hub.auxilor.io/wiki/eco/the-item-lookup-system-the-item-lookup-system#crafting-recipes
-    - ""
-    - cooked_beef 64
-    - ""
-    - cooked_beef 64
-    - cooked_beef 64
-    - cooked_beef 64
-    - ""
-    - cooked_beef 64
-    - ""
-
-# Options for the food
-# These options do not update existing foods, only new ones
-food:
-  # Read here: https://minecraft.fandom.com/wiki/Food#Hunger_and_saturation
-  nutrition: 12
-  saturation: 2
-
-  # The time in seconds it takes to eat the food
-  eat-seconds: 1
-
-  # (Optional) Set if this food can always be eaten, even if the player is not hungry
-  can-always-eat: false
-
-  # (Optional) Potion effects to give when eating the food
-  effects:
-    - effect: regeneration # The ID of the potion effect to give
-      duration: 40 # The duration of the potion effect in ticks
-      level: 1 # The level of the potion effect
-      ambient: true # If the potion is ambient (defaults to true)
-      particles: true # If the potion has particles (defaults to true)
-      icon: true # If the potion icon shows up (defaults to true)
-      probability: 100 # The probability of the potion effect occurring (defaults to 100)
+  # How the item is made. Read here for more:
+  # https://hub.auxilor.io/wiki/ecoitems/additional-configuration-options-workstation-recipes
+  recipes:
+    type: crafting_table # (Optional) Where the recipe is made, defaults to crafting_table
+    give-amount: 1 # (Optional) Set the amount of items to give, defaults to 1
+    permission: ecoitems.craft.custom_food # (Optional) The permission required to craft the item
+    shapeless: false # (Optional) Whether the crafting recipe is shapeless or not, defaults to false
+    recipe: # The recipe, read here for more: https://hub.auxilor.io/wiki/eco/the-item-lookup-system-the-item-lookup-system#crafting-recipes
+      - ""
+      - cooked_beef 64
+      - ""
+      - cooked_beef 64
+      - cooked_beef 64
+      - cooked_beef 64
+      - ""
+      - cooked_beef 64
+      - ""
 
 # The slot the item has to be in to activate its effects.
 # The options for slot are mainhand, offhand, hands, helmet, chestplate,
@@ -58,9 +59,6 @@ food:
 # Use to choose weather this is a weapon, tool, armor piece, charm, etc.
 # If you don't specify this, it will default to mainhand.
 slot: mainhand
-
-base-damage: 12 # (Optional) The item base damage
-base-attack-speed: 1.5 # (Optional) The item base attack speed
 
 # (Optional) The rarity of the item
 rarity: rare

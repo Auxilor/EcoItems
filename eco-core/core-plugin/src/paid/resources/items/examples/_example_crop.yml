@@ -1,0 +1,55 @@
+# Custom crops: a crop: section makes this item a seed that plants a staged
+# crop. Remove the leading _ from the file name to enable this example.
+#
+# Crops use stringblock (tripwire) states - one per stage - so they render as
+# cross-shaped plants, have no collision, and break instantly like vanilla
+# crops. Growth runs on a timer; time keeps counting while chunks are
+# unloaded, so crops catch up when they load.
+
+item:
+  item: wheat_seeds
+  name: "&5Example Crop Seeds"
+  texture: item/example_seeds
+
+crop:
+  # Growth stages, lowest first. Each stage needs a texture (a cross model is
+  # generated; textures/crop/... in your pack folder) or a model.
+  stages:
+    - texture: crop/example_0
+    - texture: crop/example_1
+    - texture: crop/example_2
+    - texture: crop/example_3
+
+  # Average seconds from planted to fully grown.
+  growth-time: 1200
+
+  # false lets the crop be planted on any solid block instead of farmland.
+  requires-farmland: true
+
+  # Growth pauses below this light level.
+  min-light: 9
+
+  # If bonemeal advances the crop one stage.
+  bonemeal: true
+
+  # Weather growth multipliers (1 = neutral, above 1 = faster). The snow
+  # multiplier applies instead of rain in cold biomes.
+  # rain-multiplier: 1.5
+  # thunder-multiplier: 2.0
+  # snow-multiplier: 0.5
+
+  # Drops when broken fully grown. Without this section, drops the seed.
+  drops:
+    items:
+      - item: ecoitems:example      # any eco item lookup
+        amount: 1-3
+    xp: 0-2
+
+  # Drops when broken before fully grown. Default: the seed item.
+  # immature-drops:
+  #   items:
+  #     - item: ecoitems:example_crop
+  #       amount: 1
+
+effects: []
+conditions: []

@@ -1,0 +1,24 @@
+item:
+  item: paper
+  name: <#FFFFFF>Calcite Tiles
+block:
+  type: noteblock
+  variation: 25
+  texture: block/calcite_tiles
+  hardness: 10.0
+  drops:
+    silk-touch: false
+    items:
+    - item: ecoitems:calcite_tiles
+      chance: 1.0
+  minimum-tier: wooden
+  sounds:
+    place: block.calcite.place
+    break: block.calcite.break
+    hit: block.calcite.hit
+    step: block.calcite.step
+    fall: block.calcite.fall
+    volume: 0.8
+    pitch: 0.8
+effects: []
+conditions: []
