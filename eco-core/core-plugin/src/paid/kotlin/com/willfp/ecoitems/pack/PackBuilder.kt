@@ -45,12 +45,6 @@ object PackBuilder {
 
         val userOverlays = userMcmetaOverlays(plugin)
 
-        val hasAnimatedGlyphs = glyphs.any { it.glyph.isAnimated }
-        entries["pack.mcmeta"] = PackMcmeta.json(
-            settings.description,
-            hasAnimatedGlyphs,
-            (imports.overlays + userOverlays).map { it.toString() }
-        ).encodeToByteArray()
         entries["pack.png"] = bundledPackPng()
 
         ItemAssetGenerator.generate(plugin, assets, entries)
@@ -79,6 +73,19 @@ object PackBuilder {
         HudFontGenerator.generate(plugin, huds, glyphs, entries)
         SoundAssetGenerator.generate(plugin, sounds, entries)
         LangAssetGenerator.generate(plugin, entries)
+
+        // Last, so the overlay directories the pack ended up with are known.
+        // Both the animated glyph shaders and the interface tweaks ship
+        // per-client-version GLSL, which only the overlays can select.
+        val hasAnimatedGlyphs = glyphs.any { it.glyph.isAnimated } && settings.glyphShaders
+        entries["pack.mcmeta"] = PackMcmeta.json(
+            settings.description,
+            hasAnimatedGlyphs || InterfaceShaders.isEnabled(settings),
+            (imports.overlays + userOverlays).map { it.toString() },
+            PackMcmeta.CONTENT_OVERLAYS
+                .filterKeys { directory -> entries.keys.any { it.startsWith("$directory/") } }
+                .values.toList()
+        ).encodeToByteArray()
 
         if (settings.obfuscate) {
             PackObfuscator.obfuscate(entries)

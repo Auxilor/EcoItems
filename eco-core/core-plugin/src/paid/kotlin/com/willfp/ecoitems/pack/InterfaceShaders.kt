@@ -23,10 +23,23 @@ object InterfaceShaders {
         vertexColor.a = 0.0;
     }"""
 
-    private const val TEMPLATE = """#version 150
+    // gui.vsh runs before resource packs exist, so - like vanilla's own copy -
+    // it can't #moj_import: the uniform blocks are inlined instead. 1.21.8 is
+    // GLSL 150 and carries an extra LineWidth field in DynamicTransforms;
+    // 1.21.9 onwards is GLSL 330 without it.
+    private fun template(version: Int, lineWidth: Boolean) = """#version $version
 
-#moj_import <minecraft:dynamictransforms.glsl>
-#moj_import <minecraft:projection.glsl>
+// Copied from dynamictransforms.glsl and projection.glsl, which can't be
+// imported into a shader used during startup.
+layout(std140) uniform DynamicTransforms {
+    mat4 ModelViewMat;
+    vec4 ColorModulator;
+    vec3 ModelOffset;
+    mat4 TextureMat;${if (lineWidth) "\n    float LineWidth;" else ""}
+};
+layout(std140) uniform Projection {
+    mat4 ProjMat;
+};
 
 in vec3 Position;
 in vec4 Color;
@@ -40,6 +53,13 @@ void main() {
 %PATCHES%
 }
 """
+
+    /**
+     * True when the pack needs the shader overlays declared in pack.mcmeta:
+     * the interface tweaks ship a per-version gui shader.
+     */
+    fun isEnabled(settings: PackSettings) =
+        settings.hideScoreboardBackground || settings.hideTablistBackground
 
     fun generate(plugin: EcoItemsPlugin, settings: PackSettings, entries: MutableMap<String, ByteArray>) {
         val patches = buildString {
@@ -57,12 +77,13 @@ void main() {
             )
         }
 
-        val shader = TEMPLATE.replace("%PATCHES%", patches).encodeToByteArray()
+        val modern = template(330, lineWidth = false).replace("%PATCHES%", patches).encodeToByteArray()
+        val legacy = template(150, lineWidth = true).replace("%PATCHES%", patches).encodeToByteArray()
 
-        // The same GLSL works from 1.21.8 through the current clients, so it
-        // goes in the base pack and every shader overlay.
         for (prefix in listOf("", "overlay_pre_26/", "overlay_26/", "overlay_26_2/")) {
-            entries["${prefix}assets/minecraft/shaders/core/gui.vsh"] = shader
+            entries["${prefix}assets/minecraft/shaders/core/gui.vsh"] = modern
         }
+
+        entries["overlay_1_21_8/assets/minecraft/shaders/core/gui.vsh"] = legacy
     }
 }

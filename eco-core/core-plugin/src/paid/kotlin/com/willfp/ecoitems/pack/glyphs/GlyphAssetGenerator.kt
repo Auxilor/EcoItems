@@ -328,12 +328,22 @@ object GlyphAssetGenerator {
             entries[target] = content.replace("%ANIM_CONFIGS%", constants).encodeToByteArray()
         }
 
+        // Only the GLSL: shader programs are defined in code from 1.21.5
+        // onwards, so a shaders/core/*.json definition is dead weight the
+        // shader loader can trip over.
         for (variant in SHADER_VARIANTS) {
-            for (extension in listOf("vsh", "fsh", "json")) {
+            for (extension in listOf("vsh", "fsh")) {
                 write("base/$variant.$extension", "assets/minecraft/shaders/core/$variant.$extension")
                 write(
                     "base/$variant.$extension",
                     "overlay_pre_26/assets/minecraft/shaders/core/$variant.$extension"
+                )
+                // 1.21.8 runs on OpenGL 3.2 and rejects the #version 330
+                // shaders every later client needs, so it gets GLSL 150
+                // copies through its own overlay.
+                write(
+                    "overlay_1_21_8/$variant.$extension",
+                    "overlay_1_21_8/assets/minecraft/shaders/core/$variant.$extension"
                 )
             }
             for (extension in listOf("vsh", "fsh")) {
