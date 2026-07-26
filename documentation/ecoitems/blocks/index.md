@@ -7,7 +7,7 @@ sidebar_position: 1
 Block textures are part of the resource pack system, which requires the paid version of EcoItems.
 :::
 
-Add a `block:` section to any item config and the item places a real custom block. EcoItems retextures unused vanilla blockstates, and [migrated setups](../migrations/index) keep working because the state encoding is compatible with what other custom item plugins use.
+Add a `block:` section to any item config and the item places a real custom block. EcoItems retextures unused vanilla blockstates, and [migrated setups](../migrations) keep working because the state encoding is compatible with what other custom item plugins use.
 
 ## Backings
 

@@ -127,7 +127,7 @@ The old `base-damage`, `base-attack-speed`, `base-attack-range`, and `effective-
 
 ### Texture (paid version)
 
-Give the item a custom texture with `item.texture`, pointing at a `.png` under `plugins/EcoItems/pack/assets/ecoitems/textures/item/` - the path is relative to `textures/`, without the extension. The resource pack is generated and delivered automatically - see [Resource Packs](../resource-packs/index).
+Give the item a custom texture with `item.texture`, pointing at a `.png` under `plugins/EcoItems/pack/assets/ecoitems/textures/item/` - the path is relative to `textures/`, without the extension. The resource pack is generated and delivered automatically - see [Resource Packs](../resource-packs).
 
 ```yaml
 item:
@@ -215,5 +215,5 @@ Effects and conditions are a shared eco system with their own documentation. To 
 - **Foods and tools:** [Custom Foods](custom-foods) and [Custom Tools](custom-tools) add eating and mining behaviour to an item.
 - **Workstations:** [Workstation Recipes](../additional-configuration-options/workstation-recipes) to craft the item at a furnace, anvil, stonecutter, and more.
 - **Rarities:** [Item Rarity](../additional-configuration-options/item-rarity) for the rarity tags used by `rarity:`.
-- **Textures:** [Resource Packs](../resource-packs/index) for custom item textures and models (paid).
+- **Textures:** [Resource Packs](../resource-packs) for custom item textures and models (paid).
 - **Default configs:** the shipped items live [here](https://github.com/Auxilor/EcoItems/blob/master/eco-core/core-plugin/src/main/resources/items/), and you can find community items on [lrcdb](https://lrcdb.auxilor.io/).

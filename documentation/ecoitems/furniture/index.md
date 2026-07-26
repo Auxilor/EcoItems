@@ -171,7 +171,7 @@ Ground vehicles fall off edges and step up single blocks; flying vehicles (a `fl
 
 ## WorldGuard flags
 
-With WorldGuard installed, EcoItems registers region flags (all default to allow): `ecoitems-furniture-interact`, `ecoitems-furniture-sit`, `ecoitems-furniture-storage`, `ecoitems-vehicle`, and `ecoitems-block-interact` for [custom block](../blocks/index) click effects. Deny them per region for spawn furniture that shouldn't be sat on, vehicles that park inside protected zones, and so on. Placing and breaking already respect regions through the normal build flags.
+With WorldGuard installed, EcoItems registers region flags (all default to allow): `ecoitems-furniture-interact`, `ecoitems-furniture-sit`, `ecoitems-furniture-storage`, `ecoitems-vehicle`, and `ecoitems-block-interact` for [custom block](../blocks) click effects. Deny them per region for spawn furniture that shouldn't be sat on, vehicles that park inside protected zones, and so on. Placing and breaking already respect regions through the normal build flags.
 
 :::caution
 Furniture entities are real persistent entities. Don't `/kill @e` - you'd strip furniture displays and leave their barriers behind (breakable by ops).

@@ -48,9 +48,9 @@ Model references use the same `[namespace:]path` form, relative to `models/`. An
 
 | Path | Purpose |
 | --- | --- |
-| `pack/assets/ecoitems/textures/` | Textures - items under `textures/item/`, [glyphs](../glyphs/index) under `textures/glyph/` |
+| `pack/assets/ecoitems/textures/` | Textures - items under `textures/item/`, [glyphs](../glyphs) under `textures/glyph/` |
 | `pack/assets/ecoitems/models/` | Custom item models (`.json`), referenced by `model:` |
-| `pack/assets/ecoitems/sounds/` | [Custom sound](../sounds/index) files (`.ogg`) |
+| `pack/assets/ecoitems/sounds/` | [Custom sound](../sounds) files (`.ogg`) |
 | `pack/assets/...` | Fonts, lang files, equipment assets, shaders, vanilla overrides - anything, at its natural vanilla path |
 | `pack/pack.png` | Optional icon override for the pack |
 | `pack/pack.mcmeta` | Optional; only its `overlays` entries are used (description and formats are always generated) |

@@ -7,7 +7,7 @@ sidebar_position: 1
 Dialogs use the native Minecraft dialog system: they need a **Paper 1.21.6+** server, and every player sees them - no resource pack involved.
 :::
 
-Dialogs are real client GUI screens - the same system vanilla uses for server links. Each config in the `dialogs/` folder is one dialog; open one with `/ecoitems dialog <id> [player]` (permission `ecoitems.command.dialog`), from a command block, or from any plugin that can run commands - including a [furniture or block effect](../furniture/index) running `ecoitems dialog ...` via libreforge's command effect.
+Dialogs are real client GUI screens - the same system vanilla uses for server links. Each config in the `dialogs/` folder is one dialog; open one with `/ecoitems dialog <id> [player]` (permission `ecoitems.command.dialog`), from a command block, or from any plugin that can run commands - including a [furniture or block effect](../furniture) running `ecoitems dialog ...` via libreforge's command effect.
 
 ```yaml
 # dialogs/kit_picker.yml
