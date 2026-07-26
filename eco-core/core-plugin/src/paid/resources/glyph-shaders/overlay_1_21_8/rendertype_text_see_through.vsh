@@ -1,25 +1,18 @@
-#version 330
+#version 150
 
 // EcoItems animated glyph shader.
 // Frames of an animated glyph are stacked at the same position; each frame
 // is tagged with a magic text color (R=254, G=loop|fps, B=frame|count) and
 // this shader shows only the frame matching the current GameTime.
 
-#moj_import <minecraft:fog.glsl>
 #moj_import <minecraft:dynamictransforms.glsl>
 #moj_import <minecraft:projection.glsl>
 #moj_import <minecraft:globals.glsl>
-#moj_import <minecraft:sample_lightmap.glsl>
 
 in vec3 Position;
 in vec4 Color;
 in vec2 UV0;
-in ivec2 UV2;
 
-uniform sampler2D Sampler2;
-
-out float sphericalVertexDistance;
-out float cylindricalVertexDistance;
 out vec4 vertexColor;
 out vec2 texCoord0;
 
@@ -28,10 +21,8 @@ out vec2 texCoord0;
 void main() {
     vec3 pos = Position;
     gl_Position = ProjMat * ModelViewMat * vec4(pos, 1.0);
-    sphericalVertexDistance = fog_spherical_distance(pos);
-    cylindricalVertexDistance = fog_cylindrical_distance(pos);
     texCoord0 = UV0;
-    vertexColor = Color * sample_lightmap(Sampler2, UV2);
+    vertexColor = Color;
 
     int rInt = int(Color.r * 255.0 + 0.5);
     int gRaw = int(Color.g * 255.0 + 0.5);
@@ -67,6 +58,6 @@ void main() {
 
         float visible = (frameIndex == currentFrame) ? 1.0 : 0.0;
 
-        vertexColor = vec4(1.0, 1.0, 1.0, visible) * sample_lightmap(Sampler2, UV2);
+        vertexColor = vec4(1.0, 1.0, 1.0, visible);
     }
 }

@@ -1,5 +1,10 @@
 {
   "layers": {
+    "camel_husk_saddle": [
+      {
+        "texture": "ecoitems:ruby_saddle"
+      }
+    ],
     "camel_saddle": [
       {
         "texture": "ecoitems:ruby_saddle"
@@ -16,6 +21,11 @@
       }
     ],
     "mule_saddle": [
+      {
+        "texture": "ecoitems:ruby_saddle"
+      }
+    ],
+    "nautilus_saddle": [
       {
         "texture": "ecoitems:ruby_saddle"
       }

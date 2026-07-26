@@ -1,9 +1,9 @@
+#version 330
+
 // EcoItems animated glyph shader.
 // Frames of an animated glyph are stacked at the same position; each frame
 // is tagged with a magic text color (R=254, G=loop|fps, B=frame|count) and
 // this shader shows only the frame matching the current GameTime.
-
-#version 330
 
 #moj_import <minecraft:fog.glsl>
 #moj_import <minecraft:dynamictransforms.glsl>

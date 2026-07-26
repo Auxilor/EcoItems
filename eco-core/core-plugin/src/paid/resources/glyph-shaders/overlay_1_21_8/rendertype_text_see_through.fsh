@@ -1,4 +1,4 @@
-#version 330
+#version 150
 
 // EcoItems animated glyph shader.
 // Frames of an animated glyph are stacked at the same position; each frame
