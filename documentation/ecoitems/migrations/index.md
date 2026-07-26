@@ -23,7 +23,7 @@ Converted configs land in `items/imported/<source>/`, `glyphs/imported/<source>/
 
 ### Where pack assets go
 
-Most textures/models/sounds from the old plugin's pack are flattened straight into `pack/assets/` alongside your own files. The exception is **standalone external-pack zips/folders** (e.g. Oraxen's `pack/external_packs/`) that the old plugin merged rather than flattened - those are copied as-is into `pack/imports/`, the same folder used for [merging other packs](../resource-packs/merging-packs). That folder isn't there by default - it's only created the moment something needs it (the pack builder on its first run, or a migration that finds one of these standalone packs) - so don't worry if it's missing before then.
+Most textures/models/sounds from the old plugin's pack are flattened straight into `pack/assets/` alongside your own files. The exception is **standalone external-pack zips/folders** (e.g. Oraxen's `pack/external_packs/`) that the old plugin merged rather than flattened - those are copied as-is into `pack/imports/`, the same folder used for [merging other packs](resource-packs-merging-packs). That folder isn't there by default - it's only created the moment something needs it (the pack builder on its first run, or a migration that finds one of these standalone packs) - so don't worry if it's missing before then.
 
 ## What converts
 

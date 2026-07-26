@@ -147,4 +147,4 @@ Permissions apply to players. A hopper pulling an item out of a furnace or brewi
 ## Where to go next
 
 - **Recipe formats:** [Recipes](https://hub.auxilor.io/wiki/eco/the-item-lookup-system-recipes) for the full reference on every workstation and option.
-- **Make an item:** [How to make an Item](../how-to-make-a-custom-item/how-to-make-a-custom-item) for everything else in the `item:` section.
+- **Make an item:** [How to make an Item](how-to-make-a-custom-item-how-to-make-a-custom-item) for everything else in the `item:` section.

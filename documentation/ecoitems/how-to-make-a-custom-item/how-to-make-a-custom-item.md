@@ -94,7 +94,7 @@ EcoItems supports both shaped and shapeless recipes. See [Recipes](https://hub.a
 :::
 
 :::tip Other workstations
-A `recipe` is crafted at a crafting table by default. Add `type:` to make the item at a furnace, smithing table, stonecutter, anvil, or brewing stand instead - see [Workstation Recipes](../additional-configuration-options/workstation-recipes).
+A `recipe` is crafted at a crafting table by default. Add `type:` to make the item at a furnace, smithing table, stonecutter, anvil, or brewing stand instead - see [Workstation Recipes](additional-configuration-options-workstation-recipes).
 :::
 
 ### Components
@@ -122,12 +122,12 @@ Component keys without a namespace are treated as `minecraft:` components, so no
 :::
 
 :::info Migrating from older versions
-The old `base-damage`, `base-attack-speed`, `base-attack-range`, and `effective-durability` options have been replaced by components: use `minecraft:attribute_modifiers` for combat stats (as above) and `max_damage:<amount>` on the base item lookup for durability. The old `food:` and `tool:` sections are now the `minecraft:food`, `minecraft:consumable`, and `minecraft:tool` components - see [Custom Foods](custom-foods) and [Custom Tools](custom-tools).
+The old `base-damage`, `base-attack-speed`, `base-attack-range`, and `effective-durability` options have been replaced by components: use `minecraft:attribute_modifiers` for combat stats (as above) and `max_damage:<amount>` on the base item lookup for durability. The old `food:` and `tool:` sections are now the `minecraft:food`, `minecraft:consumable`, and `minecraft:tool` components - see [Custom Foods](how-to-make-a-custom-item-custom-foods) and [Custom Tools](how-to-make-a-custom-item-custom-tools).
 :::
 
 ### Texture (paid version)
 
-Give the item a custom texture with `item.texture`, pointing at a `.png` under `plugins/EcoItems/pack/assets/ecoitems/textures/item/` - the path is relative to `textures/`, without the extension. The resource pack is generated and delivered automatically - see [Resource Packs](../resource-packs).
+Give the item a custom texture with `item.texture`, pointing at a `.png` under `plugins/EcoItems/pack/assets/ecoitems/textures/item/` - the path is relative to `textures/`, without the extension. The resource pack is generated and delivered automatically - see [Resource Packs](resource-packs).
 
 ```yaml
 item:
@@ -212,8 +212,8 @@ Effects and conditions are a shared eco system with their own documentation. To 
 
 ## Where to go next
 
-- **Foods and tools:** [Custom Foods](custom-foods) and [Custom Tools](custom-tools) add eating and mining behaviour to an item.
-- **Workstations:** [Workstation Recipes](../additional-configuration-options/workstation-recipes) to craft the item at a furnace, anvil, stonecutter, and more.
-- **Rarities:** [Item Rarity](../additional-configuration-options/item-rarity) for the rarity tags used by `rarity:`.
-- **Textures:** [Resource Packs](../resource-packs) for custom item textures and models (paid).
+- **Foods and tools:** [Custom Foods](how-to-make-a-custom-item-custom-foods) and [Custom Tools](how-to-make-a-custom-item-custom-tools) add eating and mining behaviour to an item.
+- **Workstations:** [Workstation Recipes](additional-configuration-options-workstation-recipes) to craft the item at a furnace, anvil, stonecutter, and more.
+- **Rarities:** [Item Rarity](additional-configuration-options-item-rarity) for the rarity tags used by `rarity:`.
+- **Textures:** [Resource Packs](resource-packs) for custom item textures and models (paid).
 - **Default configs:** the shipped items live [here](https://github.com/Auxilor/EcoItems/blob/master/eco-core/core-plugin/src/main/resources/items/), and you can find community items on [lrcdb](https://lrcdb.auxilor.io/).

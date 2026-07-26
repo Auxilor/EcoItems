@@ -7,7 +7,7 @@ A rarity is a category you attach to items to show how good or rare they are: ea
 
 ## Quick start
 
-1. Enable the rarity system: set `rarity.enabled: true` in `/plugins/EcoItems/config.yml` (see [Plugin Config](../plugin-config)).
+1. Enable the rarity system: set `rarity.enabled: true` in `/plugins/EcoItems/config.yml` (see [Plugin Config](plugin-config)).
 2. Open the `/plugins/EcoItems/rarities/` folder.
 3. Copy `_example.yml` and rename it to your rarity's ID, e.g. `legendary.yml`.
 4. Set the `lore`, `weight`, and any `items` the rarity should apply to.
@@ -83,5 +83,5 @@ items: # Items from the Item Lookup System
 
 ## Where to go next
 
-- **Plugin settings:** [Plugin Config](../plugin-config) for the global rarity options like the default rarity.
-- **Make an item:** [How to make an Item](../how-to-make-a-custom-item/how-to-make-a-custom-item) to set a `rarity:` on your own items.
+- **Plugin settings:** [Plugin Config](plugin-config) for the global rarity options like the default rarity.
+- **Make an item:** [How to make an Item](how-to-make-a-custom-item-how-to-make-a-custom-item) to set a `rarity:` on your own items.
