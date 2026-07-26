@@ -38,7 +38,7 @@ that permission to be used in chat and on signs.
 
 ## Where to go next
 
-- **Make an item:** [How to make an Item](how-to-make-a-custom-item/how-to-make-a-custom-item) to create the items you
+- **Make an item:** [How to make an Item](how-to-make-a-custom-item-how-to-make-a-custom-item) to create the items you
   give.
-- **Recipes:** [Workstation Recipes](additional-configuration-options/workstation-recipes) for the per-recipe
+- **Recipes:** [Workstation Recipes](additional-configuration-options-workstation-recipes) for the per-recipe
   `permission` option.

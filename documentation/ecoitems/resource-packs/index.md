@@ -48,13 +48,13 @@ Model references use the same `[namespace:]path` form, relative to `models/`. An
 
 | Path | Purpose |
 | --- | --- |
-| `pack/assets/ecoitems/textures/` | Textures - items under `textures/item/`, [glyphs](../glyphs) under `textures/glyph/` |
+| `pack/assets/ecoitems/textures/` | Textures - items under `textures/item/`, [glyphs](glyphs) under `textures/glyph/` |
 | `pack/assets/ecoitems/models/` | Custom item models (`.json`), referenced by `model:` |
-| `pack/assets/ecoitems/sounds/` | [Custom sound](../sounds) files (`.ogg`) |
+| `pack/assets/ecoitems/sounds/` | [Custom sound](sounds) files (`.ogg`) |
 | `pack/assets/...` | Fonts, lang files, equipment assets, shaders, vanilla overrides - anything, at its natural vanilla path |
 | `pack/pack.png` | Optional icon override for the pack |
 | `pack/pack.mcmeta` | Optional; only its `overlays` entries are used (description and formats are always generated) |
-| `pack/imports/` | External packs (zips or folders) to [merge](merging-packs) |
+| `pack/imports/` | External packs (zips or folders) to [merge](resource-packs-merging-packs) |
 
 The built pack is written to `plugins/EcoItems/pack.zip`. Where your files collide with generated or imported content, mergeable files (fonts, `sounds.json`, lang files, atlases) are merged instead of clobbered; everything else from the pack folder wins, so you can always override what EcoItems generates.
 
@@ -70,6 +70,6 @@ EcoItems uses the modern `minecraft:item_model` component rather than CustomMode
 
 ## Where to go next
 
-- **Delivery:** [Delivery Modes](delivery-modes) covers how the pack reaches players.
-- **Configuration:** [Pack Configuration](configuration) lists every `pack.yml` option.
-- **Self-hosting:** [Packhost](packhost) explains running your own pack host.
+- **Delivery:** [Delivery Modes](resource-packs-delivery-modes) covers how the pack reaches players.
+- **Configuration:** [Pack Configuration](resource-packs-configuration) lists every `pack.yml` option.
+- **Self-hosting:** [Packhost](resource-packs-packhost) explains running your own pack host.

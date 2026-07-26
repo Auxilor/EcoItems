@@ -92,5 +92,5 @@ If you disable the pack system (or a publish fails), players simply aren't sent 
 
 ## Where to go next
 
-- **Delivery:** [Delivery Modes](delivery-modes) explains the four modes in detail.
-- **Textures:** [Resource Packs](./) covers giving items textures and models.
+- **Delivery:** [Delivery Modes](resource-packs-delivery-modes) explains the four modes in detail.
+- **Textures:** [Resource Packs](resource-packs) covers giving items textures and models.

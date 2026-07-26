@@ -15,7 +15,7 @@ sidebar_position: 4
 
 ## hosted
 
-The pack is uploaded to the packhost instance at `delivery.hosted.url` (the public instance at `packs.auxilor.io` by default) on every reload. Identical packs deduplicate server-side, so reloads without pack changes are free. You can [run your own packhost](packhost) and point the URL at it.
+The pack is uploaded to the packhost instance at `delivery.hosted.url` (the public instance at `packs.auxilor.io` by default) on every reload. Identical packs deduplicate server-side, so reloads without pack changes are free. You can [run your own packhost](resource-packs-packhost) and point the URL at it.
 
 ## self-hosted
 
@@ -35,4 +35,4 @@ Set `public-url` when players should download through a CDN or custom domain ins
 
 ## Sending
 
-With any active mode, the pack is sent to players on join (`send-on-join`) and re-sent to everyone after a reload (`send-on-reload`). The prompt, whether the pack is `required`, and whether declining kicks (`kick-on-decline`) are all configurable - see [Pack Configuration](configuration).
+With any active mode, the pack is sent to players on join (`send-on-join`) and re-sent to everyone after a reload (`send-on-reload`). The prompt, whether the pack is `required`, and whether declining kicks (`kick-on-decline`) are all configurable - see [Pack Configuration](resource-packs-configuration).

@@ -9,7 +9,7 @@ A custom food is a normal EcoItem with the vanilla **food** and **consumable** c
 
 1. Open the `/plugins/EcoItems/items/` folder.
 2. Copy `_example_food.yml` and rename it to your food's ID, e.g. `enchanted_steak.yml`.
-3. Set up the `item:` section as you would for any item (see [How to make an Item](how-to-make-a-custom-item)).
+3. Set up the `item:` section as you would for any item (see [How to make an Item](how-to-make-a-custom-item-how-to-make-a-custom-item)).
 4. Add the `minecraft:food` and `minecraft:consumable` components.
 5. Run `/ecoitems reload`.
 6. Give yourself the item with `/ecoitems give <you> enchanted_steak` and eat it to confirm the hunger and effects apply.
@@ -74,7 +74,7 @@ item:
 
 ### Item
 
-The `item:` section is exactly the same as any other EcoItem. See [How to make an Item](how-to-make-a-custom-item) for the full breakdown of the base item, display, and recipe fields. A food is still a full EcoItem, so the top-level `effects:` and `conditions:` work too; a `consume` trigger pairs naturally with foods:
+The `item:` section is exactly the same as any other EcoItem. See [How to make an Item](how-to-make-a-custom-item-how-to-make-a-custom-item) for the full breakdown of the base item, display, and recipe fields. A food is still a full EcoItem, so the top-level `effects:` and `conditions:` work too; a `consume` trigger pairs naturally with foods:
 
 ```yaml
 effects:
@@ -103,5 +103,5 @@ Editing components does not update foods already in player inventories; only new
 
 ## Where to go next
 
-- **The base item:** [How to make an Item](how-to-make-a-custom-item) for the shared item, display, and recipe fields.
-- **Custom tools:** [Custom Tools](custom-tools) for mining behaviour instead of eating.
+- **The base item:** [How to make an Item](how-to-make-a-custom-item-how-to-make-a-custom-item) for the shared item, display, and recipe fields.
+- **Custom tools:** [Custom Tools](how-to-make-a-custom-item-custom-tools) for mining behaviour instead of eating.

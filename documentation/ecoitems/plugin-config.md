@@ -126,6 +126,6 @@ items-gui:
 
 ## Where to go next
 
-- **Rarities:** [Item Rarity](additional-configuration-options/item-rarity) covers building the rarities the options above point to.
-- **Make an item:** [How to make an Item](how-to-make-a-custom-item/how-to-make-a-custom-item) to start adding items.
+- **Rarities:** [Item Rarity](additional-configuration-options-item-rarity) covers building the rarities the options above point to.
+- **Make an item:** [How to make an Item](how-to-make-a-custom-item-how-to-make-a-custom-item) to start adding items.
 - **Pack settings:** [Resource Packs](resource-packs) for the paid `pack.yml` options.

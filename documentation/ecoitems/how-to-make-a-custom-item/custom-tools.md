@@ -9,7 +9,7 @@ A custom tool is a normal EcoItem with the vanilla **tool** component that contr
 
 1. Open the `/plugins/EcoItems/items/` folder.
 2. Copy `_example_tool.yml` and rename it to your tool's ID, e.g. `hardened_netherite_pickaxe.yml`.
-3. Set up the `item:` section as you would for any item (see [How to make an Item](how-to-make-a-custom-item)).
+3. Set up the `item:` section as you would for any item (see [How to make an Item](how-to-make-a-custom-item-how-to-make-a-custom-item)).
 4. Add the `minecraft:tool` component with the mining speed and any block rules.
 5. Run `/ecoitems reload`.
 6. Give yourself the item with `/ecoitems give <you> hardened_netherite_pickaxe` and mine a block to confirm the speed and drops behave as set.
@@ -68,7 +68,7 @@ item:
 
 ### Item
 
-The `item:` section is exactly the same as any other EcoItem. See [How to make an Item](how-to-make-a-custom-item) for the full breakdown of the base item, display, and recipe fields. A tool is still a full EcoItem, so the top-level `effects:` and `conditions:` work too, e.g. running an effect on a `mine_block` trigger alongside the mining rules.
+The `item:` section is exactly the same as any other EcoItem. See [How to make an Item](how-to-make-a-custom-item-how-to-make-a-custom-item) for the full breakdown of the base item, display, and recipe fields. A tool is still a full EcoItem, so the top-level `effects:` and `conditions:` work too, e.g. running an effect on a `mine_block` trigger alongside the mining rules.
 
 ### The component
 
@@ -89,5 +89,5 @@ Editing components does not update tools already in player inventories; only new
 
 ## Where to go next
 
-- **The base item:** [How to make an Item](how-to-make-a-custom-item) for the shared item, display, and recipe fields.
-- **Custom foods:** [Custom Foods](custom-foods) for eating behaviour instead of mining.
+- **The base item:** [How to make an Item](how-to-make-a-custom-item-how-to-make-a-custom-item) for the shared item, display, and recipe fields.
+- **Custom foods:** [Custom Foods](how-to-make-a-custom-item-custom-foods) for eating behaviour instead of mining.

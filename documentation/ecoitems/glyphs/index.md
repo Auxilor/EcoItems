@@ -3,7 +3,7 @@ title: "Glyphs"
 sidebar_position: 1
 ---
 
-Glyphs are custom characters - emojis, chat tags, icons - added to Minecraft's font through the resource pack. Players type placeholders like `:heart:` in chat, and they work in any config text too (item lore, GUI titles, any eco plugin). Glyphs are a paid-version feature, since they're delivered through the [resource pack](../resource-packs).
+Glyphs are custom characters - emojis, chat tags, icons - added to Minecraft's font through the resource pack. Players type placeholders like `:heart:` in chat, and they work in any config text too (item lore, GUI titles, any eco plugin). Glyphs are a paid-version feature, since they're delivered through the [resource pack](resource-packs).
 
 The paid version ships example glyphs: `:heart:` (also `<3`), an animated `:spinner:`, eight chat rank tags (`:king:`, `:hero:`, `:god:`, ...) locked behind permissions, and the `items_gui` GUI background.
 
@@ -37,7 +37,7 @@ colorable: false # false renders the glyph white; true lets text color tint it
 - **Signs**: same behaviour as chat.
 - **Placeholders**: `%ecoitems_glyph_<id>%` inserts a glyph and `%ecoitems_shift_<pixels>%` moves text horizontally (see below), everywhere eco placeholders (and PlaceholderAPI) work.
 
-Chat, sign, and tab-complete formatting can each be toggled in [`pack.yml`](../resource-packs/configuration) under `glyphs:`.
+Chat, sign, and tab-complete formatting can each be toggled in [`pack.yml`](resource-packs-configuration) under `glyphs:`.
 
 ## Shifts
 
@@ -64,8 +64,8 @@ Each glyph is assigned a codepoint automatically, remembered in `plugins/EcoItem
 
 ## Where to go next
 
-- **Animated glyphs:** [Animated Glyphs](animated-glyphs) for sprite-sheet animations.
-- **The pack:** [Resource Packs](../resource-packs) for how glyph textures are delivered.
+- **Animated glyphs:** [Animated Glyphs](glyphs-animated-glyphs) for sprite-sheet animations.
+- **The pack:** [Resource Packs](resource-packs) for how glyph textures are delivered.
 
 ## Sprite sheets (multi-bitmap glyphs)
 

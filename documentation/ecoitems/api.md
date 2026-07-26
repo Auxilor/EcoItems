@@ -52,4 +52,4 @@ Items are also registered with eco's item lookup system, so `Items.lookup("ecoit
 ## Where to go next
 
 - **eco framework:** [eco](https://github.com/Auxilor/eco) is where the shared APIs (effects, conditions, item lookup) live.
-- **Config side:** [How to make an Item](how-to-make-a-custom-item/how-to-make-a-custom-item) shows the config that backs the items you load through the API.
+- **Config side:** [How to make an Item](how-to-make-a-custom-item-how-to-make-a-custom-item) shows the config that backs the items you load through the API.
