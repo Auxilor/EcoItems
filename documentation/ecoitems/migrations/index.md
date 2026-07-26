@@ -8,16 +8,22 @@ EcoItems can import your setup from **Oraxen**, **Nexo**, or **ItemsAdder** - it
 ## How to migrate
 
 1. **Back up your server**, including worlds.
-2. Copy the contents of the old plugin's folder into the matching subfolder of `plugins/EcoItems/migrations/`:
+2. Copy the contents of the old plugin's folder into the matching subfolder of `plugins/EcoItems/migrations/` - these subfolders (`migrations/Oraxen/`, `migrations/Nexo/`, `migrations/ItemsAdder/`) are created automatically on startup:
    - everything inside `plugins/Oraxen/` → `migrations/Oraxen/`
    - everything inside `plugins/Nexo/` → `migrations/Nexo/`
    - everything inside `plugins/ItemsAdder/` → `migrations/ItemsAdder/`
+
+   Migration only reads **extracted folders**, not `.zip` archives - if your export is a zip, unpack it into the subfolder first. (A single wrapping folder inside, e.g. `migrations/Nexo/Nexo/...`, is handled automatically.)
 3. Remove the old plugin's jar (keep its folder until you're happy with the result).
 4. Run **`/ecoitems migrate <oraxen|nexo|itemsadder>`** from the console.
 5. Read the console output - everything that couldn't be converted is listed there.
 6. Test your items and pack, then delete the migrations folder contents.
 
-Converted configs land in `items/imported/<source>/`, `glyphs/imported/<source>/` and `sounds/imported/<source>/` - normal EcoItems configs you can edit and reorganize freely. Pack assets are copied into `pack/`. Running a migration again skips files that already exist, so you can safely re-run after deleting a bad conversion.
+Converted configs land in `items/imported/<source>/`, `glyphs/imported/<source>/` and `sounds/imported/<source>/` - normal EcoItems configs you can edit and reorganize freely. Running a migration again skips files that already exist, so you can safely re-run after deleting a bad conversion.
+
+### Where pack assets go
+
+Most textures/models/sounds from the old plugin's pack are flattened straight into `pack/assets/` alongside your own files. The exception is **standalone external-pack zips/folders** (e.g. Oraxen's `pack/external_packs/`) that the old plugin merged rather than flattened - those are copied as-is into `pack/imports/`, the same folder used for [merging other packs](../resource-packs/merging-packs). That folder isn't there by default - it's only created the moment something needs it (the pack builder on its first run, or a migration that finds one of these standalone packs) - so don't worry if it's missing before then.
 
 ## What converts
 

@@ -7,7 +7,7 @@ sidebar_position: 1
 HUDs are part of the resource pack system, which requires the paid version of EcoItems.
 :::
 
-HUDs are persistent text displays - balances, stats, server info - shown in the action bar or a boss bar and refreshed automatically. Combined with [glyphs](../glyphs/index) and pixel shifts they can look like fully custom interface elements.
+HUDs are persistent text displays - balances, stats, server info - shown in the action bar or a boss bar and refreshed automatically. Combined with [glyphs](../glyphs) and pixel shifts they can look like fully custom interface elements.
 
 ## Creating a HUD
 
@@ -44,7 +44,7 @@ boss-bar:
 
 ## Frame bars (mana, thirst, cooldowns...)
 
-A `frames:` section turns a HUD into a value-driven image bar: EcoItems evaluates a numeric expression per player, works out where it sits between `min` and `max`, and renders the matching frame. Each frame is a line of text - usually a single [glyph](../glyphs/index) drawn as one bar segment state.
+A `frames:` section turns a HUD into a value-driven image bar: EcoItems evaluates a numeric expression per player, works out where it sits between `min` and `max`, and renders the matching frame. Each frame is a line of text - usually a single [glyph](../glyphs) drawn as one bar segment state.
 
 ```yaml
 # huds/mana_bar.yml

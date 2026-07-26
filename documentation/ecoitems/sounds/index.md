@@ -7,7 +7,7 @@ sidebar_position: 1
 Custom sounds are part of the resource pack system, which requires the paid version of EcoItems.
 :::
 
-EcoItems can add fully custom sounds to your server: music, ambience, UI feedback, ability sounds - anything you can put in a `.ogg` file. Sounds are delivered through the [resource pack](../resource-packs/index) and play like any vanilla sound.
+EcoItems can add fully custom sounds to your server: music, ambience, UI feedback, ability sounds - anything you can put in a `.ogg` file. Sounds are delivered through the [resource pack](../resource-packs) and play like any vanilla sound.
 
 ## Creating a sound
 
@@ -89,7 +89,7 @@ The pack can also override the client's translation strings, with lang files at 
 }
 ```
 
-Values support `:glyph:` placeholders (see [Glyphs](../glyphs/index)) and § color codes. Keys starting with `_` are treated as comments. Any vanilla translation key can be overridden - the defaults EcoItems ships are just a starting point.
+Values support `:glyph:` placeholders (see [Glyphs](../glyphs)) and § color codes. Keys starting with `_` are treated as comments. Any vanilla translation key can be overridden - the defaults EcoItems ships are just a starting point.
 
 ## Custom music discs
 
