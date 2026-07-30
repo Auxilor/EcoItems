@@ -30,6 +30,13 @@ blocks:
   # click from double-placing. Set to 0 to disable.
   place-cooldown-ms: 200
 
+  # If Paper's block-updates flags should be set automatically on startup.
+  # Without them, vanilla recalculates note block instruments when a block
+  # above or below changes, which erases custom block textures. Requires a
+  # restart to take effect. Can also be disabled with
+  # -Decoitems.autoUpdatePaperConfig=false
+  auto-update-paper-config: true
+
   # Worlds where custom blocks and crops can be placed. Glob patterns,
   # prefix with ! to exclude: "*", "world_*", "!creative_world".
   worlds:
