@@ -36,14 +36,22 @@ object BlockPhysicsListener : Listener {
     fun onPhysics(event: BlockPhysicsEvent) {
         val block = event.block
 
-        // Note blocks recalculate instrument from the block below on any
-        // neighbor update - cancel for all of them and re-push the stack
-        // above (vertically stacked note blocks chain updates).
+        // Note blocks recalculate instrument when the block above or below
+        // changes - cancel for all of them and re-push the stack above
+        // (vertically stacked note blocks chain updates).
         if (block.type == Material.NOTE_BLOCK) {
             event.isCancelled = true
             reapplyAbove(block)
             return
         }
+
+        val below = block.getRelative(BlockFace.DOWN)
+        if (below.type == Material.NOTE_BLOCK) {
+            event.isCancelled = true
+            reapplyAbove(below)
+            return
+        }
+
         val above = block.getRelative(BlockFace.UP)
         if (above.type == Material.NOTE_BLOCK) {
             event.isCancelled = true
@@ -59,10 +67,18 @@ object BlockPhysicsListener : Listener {
         }
     }
 
+    /**
+     * Re-push the canonical registry state up a note block stack. The state
+     * in the world is already normalized by the time this runs - shape
+     * updates are applied inside setBlock, before the events fire - so
+     * re-writing the current data would be a no-op restore.
+     */
     private fun reapplyAbove(block: Block) {
         var current = block
         while (current.type == Material.NOTE_BLOCK) {
-            current.setBlockData(current.blockData, false)
+            val placed = EcoBlocks.at(current)
+            val data = placed?.let { EcoBlocks.blockData(it.block, it.orientation) }
+            current.setBlockData(data ?: current.blockData, false)
             current = current.getRelative(BlockFace.UP)
         }
     }
