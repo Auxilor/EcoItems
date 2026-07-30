@@ -47,12 +47,17 @@ object PaperBlockUpdates {
             return emptyList()
         }
 
-        val lines = try {
-            file.readLines().toMutableList()
+        val text = try {
+            file.readText()
         } catch (e: Exception) {
             plugin.logger.warning("Failed to read config/paper-global.yml: ${e.message}")
             return emptyList()
         }
+
+        // Split and rejoin on the file's own separator so a changed flag is a
+        // one-line diff rather than a whole-file line ending rewrite.
+        val separator = if (text.contains("\r\n")) "\r\n" else "\n"
+        val lines = text.split("\r\n", "\n").toMutableList()
 
         val changed = mutableListOf<String>()
 
@@ -68,7 +73,7 @@ object PaperBlockUpdates {
         }
 
         return try {
-            file.writeText(lines.joinToString(System.lineSeparator()) + System.lineSeparator())
+            file.writeText(lines.joinToString(separator))
             changed
         } catch (e: Exception) {
             plugin.logger.warning("Failed to write config/paper-global.yml: ${e.message}")
