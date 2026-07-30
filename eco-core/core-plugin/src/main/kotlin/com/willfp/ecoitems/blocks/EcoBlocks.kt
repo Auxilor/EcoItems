@@ -150,10 +150,11 @@ object EcoBlocks {
             BlockBacking.NOTEBLOCK to PaperBlockUpdates.NOTEBLOCK_FLAG,
             BlockBacking.STRINGBLOCK to PaperBlockUpdates.TRIPWIRE_FLAG,
             BlockBacking.CHORUS to PaperBlockUpdates.CHORUS_FLAG
-        )
+        ) + BlockBacking.mushrooms.associateWith { PaperBlockUpdates.MUSHROOM_FLAG }
 
         val wanted = blocks.map { it.backing }.toSet()
             .mapNotNull { flags[it] }
+            .distinct()
             .filterNot { PaperBlockUpdates.isEnabled(it) }
 
         if (wanted.isEmpty()) {

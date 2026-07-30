@@ -17,11 +17,12 @@ object PaperBlockUpdates {
     const val NOTEBLOCK_FLAG = "disable-noteblock-updates"
     const val TRIPWIRE_FLAG = "disable-tripwire-updates"
     const val CHORUS_FLAG = "disable-chorus-plant-updates"
+    const val MUSHROOM_FLAG = "disable-mushroom-block-updates"
 
     private val file = File("config/paper-global.yml")
 
     private val settingPattern = Regex(
-        "^(\\s*)($NOTEBLOCK_FLAG|$TRIPWIRE_FLAG|$CHORUS_FLAG):\\s*(true|false)\\b.*$",
+        "^(\\s*)($NOTEBLOCK_FLAG|$TRIPWIRE_FLAG|$CHORUS_FLAG|$MUSHROOM_FLAG):\\s*(true|false)\\b.*$",
         RegexOption.IGNORE_CASE
     )
 
