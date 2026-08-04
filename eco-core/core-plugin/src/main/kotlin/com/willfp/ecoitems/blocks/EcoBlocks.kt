@@ -138,7 +138,8 @@ object EcoBlocks {
      * Paper can skip the block updates that would normalize our states.
      * The listener fallback cannot cover shape updates, so without these
      * flags a custom block loses its texture when the block above or below
-     * it changes - set them automatically unless the server opts out.
+     * it changes. EcoItems never edits paper-global.yml itself - that's
+     * against Paper's TOS - it only warns so the server owner can set it.
      */
     private fun recommendPaperFlags(plugin: EcoItemsPlugin, blocks: Collection<EcoBlock>) {
         if (recommendedPaperFlags || blocks.isEmpty()) {
@@ -161,23 +162,11 @@ object EcoBlocks {
             return
         }
 
-        val updated = PaperBlockUpdates.ensureDisabled(plugin, wanted)
-
-        if (updated.isNotEmpty()) {
-            plugin.logger.warning(
-                "Enabled " + updated.joinToString(", ") + " in config/paper-global.yml. " +
-                    "Restart the server for custom blocks to keep their textures."
-            )
-        }
-
-        val remaining = wanted - updated.toSet()
-        if (remaining.isNotEmpty()) {
-            plugin.logger.warning(
-                "Custom blocks lose their textures without the Paper block-updates flags: set " +
-                    remaining.joinToString(", ") + " to true under block-updates in " +
-                    "config/paper-global.yml and restart the server."
-            )
-        }
+        plugin.logger.warning(
+            "Custom blocks lose their textures without the Paper block-updates flags: set " +
+                wanted.joinToString(", ") + " to true under block-updates in " +
+                "config/paper-global.yml and restart the server."
+        )
     }
 
     /**
