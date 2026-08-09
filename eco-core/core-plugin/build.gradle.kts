@@ -45,10 +45,6 @@ tasks {
     compileKotlin {
         dependsOn(generateBuildConfig)
     }
-
-    sourcesJar {
-        dependsOn(generateBuildConfig)
-    }
 }
 
 publishing {
