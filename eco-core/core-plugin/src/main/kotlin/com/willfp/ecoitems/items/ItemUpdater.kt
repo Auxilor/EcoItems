@@ -9,15 +9,17 @@ import org.bukkit.event.entity.EntityPickupItemEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.ArmorMeta
 import org.bukkit.inventory.meta.Damageable
+import org.bukkit.persistence.PersistentDataType
 
 /**
  * Rebuilds items in player inventories from their current configs on join,
  * on pickup, and after a reload, so config changes reach items that are
  * already in circulation.
  *
- * Durability, anvil renames, extra enchantments, and other plugins'
- * persistent data survive the update.
+ * Durability, anvil renames/relores, armor trims, extra enchantments, and
+ * other plugins' persistent data survive the update.
  */
 object ItemUpdater : Listener {
     private val enabled: Boolean
@@ -76,8 +78,30 @@ object ItemUpdater : Listener {
             freshMeta.damage = oldMeta.damage
         }
 
-        if (oldMeta.hasDisplayName() && !freshMeta.hasDisplayName()) {
+        // A rename is only "custom" if it differs from the name the config had
+        // when this stack was last built - otherwise it's just the config default,
+        // and the (possibly changed) fresh default should apply. Same idea for lore:
+        // if it doesn't match the lore this stack was built with, something else
+        // (another plugin, or a player) touched it, so leave it alone.
+        val nameBaseline = oldMeta.persistentDataContainer.get(baseDisplayNameKey, PersistentDataType.STRING)
+        if (oldMeta.hasDisplayName() && oldMeta.displayName != nameBaseline) {
             freshMeta.setDisplayName(oldMeta.displayName)
+        }
+
+        val loreBaseline = oldMeta.persistentDataContainer.get(baseLoreKey, PersistentDataType.STRING)
+            ?.split(LORE_SEPARATOR)
+        if (oldMeta.hasLore() && oldMeta.lore != loreBaseline) {
+            freshMeta.lore = oldMeta.lore
+        }
+
+        // Same idea again for trims: configs can set them via item components, but
+        // a smithing table can also apply one, so only overwrite an untouched trim.
+        if (oldMeta is ArmorMeta && freshMeta is ArmorMeta) {
+            val trimBaseline = oldMeta.persistentDataContainer.get(baseTrimKey, PersistentDataType.STRING)
+            val oldTrim = oldMeta.trim
+            if (oldTrim != null && oldTrim.encoded() != trimBaseline) {
+                freshMeta.trim = oldTrim
+            }
         }
 
         // replace = false: foreign keys copy over, ours stay authoritative.

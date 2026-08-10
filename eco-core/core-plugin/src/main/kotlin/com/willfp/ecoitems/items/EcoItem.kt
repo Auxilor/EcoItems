@@ -26,6 +26,8 @@ import com.willfp.libreforge.effects.Effects
 import com.willfp.libreforge.slot.SlotTypes
 import com.willfp.libreforge.slot.impl.SlotTypeMainhand
 import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.ArmorMeta
+import org.bukkit.persistence.PersistentDataType
 import java.util.Objects
 
 class EcoItem(
@@ -87,18 +89,36 @@ class EcoItem(
         if (base is EmptyTestableItem) {
             plugin.logger.warning("Item $id has an invalid base item '${itemConfig.getString("item")}'")
         }
+        val displayName = if (itemConfig.has("display-name")) {
+            itemConfig.getFormattedString("display-name")
+        } else {
+            null
+        }
+
+        val lore = itemConfig.getFormattedStrings("lore").map { "${Display.PREFIX}$it" }
+
         val built = ItemStackBuilder(base.item).apply {
-            if (itemConfig.has("display-name")) {
-                setDisplayName(itemConfig.getFormattedString("display-name"))
+            if (displayName != null) {
+                setDisplayName(displayName)
             }
-            addLoreLines(
-                itemConfig.getFormattedStrings("lore").map { "${Display.PREFIX}$it" }
-            )
+            addLoreLines(lore)
         }.build().withComponents(itemConfig)
 
         built.apply {
             ecoItem = this@EcoItem
         }
+
+        built.itemMeta = built.itemMeta?.apply {
+            if (displayName != null) {
+                persistentDataContainer.set(baseDisplayNameKey, PersistentDataType.STRING, displayName)
+            }
+            persistentDataContainer.set(baseLoreKey, PersistentDataType.STRING, lore.joinToString(LORE_SEPARATOR))
+            if (this is ArmorMeta) {
+                trim?.let { persistentDataContainer.set(baseTrimKey, PersistentDataType.STRING, it.encoded()) }
+            }
+        }
+
+        built
     }
 
     val itemStack: ItemStack
