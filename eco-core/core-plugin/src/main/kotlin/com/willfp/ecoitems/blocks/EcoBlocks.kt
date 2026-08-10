@@ -135,9 +135,11 @@ object EcoBlocks {
     private var recommendedPaperFlags = false
 
     /**
-     * Paper can skip the block updates that would normalize our states,
-     * which is faster and more reliable than the listener fallback -
-     * recommend it once per backing in use.
+     * Paper can skip the block updates that would normalize our states.
+     * The listener fallback cannot cover shape updates, so without these
+     * flags a custom block loses its texture when the block above or below
+     * it changes. EcoItems never edits paper-global.yml itself - that's
+     * against Paper's TOS - it only warns so the server owner can set it.
      */
     private fun recommendPaperFlags(plugin: EcoItemsPlugin, blocks: Collection<EcoBlock>) {
         if (recommendedPaperFlags || blocks.isEmpty()) {
@@ -145,29 +147,26 @@ object EcoBlocks {
         }
         recommendedPaperFlags = true
 
-        val file = java.io.File("config/paper-global.yml")
-        if (!file.exists()) {
-            return
-        }
-
-        val text = file.readText()
         val flags = mapOf(
-            BlockBacking.NOTEBLOCK to "disable-noteblock-updates",
-            BlockBacking.STRINGBLOCK to "disable-tripwire-updates",
-            BlockBacking.CHORUS to "disable-chorus-plant-updates"
-        )
+            BlockBacking.NOTEBLOCK to PaperBlockUpdates.NOTEBLOCK_FLAG,
+            BlockBacking.STRINGBLOCK to PaperBlockUpdates.TRIPWIRE_FLAG,
+            BlockBacking.CHORUS to PaperBlockUpdates.CHORUS_FLAG
+        ) + BlockBacking.mushrooms.associateWith { PaperBlockUpdates.MUSHROOM_FLAG }
 
         val wanted = blocks.map { it.backing }.toSet()
             .mapNotNull { flags[it] }
-            .filter { !Regex("$it:\\s*true").containsMatchIn(text) }
+            .distinct()
+            .filterNot { PaperBlockUpdates.isEnabled(it) }
 
-        if (wanted.isNotEmpty()) {
-            plugin.logger.warning(
-                "Custom blocks work best with the Paper block-updates flags: set " +
-                    wanted.joinToString(", ") + " to true under block-updates in " +
-                    "config/paper-global.yml and restart the server."
-            )
+        if (wanted.isEmpty()) {
+            return
         }
+
+        plugin.logger.warning(
+            "Custom blocks lose their textures without the Paper block-updates flags: set " +
+                wanted.joinToString(", ") + " to true under block-updates in " +
+                "config/paper-global.yml and restart the server."
+        )
     }
 
     /**
