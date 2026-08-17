@@ -41,6 +41,11 @@ object EcoItemsPackFeature : PackFeature {
         return listOf(PackListener, HudTicker.QuitListener, TridentListener, BlockSoundsListener) + GlyphListeners.listeners()
     }
 
+    override fun isPackEnabled(plugin: EcoItemsPlugin): Boolean {
+        val config = packYml ?: PackYml(plugin).also { packYml = it }
+        return config.getBool("enabled")
+    }
+
     override fun handleEnable(plugin: EcoItemsPlugin) {
         PlaceholderManager.addIntegration(GlyphText.GlyphPlaceholderIntegration)
         PlaceholderManager.registerPlaceholder(GlyphPlaceholder)

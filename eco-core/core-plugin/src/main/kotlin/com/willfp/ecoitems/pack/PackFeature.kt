@@ -13,6 +13,13 @@ import org.bukkit.inventory.ItemStack
 interface PackFeature {
     fun listeners(plugin: EcoItemsPlugin): List<Listener>
 
+    /**
+     * Whether the pack system is enabled in pack.yml. Read before the pack
+     * reloads (custom blocks are gated on it), so it must not depend on
+     * anything [handleReload] sets up.
+     */
+    fun isPackEnabled(plugin: EcoItemsPlugin): Boolean = false
+
     fun handleEnable(plugin: EcoItemsPlugin) {}
 
     fun handleReload(plugin: EcoItemsPlugin)

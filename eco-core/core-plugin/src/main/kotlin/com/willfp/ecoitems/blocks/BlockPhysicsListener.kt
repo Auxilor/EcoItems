@@ -185,7 +185,7 @@ object BlockPhysicsListener : Listener {
      */
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     fun onVanillaPlace(event: BlockPlaceEvent) {
-        if (BlockListener.placing) {
+        if (BlockListener.placing || !EcoBlocks.active) {
             return
         }
 
@@ -236,6 +236,10 @@ object BlockPhysicsListener : Listener {
     /** Keep custom identity when a falling custom block lands. */
     @EventHandler(ignoreCancelled = true)
     fun onFallingBlockLand(event: EntityChangeBlockEvent) {
+        if (!EcoBlocks.active) {
+            return
+        }
+
         val falling = event.entity as? FallingBlock ?: return
         if (BlockBacking.byMaterial(falling.blockData.material) == null) {
             return
