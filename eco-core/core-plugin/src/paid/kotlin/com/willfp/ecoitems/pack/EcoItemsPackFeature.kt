@@ -64,6 +64,8 @@ object EcoItemsPackFeature : PackFeature {
 
         HudTicker.start(plugin)
 
+        EcoBlocks.recommendPaperFlags(plugin)
+
         val imports = PackImports.load(plugin)
 
         val glyphs = GlyphCodepoints.assign(plugin, Glyphs.values(), imports.fontCodepoints)

@@ -36,8 +36,6 @@ object EcoBlocks {
         val blocks = EcoItems.values().flatMap { listOfNotNull(it.block, it.crop?.block) }
         assignments = BlockVariations.assign(plugin, blocks)
 
-        recommendPaperFlags(plugin, blocks)
-
         byId = blocks.filter { it.id in assignments }.associateBy { it.id }
 
         for (block in byId.values) {
@@ -140,8 +138,14 @@ object EcoBlocks {
      * flags a custom block loses its texture when the block above or below
      * it changes. EcoItems never edits paper-global.yml itself - that's
      * against Paper's TOS - it only warns so the server owner can set it.
+     *
+     * Only worth recommending with the resource pack enabled: the flags cost
+     * vanilla behaviour server-wide (disable-noteblock-updates also stops
+     * vanilla note blocks responding to redstone and being tuned), which buys
+     * nothing when there are no custom textures to protect.
      */
-    private fun recommendPaperFlags(plugin: EcoItemsPlugin, blocks: Collection<EcoBlock>) {
+    fun recommendPaperFlags(plugin: EcoItemsPlugin) {
+        val blocks = values()
         if (recommendedPaperFlags || blocks.isEmpty()) {
             return
         }
@@ -165,7 +169,13 @@ object EcoBlocks {
         plugin.logger.warning(
             "Custom blocks lose their textures without the Paper block-updates flags: set " +
                 wanted.joinToString(", ") + " to true under block-updates in " +
-                "config/paper-global.yml and restart the server."
+                "config/paper-global.yml and restart the server." +
+                if (PaperBlockUpdates.NOTEBLOCK_FLAG in wanted) {
+                    " Note that ${PaperBlockUpdates.NOTEBLOCK_FLAG} also stops vanilla " +
+                        "note blocks responding to redstone and being tuned."
+                } else {
+                    ""
+                }
         )
     }
 
