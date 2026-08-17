@@ -36,34 +36,19 @@ object BlockPhysicsListener : Listener {
     fun onPhysics(event: BlockPhysicsEvent) {
         val block = event.block
 
-        // Note blocks recalculate instrument when the block above or below
-        // changes - cancel for all of them and re-push the stack above
-        // (vertically stacked note blocks chain updates).
+        // Only custom states need protecting. A neighbour update on a note
+        // block writes `powered`, which is part of the state our identity is
+        // encoded in - but it is also how vanilla note blocks respond to
+        // redstone, so cancelling for every note block silences them.
+        if (EcoBlocks.at(block) == null) {
+            return
+        }
+
+        event.isCancelled = true
+
+        // Vertically stacked note blocks chain updates - re-push the stack.
         if (block.type == Material.NOTE_BLOCK) {
-            event.isCancelled = true
             reapplyAbove(block)
-            return
-        }
-
-        val below = block.getRelative(BlockFace.DOWN)
-        if (below.type == Material.NOTE_BLOCK) {
-            event.isCancelled = true
-            reapplyAbove(below)
-            return
-        }
-
-        val above = block.getRelative(BlockFace.UP)
-        if (above.type == Material.NOTE_BLOCK) {
-            event.isCancelled = true
-            reapplyAbove(above)
-            return
-        }
-
-        // Tripwire and chorus states only need protecting when custom.
-        if ((block.type == Material.TRIPWIRE || block.type == Material.CHORUS_PLANT) &&
-            EcoBlocks.at(block) != null
-        ) {
-            event.isCancelled = true
         }
     }
 
@@ -123,14 +108,14 @@ object BlockPhysicsListener : Listener {
     /** Moving custom states would let vanilla normalize them on re-place. */
     @EventHandler(ignoreCancelled = true)
     fun onPistonExtend(event: BlockPistonExtendEvent) {
-        if (event.blocks.any { it.type == Material.NOTE_BLOCK || EcoBlocks.at(it) != null }) {
+        if (event.blocks.any { EcoBlocks.at(it) != null }) {
             event.isCancelled = true
         }
     }
 
     @EventHandler(ignoreCancelled = true)
     fun onPistonRetract(event: BlockPistonRetractEvent) {
-        if (event.blocks.any { it.type == Material.NOTE_BLOCK || EcoBlocks.at(it) != null }) {
+        if (event.blocks.any { EcoBlocks.at(it) != null }) {
             event.isCancelled = true
         }
     }
@@ -206,7 +191,13 @@ object BlockPhysicsListener : Listener {
 
         val block = event.blockPlaced
         val backing = BlockBacking.byMaterial(block.type) ?: return
-        if (backing.variationOf(block.blockData) != null) {
+
+        // Note blocks are placed with the instrument of the block below, and a
+        // non-harp instrument moves them into assignable states as soon as
+        // they're tuned or powered - always reset them, not just on an
+        // immediate collision, so vanilla note blocks stay confined to the
+        // states reserved for them.
+        if (backing == BlockBacking.NOTEBLOCK || backing.variationOf(block.blockData) != null) {
             block.setBlockData(backing.material.createBlockData(), false)
         }
     }

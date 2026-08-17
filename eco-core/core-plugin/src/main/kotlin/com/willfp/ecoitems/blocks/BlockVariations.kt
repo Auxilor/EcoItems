@@ -53,13 +53,13 @@ object BlockVariations {
 
                 val span = explicit until explicit + block.orientations.size
                 val ownStored = stored[block.id].orEmpty().toSet()
-                val outOfRange = span.any { it !in backing.variations }
+                val outOfRange = span.any { it !in backing.variations || backing.isReserved(it) }
                 val collision = span.any { it in used && it !in ownStored }
 
                 if (outOfRange || collision) {
                     plugin.logger.warning(
                         "Block ${block.id} has variation $explicit, which is " +
-                            (if (outOfRange) "outside ${backing.variations} for ${backing.id}" else "already in use") +
+                            (if (outOfRange) "not an assignable state for ${backing.id}" else "already in use") +
                             "; assigning automatically instead"
                     )
                     true
@@ -77,7 +77,7 @@ object BlockVariations {
             fun nextFree(count: Int): List<Int>? {
                 val result = mutableListOf<Int>()
                 while (result.size < count) {
-                    while (next in used) next++
+                    while (next in used || backing.isReserved(next)) next++
                     if (next > backing.variations.last) {
                         return null
                     }
@@ -101,7 +101,7 @@ object BlockVariations {
                 if (assigned == null) {
                     plugin.logger.warning(
                         "Out of ${backing.id} states! Block ${block.id} cannot be assigned " +
-                            "(${backing.variations.last - backing.variations.first + 1} available per backing)."
+                            "(${backing.variations.count { !backing.isReserved(it) }} available per backing)."
                     )
                     continue
                 }
