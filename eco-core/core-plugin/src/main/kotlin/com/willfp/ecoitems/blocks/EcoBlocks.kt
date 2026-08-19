@@ -6,6 +6,7 @@ import com.willfp.eco.core.blocks.TestableBlock
 import com.willfp.eco.core.blocks.provider.BlockProvider
 import com.willfp.ecoitems.EcoItemsPlugin
 import com.willfp.ecoitems.items.EcoItems
+import com.willfp.ecoitems.pack.PackFeatures
 import com.willfp.ecoitems.plugin as ecoItemsPlugin
 import org.bukkit.Location
 import org.bukkit.NamespacedKey
@@ -32,11 +33,24 @@ object EcoBlocks {
     private var assignments = mapOf<String, List<Int>>()
     private val registeredKeys = mutableSetOf<NamespacedKey>()
 
+    /**
+     * Custom blocks exist only when the resource pack does: their textures
+     * come from it, and without it hijacking blockstates would change vanilla
+     * behaviour (note block redstone, string, mushrooms) in exchange for
+     * nothing. With the pack off EcoItems leaves world blocks alone entirely.
+     */
+    var active = false
+        private set
+
     fun reload(plugin: EcoItemsPlugin) {
+        active = PackFeatures.instance?.isPackEnabled(plugin) == true
+        if (!active) {
+            clear()
+            return
+        }
+
         val blocks = EcoItems.values().flatMap { listOfNotNull(it.block, it.crop?.block) }
         assignments = BlockVariations.assign(plugin, blocks)
-
-        recommendPaperFlags(plugin, blocks)
 
         byId = blocks.filter { it.id in assignments }.associateBy { it.id }
 
@@ -76,6 +90,18 @@ object EcoBlocks {
         }
     }
 
+    /** Drops the registry, so nothing in the world reads back as custom. */
+    private fun clear() {
+        byId = emptyMap()
+        byVariation = emptyMap()
+        assignments = emptyMap()
+
+        for (key in registeredKeys) {
+            Blocks.removeCustomBlock(key)
+        }
+        registeredKeys.clear()
+    }
+
     fun values(): Collection<EcoBlock> = byId.values
 
     operator fun get(id: String): EcoBlock? = byId[id]
@@ -84,6 +110,10 @@ object EcoBlocks {
 
     /** Whether custom blocks may be placed in a world (blocks.worlds globs, ! negates). */
     fun enabledIn(world: World): Boolean {
+        if (!active) {
+            return false
+        }
+
         val patterns = ecoItemsPlugin.configYml.getStrings("blocks.worlds")
         if (patterns.isEmpty()) {
             return true
@@ -140,8 +170,14 @@ object EcoBlocks {
      * flags a custom block loses its texture when the block above or below
      * it changes. EcoItems never edits paper-global.yml itself - that's
      * against Paper's TOS - it only warns so the server owner can set it.
+     *
+     * Only worth recommending with the resource pack enabled: the flags cost
+     * vanilla behaviour server-wide (disable-noteblock-updates also stops
+     * vanilla note blocks responding to redstone and being tuned), which buys
+     * nothing when there are no custom textures to protect.
      */
-    private fun recommendPaperFlags(plugin: EcoItemsPlugin, blocks: Collection<EcoBlock>) {
+    fun recommendPaperFlags(plugin: EcoItemsPlugin) {
+        val blocks = values()
         if (recommendedPaperFlags || blocks.isEmpty()) {
             return
         }
@@ -165,7 +201,13 @@ object EcoBlocks {
         plugin.logger.warning(
             "Custom blocks lose their textures without the Paper block-updates flags: set " +
                 wanted.joinToString(", ") + " to true under block-updates in " +
-                "config/paper-global.yml and restart the server."
+                "config/paper-global.yml and restart the server." +
+                if (PaperBlockUpdates.NOTEBLOCK_FLAG in wanted) {
+                    " Note that ${PaperBlockUpdates.NOTEBLOCK_FLAG} also stops vanilla " +
+                        "note blocks responding to redstone and being tuned."
+                } else {
+                    ""
+                }
         )
     }
 

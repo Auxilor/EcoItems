@@ -46,6 +46,14 @@ enum class BlockBacking(
             val raw = noteBlock.instrument.type * 25 + noteBlock.note.id + if (noteBlock.isPowered) 400 else 0
             return (raw - 26).takeIf { it in variations }
         }
+
+        /**
+         * Redstone powers vanilla note blocks, which moves them from raw
+         * 0..24 (harp, unpowered, tuned by punching) to 400..424 - inside the
+         * variation space. Never hand those states out, or a powered vanilla
+         * note block would read back as a custom block.
+         */
+        override fun isReserved(variation: Int) = variation in 374..398
     },
 
     /**
@@ -124,6 +132,14 @@ enum class BlockBacking(
 
     /** The variation a blockstate encodes, or null if it's a vanilla state. */
     abstract fun variationOf(data: BlockData): Int?
+
+    /**
+     * Whether a variation is held back for states vanilla blocks can reach on
+     * their own. Reserved variations are never newly assigned, but ones
+     * already persisted from before they were reserved still resolve, so
+     * placed blocks keep working.
+     */
+    open fun isReserved(variation: Int): Boolean = false
 
     /** The yml section name, also used in block-variations.yml. */
     val id = name.lowercase()
