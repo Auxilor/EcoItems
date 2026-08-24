@@ -14,6 +14,7 @@ import com.willfp.ecoitems.blocks.EcoBlock
 import com.willfp.ecoitems.crops.EcoCrop
 import com.willfp.ecoitems.furniture.Furniture
 import com.willfp.ecoitems.nms.ItemComponentsProxy
+import com.willfp.ecoitems.nms.legacyToComponentValue
 import com.willfp.ecoitems.nms.toPlainValues
 import com.willfp.ecoitems.paintings.Paintings
 import com.willfp.ecoitems.plugin
@@ -197,9 +198,13 @@ class EcoItem(
             .toMutableMap()
 
         // name is shorthand for the item_name component (unlike display-name,
-        // which sets a custom name through the display system).
+        // which sets a custom name through the display system). It's formatted
+        // here, so it goes in as a component rather than as a plain string.
         if (itemConfig.has("name")) {
-            components.putIfAbsent("minecraft:item_name", itemConfig.getFormattedString("name"))
+            components.putIfAbsent(
+                "minecraft:item_name",
+                legacyToComponentValue(itemConfig.getFormattedString("name"))
+            )
         }
 
         val blockAssets = this@EcoItem.block?.hasAssets == true || this@EcoItem.crop?.block?.hasAssets == true
