@@ -51,8 +51,11 @@ object EcoItemsPackFeature : PackFeature {
         PlaceholderManager.registerPlaceholder(GlyphPlaceholder)
         PlaceholderManager.registerPlaceholder(ShiftPlaceholder)
 
-        LegacyDatapack.remove(plugin)
-        Datapacks.register(plugin, EcoItemsDatapack(plugin))
+        // Only once the replacement is installed: if the new pack fails validation, the legacy one
+        // is the only copy of this content left on disk.
+        if (Datapacks.register(plugin, EcoItemsDatapack(plugin)).succeeded()) {
+            LegacyDatapack.remove(plugin)
+        }
     }
 
     override fun handleReload(plugin: EcoItemsPlugin) {
