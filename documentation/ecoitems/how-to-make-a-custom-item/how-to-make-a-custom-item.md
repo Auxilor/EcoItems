@@ -117,12 +117,14 @@ item:
 
 Component keys without a namespace are treated as `minecraft:` components, so no quoting is needed; write `"somemod:component"` in quotes for anything namespaced. Invalid components are skipped with a warning in the console telling you what's wrong.
 
+`minecraft:attribute_modifiers` merges with the base item's own modifiers instead of replacing them: a modifier you configure takes over that attribute in that slot, and every attribute you say nothing about keeps the base item's value. So setting attack damage on an `iron_sword` keeps the sword's attack speed.
+
 :::tip Names
 `item.name` is shorthand for the `minecraft:item_name` component - the modern way to name items (no italics, no anvil-rename look). The older `item.display-name` still works and sets a custom name through the display system instead, which supports placeholders that update per-player.
 :::
 
 :::info Migrating from older versions
-The old `base-damage`, `base-attack-speed`, `base-attack-range`, and `effective-durability` options have been replaced by components: use `minecraft:attribute_modifiers` for combat stats (as above) and `max_damage:<amount>` on the base item lookup for durability. The old `food:` and `tool:` sections are now the `minecraft:food`, `minecraft:consumable`, and `minecraft:tool` components - see [Custom Foods](how-to-make-a-custom-item-custom-foods) and [Custom Tools](how-to-make-a-custom-item-custom-tools).
+The old `base-damage`, `base-attack-speed`, and `base-attack-range` options have been replaced by `minecraft:attribute_modifiers` (as above). They still work - they're converted into the matching modifiers, with a deprecation warning in the console - but the component is the format to write new items in. `effective-durability` has been replaced by `max_damage:<amount>` on the base item lookup. The old `food:` and `tool:` sections are now the `minecraft:food`, `minecraft:consumable`, and `minecraft:tool` components - see [Custom Foods](how-to-make-a-custom-item-custom-foods) and [Custom Tools](how-to-make-a-custom-item-custom-tools).
 :::
 
 ### Texture (paid version)

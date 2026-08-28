@@ -207,6 +207,21 @@ class EcoItem(
             )
         }
 
+        // Before components, combat stats were three top-level options holding
+        // the item's total value, applied to the player as attribute modifiers
+        // while the item was held. They're deprecated, but plenty of configs
+        // still have them, so they're converted rather than ignored.
+        val legacy = legacyAttributeModifiers(components["minecraft:attribute_modifiers"])
+        if (legacy.isNotEmpty()) {
+            plugin.logger.warning(
+                "Item ${this@EcoItem.id.key} uses the deprecated ${legacy.joinToString { it.option }} " +
+                        "option(s); use the minecraft:attribute_modifiers component instead"
+            )
+
+            val configured = components["minecraft:attribute_modifiers"] as? List<*> ?: emptyList<Any?>()
+            components["minecraft:attribute_modifiers"] = legacy.map { it.modifier } + configured
+        }
+
         val blockAssets = this@EcoItem.block?.hasAssets == true || this@EcoItem.crop?.block?.hasAssets == true
         if (itemConfig.has("texture") || itemConfig.has("model") || itemConfig.has("definition") || blockAssets) {
             if (BuildConfig.FREE_VERSION) {
@@ -238,6 +253,41 @@ class EcoItem(
         }
 
         return result.item
+    }
+
+    /**
+     * The [LegacyAttribute] options this item sets, as attribute modifier
+     * entries. Legacy values are totals, so the modifier is the total minus the
+     * player's base value, and it takes over the vanilla modifier's id so it
+     * replaces the base item's own value rather than stacking on top of it.
+     *
+     * An option is skipped when the component already configures that
+     * attribute, so a half-migrated config doesn't count its damage twice.
+     */
+    private fun legacyAttributeModifiers(configured: Any?): List<LegacyModifier> {
+        val configuredTypes = (configured as? List<*>).orEmpty()
+            .filterIsInstance<Map<*, *>>()
+            .mapNotNull { it["type"]?.toString() }
+            .map { if (":" in it) it else "minecraft:$it" }
+
+        return LegacyAttribute.entries.mapNotNull { attribute ->
+            if (attribute.type in configuredTypes) {
+                return@mapNotNull null
+            }
+
+            val total = config.getDoubleOrNull(attribute.option) ?: return@mapNotNull null
+
+            LegacyModifier(
+                attribute.option,
+                mapOf(
+                    "type" to attribute.type,
+                    "id" to attribute.modifierId,
+                    "amount" to total - attribute.playerBase,
+                    "operation" to "add_value",
+                    "slot" to "mainhand"
+                )
+            )
+        }
     }
 
     /**
@@ -281,3 +331,29 @@ class EcoItem(
         return "EcoItem{$id}"
     }
 }
+
+/**
+ * A pre-components combat stat option, and the vanilla attribute modifier it
+ * converts into. The base values are the player's own, which every attribute
+ * modifier is applied on top of: https://minecraft.wiki/w/Attribute
+ */
+private enum class LegacyAttribute(
+    val option: String,
+    val type: String,
+    val modifierId: String,
+    val playerBase: Double
+) {
+    BASE_DAMAGE("base-damage", "minecraft:attack_damage", "minecraft:base_attack_damage", 1.0),
+    BASE_ATTACK_SPEED("base-attack-speed", "minecraft:attack_speed", "minecraft:base_attack_speed", 4.0),
+    BASE_ATTACK_RANGE(
+        "base-attack-range",
+        "minecraft:entity_interaction_range",
+        "minecraft:base_entity_interaction_range",
+        3.0
+    )
+}
+
+private data class LegacyModifier(
+    val option: String,
+    val modifier: Map<String, Any>
+)

@@ -1,5 +1,6 @@
 package com.willfp.ecoitems.proxy.v26_2
 
+import com.mojang.serialization.Codec
 import com.willfp.ecoitems.nms.ComponentResult
 import com.willfp.ecoitems.nms.ItemComponentsProxy
 import net.minecraft.core.component.DataComponentType
@@ -21,6 +22,10 @@ import net.minecraft.server.MinecraftServer
 import net.minecraft.world.item.ItemStack as NmsItemStack
 import org.bukkit.craftbukkit.inventory.CraftItemStack
 import org.bukkit.inventory.ItemStack
+
+private const val ATTRIBUTE_MODIFIERS = "minecraft:attribute_modifiers"
+
+private const val ANY_SLOT = "any"
 
 class ItemComponents : ItemComponentsProxy {
     override fun withComponents(item: ItemStack, components: Map<String, Any?>): ComponentResult {
@@ -51,13 +56,79 @@ class ItemComponents : ItemComponentsProxy {
         val codec = type.codec()
             ?: throw IllegalArgumentException("component cannot be set on items")
 
-        val parsed = codec.parse(ops, value.toTag())
+        // Setting a component replaces the base item's default outright, so an
+        // item that only configures its attack damage silently loses the base
+        // item's attack speed, armor, and everything else it came with. Merge
+        // instead: a configured modifier replaces the default for its attribute
+        // and slot, and the defaults it says nothing about are kept.
+        val tag = if (key == ATTRIBUTE_MODIFIERS) {
+            mergeWithDefaults(stack.get(type), codec, value.toTag(), ops)
+        } else {
+            value.toTag()
+        }
+
+        val parsed = codec.parse(ops, tag)
         val parsedValue = parsed.result().orElseThrow {
             IllegalArgumentException(parsed.error().map { it.message() }.orElse("invalid value"))
         }
 
         stack.set(type, parsedValue)
     }
+
+    private fun mergeWithDefaults(
+        existing: Any?,
+        codec: Codec<Any>,
+        configured: Tag,
+        ops: RegistryOps<Tag>
+    ): Tag {
+        if (existing == null || configured !is ListTag) {
+            return configured
+        }
+
+        // Encoded rather than read through the record, so this doesn't depend on
+        // the shape of the component class in any given version.
+        val defaults = codec.encodeStart(ops, existing).result().orElse(null) as? ListTag
+            ?: return configured
+
+        val merged = ListTag()
+
+        for (default in defaults) {
+            if (default is CompoundTag && configured.any { it is CompoundTag && it.replaces(default, ops) }) {
+                continue
+            }
+
+            merged.add(default)
+        }
+
+        merged.addAll(configured)
+
+        return merged
+    }
+
+    /** A modifier replaces a default modifier for the same attribute in the same slot. */
+    private fun CompoundTag.replaces(default: CompoundTag, ops: RegistryOps<Tag>): Boolean {
+        val type = attributeType(ops) ?: return false
+
+        if (type != default.attributeType(ops)) {
+            return false
+        }
+
+        val slot = slotGroup(ops)
+        val defaultSlot = default.slotGroup(ops)
+
+        return slot == defaultSlot || slot == ANY_SLOT || defaultSlot == ANY_SLOT
+    }
+
+    private fun CompoundTag.attributeType(ops: RegistryOps<Tag>): String? {
+        val type = string("type", ops) ?: return null
+        return if (":" in type) type else "minecraft:$type"
+    }
+
+    private fun CompoundTag.slotGroup(ops: RegistryOps<Tag>): String =
+        string("slot", ops) ?: ANY_SLOT
+
+    private fun CompoundTag.string(key: String, ops: RegistryOps<Tag>): String? =
+        get(key)?.let { ops.getStringValue(it).result().orElse(null) }
 
     private fun Any?.toTag(): Tag = when (this) {
         is String -> StringTag.valueOf(this)
