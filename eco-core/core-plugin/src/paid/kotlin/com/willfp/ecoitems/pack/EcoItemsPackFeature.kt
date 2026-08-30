@@ -1,5 +1,6 @@
 package com.willfp.ecoitems.pack
 
+import com.willfp.eco.core.datapack.Datapacks
 import com.willfp.eco.core.integrations.placeholder.PlaceholderManager
 import com.willfp.ecoitems.EcoItemsPlugin
 import com.willfp.ecoitems.glyphs.Glyphs
@@ -27,7 +28,6 @@ import com.willfp.ecoitems.pack.publisher.HostedPublisher
 import com.willfp.ecoitems.pack.publisher.PackPublisher
 import com.willfp.ecoitems.pack.publisher.S3Publisher
 import com.willfp.ecoitems.pack.publisher.SelfHostedPublisher
-import com.willfp.ecoitems.paintings.Paintings
 import com.willfp.ecoitems.sounds.Sounds
 import org.bukkit.entity.Player
 import org.bukkit.event.Listener
@@ -50,6 +50,12 @@ object EcoItemsPackFeature : PackFeature {
         PlaceholderManager.addIntegration(GlyphText.GlyphPlaceholderIntegration)
         PlaceholderManager.registerPlaceholder(GlyphPlaceholder)
         PlaceholderManager.registerPlaceholder(ShiftPlaceholder)
+
+        // Only once the replacement is installed: if the new pack fails validation, the legacy one
+        // is the only copy of this content left on disk.
+        if (Datapacks.register(plugin, EcoItemsDatapack(plugin)).succeeded()) {
+            LegacyDatapack.remove(plugin)
+        }
     }
 
     override fun handleReload(plugin: EcoItemsPlugin) {
@@ -85,7 +91,6 @@ object EcoItemsPackFeature : PackFeature {
         }
         val assets = EcoItems.values().mapNotNull { ItemPackAsset.fromItem(it) } + stateAssets
         TridentListener.update(assets)
-        DatapackGenerator.write(plugin, Paintings.values(), Sounds.values())
         val pack = PackBuilder.build(plugin, settings, assets, glyphs.values, Sounds.values(), Huds.values(), imports)
 
         val published = resolvePublisher(plugin, settings)?.publish(pack)
