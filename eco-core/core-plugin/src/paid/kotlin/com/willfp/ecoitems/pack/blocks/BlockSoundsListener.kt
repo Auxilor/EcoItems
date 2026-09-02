@@ -1,5 +1,6 @@
 package com.willfp.ecoitems.pack.blocks
 
+import com.willfp.eco.core.scheduling.EcoTask
 import com.willfp.ecoitems.blocks.BlockListener
 import com.willfp.ecoitems.blocks.BlockSoundState
 import com.willfp.ecoitems.blocks.EcoBlocks
@@ -20,7 +21,6 @@ import org.bukkit.event.block.BlockDamageEvent
 import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.event.world.GenericGameEvent
-import org.bukkit.scheduler.BukkitTask
 import java.util.UUID
 
 /**
@@ -31,7 +31,7 @@ import java.util.UUID
  */
 object BlockSoundsListener : Listener {
     private val woodPlaceSound = Material.OAK_PLANKS.createBlockData().soundGroup.placeSound
-    private val hitLoops = mutableMapOf<UUID, BukkitTask>()
+    private val hitLoops = mutableMapOf<UUID, EcoTask>()
 
     @EventHandler(ignoreCancelled = true)
     fun onStepOrFall(event: GenericGameEvent) {
