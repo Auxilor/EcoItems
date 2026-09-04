@@ -3,7 +3,7 @@ package com.willfp.ecoitems.pack
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import com.willfp.ecoitems.nms.toPlainValues
+import com.willfp.eco.core.config.toPlainValues
 
 /**
  * Composes the item definition node tree (the "model" value of
