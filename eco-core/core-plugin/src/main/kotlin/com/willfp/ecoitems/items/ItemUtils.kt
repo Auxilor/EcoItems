@@ -3,6 +3,8 @@ package com.willfp.ecoitems.items
 import com.willfp.eco.core.fast.FastItemStack
 import com.willfp.eco.core.fast.fast
 import com.willfp.eco.util.namespacedKeyOf
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.trim.ArmorTrim
 import org.bukkit.persistence.PersistentDataType
@@ -16,6 +18,15 @@ val baseDisplayNameKey = namespacedKeyOf("ecoitems", "base-display-name")
 /** The config's lore at build time, so updates can tell config lore from lore another plugin added/changed. */
 val baseLoreKey = namespacedKeyOf("ecoitems", "base-lore")
 
+/**
+ * The config's lore at build time as components, so updates can compare exactly.
+ *
+ * [baseLoreKey] holds the same lore as legacy strings, which cannot represent
+ * everything a component can, so comparing against it reports lore as changed
+ * when only its representation differs.
+ */
+val baseLoreComponentsKey = namespacedKeyOf("ecoitems", "base-lore-components")
+
 /** Separator joining lore lines for [baseLoreKey]; lore lines never contain the null character. */
 const val LORE_SEPARATOR = "\u0000"
 
@@ -23,6 +34,9 @@ const val LORE_SEPARATOR = "\u0000"
 val baseTrimKey = namespacedKeyOf("ecoitems", "base-trim")
 
 fun ArmorTrim.encoded(): String = "${material.key}:${pattern.key}"
+
+fun List<Component>.encoded(): String =
+    joinToString(LORE_SEPARATOR) { GsonComponentSerializer.gson().serialize(it) }
 
 var ItemStack?.ecoItem: EcoItem?
     get() {
