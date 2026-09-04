@@ -1,7 +1,7 @@
 package com.willfp.ecoitems.paintings
 
+import com.willfp.eco.core.items.Items
 import com.willfp.ecoitems.items.EcoItems
-import com.willfp.ecoitems.nms.ItemComponentsProxy
 import com.willfp.ecoitems.plugin
 import org.bukkit.GameMode
 import org.bukkit.Material
@@ -53,8 +53,7 @@ object PaintingListener : Listener {
             }
         }
 
-        return plugin.getProxy(ItemComponentsProxy::class.java)
-            .withComponents(
+        return Items.withComponents(
                 ItemStack(Material.PAINTING),
                 mapOf("minecraft:painting/variant" to variant.toString())
             )
