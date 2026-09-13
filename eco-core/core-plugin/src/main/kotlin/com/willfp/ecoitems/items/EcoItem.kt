@@ -1,10 +1,12 @@
 package com.willfp.ecoitems.items
 
 import com.willfp.eco.core.config.interfaces.Config
+import com.willfp.eco.core.config.toPlainValues
 import com.willfp.eco.core.display.Display
 import com.willfp.eco.core.items.CustomItem
 import com.willfp.eco.core.items.Items
 import com.willfp.eco.core.items.builder.ItemStackBuilder
+import com.willfp.eco.core.items.legacyToComponentValue
 import com.willfp.eco.core.recipe.Recipes
 import com.willfp.eco.core.recipe.parts.EmptyTestableItem
 import com.willfp.eco.core.recipe.recipes.CraftingRecipe
@@ -13,9 +15,6 @@ import com.willfp.ecoitems.BuildConfig
 import com.willfp.ecoitems.blocks.EcoBlock
 import com.willfp.ecoitems.crops.EcoCrop
 import com.willfp.ecoitems.furniture.Furniture
-import com.willfp.ecoitems.nms.ItemComponentsProxy
-import com.willfp.ecoitems.nms.legacyToComponentValue
-import com.willfp.ecoitems.nms.toPlainValues
 import com.willfp.ecoitems.paintings.Paintings
 import com.willfp.ecoitems.plugin
 import com.willfp.ecoitems.rarity.Rarities
@@ -26,10 +25,10 @@ import com.willfp.libreforge.conditions.Conditions
 import com.willfp.libreforge.effects.Effects
 import com.willfp.libreforge.slot.SlotTypes
 import com.willfp.libreforge.slot.impl.SlotTypeMainhand
+import java.util.Objects
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ArmorMeta
 import org.bukkit.persistence.PersistentDataType
-import java.util.Objects
 
 class EcoItem(
     id: String,
@@ -238,8 +237,7 @@ class EcoItem(
             return this
         }
 
-        val result = plugin.getProxy(ItemComponentsProxy::class.java)
-            .withComponents(this, components)
+        val result = Items.withComponents(this, components)
 
         for (error in result.errors) {
             val pending = pendingRegistration(error)

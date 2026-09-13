@@ -2,14 +2,14 @@ package com.willfp.ecoitems.pack
 
 import com.willfp.eco.core.datapack.Datapacks
 import com.willfp.eco.core.integrations.placeholder.PlaceholderManager
+import com.willfp.eco.core.items.Items
 import com.willfp.ecoitems.EcoItemsPlugin
-import com.willfp.ecoitems.glyphs.Glyphs
-import com.willfp.ecoitems.huds.Huds
-import com.willfp.ecoitems.items.EcoItems
-import com.willfp.ecoitems.nms.ItemComponentsProxy
 import com.willfp.ecoitems.blocks.BlockBacking
 import com.willfp.ecoitems.blocks.BlockSoundState
 import com.willfp.ecoitems.blocks.EcoBlocks
+import com.willfp.ecoitems.glyphs.Glyphs
+import com.willfp.ecoitems.huds.Huds
+import com.willfp.ecoitems.items.EcoItems
 import com.willfp.ecoitems.pack.blocks.BlockSoundsListener
 import com.willfp.ecoitems.pack.delivery.PackDelivery
 import com.willfp.ecoitems.pack.delivery.PackListener
@@ -141,8 +141,7 @@ object EcoItemsPackFeature : PackFeature {
     ): ItemStack {
         if (model == null) return item
 
-        val result = plugin.getProxy(ItemComponentsProxy::class.java)
-            .withComponents(item, mapOf("minecraft:item_model" to model))
+        val result = Items.withComponents(item, mapOf("minecraft:item_model" to model))
 
         for (error in result.errors) {
             plugin.logger.warning("Invalid GUI item model '$model': $error")

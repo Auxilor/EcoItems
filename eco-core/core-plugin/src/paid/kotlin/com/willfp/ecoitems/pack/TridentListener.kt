@@ -1,7 +1,7 @@
 package com.willfp.ecoitems.pack
 
+import com.willfp.eco.core.items.Items
 import com.willfp.ecoitems.items.ecoItem
-import com.willfp.ecoitems.nms.ItemComponentsProxy
 import com.willfp.ecoitems.plugin
 import org.bukkit.entity.Trident
 import org.bukkit.event.EventHandler
@@ -48,8 +48,7 @@ object TridentListener : Listener {
         val id = stack.ecoItem?.id?.key ?: return
         val key = model(id) ?: return
 
-        val result = plugin.getProxy(ItemComponentsProxy::class.java)
-            .withComponents(stack, mapOf("minecraft:item_model" to key))
+        val result = Items.withComponents(stack, mapOf("minecraft:item_model" to key))
 
         for (error in result.errors) {
             plugin.logger.warning("Could not swap thrown trident model for $id: $error")

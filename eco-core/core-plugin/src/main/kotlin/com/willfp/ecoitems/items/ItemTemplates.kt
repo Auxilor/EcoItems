@@ -3,7 +3,7 @@ package com.willfp.ecoitems.items
 import com.willfp.eco.core.config.config
 import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.eco.core.config.readConfig
-import com.willfp.ecoitems.nms.toPlainValues
+import com.willfp.eco.core.config.toPlainValues
 import com.willfp.ecoitems.plugin
 
 /**
