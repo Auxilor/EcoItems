@@ -2,6 +2,7 @@ package com.willfp.ecoitems.items
 
 import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.eco.core.display.Display
+import com.willfp.eco.core.fast.fast
 import com.willfp.eco.core.items.CustomItem
 import com.willfp.eco.core.items.Items
 import com.willfp.eco.core.items.builder.ItemStackBuilder
@@ -109,11 +110,14 @@ class EcoItem(
             ecoItem = this@EcoItem
         }
 
+        val loreComponents = built.fast().loreComponents.encoded()
+
         built.itemMeta = built.itemMeta?.apply {
             if (displayName != null) {
                 persistentDataContainer.set(baseDisplayNameKey, PersistentDataType.STRING, displayName)
             }
             persistentDataContainer.set(baseLoreKey, PersistentDataType.STRING, lore.joinToString(LORE_SEPARATOR))
+            persistentDataContainer.set(baseLoreComponentsKey, PersistentDataType.STRING, loreComponents)
             if (this is ArmorMeta) {
                 trim?.let { persistentDataContainer.set(baseTrimKey, PersistentDataType.STRING, it.encoded()) }
             }
