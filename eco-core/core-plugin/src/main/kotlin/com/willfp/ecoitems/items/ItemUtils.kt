@@ -22,6 +22,14 @@ const val LORE_SEPARATOR = "\u0000"
 /** The config's armor trim (material:pattern) at build time, so updates can tell a config trim from an applied one. */
 val baseTrimKey = namespacedKeyOf("ecoitems", "base-trim")
 
+private val formattingCode = Regex("§[0-9a-fk-orx]", RegexOption.IGNORE_CASE)
+
+/**
+ * Lowercases formatting codes, so a hex colour read back from item meta (`§x§E§5...`)
+ * matches the same colour as formatted from config (`§x§e§5...`).
+ */
+fun String.normalizeFormatting(): String = formattingCode.replace(this) { it.value.lowercase() }
+
 fun ArmorTrim.encoded(): String = "${material.key}:${pattern.key}"
 
 var ItemStack?.ecoItem: EcoItem?
