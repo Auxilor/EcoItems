@@ -84,13 +84,14 @@ object ItemUpdater : Listener {
         // if it doesn't match the lore this stack was built with, something else
         // (another plugin, or a player) touched it, so leave it alone.
         val nameBaseline = oldMeta.persistentDataContainer.get(baseDisplayNameKey, PersistentDataType.STRING)
-        if (oldMeta.hasDisplayName() && oldMeta.displayName != nameBaseline) {
+        if (oldMeta.hasDisplayName() && oldMeta.displayName.normalizeFormatting() != nameBaseline?.normalizeFormatting()) {
             freshMeta.setDisplayName(oldMeta.displayName)
         }
 
         val loreBaseline = oldMeta.persistentDataContainer.get(baseLoreKey, PersistentDataType.STRING)
             ?.split(LORE_SEPARATOR)
-        if (oldMeta.hasLore() && oldMeta.lore != loreBaseline) {
+            ?.map { it.normalizeFormatting() }
+        if (oldMeta.hasLore() && oldMeta.lore?.map { it.normalizeFormatting() } != loreBaseline) {
             freshMeta.lore = oldMeta.lore
         }
 
