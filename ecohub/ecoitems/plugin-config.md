@@ -1,9 +1,9 @@
 ---
 title: "Plugin Config"
-sidebar_position: 15
+sidebar_position: 17
 ---
 
-It controls recipe discovery, the global rarity system, and the admin item GUI. The main plugin config, `config.yml`, is found at `/plugins/EcoItems/config.yml`. After changing anything here, run `/ecoitems reload` to apply it.
+This is the main `config.yml` for EcoItems, found at `/plugins/EcoItems/config.yml`. It controls recipe discovery, the global rarity system, and the admin item GUI. Apply changes by running `/ecoitems reload`.
 
 The paid resource-pack system has its own config at `/plugins/EcoItems/pack.yml`; see [Resource Packs](resource-packs).
 
@@ -126,6 +126,6 @@ items-gui:
 
 ## Where to go next
 
-- **Rarities:** [Item Rarity](additional-configuration-options-item-rarity) covers building the rarities the options above point to.
-- **Make an item:** [How to make an Item](how-to-make-a-custom-item-how-to-make-a-custom-item) to start adding items.
+- **Rarities:** [Item Rarity](item-rarity) covers building the rarities the options above point to.
+- **Make an item:** [How to Make an Item](how-to-make-an-item) to start adding items.
 - **Pack settings:** [Resource Packs](resource-packs) for the paid `pack.yml` options.
