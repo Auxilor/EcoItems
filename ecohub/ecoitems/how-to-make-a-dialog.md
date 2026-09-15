@@ -1,6 +1,6 @@
 ---
 title: "How to Make a Dialog"
-sidebar_position: 10
+sidebar_position: 12
 ---
 
 Dialogs are real client **GUI screens**, using the same native system vanilla uses for server links. Each dialog is one config with a **title**, **body text**, and **buttons** that run commands. This page covers making a dialog and the ways to open one.

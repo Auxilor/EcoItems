@@ -1,6 +1,6 @@
 ---
 title: "How to Make a Glyph"
-sidebar_position: 12
+sidebar_position: 9
 ---
 
 Glyphs are **custom characters** added to Minecraft's font through the resource pack: emojis, chat tags, icons, and even GUI backgrounds. Players type **placeholders** like `:heart:` in chat, and glyphs work in any config text too, including item lore, GUI titles, and other eco plugins. Combined with **shifts**, they're the building blocks for custom interfaces. This page covers making a glyph, where glyphs work, and animating them.

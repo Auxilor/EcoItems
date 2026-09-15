@@ -1,6 +1,6 @@
 ---
 title: "How to Make a Sound"
-sidebar_position: 13
+sidebar_position: 10
 ---
 
 A custom sound is a config in the `sounds/` folder that adds a new **sound event** from your own `.ogg` files: music, ambience, UI feedback, ability sounds, or anything else. Sounds are delivered through the [resource pack](resource-packs) and play like any vanilla sound, and can double as **music discs**. This page covers adding a sound, playing it, and overriding the client's language strings.

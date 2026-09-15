@@ -1,6 +1,6 @@
 ---
 title: "How to Make a HUD"
-sidebar_position: 14
+sidebar_position: 11
 ---
 
 HUDs are persistent **text displays**, such as balances, stats, and server info, shown in the **action bar** or a **boss bar** and refreshed automatically. Combined with [glyphs](how-to-make-a-glyph) and pixel shifts, they can look like fully custom interface elements, including image bars for mana, thirst, or cooldowns. This page covers making a HUD and every option it supports.
