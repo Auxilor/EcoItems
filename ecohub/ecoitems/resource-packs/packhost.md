@@ -1,18 +1,20 @@
 ---
 title: "Packhost"
-sidebar_position: 7
+sidebar_position: 5
 ---
 
-Packhost is the small standalone service behind `hosted` delivery mode. Servers upload their pack to it, players download from it. Packs are content-addressed by SHA-1 and stored in S3-compatible object storage, with metadata in Postgres.
+Packhost is the small standalone service behind `hosted` [delivery mode](resource-packs-delivery-modes): servers **upload** their pack to it, and players **download** from it. Packs are content-addressed by SHA-1 and stored in S3-compatible object storage, with metadata in Postgres. This page covers running your own instance and the limits of the public one.
 
-The public instance at `https://packs.auxilor.io` is free to use and is the default in `pack.yml` - you only need this page if you want to run your own.
+:::info
+The public instance at `https://packs.auxilor.io` is free to use and is the default in `pack.yml`. You only need this page if you want to run your own.
+:::
 
 ## Running your own
 
 Packhost lives in its own repository at [Auxilor/packhost](https://github.com/Auxilor/packhost) and runs anywhere that can run a container. It needs:
 
 - A Postgres database (`DATABASE_URL`)
-- An S3-compatible bucket (`S3_BUCKET`, `S3_ENDPOINT`, `S3_REGION`, `S3_ACCESS_KEY`, `S3_SECRET_KEY`) - AWS S3, Cloudflare R2, Backblaze B2, and MinIO all work
+- An S3-compatible bucket (`S3_BUCKET`, `S3_ENDPOINT`, `S3_REGION`, `S3_ACCESS_KEY`, `S3_SECRET_KEY`); AWS S3, Cloudflare R2, Backblaze B2, and MinIO all work
 
 On Railway: create a service from the repository, attach a Postgres database, set the `S3_*` variables, and point the health check at `/healthz`. For any other host, build and run the Dockerfile with the same environment. Full instructions, the API reference, and a local development compose stack are in the [packhost README](https://github.com/Auxilor/packhost#readme).
 
@@ -27,4 +29,11 @@ delivery:
 
 ## Limits
 
-Uploads are anonymous, capped at 64 MiB per pack, and rate-limited per IP (100 uploads / 1 GiB per day). Identical packs deduplicate, so a reload that doesn't change the pack re-uses the existing upload.
+Uploads are anonymous, capped at 64 MiB per pack, and rate-limited per IP (100 uploads / 1 GiB per day). Identical packs deduplicate, so a reload that doesn't change the pack reuses the existing upload.
+
+<hr/>
+
+## Where to go next
+
+- **Delivery:** [Delivery Modes](resource-packs-delivery-modes) to compare `hosted` with the other modes.
+- **Every option:** [Pack Configuration](resource-packs-configuration) for the full `delivery.hosted` section.
