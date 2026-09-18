@@ -3,6 +3,8 @@ package com.willfp.ecoitems.items
 import com.willfp.eco.core.fast.FastItemStack
 import com.willfp.eco.core.fast.fast
 import com.willfp.eco.util.namespacedKeyOf
+import com.willfp.eco.util.toComponent
+import com.willfp.eco.util.toLegacy
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer
 import org.bukkit.inventory.ItemStack
@@ -32,6 +34,12 @@ const val LORE_SEPARATOR = "\u0000"
 
 /** The config's armor trim (material:pattern) at build time, so updates can tell a config trim from an applied one. */
 val baseTrimKey = namespacedKeyOf("ecoitems", "base-trim")
+
+/**
+ * Round-trips through a component, so a hex colour read back from item meta (`§x§E§5...`)
+ * matches the same colour as formatted from config (`§x§e§5...`).
+ */
+fun String.normalizeFormatting(): String = toComponent().toLegacy()
 
 fun ArmorTrim.encoded(): String = "${material.key}:${pattern.key}"
 
