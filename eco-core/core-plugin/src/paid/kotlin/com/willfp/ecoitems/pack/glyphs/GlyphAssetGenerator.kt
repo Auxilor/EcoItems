@@ -353,6 +353,8 @@ object GlyphAssetGenerator {
 
         write("overlay_26_2/text.vsh", "overlay_26_2/assets/minecraft/shaders/core/text.vsh")
         write("overlay_26_2/text.fsh", "overlay_26_2/assets/minecraft/shaders/core/text.fsh")
+        write("overlay_26_3/text.vsh", "overlay_26_3/assets/minecraft/shaders/core/text.vsh")
+        write("overlay_26_3/text.fsh", "overlay_26_3/assets/minecraft/shaders/core/text.fsh")
     }
 
     /**
