@@ -1,10 +1,10 @@
 package com.willfp.ecoitems.rarity
 
 import com.willfp.eco.core.config.interfaces.Config
-import com.willfp.eco.core.display.Display
 import com.willfp.eco.core.items.Items
 import com.willfp.eco.core.recipe.parts.EmptyTestableItem
 import com.willfp.eco.core.registry.KRegistrable
+import com.willfp.eco.util.formatEcoRich
 import org.bukkit.inventory.ItemStack
 
 class Rarity(
@@ -19,7 +19,7 @@ class Rarity(
 
     val lore = config.getFormattedStrings("lore")
 
-    val displayLore = lore.map { Display.PREFIX + it }
+    val loreComponents = config.getStrings("lore").formatEcoRich()
 
     val tag = RarityTag(this)
 

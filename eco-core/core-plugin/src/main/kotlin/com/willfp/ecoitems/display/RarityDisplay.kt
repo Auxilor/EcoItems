@@ -1,27 +1,24 @@
 package com.willfp.ecoitems.display
 
-import com.willfp.eco.core.display.Display
+import com.willfp.eco.core.display.DisplayContext
 import com.willfp.eco.core.display.DisplayModule
 import com.willfp.eco.core.display.DisplayPriority
-import com.willfp.eco.core.display.DisplayProperties
-import com.willfp.eco.core.fast.fast
 import com.willfp.ecoitems.plugin
 import com.willfp.ecoitems.rarity.Rarities
 import com.willfp.ecoitems.rarity.ecoItemRarity
-import org.bukkit.entity.Player
-import org.bukkit.inventory.ItemStack
+import net.kyori.adventure.text.Component
 
 object RarityDisplay : DisplayModule(plugin, DisplayPriority.HIGHEST.weight + 1) {
-    override fun display(itemStack: ItemStack, player: Player?, properties: DisplayProperties, vararg args: Any) {
+    override fun display(context: DisplayContext) {
         if (!plugin.configYml.getBool("rarity.enabled")) {
             return
         }
 
-        if (properties.inGui) {
+        if (context.properties.inGui) {
             return
         }
 
-        val baseRarity = itemStack.ecoItemRarity
+        val baseRarity = context.itemStack.ecoItemRarity
 
         if (baseRarity == null) {
             if (!plugin.configYml.getBool("rarity.display-default")) {
@@ -35,12 +32,10 @@ object RarityDisplay : DisplayModule(plugin, DisplayPriority.HIGHEST.weight + 1)
 
         val rarity = baseRarity ?: Rarities.defaultRarity
 
-        val fis = itemStack.fast()
-        val lore = fis.lore.toMutableList()
         if (plugin.configYml.getBool("rarity.blank-lore-line")) {
-            lore += Display.PREFIX
+            context.lore.append(listOf(Component.empty()) + rarity.loreComponents)
+        } else {
+            context.lore.append(rarity.loreComponents)
         }
-        lore += rarity.displayLore
-        fis.lore = lore
     }
 }
