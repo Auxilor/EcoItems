@@ -3,18 +3,18 @@ title: "Merging Other Packs"
 sidebar_position: 4
 ---
 
-Large servers usually have several plugins that need a resource pack - MythicMobs model packs, CustomNameplates, hand-made map packs. Since a client can only comfortably use one server pack, EcoItems can merge them all into the pack it generates and delivers.
+Large servers usually have several plugins that need a resource pack, such as MythicMobs model packs, CustomNameplates, or hand-made map packs. Since a client can only comfortably use one server pack, EcoItems can **merge** them all into the pack it generates and delivers. This page covers importing packs, how merge priority works, and integrating shader-based packs.
 
 ## How to use it
 
-Drop resource packs into `plugins/EcoItems/pack/imports/` - as `.zip` files or as plain folders - and `/ecoitems reload`. That's it: their contents are merged into the EcoItems pack and delivered to players.
+Put resource packs in `plugins/EcoItems/pack/imports/`, as `.zip` files or plain folders, and run `/ecoitems reload`. Their contents are merged into the EcoItems pack and delivered to players.
 
-Wrapper folders inside zips are handled automatically (a zip containing `MyPack/assets/...` works), as is a zip containing several packs. macOS/Windows junk files (`.DS_Store`, `__MACOSX`, `Thumbs.db`) are ignored.
+Wrapper folders inside zips are handled automatically (a zip containing `MyPack/assets/...` works), as is a zip containing several packs. macOS and Windows junk files (`.DS_Store`, `__MACOSX`, `Thumbs.db`) are ignored.
 
 ## Merge order and priority
 
 - Imports load **first**, as the lowest-priority layer: anything EcoItems generates (item models, fonts, HUD fonts, sounds) and anything you put in the [`pack/` folder](resource-packs#the-pack-folder) (itself a vanilla-structured pack) wins on collision.
-- Between imports, packs load in **name order** and later packs win - prefix names like `10_mythicmobs.zip`, `20_nameplates.zip` to control priority. Overrides are logged.
+- Between imports, packs load in **name order** and later packs win, so prefix names like `10_mythicmobs.zip` and `20_nameplates.zip` to control priority. Overrides are logged.
 
 Some files are **merged instead of replaced**, so packs cooperate rather than fight:
 
@@ -29,11 +29,11 @@ Imported `pack.mcmeta` files aren't copied, but their **overlay entries** carry 
 
 ## Glyph collision safety
 
-Imported packs often define their own font characters in the same private-use unicode ranges EcoItems assigns [glyphs](glyphs) from (packs made for other custom item plugins in particular). EcoItems reads every character the imported fonts define and assigns its own glyphs **around** them, so new glyphs never collide. If a glyph was assigned *before* the import was added (or uses an explicit `char:`) and now collides, you'll get a console warning - the imported pack's character wins in that case, and the warning tells you how to re-assign the glyph.
+Imported packs often define their own font characters in the same private-use unicode ranges EcoItems assigns [glyphs](how-to-make-a-glyph) from (packs made for other custom item plugins in particular). EcoItems reads every character the imported fonts define and assigns its own glyphs **around** them, so new glyphs never collide. If a glyph was assigned *before* the import was added (or uses an explicit `char:`) and now collides, you'll get a console warning. The imported pack's character wins in that case, and the warning tells you how to reassign the glyph.
 
-## Caveats
+## Things to know
 
-- If you use [animated glyphs](glyphs-animated-glyphs), EcoItems overrides the vanilla text core shaders. An imported pack that also ships text shaders (some nameplate/text-effect packs do) will have those replaced - you'll get a console warning when this happens.
+- If you use [animated glyphs](how-to-make-a-glyph#animated-glyphs), EcoItems overrides the vanilla text core shaders. An imported pack that also ships text shaders (some nameplate and text effect packs do) will have those replaced, and you'll get a console warning when this happens.
 - Imported packs are included as-is; EcoItems doesn't rewrite their custom model data or item definitions. Plugins that reference their own pack's assets keep working because paths are preserved.
 
 ## Integrating shader-based packs
@@ -48,7 +48,7 @@ compatibility:
   glyph-shaders: false
 ```
 
-3. If EcoItems' default example assets conflict, turn them off too: deleted files then stay deleted instead of being re-shipped on updates:
+3. If EcoItems' default example assets conflict, turn them off too, so deleted files stay deleted instead of being re-shipped on updates:
 
 ```yaml
 compatibility:
@@ -56,3 +56,11 @@ compatibility:
 ```
 
 4. Run `/ecoitems reload`. The imported pack merges in as the lowest layer, with fonts, sounds, languages and atlases merged rather than replaced.
+
+<hr/>
+
+## Where to go next
+
+- **The pack folder:** [Resource Packs](resource-packs#the-pack-folder) for the layer your own assets live in.
+- **Animated glyphs:** [Animated Glyphs](how-to-make-a-glyph#animated-glyphs) for the text shaders that can conflict with imports.
+- **Every option:** [Pack Configuration](resource-packs-configuration) for the `compatibility` section of `pack.yml`.

@@ -1,13 +1,15 @@
 ---
 title: "Delivery Modes"
-sidebar_position: 4
+sidebar_position: 3
 ---
 
-`delivery.mode` in `pack.yml` controls how the built pack reaches players.
+Once EcoItems builds the resource pack, it has to reach players. `delivery.mode` in `pack.yml` controls how: EcoItems can **upload** the pack to a host, **serve** it itself, **export** it for you to host, or deliver nothing. This page covers each mode and how the pack is sent.
+
+## Choosing a mode
 
 | Mode | How it works | Best for |
 | --- | --- | --- |
-| `hosted` | Uploads the pack to a packhost instance and delivers the returned URL | Most servers - zero setup |
+| `hosted` | Uploads the pack to a packhost instance and delivers the returned URL | Most servers; no setup |
 | `self-hosted` | Serves the pack over HTTP from the Minecraft server itself | Servers with an open port and a public address |
 | `external` | Exports `pack.zip` to a folder; you host it and set the URL | Servers with an existing CDN or web server |
 | `s3` | Uploads to S3-compatible object storage | Networks with existing AWS/R2/MinIO infrastructure |
@@ -15,7 +17,7 @@ sidebar_position: 4
 
 ## hosted
 
-The pack is uploaded to the packhost instance at `delivery.hosted.url` (the public instance at `packs.auxilor.io` by default) on every reload. Identical packs deduplicate server-side, so reloads without pack changes are free. You can [run your own packhost](resource-packs-packhost) and point the URL at it.
+The pack is uploaded on every reload to the packhost instance at `delivery.hosted.url`, which defaults to the public instance at `packs.auxilor.io`. Identical packs deduplicate server-side, so reloads without pack changes are free. You can [run your own packhost](resource-packs-packhost) and point the URL at it.
 
 ## self-hosted
 
@@ -29,10 +31,18 @@ The pack is written to `delivery.external.directory` as `pack.zip`. Upload or sy
 
 ## s3
 
-The pack uploads straight to S3-compatible object storage - AWS S3, Cloudflare R2, MinIO, Backblaze B2, and friends - as `<sha1>.zip`, no SDK or extra tooling needed. Configure `delivery.s3` with the `endpoint`, `region`, `bucket`, and credentials. Objects are keyed by content hash, so unchanged packs overwrite themselves harmlessly.
+The pack uploads straight to S3-compatible object storage (AWS S3, Cloudflare R2, MinIO, Backblaze B2, and similar) as `<sha1>.zip`, with no SDK or extra tooling needed. Configure `delivery.s3` with the `endpoint`, `region`, `bucket`, and credentials. Objects are keyed by content hash, so unchanged packs overwrite themselves harmlessly.
 
 Set `public-url` when players should download through a CDN or custom domain instead of the raw endpoint. `public-read: true` (default) sends `x-amz-acl: public-read` with the upload; turn it off when the bucket policy already grants public access (R2 buckets with public access enabled, for example). MinIO wants the default `path-style: true`; AWS accepts either style.
 
 ## Sending
 
-With any active mode, the pack is sent to players on join (`send-on-join`) and re-sent to everyone after a reload (`send-on-reload`). The prompt, whether the pack is `required`, and whether declining kicks (`kick-on-decline`) are all configurable - see [Pack Configuration](resource-packs-configuration).
+With any active mode, the pack is sent to players on join (`send-on-join`) and re-sent to everyone after a reload (`send-on-reload`). The prompt, whether the pack is `required`, and whether declining kicks (`kick-on-decline`) are all configurable; see [Pack Configuration](resource-packs-configuration).
+
+<hr/>
+
+## Where to go next
+
+- **Every option:** [Pack Configuration](resource-packs-configuration) for the full `delivery` section of `pack.yml`.
+- **Self-hosting packhost:** [Packhost](resource-packs-packhost) to run your own instance for `hosted` mode.
+- **Merging packs:** [Merging Other Packs](resource-packs-merging-packs) to deliver other plugins' packs in the same download.

@@ -1,11 +1,11 @@
 package com.willfp.ecoitems.pack
 
 object PackMcmeta {
-    // Resource pack formats: 64 = 1.21.8, 88 = 26.2. Bump MAX_FORMAT on new
+    // Resource pack formats: 64 = 1.21.8, 97 = 26.3. Bump MAX_FORMAT on new
     // Minecraft releases. Server-sent packs apply even on a format mismatch,
     // so a stale value is cosmetic.
     const val MIN_FORMAT = 64
-    const val MAX_FORMAT = 88
+    const val MAX_FORMAT = 97
 
     // Clients on 1.21.8 read pack_format/supported_formats and ignore the
     // 1.21.9+ min_format/max_format keys; newer clients do the opposite.
@@ -20,10 +20,12 @@ object PackMcmeta {
     // in files nothing renders with.
     //
     // 64 = 1.21.8 (GLSL 150), 65-83 = 1.21.9 through 1.21.11 (GLSL 330),
-    // 84-87 = 26.1 (adds sample_lightmap.glsl), 88+ = 26.2 (text shaders
-    // merged into one program with defines).
+    // 84-87 = 26.1 (adds sample_lightmap.glsl), 88-96 = 26.2 (text shaders
+    // merged into one program with defines), 97+ = 26.3 (#include instead of
+    // #moj_import, explicit stage locations, order-independent transparency).
     private val SHADER_OVERLAY_ENTRIES = listOf(
-        """{ "formats": { "min_inclusive": 88, "max_inclusive": 999 }, "min_format": 88, "max_format": 999, "directory": "overlay_26_2" }""",
+        """{ "formats": { "min_inclusive": 97, "max_inclusive": 999 }, "min_format": 97, "max_format": 999, "directory": "overlay_26_3" }""",
+        """{ "formats": { "min_inclusive": 88, "max_inclusive": 96 }, "min_format": 88, "max_format": 96, "directory": "overlay_26_2" }""",
         """{ "formats": { "min_inclusive": 84, "max_inclusive": 87 }, "min_format": 84, "max_format": 87, "directory": "overlay_26" }""",
         """{ "formats": { "min_inclusive": 65, "max_inclusive": 83 }, "min_format": 65, "max_format": 83, "directory": "overlay_pre_26" }""",
         """{ "formats": 64, "min_format": 64, "max_format": 64, "directory": "overlay_1_21_8" }"""

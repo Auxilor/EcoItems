@@ -26,7 +26,8 @@ object InterfaceShaders {
     // gui.vsh runs before resource packs exist, so - like vanilla's own copy -
     // it can't #moj_import: the uniform blocks are inlined instead. 1.21.8 is
     // GLSL 150 and carries an extra LineWidth field in DynamicTransforms;
-    // 1.21.9 onwards is GLSL 330 without it.
+    // 1.21.9 onwards is GLSL 330 without it. 26.3 moved TextureMat to second
+    // in the block and matches stages by explicit location.
     private fun template(version: Int, lineWidth: Boolean) = """#version $version
 
 // Copied from dynamictransforms.glsl and projection.glsl, which can't be
@@ -45,6 +46,34 @@ in vec3 Position;
 in vec4 Color;
 
 out vec4 vertexColor;
+
+void main() {
+    gl_Position = ProjMat * ModelViewMat * vec4(Position, 1.0);
+
+    vertexColor = Color;
+%PATCHES%
+}
+"""
+
+    private const val TEMPLATE_26_3 = """#version 330
+#extension GL_ARB_separate_shader_objects : require
+
+// Copied from dynamictransforms.glsl and projection.glsl, which can't be
+// imported into a shader used during startup.
+layout(std140) uniform DynamicTransforms {
+    mat4 ModelViewMat;
+    mat4 TextureMat;
+    vec4 ColorModulator;
+    vec3 ModelOffset;
+};
+layout(std140) uniform Projection {
+    mat4 ProjMat;
+};
+
+layout(location = 0) in vec3 Position;
+layout(location = 1) in vec4 Color;
+
+layout(location = 0) out vec4 vertexColor;
 
 void main() {
     gl_Position = ProjMat * ModelViewMat * vec4(Position, 1.0);
@@ -83,6 +112,9 @@ void main() {
         for (prefix in listOf("", "overlay_pre_26/", "overlay_26/", "overlay_26_2/")) {
             entries["${prefix}assets/minecraft/shaders/core/gui.vsh"] = modern
         }
+
+        entries["overlay_26_3/assets/minecraft/shaders/core/gui.vsh"] =
+            TEMPLATE_26_3.replace("%PATCHES%", patches).encodeToByteArray()
 
         entries["overlay_1_21_8/assets/minecraft/shaders/core/gui.vsh"] = legacy
     }
