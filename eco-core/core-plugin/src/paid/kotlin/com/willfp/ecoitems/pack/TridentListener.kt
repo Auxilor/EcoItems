@@ -20,6 +20,7 @@ import org.bukkit.event.entity.ProjectileLaunchEvent
  */
 object TridentListener : Listener {
     /** Item id -> throwing definition key, rebuilt each reload. */
+    @Volatile
     private var throwingModels = emptyMap<String, String>()
 
     fun update(assets: List<ItemPackAsset>) {

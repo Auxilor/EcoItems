@@ -22,6 +22,7 @@ import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.event.world.GenericGameEvent
 import java.util.UUID
+import java.util.concurrent.ConcurrentHashMap
 
 /**
  * The pack silences block.wood.* (the sounds the note block backing would
@@ -31,7 +32,7 @@ import java.util.UUID
  */
 object BlockSoundsListener : Listener {
     private val woodPlaceSound = Material.OAK_PLANKS.createBlockData().soundGroup.placeSound
-    private val hitLoops = mutableMapOf<UUID, EcoTask>()
+    private val hitLoops = ConcurrentHashMap<UUID, EcoTask>()
 
     @EventHandler(ignoreCancelled = true)
     fun onStepOrFall(event: GenericGameEvent) {
@@ -105,7 +106,7 @@ object BlockSoundsListener : Listener {
         }
 
         stopHitLoop(event.player)
-        hitLoops[event.player.uniqueId] = plugin.scheduler.runTimer(4, 4) {
+        hitLoops[event.player.uniqueId] = plugin.scheduler.at(block.location).runTimer(4, 4) {
             play(block, sound, 0.25, 0.5)
         }
     }

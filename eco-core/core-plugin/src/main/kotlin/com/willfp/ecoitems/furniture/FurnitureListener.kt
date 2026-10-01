@@ -30,8 +30,11 @@ import org.bukkit.util.BoundingBox
 import kotlin.math.roundToInt
 
 object FurnitureListener : Listener {
-    /** True while dispatching our own synthetic place/break events. */
-    private var mutating = false
+    /**
+     * True while dispatching our own synthetic place/break events on this
+     * thread; per thread, as Folia regions dispatch them concurrently.
+     */
+    private val mutating = ThreadLocal.withInitial { false }
 
     // Not ignoreCancelled: denied block use (custom blocks/furniture) still
     // allows item use, which is what placement is.
@@ -99,11 +102,11 @@ object FurnitureListener : Listener {
         }
 
         val placeEvent = BlockPlaceEvent(target, target.state, against, item, player, true, event.hand!!)
-        mutating = true
+        mutating.set(true)
         try {
             plugin.server.pluginManager.callEvent(placeEvent)
         } finally {
-            mutating = false
+            mutating.set(false)
         }
         if (placeEvent.isCancelled || !placeEvent.canBuild()) {
             return
@@ -154,7 +157,7 @@ object FurnitureListener : Listener {
     /** Breaking a collision barrier breaks the furniture. */
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     fun onBarrierBreak(event: BlockBreakEvent) {
-        if (mutating) {
+        if (mutating.get()) {
             return
         }
 
@@ -171,11 +174,11 @@ object FurnitureListener : Listener {
         }
 
         val breakEvent = BlockBreakEvent(block, player)
-        mutating = true
+        mutating.set(true)
         try {
             plugin.server.pluginManager.callEvent(breakEvent)
         } finally {
-            mutating = false
+            mutating.set(false)
         }
         if (breakEvent.isCancelled) {
             return
@@ -237,12 +240,6 @@ object FurnitureListener : Listener {
                 FurnitureStorageManager.openStorage(placed, storage, player)
             }
             return
-        }
-
-        placed.furniture?.let { furniture ->
-            if (FurnitureBeds.tryLie(placed, furniture, player)) {
-                return
-            }
         }
 
         if (!WorldGuardFlags.test(player, placed.base.location, WorldGuardFlags.FURNITURE_SIT)) {

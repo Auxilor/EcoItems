@@ -4,6 +4,7 @@ import com.willfp.eco.core.command.impl.Subcommand
 import com.willfp.ecoitems.items.EcoItem
 import com.willfp.ecoitems.items.EcoItems
 import com.willfp.ecoitems.plugin
+import com.willfp.ecoitems.util.runFor
 import org.bukkit.Bukkit
 import org.bukkit.EntityEffect
 import org.bukkit.command.CommandSender
@@ -20,7 +21,7 @@ object CommandTotem : Subcommand(plugin, "totem", "ecoitems.command.totem", fals
                 return
             })
 
-        playTotemAnimation(player, ecoItem)
+        plugin.runFor(player) { playTotemAnimation(player, ecoItem) }
 
         sender.sendMessage(
             plugin.langYml.getMessage("totem-played")
@@ -39,7 +40,7 @@ object CommandTotem : Subcommand(plugin, "totem", "ecoitems.command.totem", fals
         player.inventory.setItemInOffHand(item.itemStack)
         player.playEffect(EntityEffect.TOTEM_RESURRECT)
 
-        plugin.scheduler.run {
+        plugin.scheduler.on(player).run {
             if (player.isOnline) {
                 player.inventory.setItemInOffHand(previous)
             }

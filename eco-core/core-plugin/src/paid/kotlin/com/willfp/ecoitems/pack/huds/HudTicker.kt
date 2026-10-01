@@ -10,6 +10,8 @@ import com.willfp.ecoitems.huds.Hud
 import com.willfp.ecoitems.huds.HudType
 import com.willfp.ecoitems.huds.Huds
 import com.willfp.ecoitems.nms.ActionBarDetection
+import com.willfp.ecoitems.util.PlayerTickers
+import com.willfp.ecoitems.util.runFor
 import com.willfp.libreforge.EmptyProvidedHolder
 import com.willfp.libreforge.toDispatcher
 import net.kyori.adventure.bossbar.BossBar
@@ -40,10 +42,12 @@ object HudTicker {
     private val pausedUntil = ConcurrentHashMap<UUID, Long>()
     private val selfSends = ConcurrentHashMap<UUID, Long>()
 
-    private val shownActionBars = mutableMapOf<UUID, String>()
-    private val shownBossBars = mutableMapOf<UUID, MutableMap<String, BossBar>>()
+    private val shownActionBars = ConcurrentHashMap<UUID, String>()
+    private val shownBossBars = ConcurrentHashMap<UUID, MutableMap<String, BossBar>>()
 
-    private var counter = 0
+    // Heartbeat ticks so far, per player: on Folia each player ticks on the
+    // thread that owns them, so there is no single heartbeat to count.
+    private val counters = ConcurrentHashMap<UUID, Int>()
 
     fun start(plugin: EcoItemsPlugin) {
         ActionBarDetection.onDetect = { player -> pause(player) }
@@ -51,33 +55,30 @@ object HudTicker {
         // Tasks are cancelled by eco on reload, so this never stacks. Clear
         // anything shown for HUDs that may have changed or been removed.
         for (player in Bukkit.getOnlinePlayers()) {
-            hideAll(player)
+            plugin.runFor(player) { hideAll(player) }
         }
-        counter = 0
+        counters.clear()
 
-        plugin.scheduler.runTimer(HEARTBEAT_TICKS.toLong(), HEARTBEAT_TICKS.toLong()) {
-            tick()
-        }
+        PlayerTickers.register(HEARTBEAT_TICKS.toLong()) { tick(it) }
     }
 
-    fun stop() {
+    /** Nothing can be scheduled once the plugin is shutting down, so then it all happens here. */
+    fun stop(plugin: EcoItemsPlugin, shuttingDown: Boolean = false) {
         ActionBarDetection.onDetect = null
 
         for (player in Bukkit.getOnlinePlayers()) {
-            hideAll(player)
+            if (shuttingDown) hideAll(player) else plugin.runFor(player) { hideAll(player) }
         }
     }
 
-    private fun tick() {
-        counter += HEARTBEAT_TICKS
+    private fun tick(player: Player) {
+        val counter = counters.merge(player.uniqueId, HEARTBEAT_TICKS, Int::plus)!!
 
-        for (player in Bukkit.getOnlinePlayers()) {
-            tickActionBar(player)
-            tickBossBars(player)
-        }
+        tickActionBar(player, counter)
+        tickBossBars(player, counter)
     }
 
-    private fun tickActionBar(player: Player) {
+    private fun tickActionBar(player: Player, counter: Int) {
         val hud = HudState.activeActionBarHud(player)?.takeIf { isVisible(player, it) }
 
         if (hud == null) {
@@ -89,7 +90,7 @@ object HudTicker {
         }
 
         val switched = shownActionBars[player.uniqueId] != hud.id
-        if (!switched && !isDue(hud)) {
+        if (!switched && !isDue(hud, counter)) {
             return
         }
 
@@ -102,7 +103,7 @@ object HudTicker {
         shownActionBars[player.uniqueId] = hud.id
     }
 
-    private fun tickBossBars(player: Player) {
+    private fun tickBossBars(player: Player, counter: Int) {
         val bars = shownBossBars.getOrPut(player.uniqueId) { mutableMapOf() }
 
         for (hud in Huds.values()) {
@@ -125,7 +126,7 @@ object HudTicker {
                     bars[hud.id] = created
                 }
 
-                visible && bar != null && isDue(hud) -> bar.name(render(hud, player))
+                visible && bar != null && isDue(hud, counter) -> bar.name(render(hud, player))
 
                 !visible && bar != null -> {
                     player.asAudience().hideBossBar(bar)
@@ -175,7 +176,7 @@ object HudTicker {
         return hud.conditions.areMet(player.toDispatcher(), EmptyProvidedHolder)
     }
 
-    private fun isDue(hud: Hud): Boolean =
+    private fun isDue(hud: Hud, counter: Int): Boolean =
         counter % hud.updateTicks.coerceAtLeast(HEARTBEAT_TICKS) < HEARTBEAT_TICKS
 
     private fun isPaused(player: Player): Boolean =
@@ -203,6 +204,7 @@ object HudTicker {
         @EventHandler
         fun onQuit(event: PlayerQuitEvent) {
             hideAll(event.player)
+            counters.remove(event.player.uniqueId)
             pausedUntil.remove(event.player.uniqueId)
             selfSends.remove(event.player.uniqueId)
         }

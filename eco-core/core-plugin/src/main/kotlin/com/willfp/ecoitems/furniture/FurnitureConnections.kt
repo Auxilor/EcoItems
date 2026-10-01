@@ -61,7 +61,7 @@ object FurnitureConnections {
         )
 
         // Next tick: the removed piece must be gone before neighbors look.
-        plugin.scheduler.run {
+        plugin.scheduler.at(placed.base.location).run {
             neighbors.forEach { if (it.base.isValid) update(it, includeNeighbors = false) }
         }
     }

@@ -4,6 +4,7 @@ import com.willfp.eco.core.command.impl.Subcommand
 import com.willfp.eco.core.drops.DropQueue
 import com.willfp.ecoitems.items.EcoItems
 import com.willfp.ecoitems.plugin
+import com.willfp.ecoitems.util.runFor
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.util.StringUtil
@@ -37,10 +38,12 @@ object CommandGive : Subcommand(plugin, "give", "ecoitems.command.give", false) 
 
         item.amount = amount
 
-        DropQueue(player)
-            .addItem(item)
-            .forceTelekinesis()
-            .push()
+        plugin.runFor(player) {
+            DropQueue(player)
+                .addItem(item)
+                .forceTelekinesis()
+                .push()
+        }
     }
 
     override fun tabComplete(sender: CommandSender, args: List<String>): List<String> {

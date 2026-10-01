@@ -25,6 +25,7 @@ import org.bukkit.util.Transformation
 import org.joml.Quaternionf
 import org.joml.Vector3f
 import java.util.UUID
+import java.util.concurrent.ConcurrentHashMap
 import kotlin.math.cos
 import kotlin.math.roundToInt
 import kotlin.math.sin
@@ -76,7 +77,6 @@ class PlacedFurniture(
         }
 
         stateTimers.remove(base.uniqueId)
-        FurnitureBeds.wakeAllOn(base.uniqueId)
 
         for (barrier in barrierBlocks()) {
             if (barrier.type == Material.BARRIER) {
@@ -149,7 +149,7 @@ class PlacedFurniture(
         // A newer setState invalidates every older pending timer.
         val token = stateTimers.merge(base.uniqueId, 1, Int::plus)!!
 
-        plugin.scheduler.runLater(ticks.coerceAtLeast(1).toLong()) {
+        plugin.scheduler.on(base).runLater(ticks.coerceAtLeast(1).toLong()) {
             if (!base.isValid || stateTimers[base.uniqueId] != token || state() != state.name) {
                 return@runLater
             }
@@ -220,7 +220,7 @@ class PlacedFurniture(
             ?: return false
 
         // Mounting mid-interact-packet desyncs the client; next tick is safe.
-        plugin.scheduler.run {
+        plugin.scheduler.on(seat).run {
             if (seat.isValid && seat.passengers.isEmpty()) {
                 seat.addPassenger(player)
             }
@@ -239,7 +239,7 @@ class PlacedFurniture(
         private val DOOR_OPEN = NamespacedKey(plugin, "furniture-door-open")
 
         /** Pending state-timer tokens per base entity; newer tokens win. */
-        private val stateTimers = mutableMapOf<UUID, Int>()
+        private val stateTimers = ConcurrentHashMap<UUID, Int>()
 
         /** Resolve from any furniture entity: base, hitbox, or seat. */
         fun fromEntity(entity: Entity?): PlacedFurniture? {

@@ -26,7 +26,11 @@ import kotlin.math.ceil
  * it's the flat item list.
  */
 object ItemsGUI {
+    // Swapped on reload, read by whichever thread opens the GUI.
+    @Volatile
     private lateinit var mainMenu: Menu
+
+    @Volatile
     private var categoryMenus = mapOf<String, Menu>()
 
     private data class Category(val path: String, val name: String, val items: List<EcoItem>)

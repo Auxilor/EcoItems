@@ -9,6 +9,7 @@ import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.inventory.ItemStack
+import java.util.concurrent.CopyOnWriteArrayList
 
 /**
  * Enforces `permission` on workstation recipes.
@@ -36,7 +37,7 @@ object WorkstationRecipePermissions : Listener {
     )
 
     /** Workstation recipes that carry a permission. Rebuilt on every reload. */
-    private val gated = mutableListOf<WorkstationRecipe>()
+    private val gated = CopyOnWriteArrayList<WorkstationRecipe>()
 
     fun clear() {
         gated.clear()
@@ -62,7 +63,7 @@ object WorkstationRecipePermissions : Listener {
         event.isCancelled = true
 
         // The client has already drawn the item into the cursor, so force it back.
-        plugin.scheduler.run { player.updateInventory() }
+        plugin.scheduler.on(player).run { player.updateInventory() }
     }
 
     private fun isDenied(player: Player, item: ItemStack?): Boolean {

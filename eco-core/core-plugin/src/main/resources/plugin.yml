@@ -2,6 +2,7 @@
 version: ${version}
 main: com.willfp.ecoitems.EcoItemsPlugin
 api-version: 1.21.8
+folia-supported: true
 authors: [ Auxilor ]
 website: willfp.com
 depend:
