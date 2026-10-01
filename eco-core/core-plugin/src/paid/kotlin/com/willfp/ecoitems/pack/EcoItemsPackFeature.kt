@@ -68,7 +68,7 @@ object EcoItemsPackFeature : PackFeature {
             shutdownPublisher()
             PackDelivery.clear()
             GlyphText.clear()
-            HudTicker.stop()
+            HudTicker.stop(plugin)
             BlockSoundState.remapActive = false
             return
         }
@@ -103,7 +103,7 @@ object EcoItemsPackFeature : PackFeature {
 
     override fun handleDisable(plugin: EcoItemsPlugin) {
         shutdownPublisher()
-        HudTicker.stop()
+        HudTicker.stop(plugin, shuttingDown = true)
     }
 
     override fun toggleHud(player: Player, id: String): Boolean? {

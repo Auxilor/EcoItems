@@ -7,6 +7,7 @@ import com.willfp.ecoitems.BuildConfig
 import com.willfp.libreforge.loader.LibreforgePlugin
 import com.willfp.libreforge.loader.configs.ConfigCategory
 import com.willfp.libreforge.loader.configs.LegacyLocation
+import java.util.concurrent.ConcurrentHashMap
 
 /**
  * Deprecated: standalone recipes in the recipes/ folder, which craft any item rather
@@ -17,7 +18,7 @@ import com.willfp.libreforge.loader.configs.LegacyLocation
  * Give the item its own config with a recipe instead; see WorkstationRecipeLoader.
  */
 object EcoItemsRecipes : ConfigCategory("recipe", "recipes") {
-    private val registeredIds = mutableSetOf<String>()
+    private val registeredIds: MutableSet<String> = ConcurrentHashMap.newKeySet()
 
     val size: Int get() = registeredIds.size
 
@@ -41,7 +42,9 @@ object EcoItemsRecipes : ConfigCategory("recipe", "recipes") {
             item.amount = config.getInt("recipe-give-amount") // Legacy
         }
 
-        plugin.scheduler.run {
+        // Recipe registration touches the server's recipe manager, which on
+        // Folia belongs to the global region.
+        plugin.scheduler.global().run {
             registeredIds.add(id)
             val recipeStrings = config.getStrings("recipe")
             if (recipeStrings.isEmpty()) return@run

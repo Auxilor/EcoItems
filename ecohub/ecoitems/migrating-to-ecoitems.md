@@ -58,7 +58,8 @@ Most textures, models, and sounds from the old plugin's pack are flattened strai
 Anything skipped is logged with the item ID during migration. The notable ones:
 
 - **Behaviour mechanics** (Oraxen's `commands` and `lifeleech`, ItemsAdder's `events`, and so on). Rebuild these with [libreforge effects](https://hub.auxilor.io/wiki/libreforge/configuring-an-effect), which are far more powerful.
-- **Storage blocks and furniture, evolving crops, saplings, farmblocks, doors, beds, and connectables** from the old plugin's format. Rebuild them with EcoItems' own [furniture](how-to-make-furniture), [crops](how-to-make-a-crop), and [blocks](how-to-make-a-block).
+- **Storage blocks and furniture, evolving crops, saplings, farmblocks, doors, and connectables** from the old plugin's format. Rebuild them with EcoItems' own [furniture](how-to-make-furniture), [crops](how-to-make-a-crop), and [blocks](how-to-make-a-block).
+- **Furniture beds** (Nexo's `beds`). EcoItems furniture can't be slept in, so these are skipped with nothing to rebuild them as.
 - **Anvil repairs** (ItemsAdder). They restore durability rather than make an item, so there's nothing to convert them into.
 - **Extra recipes for an item beyond the first.** An EcoItem has one recipe, so where several make the same item, the first is kept and the rest are logged. Recipes using an item **tag** as an ingredient are skipped too.
 - **`ItemFlags`, `PotionEffects`, and legacy list-style attribute modifiers.**
