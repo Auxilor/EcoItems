@@ -47,7 +47,7 @@ object CommandHitbox : Subcommand(plugin, "hitbox", "ecoitems.command.hitbox", t
             if (player.isOnline && remaining-- > 0) {
                 barriers.forEach { outline(player, it, Color.RED) }
                 hitboxes.forEach { outline(player, it, Color.YELLOW) }
-                plugin.scheduler.runLater(PERIOD_TICKS, draw)
+                plugin.scheduler.on(player).runLater(PERIOD_TICKS, draw)
             }
         }
         draw()

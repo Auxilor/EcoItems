@@ -3,6 +3,8 @@ package com.willfp.ecoitems.pack.delivery
 import com.willfp.eco.util.formatEco
 import com.willfp.ecoitems.pack.PackSettings
 import com.willfp.ecoitems.pack.publisher.PublishedPack
+import com.willfp.ecoitems.plugin
+import com.willfp.ecoitems.util.runFor
 import java.util.UUID
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
@@ -15,9 +17,11 @@ object PackDelivery {
     // instead of stacking a second one.
     private val PACK_ID: UUID = UUID.nameUUIDFromBytes("com.willfp.ecoitems:pack".toByteArray())
 
+    @Volatile
     var current: PublishedPack? = null
         private set
 
+    @Volatile
     var settings: PackSettings? = null
         private set
 
@@ -46,7 +50,7 @@ object PackDelivery {
 
     fun sendAll() {
         for (player in Bukkit.getOnlinePlayers()) {
-            send(player)
+            plugin.runFor(player) { send(player) }
         }
     }
 }

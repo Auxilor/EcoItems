@@ -15,7 +15,7 @@ object PackListener : Listener {
         }
 
         val player = event.player
-        plugin.scheduler.runLater(maxOf(1, settings.joinDelayTicks).toLong()) {
+        plugin.scheduler.on(player).runLater(maxOf(1, settings.joinDelayTicks).toLong()) {
             if (player.isOnline) {
                 PackDelivery.send(player)
             }

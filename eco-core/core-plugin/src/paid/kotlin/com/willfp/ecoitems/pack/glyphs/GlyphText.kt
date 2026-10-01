@@ -27,17 +27,30 @@ object GlyphText {
         val literals: List<String>
     )
 
+    // Swapped on reload; read from async chat threads, and from every
+    // region thread on Folia.
+    @Volatile
     private var entries: List<Entry> = emptyList()
+
+    @Volatile
     private var charToGlyph: Map<String, AssignedGlyph> = emptyMap()
+
+    @Volatile
     private var unescapePattern: Pattern? = null
 
+    @Volatile
     var assignments: Map<String, AssignedGlyph> = emptyMap()
         private set
 
+    @Volatile
     var formatChat = true
         private set
+
+    @Volatile
     var formatSigns = true
         private set
+
+    @Volatile
     var tabComplete = true
         private set
 

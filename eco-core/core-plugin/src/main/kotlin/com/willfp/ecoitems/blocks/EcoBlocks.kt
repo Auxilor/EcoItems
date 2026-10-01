@@ -14,6 +14,7 @@ import org.bukkit.World
 import org.bukkit.block.Block
 import org.bukkit.block.data.BlockData
 import java.util.EnumMap
+import java.util.concurrent.ConcurrentHashMap
 
 /**
  * The runtime block registry, rebuilt on every reload from items with a
@@ -28,8 +29,14 @@ object EcoBlocks {
             get() = if (block.stackable != null) orientation + 1 else 1
     }
 
+    // Swapped whole on reload and read from every region thread on Folia.
+    @Volatile
     private var byVariation = mapOf<BlockBacking, Map<Int, Placed>>()
+
+    @Volatile
     private var byId = mapOf<String, EcoBlock>()
+
+    @Volatile
     private var assignments = mapOf<String, List<Int>>()
     private val registeredKeys = mutableSetOf<NamespacedKey>()
 
@@ -39,6 +46,7 @@ object EcoBlocks {
      * behaviour (note block redstone, string, mushrooms) in exchange for
      * nothing. With the pack off EcoItems leaves world blocks alone entirely.
      */
+    @Volatile
     var active = false
         private set
 
@@ -106,7 +114,7 @@ object EcoBlocks {
 
     operator fun get(id: String): EcoBlock? = byId[id]
 
-    private val globCache = mutableMapOf<String, Regex>()
+    private val globCache = ConcurrentHashMap<String, Regex>()
 
     /** Whether custom blocks may be placed in a world (blocks.worlds globs, ! negates). */
     fun enabledIn(world: World): Boolean {

@@ -3,6 +3,8 @@ package com.willfp.ecoitems.furniture
 import com.willfp.ecoitems.EcoItemsPlugin
 import com.willfp.ecoitems.nms.SleepProxy
 import com.willfp.ecoitems.plugin
+import com.willfp.ecoitems.util.runFor
+import com.willfp.ecoitems.util.teleportSafely
 import org.bukkit.Bukkit
 import org.bukkit.GameRule
 import org.bukkit.Location
@@ -16,6 +18,7 @@ import org.bukkit.event.player.PlayerMoveEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.event.player.PlayerToggleSneakEvent
 import java.util.UUID
+import java.util.concurrent.ConcurrentHashMap
 import kotlin.math.ceil
 import kotlin.math.roundToInt
 
@@ -28,14 +31,15 @@ import kotlin.math.roundToInt
 object FurnitureBeds : Listener {
     private class Session(val baseId: UUID, val cell: Location)
 
-    private val sleepers = mutableMapOf<UUID, Session>()
+    private val sleepers: MutableMap<UUID, Session> = ConcurrentHashMap()
 
     private const val SKIP_CHECK_TICKS = 100L
     private const val MORNING = 23460L
 
     fun start(plugin: EcoItemsPlugin) {
-        // eco cancels plugin tasks on reload, so this never stacks.
-        plugin.scheduler.runTimer(SKIP_CHECK_TICKS, SKIP_CHECK_TICKS) {
+        // eco cancels plugin tasks on reload, so this never stacks. World
+        // time and weather belong to the global region on Folia.
+        plugin.scheduler.global().runTimer(SKIP_CHECK_TICKS, SKIP_CHECK_TICKS) {
             for (world in sleepers.values.mapNotNull { it.cell.world }.distinct()) {
                 trySkipNight(world)
             }
@@ -67,14 +71,15 @@ object FurnitureBeds : Listener {
             return true
         }
 
-        player.teleport(cell)
         sleepers[player.uniqueId] = Session(placed.base.uniqueId, cell)
 
-        // Mid-interact sleep desyncs the client, like seat mounting.
-        plugin.scheduler.run {
-            if (player.isOnline) {
-                plugin.getProxy(SleepProxy::class.java).sleep(player, cell)
-                player.setStatistic(Statistic.TIME_SINCE_REST, 0)
+        player.teleportSafely(cell).thenAccept {
+            // Mid-interact sleep desyncs the client, like seat mounting.
+            plugin.scheduler.on(player).run {
+                if (player.isOnline && player.uniqueId in sleepers) {
+                    plugin.getProxy(SleepProxy::class.java).sleep(player, cell)
+                    player.setStatistic(Statistic.TIME_SINCE_REST, 0)
+                }
             }
         }
         return true
@@ -90,7 +95,9 @@ object FurnitureBeds : Listener {
     fun wakeAllOn(baseId: UUID) {
         for ((uuid, session) in sleepers.filterValues { it.baseId == baseId }) {
             sleepers.remove(uuid)
-            Bukkit.getPlayer(uuid)?.let { plugin.getProxy(SleepProxy::class.java).wake(it) }
+            Bukkit.getPlayer(uuid)?.let { player ->
+                plugin.runFor(player) { plugin.getProxy(SleepProxy::class.java).wake(player) }
+            }
         }
     }
 
@@ -110,7 +117,8 @@ object FurnitureBeds : Listener {
             return
         }
 
-        val players = world.players.filterNot { it.isSleepingIgnored }
+        // Not world.players: on Folia that list belongs to the regions.
+        val players = Bukkit.getOnlinePlayers().filter { it.world == world && !it.isSleepingIgnored }
         if (players.isEmpty()) {
             return
         }
@@ -128,7 +136,7 @@ object FurnitureBeds : Listener {
         }
 
         for (player in players.filter { it.uniqueId in sleepers }) {
-            wake(player)
+            plugin.runFor(player) { wake(player) }
         }
     }
 

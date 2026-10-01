@@ -1,10 +1,9 @@
 package com.willfp.ecoitems.crops
 
 import com.willfp.eco.util.namespacedKeyOf
-import com.willfp.ecoitems.EcoItemsPlugin
 import com.willfp.ecoitems.blocks.BlockListener
 import com.willfp.ecoitems.blocks.EcoBlocks
-import org.bukkit.Bukkit
+import com.willfp.ecoitems.util.ChunkSweeps
 import org.bukkit.Chunk
 import org.bukkit.Material
 import org.bukkit.block.Block
@@ -22,19 +21,15 @@ object CropTracker {
 
     private const val INTERVAL_TICKS = 100L
 
-    fun start(plugin: EcoItemsPlugin) {
-        // eco cancels plugin tasks on reload, so this never stacks.
-        plugin.scheduler.runTimer(INTERVAL_TICKS, INTERVAL_TICKS) {
-            for (world in Bukkit.getWorlds()) {
-                for (chunk in world.loadedChunks) {
-                    tickChunk(chunk)
-                }
-            }
-        }
+    fun start() {
+        ChunkSweeps.start(key, INTERVAL_TICKS, ::tickChunk)
     }
 
-    fun add(block: Block) = mutate(block.chunk) { entries ->
-        entries.filterNot { it.startsWith(prefix(block)) } + "${prefix(block)}${now()}"
+    fun add(block: Block) {
+        mutate(block.chunk) { entries ->
+            entries.filterNot { it.startsWith(prefix(block)) } + "${prefix(block)}${now()}"
+        }
+        ChunkSweeps.track(key, block.chunk)
     }
 
     fun remove(block: Block) = mutate(block.chunk) { entries ->

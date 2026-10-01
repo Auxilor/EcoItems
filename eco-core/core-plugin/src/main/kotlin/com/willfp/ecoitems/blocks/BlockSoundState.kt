@@ -5,5 +5,6 @@ package com.willfp.ecoitems.blocks
  * block sound system). Set by the paid pack build; stays false on free.
  */
 object BlockSoundState {
+    @Volatile
     var remapActive = false
 }

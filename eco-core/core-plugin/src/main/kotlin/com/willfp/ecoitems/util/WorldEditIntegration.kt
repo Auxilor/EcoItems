@@ -73,6 +73,12 @@ object WorldEditIntegration {
         fun paste(file: File, location: Location, requireSpace: Boolean): Boolean {
             val clipboard = load(file) ?: return false
 
+            // On Folia a paste may only write chunks this thread owns; one
+            // straddling a region border waits for a later attempt.
+            if (!ownsFootprint(clipboard, location)) {
+                return false
+            }
+
             if (requireSpace && !fits(clipboard, location)) {
                 return false
             }
@@ -100,6 +106,33 @@ object WorldEditIntegration {
             val clipboard = load(file) ?: return null
             val dimensions = clipboard.dimensions
             return Triple(dimensions.x(), dimensions.y(), dimensions.z())
+        }
+
+        /** Whether this thread owns every chunk the paste would write. */
+        private fun ownsFootprint(clipboard: Clipboard, location: Location): Boolean {
+            if (!isFolia) {
+                return true
+            }
+
+            val world = location.world ?: return false
+            val origin = clipboard.origin
+            val min = clipboard.region.minimumPoint
+            val max = clipboard.region.maximumPoint
+
+            val minX = (location.blockX + min.x() - origin.x()) shr 4
+            val maxX = (location.blockX + max.x() - origin.x()) shr 4
+            val minZ = (location.blockZ + min.z() - origin.z()) shr 4
+            val maxZ = (location.blockZ + max.z() - origin.z()) shr 4
+
+            for (chunkX in minX..maxX) {
+                for (chunkZ in minZ..maxZ) {
+                    if (!ownsRegion(Location(world, (chunkX shl 4).toDouble(), 0.0, (chunkZ shl 4).toDouble()))) {
+                        return false
+                    }
+                }
+            }
+
+            return true
         }
 
         /** Every non-air clipboard block must land on something replaceable. */

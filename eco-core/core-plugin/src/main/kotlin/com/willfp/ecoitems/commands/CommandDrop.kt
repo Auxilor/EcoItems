@@ -3,6 +3,8 @@ package com.willfp.ecoitems.commands
 import com.willfp.eco.core.command.impl.Subcommand
 import com.willfp.ecoitems.items.EcoItems
 import com.willfp.ecoitems.plugin
+import com.willfp.ecoitems.util.runAt
+import com.willfp.ecoitems.util.runFor
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.command.CommandSender
@@ -13,12 +15,13 @@ object CommandDrop : Subcommand(plugin, "drop", "ecoitems.command.drop", false) 
         val ecoItem = notifyNull(EcoItems.getByID(args.getOrNull(0)), "invalid-item")
 
         // Either a player name or "x y z world".
-        val target: Location
+        val target: Location?
         val amountIndex: Int
 
         val player = args.getOrNull(1)?.let { Bukkit.getPlayer(it) }
         if (player != null) {
-            target = player.location
+            // Read on the player's own thread, below.
+            target = null
             amountIndex = 2
         } else {
             val x = args.getOrNull(1)?.toDoubleOrNull()
@@ -39,7 +42,12 @@ object CommandDrop : Subcommand(plugin, "drop", "ecoitems.command.drop", false) 
 
         val stack = ecoItem.itemStack
         stack.amount = amount.coerceIn(1, stack.maxStackSize)
-        target.world!!.dropItemNaturally(target, stack)
+
+        if (target == null) {
+            plugin.runFor(player!!) { player.world.dropItemNaturally(player.location, stack) }
+        } else {
+            plugin.runAt(target) { target.world!!.dropItemNaturally(target, stack) }
+        }
 
         sender.sendMessage(
             plugin.langYml.getMessage("dropped-item")

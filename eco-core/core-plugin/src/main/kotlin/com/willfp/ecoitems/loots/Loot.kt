@@ -25,6 +25,7 @@ import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import java.util.Objects
+import java.util.concurrent.ConcurrentHashMap
 import kotlin.random.Random
 
 enum class LootType {
@@ -58,7 +59,7 @@ class Loot(
     // Only fully resolved target lists are cached: a plugin registering its
     // blocks or entities after the first roll should start matching, not stay
     // broken until the next reload. Each bad key warns once.
-    private val warnedTargets = mutableSetOf<String>()
+    private val warnedTargets: MutableSet<String> = ConcurrentHashMap.newKeySet()
     private var cachedTargetBlocks: List<TestableBlock>? = null
     private var cachedTargetEntities: List<TestableEntity>? = null
 

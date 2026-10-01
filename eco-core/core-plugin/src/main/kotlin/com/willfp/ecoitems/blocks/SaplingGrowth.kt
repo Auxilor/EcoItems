@@ -3,8 +3,8 @@ package com.willfp.ecoitems.blocks
 import com.willfp.eco.util.namespacedKeyOf
 import com.willfp.ecoitems.EcoItemsPlugin
 import com.willfp.ecoitems.plugin
+import com.willfp.ecoitems.util.ChunkSweeps
 import com.willfp.ecoitems.util.WorldEditIntegration
-import org.bukkit.Bukkit
 import org.bukkit.Chunk
 import org.bukkit.GameMode
 import org.bukkit.Material
@@ -19,6 +19,7 @@ import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.persistence.PersistentDataType
+import java.util.concurrent.ConcurrentHashMap
 
 /**
  * Sapling blocks grow into pasted schematics: positions live per chunk in
@@ -30,7 +31,7 @@ object SaplingGrowth : Listener {
 
     private const val INTERVAL_TICKS = 100L
 
-    private val warnedMissing = mutableSetOf<String>()
+    private val warnedMissing: MutableSet<String> = ConcurrentHashMap.newKeySet()
 
     fun start(plugin: EcoItemsPlugin) {
         plugin.dataFolder.resolve("schematics").mkdirs()
@@ -41,18 +42,14 @@ object SaplingGrowth : Listener {
             plugin.logger.warning("Sapling blocks need WorldEdit (or FAWE) installed to grow")
         }
 
-        // eco cancels plugin tasks on reload, so this never stacks.
-        plugin.scheduler.runTimer(INTERVAL_TICKS, INTERVAL_TICKS) {
-            for (world in Bukkit.getWorlds()) {
-                for (chunk in world.loadedChunks) {
-                    tickChunk(chunk)
-                }
-            }
-        }
+        ChunkSweeps.start(key, INTERVAL_TICKS, ::tickChunk)
     }
 
-    fun add(block: Block) = mutate(block.chunk) { entries ->
-        entries.filterNot { it.startsWith(prefix(block)) } + "${prefix(block)}${now()}"
+    fun add(block: Block) {
+        mutate(block.chunk) { entries ->
+            entries.filterNot { it.startsWith(prefix(block)) } + "${prefix(block)}${now()}"
+        }
+        ChunkSweeps.track(key, block.chunk)
     }
 
     fun remove(block: Block) = mutate(block.chunk) { entries ->

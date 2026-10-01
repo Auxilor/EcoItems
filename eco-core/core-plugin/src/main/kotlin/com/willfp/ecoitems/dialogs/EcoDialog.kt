@@ -5,6 +5,8 @@ import com.willfp.eco.core.registry.KRegistrable
 import com.willfp.eco.util.StringUtils
 import com.willfp.eco.util.formatEco
 import com.willfp.ecoitems.plugin
+import com.willfp.ecoitems.util.dispatchAsConsole
+import com.willfp.ecoitems.util.dispatchAsPlayer
 import io.papermc.paper.dialog.Dialog
 import io.papermc.paper.registry.data.dialog.ActionButton
 import io.papermc.paper.registry.data.dialog.DialogBase
@@ -12,7 +14,6 @@ import io.papermc.paper.registry.data.dialog.action.DialogAction
 import io.papermc.paper.registry.data.dialog.body.DialogBody
 import io.papermc.paper.registry.data.dialog.type.DialogType
 import net.kyori.adventure.text.event.ClickCallback
-import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import java.util.Objects
 
@@ -91,13 +92,10 @@ class EcoDialog(
                 { _, audience ->
                     val player = audience as? Player ?: return@customClick
                     for (command in button.commands) {
-                        Bukkit.dispatchCommand(player, command.replace("%player%", player.name))
+                        plugin.dispatchAsPlayer(player, command.replace("%player%", player.name))
                     }
                     for (command in button.consoleCommands) {
-                        Bukkit.dispatchCommand(
-                            Bukkit.getConsoleSender(),
-                            command.replace("%player%", player.name)
-                        )
+                        plugin.dispatchAsConsole(command.replace("%player%", player.name))
                     }
                 },
                 ClickCallback.Options.builder().build()
