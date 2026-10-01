@@ -1,57 +1,45 @@
 package com.willfp.ecoitems.display
 
-import com.willfp.eco.core.display.Display
+import com.willfp.eco.core.display.DisplayContext
 import com.willfp.eco.core.display.DisplayModule
 import com.willfp.eco.core.display.DisplayPriority
 import com.willfp.eco.core.fast.FastItemStack
 import com.willfp.eco.core.fast.fast
-import com.willfp.eco.core.placeholder.context.placeholderContext
-import com.willfp.eco.util.StringUtils
 import com.willfp.eco.util.formatEco
+import com.willfp.eco.util.formatEcoRich
 import com.willfp.ecoitems.items.ecoItem
 import com.willfp.ecoitems.plugin
 import com.willfp.libreforge.ItemProvidedHolder
-import org.bukkit.entity.Player
-import org.bukkit.inventory.ItemStack
+import net.kyori.adventure.text.Component
 
 object ItemsDisplay : DisplayModule(plugin, DisplayPriority.LOWEST) {
-    override fun display(
-        itemStack: ItemStack,
-        player: Player?,
-        vararg args: Any
-    ) {
+    override fun display(context: DisplayContext) {
+        val itemStack = context.itemStack
         val fis = itemStack.fast()
         val ecoItem = fis.ecoItem ?: return
 
-        val provided = ItemProvidedHolder(ecoItem, itemStack)
+        val lore = ecoItem.lore.formatEcoRich(context.placeholderContext).toMutableList()
 
-        val itemFast = FastItemStack.wrap(ecoItem.itemStack)
-
-        val context = placeholderContext(
-            player = player,
-            item = itemStack
-        )
-
-        val lore = ecoItem.lore.map { "${Display.PREFIX}${StringUtils.format(it, context)}" }.toMutableList()
+        val player = context.player
 
         if (player != null) {
-            val lines = provided.getNotMetLines(player).map { Display.PREFIX + it }
+            val lines = ItemProvidedHolder(ecoItem, itemStack).getNotMetLineComponents(player)
 
             if (lines.isNotEmpty()) {
-                lore.add(Display.PREFIX)
+                lore.add(Component.empty())
                 lore.addAll(lines)
             }
         }
 
-        lore.addAll(fis.lore)
+        context.lore.prepend(lore)
 
         if (ecoItem.displayName != null) {
-            val formatted = ecoItem.displayName.formatEco(context)
+            val formatted = ecoItem.displayName.formatEco(context.placeholderContext)
             if (fis.displayName != formatted) {
                 fis.displayName = formatted
             }
         }
-        fis.addItemFlags(*itemFast.itemFlags.toTypedArray())
-        fis.lore = lore
+
+        fis.addItemFlags(*FastItemStack.wrap(ecoItem.itemStack).itemFlags.toTypedArray())
     }
 }

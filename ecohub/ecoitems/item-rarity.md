@@ -56,6 +56,10 @@ lore:
   - "&a&lCOMMON" # One lore line per entry, added to the item
 ```
 
+:::tip
+Lore supports MiniMessage, including sprites such as `<sprite:items:item/diamond>` on 1.21.9 and newer. See [Text Formatting](https://hub.auxilor.io/wiki/eco/text-formatting).
+:::
+
 ### Weight
 
 An item can match more than one rarity. `weight` decides which one is shown: the highest weight wins.
