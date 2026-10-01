@@ -242,12 +242,6 @@ object FurnitureListener : Listener {
             return
         }
 
-        placed.furniture?.let { furniture ->
-            if (FurnitureBeds.tryLie(placed, furniture, player)) {
-                return
-            }
-        }
-
         if (!WorldGuardFlags.test(player, placed.base.location, WorldGuardFlags.FURNITURE_SIT)) {
             return
         }

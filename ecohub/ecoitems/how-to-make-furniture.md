@@ -3,7 +3,7 @@ title: "How to Make Furniture"
 sidebar_position: 7
 ---
 
-Furniture is a normal EcoItem with a `furniture:` section: placing the item puts it in the world as a **display entity**, with optional **collision**, **seats**, **lights**, and interactive features like states, doors, storage, beds, and vehicles. This page covers making furniture from scratch and every feature it supports.
+Furniture is a normal EcoItem with a `furniture:` section: placing the item puts it in the world as a **display entity**, with optional **collision**, **seats**, **lights**, and interactive features like states, doors, storage, and vehicles. This page covers making furniture from scratch and every feature it supports.
 
 :::info
 Furniture models are part of the resource pack system, which requires the paid version of EcoItems.
@@ -37,7 +37,7 @@ IDs may only contain lowercase letters, numbers, and underscores (a-z, 0-9, _). 
 | **Item** | The item, whose texture or model is what the furniture shows |
 | **Placement** | Rotation snapping and which surfaces accept it |
 | **Collision and hitboxes** | Solid barrier cells and clickable areas |
-| **Seats, beds, and lights** | Where players sit and sleep, and light the furniture gives off |
+| **Seats and lights** | Where players sit, and light the furniture gives off |
 | **Drops and sounds** | What breaking it gives, and place and break sounds |
 | **Display** | Scale, translation, and rendering of the display entity |
 | **Effects** | libreforge effects run when players interact with it |
@@ -61,7 +61,7 @@ furniture:
   barriers: # Solid cells relative to the placed block
     - "0..1,0,0" # The origin cell and one east
 
-  # === Seats, beds, and lights ===
+  # === Seats and lights ===
   seats: # "x,y,z", optional yaw
     - "0,0,0"
     - "1,0,0"
@@ -102,10 +102,9 @@ The furniture shows the item itself, so its look comes from the item's normal `t
 
 Punch the furniture (its hitbox, or a collision barrier, which breaks instantly for furniture) to break it. Furniture is naturally blast-proof, since barrier blocks and display entities are immune to explosions.
 
-### Seats, beds, and lights
+### Seats and lights
 
 - **Seats** (`"x,y,z"`, optional yaw): right-click to sit and sneak to dismount. The y offset is relative to the natural chair sitting height (0.6 above the block bottom), the same convention as Nexo and Oraxen, so `"0,0,0"` suits a normal chair and imported seat offsets work as-is.
-- **Beds** (same format as seats): right-click at night or during a thunderstorm to lie down with the real sleeping pose and overlay, with no bed block involved. Lying down resets the phantom timer, and once enough of the world sleeps (the `playersSleepingPercentage` gamerule), the night skips and the weather clears, like vanilla. Sneak, move, or take damage to get up. The position is the lying position, with the head toward the furniture's facing.
 - **Lights** (`"x,y,z level"`): real light blocks placed with the furniture. `toggleable-lights: true` lets players right-click to switch them.
 
 ### Drops and sounds
