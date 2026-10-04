@@ -97,6 +97,10 @@ EcoItems supports both shaped and shapeless recipes. See [Recipes](https://hub.a
 A `recipe` is crafted at a crafting table by default. Add `type:` to make the item at a furnace, smithing table, stonecutter, anvil, or brewing stand instead; see [Workstation Recipes](workstation-recipes).
 :::
 
+:::tip
+Lore supports MiniMessage, including sprites such as `<sprite:items:item/diamond>` on 1.21.9 and newer. See [Text Formatting](https://hub.auxilor.io/wiki/eco/text-formatting).
+:::
+
 ### Components
 
 `item.components` lets you set **any vanilla item component** on the item, using the same structure as vanilla commands. See the [Data component format](https://minecraft.wiki/w/Data_component_format) for every component and its fields. This is how you set combat stats, food behaviour, tool rules, cooldowns, equippability, and anything else the game itself supports:
