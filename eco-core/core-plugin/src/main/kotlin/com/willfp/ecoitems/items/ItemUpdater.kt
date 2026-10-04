@@ -2,6 +2,7 @@ package com.willfp.ecoitems.items
 
 import com.willfp.eco.core.fast.fast
 import com.willfp.ecoitems.plugin
+import com.willfp.ecoitems.util.runFor
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
@@ -54,8 +55,10 @@ object ItemUpdater : Listener {
         }
 
         for (player in Bukkit.getOnlinePlayers()) {
-            update(player.inventory)
-            update(player.enderChest)
+            plugin.runFor(player) {
+                update(player.inventory)
+                update(player.enderChest)
+            }
         }
     }
 

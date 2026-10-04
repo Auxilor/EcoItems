@@ -12,7 +12,6 @@ import com.willfp.ecoitems.blocks.BlockPhysicsListener
 import com.willfp.ecoitems.blocks.EcoBlocks
 import com.willfp.ecoitems.blocks.PaperBlockListener
 import com.willfp.ecoitems.blocks.SaplingGrowth
-import com.willfp.ecoitems.furniture.FurnitureBeds
 import com.willfp.ecoitems.furniture.FurnitureListener
 import com.willfp.ecoitems.furniture.FurnitureStorageManager
 import com.willfp.ecoitems.furniture.VehicleTicker
@@ -44,8 +43,10 @@ import com.willfp.ecoitems.rarity.ArgParserRarity
 import com.willfp.ecoitems.rarity.Rarities
 import com.willfp.ecoitems.sounds.Sounds
 import com.willfp.ecoitems.items.EcoItemTag
+import com.willfp.ecoitems.util.ChunkSweeps
 import com.willfp.ecoitems.util.DiscoverRecipeListener
 import com.willfp.ecoitems.util.PickBlockListener
+import com.willfp.ecoitems.util.PlayerTickers
 import com.willfp.ecoitems.util.WorldEditIntegration
 import com.willfp.ecoitems.util.WorldGuardFlags
 import com.willfp.libreforge.conditions.Conditions
@@ -93,15 +94,16 @@ class EcoItemsPlugin : LibreforgePlugin() {
     }
 
     override fun handleReload() {
+        // eco has just cancelled every task; tickers are registered afresh below.
+        PlayerTickers.clear()
         FurnitureStorageManager.persistAll()
         EcoBlocks.reload(this)
         PackFeatures.instance?.handleReload(this)
         ItemsGUI.reload()
         ItemUpdater.updateOnlinePlayers()
-        CropTracker.start(this)
+        CropTracker.start()
         SaplingGrowth.start(this)
         VehicleTicker.start(this)
-        FurnitureBeds.start(this)
     }
 
     override fun loadPacketListeners(): List<PacketListener> {
@@ -111,7 +113,7 @@ class EcoItemsPlugin : LibreforgePlugin() {
     }
 
     override fun handleDisable() {
-        FurnitureStorageManager.persistAll()
+        FurnitureStorageManager.persistAll(shuttingDown = true)
         PackFeatures.instance?.handleDisable(this)
     }
 
@@ -143,10 +145,11 @@ class EcoItemsPlugin : LibreforgePlugin() {
             SaplingGrowth,
             FurnitureListener,
             FurnitureStorageManager,
-            FurnitureBeds,
             CropListener,
             LootFishingListener,
-            WorkstationRecipePermissions
+            WorkstationRecipePermissions,
+            PlayerTickers,
+            ChunkSweeps
         ) + listOfNotNull(
             PaperBlockListener.createIfSupported(),
             PickBlockListener.createIfSupported()

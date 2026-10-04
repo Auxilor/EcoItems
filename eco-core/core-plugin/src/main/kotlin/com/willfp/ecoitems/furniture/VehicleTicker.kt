@@ -6,14 +6,17 @@ import com.willfp.eco.util.toComponent
 import com.willfp.ecoitems.EcoItemsPlugin
 import com.willfp.ecoitems.items.EcoItems
 import com.willfp.ecoitems.plugin
+import com.willfp.ecoitems.util.PlayerTickers
 import com.willfp.ecoitems.util.WorldGuardFlags
+import com.willfp.ecoitems.util.ownsRegion
+import com.willfp.ecoitems.util.teleportSafely
 import io.papermc.paper.entity.TeleportFlag
-import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.entity.ArmorStand
 import org.bukkit.entity.ItemDisplay
 import org.bukkit.entity.Player
 import java.util.UUID
+import java.util.concurrent.ConcurrentHashMap
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -31,8 +34,8 @@ object VehicleTicker {
         Player::class.java.getMethod("getCurrentInput")
     }.isSuccess
 
-    private val fuelClock = mutableMapOf<UUID, Long>()
-    private val lastFuelWarning = mutableMapOf<UUID, Long>()
+    private val fuelClock = ConcurrentHashMap<UUID, Long>()
+    private val lastFuelWarning = ConcurrentHashMap<UUID, Long>()
 
     fun start(plugin: EcoItemsPlugin) {
         val anyVehicles = EcoItems.values().any { it.furniture?.vehicle != null }
@@ -45,12 +48,7 @@ object VehicleTicker {
             return
         }
 
-        // eco cancels plugin tasks on reload, so this never stacks.
-        plugin.scheduler.runTimer(1, 1) {
-            for (player in Bukkit.getOnlinePlayers()) {
-                drive(player)
-            }
-        }
+        PlayerTickers.register(1) { drive(it) }
     }
 
     private fun drive(player: Player) {
@@ -84,6 +82,13 @@ object VehicleTicker {
 
         val base = placed.base
         val from = base.location
+
+        // The whole stack moves together or not at all; on Folia a piece
+        // straddling a region border can't be moved from this thread.
+        val parts = listOf(base) + placed.seatEntities() + placed.interactionEntities()
+        if (!parts.all { ownsRegion(it) }) {
+            return
+        }
 
         if ((throttle != 0.0 || vertical != 0.0) && !consumeFuel(player, vehicle)) {
             return
@@ -132,20 +137,21 @@ object VehicleTicker {
 
         // Move every entity of the furniture by the same offset; the ridden
         // seat keeps its passenger through the teleport.
-        for (entity in listOf(base) + placed.seatEntities() + placed.interactionEntities()) {
+        for (entity in parts) {
             val to = entity.location.add(delta.x, delta.y, delta.z)
             if (entity is ItemDisplay) {
                 to.yaw = yaw + 180f
             }
-            entity.teleport(to, TeleportFlag.EntityState.RETAIN_PASSENGERS)
+            entity.teleportSafely(to, TeleportFlag.EntityState.RETAIN_PASSENGERS)
         }
     }
 
     private fun blocked(displayLocation: Location): Boolean =
         !passable(displayLocation) || !passable(displayLocation.clone().add(0.0, 1.0, 0.0))
 
+    // Blocks this thread can't read (a region border, on Folia) count as solid.
     private fun passable(location: Location): Boolean =
-        location.block.isPassable
+        ownsRegion(location) && location.block.isPassable
 
     /** True while there's fuel to burn (or none is needed). */
     private fun consumeFuel(player: Player, vehicle: FurnitureVehicle): Boolean {

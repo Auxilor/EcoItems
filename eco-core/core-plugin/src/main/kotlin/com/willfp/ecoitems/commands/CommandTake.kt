@@ -1,11 +1,14 @@
 package com.willfp.ecoitems.commands
 
 import com.willfp.eco.core.command.impl.Subcommand
+import com.willfp.ecoitems.items.EcoItem
 import com.willfp.ecoitems.items.EcoItems
 import com.willfp.ecoitems.items.ecoItem
 import com.willfp.ecoitems.plugin
+import com.willfp.ecoitems.util.runFor
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
+import org.bukkit.entity.Player
 import org.bukkit.util.StringUtil
 
 object CommandTake : Subcommand(plugin, "take", "ecoitems.command.take", false) {
@@ -13,7 +16,25 @@ object CommandTake : Subcommand(plugin, "take", "ecoitems.command.take", false) 
         val player = notifyPlayerRequired(args.getOrNull(0), "invalid-player")
         val ecoItem = notifyNull(EcoItems.getByID(args.getOrNull(1)), "invalid-item")
 
-        var remaining = args.getOrNull(2)?.toIntOrNull() ?: Int.MAX_VALUE
+        val limit = args.getOrNull(2)?.toIntOrNull() ?: Int.MAX_VALUE
+
+        // The inventory belongs to the player's thread, which on Folia need
+        // not be this one.
+        plugin.runFor(player) {
+            val taken = take(player, ecoItem, limit)
+
+            sender.sendMessage(
+                plugin.langYml.getMessage("took-items")
+                    .replace("%amount%", taken.toString())
+                    .replace("%item%", ecoItem.id.key)
+                    .replace("%recipient%", player.name)
+            )
+        }
+    }
+
+    /** Removes up to [limit] of [ecoItem] from the player; how many were taken. */
+    private fun take(player: Player, ecoItem: EcoItem, limit: Int): Int {
+        var remaining = limit
         var taken = 0
 
         val inventory = player.inventory
@@ -38,12 +59,7 @@ object CommandTake : Subcommand(plugin, "take", "ecoitems.command.take", false) 
             }
         }
 
-        sender.sendMessage(
-            plugin.langYml.getMessage("took-items")
-                .replace("%amount%", taken.toString())
-                .replace("%item%", ecoItem.id.key)
-                .replace("%recipient%", player.name)
-        )
+        return taken
     }
 
     override fun tabComplete(sender: CommandSender, args: List<String>): List<String> {

@@ -15,5 +15,7 @@ interface ActionBarDetectionProxy : PacketListener
  * callback; in free builds it stays null and detection is a no-op.
  */
 object ActionBarDetection {
+    // Installed on reload, invoked from netty threads.
+    @Volatile
     var onDetect: ((Player) -> Unit)? = null
 }

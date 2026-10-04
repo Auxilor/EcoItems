@@ -13,6 +13,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import java.util.UUID
+import java.util.concurrent.ConcurrentHashMap
 
 /** The chat/sign/tab-complete surfaces; the right chat listener per platform. */
 object GlyphListeners {
@@ -64,7 +65,7 @@ object GlyphSignListener : Listener {
 
 /** Per-player chat completions for glyph placeholders (e.g. typing ":hea" completes ":heart:"). */
 object GlyphTabCompletions : Listener {
-    private val sent = mutableMapOf<UUID, List<String>>()
+    private val sent = ConcurrentHashMap<UUID, List<String>>()
 
     @EventHandler
     fun onJoin(event: PlayerJoinEvent) {
@@ -77,10 +78,8 @@ object GlyphTabCompletions : Listener {
     }
 
     fun refresh(plugin: EcoItemsPlugin) {
-        plugin.scheduler.run {
-            for (player in Bukkit.getOnlinePlayers()) {
-                send(player)
-            }
+        for (player in Bukkit.getOnlinePlayers()) {
+            plugin.scheduler.on(player).run { send(player) }
         }
     }
 

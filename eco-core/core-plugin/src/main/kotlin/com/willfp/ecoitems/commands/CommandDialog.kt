@@ -3,6 +3,7 @@ package com.willfp.ecoitems.commands
 import com.willfp.eco.core.command.impl.Subcommand
 import com.willfp.ecoitems.dialogs.Dialogs
 import com.willfp.ecoitems.plugin
+import com.willfp.ecoitems.util.runFor
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -18,8 +19,10 @@ object CommandDialog : Subcommand(plugin, "dialog", "ecoitems.command.dialog", f
                 return
             })
 
-        if (!dialog.open(player)) {
-            sender.sendMessage(plugin.langYml.getMessage("dialogs-unsupported"))
+        plugin.runFor(player) {
+            if (!dialog.open(player)) {
+                sender.sendMessage(plugin.langYml.getMessage("dialogs-unsupported"))
+            }
         }
     }
 

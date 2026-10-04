@@ -2,9 +2,11 @@ package com.willfp.ecoitems.furniture
 
 import com.willfp.eco.util.formatEco
 import com.willfp.ecoitems.plugin
+import com.willfp.ecoitems.util.runFor
 import org.bukkit.Bukkit
 import org.bukkit.NamespacedKey
 import org.bukkit.SoundCategory
+import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -18,6 +20,7 @@ import org.bukkit.util.io.BukkitObjectOutputStream
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.util.UUID
+import java.util.concurrent.ConcurrentHashMap
 
 /**
  * Chest-style furniture inventories. Contents persist in the base entity's
@@ -25,7 +28,7 @@ import java.util.UUID
  * player for personal storage), so concurrent viewers see each other's edits.
  */
 object FurnitureStorageManager : Listener {
-    private val open = mutableMapOf<String, Inventory>()
+    private val open = ConcurrentHashMap<String, Inventory>()
 
     private class StorageHolder(
         val baseId: UUID,
@@ -87,11 +90,23 @@ object FurnitureStorageManager : Listener {
         }
     }
 
-    /** Persists every open inventory (reloads and shutdowns). */
-    fun persistAll() {
+    /**
+     * Persists every open inventory (reloads and shutdowns), each on the
+     * thread that owns its furniture. Nothing can be scheduled once the
+     * plugin is shutting down, so then it all happens here and now.
+     */
+    fun persistAll(shuttingDown: Boolean = false) {
         for (inventory in open.values.toList()) {
-            (inventory.holder as? StorageHolder)?.let { persist(it) }
-            inventory.viewers.toList().forEach { it.closeInventory() }
+            val holder = inventory.holder as? StorageHolder
+            val base = holder?.let { Bukkit.getEntity(it.baseId) }
+
+            if (holder != null && base != null) {
+                if (shuttingDown) persist(holder, base) else plugin.runFor(base) { persist(holder, base) }
+            }
+
+            for (viewer in inventory.viewers.toList()) {
+                if (shuttingDown) viewer.closeInventory() else plugin.runFor(viewer) { viewer.closeInventory() }
+            }
         }
         open.clear()
     }
@@ -106,20 +121,28 @@ object FurnitureStorageManager : Listener {
         // Close every session belonging to this placement.
         val sessions = open.filterKeys { it.startsWith("$baseId") }
         for ((key, inventory) in sessions) {
-            (inventory.holder as? StorageHolder)?.let { persist(it) }
-            inventory.viewers.toList().forEach { it.closeInventory() }
+            (inventory.holder as? StorageHolder)?.let { persist(it, placed.base) }
+            inventory.viewers.toList().forEach { viewer -> plugin.runFor(viewer) { viewer.closeInventory() } }
             open.remove(key)
         }
 
         val stored = placed.base.persistentDataContainer.get(sharedKey, PersistentDataType.BYTE_ARRAY)
-            ?: return emptyList()
+
+        // On Folia a viewer in another region closes a tick later; empty the
+        // live inventory now so nothing can be taken out after it dropped.
+        sessions.values.forEach { it.clear() }
+
+        stored ?: return emptyList()
 
         return deserialize(stored).filterNotNull().filter { !it.type.isAir }
     }
 
     private fun persist(holder: StorageHolder) {
+        persist(holder, Bukkit.getEntity(holder.baseId) ?: return)
+    }
+
+    private fun persist(holder: StorageHolder, base: Entity) {
         val dataKey = holder.dataKey ?: return // Disposal discards.
-        val base = Bukkit.getEntity(holder.baseId) ?: return
 
         base.persistentDataContainer.set(
             dataKey,

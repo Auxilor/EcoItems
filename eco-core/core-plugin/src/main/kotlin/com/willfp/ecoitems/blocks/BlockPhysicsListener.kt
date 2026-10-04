@@ -98,7 +98,7 @@ object BlockPhysicsListener : Listener {
         val placed = EcoBlocks.at(block) ?: return
         val data = EcoBlocks.blockData(placed.block, placed.orientation) ?: return
 
-        plugin.scheduler.run {
+        plugin.scheduler.at(block.location).run {
             if (block.type == placed.block.backing.material && EcoBlocks.at(block)?.block == placed.block) {
                 block.setBlockData(data, false)
             }
@@ -211,7 +211,7 @@ object BlockPhysicsListener : Listener {
             return
         }
 
-        plugin.scheduler.run {
+        plugin.scheduler.at(above.location).run {
             if (EcoBlocks.at(above)?.block != placed.block) {
                 return@run
             }
@@ -250,7 +250,7 @@ object BlockPhysicsListener : Listener {
         // in case a neighbor update normalized it.
         val block = event.block
         val data = falling.blockData
-        plugin.scheduler.run {
+        plugin.scheduler.at(block.location).run {
             if (block.type == data.material) {
                 block.setBlockData(data, false)
             }

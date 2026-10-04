@@ -34,6 +34,7 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.Damageable
 import org.bukkit.util.BoundingBox
 import java.util.UUID
+import java.util.concurrent.ConcurrentHashMap
 import kotlin.random.Random
 
 /**
@@ -42,13 +43,17 @@ import kotlin.random.Random
  * a real BlockPlaceEvent so protection plugins have their say.
  */
 object BlockListener : Listener {
-    /** True while our own synthetic BlockPlaceEvent is being dispatched. */
-    internal var placing = false
-        private set
+    // Per thread: on Folia regions place blocks concurrently, and the event
+    // is dispatched on the thread that set the flag.
+    private val dispatching = ThreadLocal.withInitial { false }
+
+    /** True while our own synthetic BlockPlaceEvent is being dispatched on this thread. */
+    internal val placing: Boolean
+        get() = dispatching.get()
 
     // Vanilla paces held-down placement at 4 ticks; without this, a single
     // click can double-fire and place two blocks back to back.
-    private val lastPlacement = mutableMapOf<UUID, Long>()
+    private val lastPlacement = ConcurrentHashMap<UUID, Long>()
 
     internal fun passesPlacementCooldown(player: Player): Boolean {
         val cooldown = plugin.configYml.getIntOrNull("blocks.place-cooldown-ms") ?: 200
@@ -74,11 +79,11 @@ object BlockListener : Listener {
      * vanilla-place normalizer stands down); true = the placement may stay.
      */
     internal fun callPlaceEvent(placeEvent: BlockPlaceEvent): Boolean {
-        placing = true
+        dispatching.set(true)
         try {
             plugin.server.pluginManager.callEvent(placeEvent)
         } finally {
-            placing = false
+            dispatching.set(false)
         }
         return !placeEvent.isCancelled && placeEvent.canBuild()
     }
