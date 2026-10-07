@@ -1,5 +1,7 @@
 package com.willfp.ecoitems.pack.huds
 
+import com.willfp.eco.core.actionbar.PersistentActionBar
+import com.willfp.eco.core.actionbar.PersistentActionBars
 import com.willfp.eco.core.placeholder.context.placeholderContext
 import com.willfp.eco.util.NumberUtils
 import com.willfp.eco.util.asAudience
@@ -9,7 +11,6 @@ import com.willfp.ecoitems.EcoItemsPlugin
 import com.willfp.ecoitems.huds.Hud
 import com.willfp.ecoitems.huds.HudType
 import com.willfp.ecoitems.huds.Huds
-import com.willfp.ecoitems.nms.ActionBarDetection
 import com.willfp.ecoitems.util.PlayerTickers
 import com.willfp.ecoitems.util.runFor
 import com.willfp.libreforge.EmptyProvidedHolder
@@ -27,22 +28,19 @@ import java.util.concurrent.ConcurrentHashMap
 import kotlin.math.roundToInt
 
 /**
- * Re-sends visible HUDs on a 5-tick heartbeat; each HUD sends when its own
- * update-ticks interval is due. Yields the action bar for a few seconds when
- * another plugin writes to it (detected by the packet listener).
+ * Re-sends visible boss bar HUDs on a 5-tick heartbeat; each HUD sends when its
+ * own update-ticks interval is due. Action bar HUDs are eco persistent action
+ * bars, re-rendered when their update-ticks interval is due.
  */
 object HudTicker {
-    // How long to yield after a foreign action bar message, and the window in
-    // which a detected send is considered our own.
-    private const val PAUSE_MS = 2700L
-    private const val SELF_SEND_MS = 50L
-
     private const val HEARTBEAT_TICKS = 5
 
-    private val pausedUntil = ConcurrentHashMap<UUID, Long>()
-    private val selfSends = ConcurrentHashMap<UUID, Long>()
+    private const val TICK_MILLIS = 50L
 
-    private val shownActionBars = ConcurrentHashMap<UUID, String>()
+    private val actionBars = mutableListOf<PersistentActionBar>()
+
+    private val renderedActionBars = ConcurrentHashMap<UUID, RenderedActionBar>()
+
     private val shownBossBars = ConcurrentHashMap<UUID, MutableMap<String, BossBar>>()
 
     // Heartbeat ticks so far, per player: on Folia each player ticks on the
@@ -50,7 +48,7 @@ object HudTicker {
     private val counters = ConcurrentHashMap<UUID, Int>()
 
     fun start(plugin: EcoItemsPlugin) {
-        ActionBarDetection.onDetect = { player -> pause(player) }
+        registerActionBars(plugin)
 
         // Tasks are cancelled by eco on reload, so this never stacks. Clear
         // anything shown for HUDs that may have changed or been removed.
@@ -64,7 +62,7 @@ object HudTicker {
 
     /** Nothing can be scheduled once the plugin is shutting down, so then it all happens here. */
     fun stop(plugin: EcoItemsPlugin, shuttingDown: Boolean = false) {
-        ActionBarDetection.onDetect = null
+        unregisterActionBars()
 
         for (player in Bukkit.getOnlinePlayers()) {
             if (shuttingDown) hideAll(player) else plugin.runFor(player) { hideAll(player) }
@@ -74,33 +72,46 @@ object HudTicker {
     private fun tick(player: Player) {
         val counter = counters.merge(player.uniqueId, HEARTBEAT_TICKS, Int::plus)!!
 
-        tickActionBar(player, counter)
         tickBossBars(player, counter)
     }
 
-    private fun tickActionBar(player: Player, counter: Int) {
-        val hud = HudState.activeActionBarHud(player)?.takeIf { isVisible(player, it) }
+    private fun registerActionBars(plugin: EcoItemsPlugin) {
+        unregisterActionBars()
 
-        if (hud == null) {
-            // Clear once so the old text doesn't linger for its fade time.
-            if (shownActionBars.remove(player.uniqueId) != null && !isPaused(player)) {
-                player.asAudience().sendActionBar(Component.empty())
+        for (hud in Huds.values()) {
+            if (hud.type != HudType.ACTION_BAR) {
+                continue
             }
-            return
+
+            actionBars += PersistentActionBars.register(plugin, "hud_${hud.id}", hud.priority) {
+                renderActionBar(it, hud)
+            }
+        }
+    }
+
+    private fun unregisterActionBars() {
+        actionBars.forEach { it.unregister() }
+        actionBars.clear()
+        renderedActionBars.clear()
+    }
+
+    private fun renderActionBar(player: Player, hud: Hud): Component? {
+        if (HudState.activeActionBarHud(player)?.id != hud.id || !isVisible(player, hud)) {
+            return null
         }
 
-        val switched = shownActionBars[player.uniqueId] != hud.id
-        if (!switched && !isDue(hud, counter)) {
-            return
+        val now = System.currentTimeMillis()
+        val rendered = renderedActionBars[player.uniqueId]
+
+        if (rendered != null && rendered.hudId == hud.id &&
+            now - rendered.renderedAt < hud.updateTicks.coerceAtLeast(HEARTBEAT_TICKS) * TICK_MILLIS
+        ) {
+            return rendered.component
         }
 
-        if (isPaused(player)) {
-            return
+        return render(hud, player).also {
+            renderedActionBars[player.uniqueId] = RenderedActionBar(hud.id, it, now)
         }
-
-        selfSends[player.uniqueId] = System.currentTimeMillis()
-        player.asAudience().sendActionBar(render(hud, player))
-        shownActionBars[player.uniqueId] = hud.id
     }
 
     private fun tickBossBars(player: Player, counter: Int) {
@@ -179,22 +190,8 @@ object HudTicker {
     private fun isDue(hud: Hud, counter: Int): Boolean =
         counter % hud.updateTicks.coerceAtLeast(HEARTBEAT_TICKS) < HEARTBEAT_TICKS
 
-    private fun isPaused(player: Player): Boolean =
-        (pausedUntil[player.uniqueId] ?: 0) > System.currentTimeMillis()
-
-    private fun pause(player: Player) {
-        val now = System.currentTimeMillis()
-
-        // Our own sends come back through the packet listener too.
-        if (now - (selfSends[player.uniqueId] ?: 0) < SELF_SEND_MS) {
-            return
-        }
-
-        pausedUntil[player.uniqueId] = now + PAUSE_MS
-    }
-
     private fun hideAll(player: Player) {
-        shownActionBars.remove(player.uniqueId)
+        renderedActionBars.remove(player.uniqueId)
         shownBossBars.remove(player.uniqueId)?.values?.forEach {
             player.asAudience().hideBossBar(it)
         }
@@ -205,8 +202,12 @@ object HudTicker {
         fun onQuit(event: PlayerQuitEvent) {
             hideAll(event.player)
             counters.remove(event.player.uniqueId)
-            pausedUntil.remove(event.player.uniqueId)
-            selfSends.remove(event.player.uniqueId)
         }
     }
+
+    private class RenderedActionBar(
+        val hudId: String,
+        val component: Component,
+        val renderedAt: Long
+    )
 }
