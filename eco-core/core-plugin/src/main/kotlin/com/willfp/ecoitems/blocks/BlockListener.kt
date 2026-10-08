@@ -2,6 +2,7 @@ package com.willfp.ecoitems.blocks
 
 import com.willfp.eco.core.integrations.antigrief.AntigriefManager
 import com.willfp.eco.core.drops.DropQueue
+import com.willfp.eco.util.useItemOn
 import com.willfp.ecoitems.libreforge.ContentEvent
 import com.willfp.libreforge.drops.LibreforgeDrops
 import com.willfp.libreforge.triggers.event.DropCause
@@ -89,9 +90,9 @@ object BlockListener : Listener {
     }
 
     /**
-     * Right-clicking a custom note block would tune it (and string blocks
-     * would connect hooks) - deny the vanilla block use. Item use still
-     * proceeds, so placing against custom blocks keeps working.
+     * Right-clicking a custom note block would tune it - deny the vanilla
+     * block use. The other backings have no block use, and sneaking with an
+     * item skips it in vanilla, so those clicks are left alone.
      */
     @EventHandler(priority = EventPriority.LOWEST)
     fun onInteractCustomBlock(event: PlayerInteractEvent) {
@@ -100,9 +101,38 @@ object BlockListener : Listener {
         }
 
         val block = event.clickedBlock ?: return
-        if (EcoBlocks.at(block) != null) {
-            event.setUseInteractedBlock(Event.Result.DENY)
+        if (block.type != Material.NOTE_BLOCK || EcoBlocks.at(block) == null) {
+            return
         }
+
+        val inventory = event.player.inventory
+        if (event.player.isSneaking && !(inventory.itemInMainHand.isEmpty && inventory.itemInOffHand.isEmpty)) {
+            return
+        }
+
+        event.setUseInteractedBlock(Event.Result.DENY)
+    }
+
+    /**
+     * Denying the block use also skips the held item, so run its vanilla
+     * use here: torches, buttons and the like go on custom note blocks as
+     * they would on any solid block.
+     */
+    @EventHandler(priority = EventPriority.MONITOR)
+    fun onUseItemOnCustomBlock(event: PlayerInteractEvent) {
+        if (event.action != Action.RIGHT_CLICK_BLOCK) {
+            return
+        }
+        if (event.useInteractedBlock() != Event.Result.DENY || event.useItemInHand() == Event.Result.DENY) {
+            return
+        }
+
+        val block = event.clickedBlock ?: return
+        if (block.type != Material.NOTE_BLOCK || EcoBlocks.at(block) == null) {
+            return
+        }
+
+        event.player.useItemOn(event.hand ?: return, block, event.blockFace, event.clickedPosition)
     }
 
     /** Punch / right-click effects on placed custom blocks. */
