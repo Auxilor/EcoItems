@@ -19,9 +19,14 @@ type: action-bar
 # configured ascents. Maximum is 8.
 text-ascent: -13
 
-# (Optional) How often the HUD refreshes, in ticks. Defaults to 40 -
-# much higher and the action bar starts fading between updates.
+# (Optional) How often the HUD refreshes, in ticks. Defaults to 40.
+# Action bar HUDs stay on screen between updates.
 update-ticks: 40
+
+# (Optional) Only used when type is action-bar. The priority against other
+# persistent action bars, such as the EcoSkills stats bar (priority 50).
+# The highest priority active bar is shown. Defaults to 100.
+priority: 100
 
 # If the HUD should show for players who haven't toggled it.
 enabled-by-default: true

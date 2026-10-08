@@ -6,5 +6,4 @@ options:
   resource-id: 1241
   bstats-id: 12205
   color: "&#ff0000"
-  proxy-package: "com.willfp.ecoitems.proxy"
   eco-api-version: ${ecoApiVersion}

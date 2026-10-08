@@ -34,6 +34,8 @@ class Hud(
 
     val updateTicks = config.getIntOrNull("update-ticks") ?: 40
 
+    val priority = config.getIntOrNull("priority") ?: 100
+
     val enabledByDefault = config.getBool("enabled-by-default")
 
     /** Empty = visible to everyone. */
