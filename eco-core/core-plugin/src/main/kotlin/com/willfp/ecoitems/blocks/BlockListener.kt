@@ -8,6 +8,7 @@ import com.willfp.libreforge.triggers.event.DropCause
 import com.willfp.libreforge.triggers.event.DropContext
 import com.willfp.ecoitems.items.EcoItems
 import com.willfp.ecoitems.items.ecoItem
+import com.willfp.ecoitems.nms.ItemUseProxy
 import com.willfp.ecoitems.plugin
 import com.willfp.ecoitems.util.WorldGuardFlags
 import org.bukkit.GameMode
@@ -51,6 +52,8 @@ object BlockListener : Listener {
     internal val placing: Boolean
         get() = dispatching.get()
 
+    private val itemUse by lazy { plugin.getProxy(ItemUseProxy::class.java) }
+
     // Vanilla paces held-down placement at 4 ticks; without this, a single
     // click can double-fire and place two blocks back to back.
     private val lastPlacement = ConcurrentHashMap<UUID, Long>()
@@ -89,9 +92,9 @@ object BlockListener : Listener {
     }
 
     /**
-     * Right-clicking a custom note block would tune it (and string blocks
-     * would connect hooks) - deny the vanilla block use. Item use still
-     * proceeds, so placing against custom blocks keeps working.
+     * Right-clicking a custom note block would tune it - deny the vanilla
+     * block use. The other backings have no block use, and sneaking with an
+     * item skips it in vanilla, so those clicks are left alone.
      */
     @EventHandler(priority = EventPriority.LOWEST)
     fun onInteractCustomBlock(event: PlayerInteractEvent) {
@@ -100,9 +103,38 @@ object BlockListener : Listener {
         }
 
         val block = event.clickedBlock ?: return
-        if (EcoBlocks.at(block) != null) {
-            event.setUseInteractedBlock(Event.Result.DENY)
+        if (block.type != Material.NOTE_BLOCK || EcoBlocks.at(block) == null) {
+            return
         }
+
+        val inventory = event.player.inventory
+        if (event.player.isSneaking && !(inventory.itemInMainHand.isEmpty && inventory.itemInOffHand.isEmpty)) {
+            return
+        }
+
+        event.setUseInteractedBlock(Event.Result.DENY)
+    }
+
+    /**
+     * Denying the block use also skips the held item, so run its vanilla
+     * use here: torches, buttons and the like go on custom note blocks as
+     * they would on any solid block.
+     */
+    @EventHandler(priority = EventPriority.MONITOR)
+    fun onUseItemOnCustomBlock(event: PlayerInteractEvent) {
+        if (event.action != Action.RIGHT_CLICK_BLOCK) {
+            return
+        }
+        if (event.useInteractedBlock() != Event.Result.DENY || event.useItemInHand() == Event.Result.DENY) {
+            return
+        }
+
+        val block = event.clickedBlock ?: return
+        if (block.type != Material.NOTE_BLOCK || EcoBlocks.at(block) == null) {
+            return
+        }
+
+        itemUse.useItemOn(event.player, event.hand ?: return, block, event.blockFace, event.clickedPosition)
     }
 
     /** Punch / right-click effects on placed custom blocks. */
