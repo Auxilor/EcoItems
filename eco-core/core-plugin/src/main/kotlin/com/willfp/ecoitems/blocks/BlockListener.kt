@@ -2,13 +2,13 @@ package com.willfp.ecoitems.blocks
 
 import com.willfp.eco.core.integrations.antigrief.AntigriefManager
 import com.willfp.eco.core.drops.DropQueue
+import com.willfp.eco.util.useItemOn
 import com.willfp.ecoitems.libreforge.ContentEvent
 import com.willfp.libreforge.drops.LibreforgeDrops
 import com.willfp.libreforge.triggers.event.DropCause
 import com.willfp.libreforge.triggers.event.DropContext
 import com.willfp.ecoitems.items.EcoItems
 import com.willfp.ecoitems.items.ecoItem
-import com.willfp.ecoitems.nms.ItemUseProxy
 import com.willfp.ecoitems.plugin
 import com.willfp.ecoitems.util.WorldGuardFlags
 import org.bukkit.GameMode
@@ -51,8 +51,6 @@ object BlockListener : Listener {
     /** True while our own synthetic BlockPlaceEvent is being dispatched on this thread. */
     internal val placing: Boolean
         get() = dispatching.get()
-
-    private val itemUse by lazy { plugin.getProxy(ItemUseProxy::class.java) }
 
     // Vanilla paces held-down placement at 4 ticks; without this, a single
     // click can double-fire and place two blocks back to back.
@@ -134,7 +132,7 @@ object BlockListener : Listener {
             return
         }
 
-        itemUse.useItemOn(event.player, event.hand ?: return, block, event.blockFace, event.clickedPosition)
+        event.player.useItemOn(event.hand ?: return, block, event.blockFace, event.clickedPosition)
     }
 
     /** Punch / right-click effects on placed custom blocks. */
