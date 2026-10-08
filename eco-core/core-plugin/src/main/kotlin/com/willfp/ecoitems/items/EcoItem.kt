@@ -293,7 +293,7 @@ class EcoItem(
     }
 
     /**
-     * Paintings and jukebox songs register through a generated datapack, which
+     * Paintings, jukebox songs and instruments register through a generated datapack, which
      * only loads at server start - so a registry miss on one of our own entries
      * means a pending restart, not a config mistake.
      */
@@ -309,6 +309,8 @@ class EcoItem(
                 "painting '$referenced'"
             "jukebox_playable" in error && Sounds[referenced]?.jukebox != null ->
                 "jukebox song '$referenced'"
+            "instrument" in error && Sounds[referenced]?.instrument != null ->
+                "instrument '$referenced'"
             else -> null
         }
     }
