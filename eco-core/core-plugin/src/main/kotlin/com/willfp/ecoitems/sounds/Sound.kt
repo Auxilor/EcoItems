@@ -1,5 +1,6 @@
 package com.willfp.ecoitems.sounds
 
+import com.willfp.eco.core.Prerequisite
 import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.eco.core.registry.KRegistrable
 import com.willfp.ecoitems.plugin
@@ -34,6 +35,13 @@ class Sound(
     /** When set, this sound is registered as a jukebox song (needs a restart). */
     val jukebox: JukeboxSong? = if (config.has("jukebox")) {
         JukeboxSong(this, config.getSubsection("jukebox"))
+    } else {
+        null
+    }
+
+    /** When set, this sound is registered as a goat horn instrument (needs a restart). */
+    val instrument: HornInstrument? = if (config.has("instrument")) {
+        HornInstrument(this, config.getSubsection("instrument"))
     } else {
         null
     }
@@ -87,6 +95,38 @@ class JukeboxSong(sound: Sound, config: Config) {
 
     /** (Optional) How far the song is audible, in blocks. */
     val range: Double? = config.getDoubleOrNull("range")
+}
+
+/** Goat horn instrument registration for a sound - registered via the generated datapack. */
+class HornInstrument(sound: Sound, config: Config) {
+    /** Shown in the horn tooltip. */
+    val description: String = config.getStringOrNull("description")
+        ?: sound.subtitle
+        ?: "Goat Horn"
+
+    /** How long the horn plays and stays on cooldown, in seconds. */
+    val useDuration: Double = (config.getDoubleOrNull("use-duration") ?: 7.0).coerceAtLeast(0.0).let {
+        // Before 26.3 the instrument codec rejects 0, which fails the whole pack.
+        if (it == 0.0 && !Prerequisite.HAS_26_3.isMet) {
+            plugin.logger.warning("Sound ${sound.id} has instrument use-duration 0, which needs 26.3+; using 0.05 instead")
+            0.05
+        } else {
+            it
+        }
+    }
+
+    /** How far the horn is audible, in blocks. */
+    val range = config.getDoubleOrNull("range") ?: 256.0
+
+    /** Durability lost per use, 26.3+. */
+    val durabilityDamage: Int = (config.getIntOrNull("durability-damage") ?: 0).coerceAtLeast(0).let {
+        if (it > 0 && !Prerequisite.HAS_26_3.isMet) {
+            plugin.logger.warning("Sound ${sound.id} has instrument durability-damage, which needs 26.3+; it will be ignored")
+            0
+        } else {
+            it
+        }
+    }
 }
 
 /** One file in a sound event, with the vanilla sounds.json options. */
