@@ -38,6 +38,7 @@ IDs may only contain lowercase letters, numbers, and underscores (a-z, 0-9, _). 
 | **Type** | Action bar or boss bar |
 | **Positioning** | The vertical offset of the text |
 | **Refresh** | How often it updates |
+| **Priority** | Which action bar shows when several want the slot |
 | **Visibility** | Who sees it by default, and permission and condition gates |
 | **Boss bar** | The bar's colour, style, and progress |
 
@@ -53,6 +54,9 @@ text-ascent: -13 # Optional; vanilla is 7, lower moves down, maximum 8
 
 # === Refresh ===
 update-ticks: 40 # Optional; defaults to 40
+
+# === Priority: only used when type is action-bar ===
+priority: 100 # Optional; defaults to 100
 
 # === Visibility: who sees it ===
 enabled-by-default: true # If it shows for players who haven't toggled it
@@ -85,7 +89,11 @@ Only basic ASCII characters are covered by the offset font, so accented or non-L
 
 ### Refresh
 
-`update-ticks` is how often the HUD refreshes, and defaults to 40. Set it much higher and the action bar starts fading between updates.
+`update-ticks` is how often the HUD refreshes, and defaults to 40. Action bar HUDs stay on screen between updates, so a higher value only makes the text change less often.
+
+### Priority
+
+An action bar HUD shares the action bar with other persistent bars, such as the EcoSkills stats bar (priority 50). The highest priority bar that is active for the player shows, and `priority` defaults to 100, so a HUD shows over the stats bar. One-off action bar messages from any plugin always show, and pause every persistent bar for a few seconds.
 
 ### Visibility
 
