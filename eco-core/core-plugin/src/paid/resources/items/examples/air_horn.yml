@@ -1,0 +1,10 @@
+# A custom goat horn playing the air horn (see sounds/air_horn.yml).
+item:
+  item: goat_horn
+  name: "&dAir Horn"
+  components:
+    max_stack_size: 1
+    instrument: "ecoitems:air_horn"
+
+effects: []
+conditions: []
