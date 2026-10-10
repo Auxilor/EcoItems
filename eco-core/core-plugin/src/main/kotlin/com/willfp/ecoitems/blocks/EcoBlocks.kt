@@ -83,12 +83,7 @@ object EcoBlocks {
         val stale = registeredKeys.toMutableSet()
         for (block in byId.values) {
             val key = plugin.namespacedKeyFactory.create(block.id)
-            CustomBlock(
-                key,
-                { test -> at(test)?.block?.id == block.id },
-                { location -> place(block, location) },
-                block.hardness.toFloat()
-            ).register()
+            customBlock(block).register()
             registeredKeys += key
             stale -= key
         }
@@ -225,13 +220,16 @@ object EcoBlocks {
      */
     object Provider : BlockProvider("ecoitems") {
         override fun provideForKey(key: String): TestableBlock? {
-            val block = byId[key] ?: return null
-            return CustomBlock(
-                ecoItemsPlugin.namespacedKeyFactory.create(block.id),
-                { test -> at(test)?.block?.id == block.id },
-                { location -> place(block, location) },
-                block.hardness.toFloat()
-            )
+            return byId[key]?.let { customBlock(it) }
         }
     }
+
+    /** The eco view of [block], so any plugin can test, place and roll drops for it. */
+    private fun customBlock(block: EcoBlock): CustomBlock =
+        CustomBlock(
+            ecoItemsPlugin.namespacedKeyFactory.create(block.id),
+            { test -> at(test)?.block?.id == block.id },
+            { location -> place(block, location) },
+            block.hardness.toFloat()
+        ) { worldBlock, tool -> BlockListener.dropsFor(worldBlock, tool) }
 }

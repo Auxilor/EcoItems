@@ -35,3 +35,11 @@ sounds:
 #   length-seconds: 10 # How long the jukebox stays busy
 #   comparator-output: 3 # Redstone comparator level, 1-15
 #   range: 48 # (Optional) Audible range in blocks
+
+# (Optional) Register the sound as a goat horn instrument, playable from a
+# goat_horn item with an instrument component. Registering needs a server restart.
+# instrument:
+#   description: "Battle Horn" # The horn tooltip text, defaults to the subtitle
+#   use-duration: 7 # (Optional) Seconds the horn plays and stays on cooldown, defaults to 7. 0 needs 26.3+
+#   range: 256 # (Optional) Audible range in blocks, defaults to 256
+#   durability-damage: 0 # (Optional) Durability lost per use, defaults to 0. Needs 26.3+ and max_damage and damage components on the item
