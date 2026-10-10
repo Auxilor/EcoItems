@@ -1,0 +1,15 @@
+# An example custom goat horn sound
+# Play it with /playsound ecoitems:air_horn record @s
+
+category: record
+subtitle: "Air Horn"
+
+sounds:
+  - sound: air_horn # pack/assets/ecoitems/sounds/air_horn.ogg
+
+# Registers the sound as a goat horn instrument (via a generated datapack, so
+# this needs a restart). Playable from a goat_horn with an instrument component.
+instrument:
+  description: "Air Horn"
+  use-duration: 5
+  range: 128

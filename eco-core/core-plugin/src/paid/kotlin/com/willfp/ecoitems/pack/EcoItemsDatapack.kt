@@ -8,6 +8,7 @@ import com.willfp.eco.util.formatEco
 import com.willfp.ecoitems.EcoItemsPlugin
 import com.willfp.ecoitems.paintings.Painting
 import com.willfp.ecoitems.paintings.Paintings
+import com.willfp.ecoitems.sounds.HornInstrument
 import com.willfp.ecoitems.sounds.JukeboxSong
 import com.willfp.ecoitems.sounds.Sound
 import com.willfp.ecoitems.sounds.Sounds
@@ -17,7 +18,7 @@ import java.io.File
 import java.util.Properties
 
 /**
- * Contributes painting variants and jukebox songs to the EcoItems datapack.
+ * Contributes painting variants, jukebox songs and instruments to the EcoItems datapack.
  *
  * Both live in data-driven registries that only load at server start, so eco
  * writes the pack and logs a restart notice rather than applying them live.
@@ -51,6 +52,13 @@ class EcoItemsDatapack(
             val key = key(sound.id) ?: continue
 
             draft.put("jukebox_song", key, jukeboxJson(sound, jukebox))
+        }
+
+        for (sound in Sounds.values().sortedBy { it.id }) {
+            val instrument = sound.instrument ?: continue
+            val key = key(sound.id) ?: continue
+
+            draft.put("instrument", key, instrumentJson(sound, instrument))
         }
     }
 
@@ -94,6 +102,23 @@ class EcoItemsDatapack(
         json.add("description", text(jukebox.description))
         json.addProperty("length_in_seconds", jukebox.lengthSeconds)
         json.addProperty("comparator_output", jukebox.comparatorOutput)
+
+        return gson.toJson(json)
+    }
+
+    private fun instrumentJson(sound: Sound, instrument: HornInstrument): String {
+        val json = JsonObject()
+
+        val event = JsonObject()
+        event.addProperty("sound_id", sound.key)
+        json.add("sound_event", event)
+
+        json.addProperty("use_duration", instrument.useDuration)
+        json.addProperty("range", instrument.range)
+        if (instrument.durabilityDamage > 0) {
+            json.addProperty("durability_damage", instrument.durabilityDamage)
+        }
+        json.add("description", text(instrument.description))
 
         return gson.toJson(json)
     }

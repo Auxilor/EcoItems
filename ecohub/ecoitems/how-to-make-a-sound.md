@@ -3,7 +3,7 @@ title: "How to Make a Sound"
 sidebar_position: 10
 ---
 
-A custom sound is a config in the `sounds/` folder that adds a new **sound event** from your own `.ogg` files: music, ambience, UI feedback, ability sounds, or anything else. Sounds are delivered through the [resource pack](resource-packs) and play like any vanilla sound, and can double as **music discs**. This page covers adding a sound, playing it, and overriding the client's language strings.
+A custom sound is a config in the `sounds/` folder that adds a new **sound event** from your own `.ogg` files: music, ambience, UI feedback, ability sounds, or anything else. Sounds are delivered through the [resource pack](resource-packs) and play like any vanilla sound, and can double as **music discs** or **goat horns**. This page covers adding a sound, playing it, and overriding the client's language strings.
 
 :::info
 Custom sounds are part of the resource pack system, which requires the paid version of EcoItems.
@@ -19,12 +19,12 @@ Custom sounds are part of the resource pack system, which requires the paid vers
 6. Run `/playsound ecoitems:battle_horn player @a` to confirm it plays.
 
 :::tip
-`_example.yml` is included as a reference and is **never loaded**, so copy or rename it to make a real sound. The shipped `welcome` sound and `welcome_disc` item are a working music disc.
+`_example.yml` is included as a reference and is **never loaded**, so copy or rename it to make a real sound. The shipped `welcome` sound and `welcome_disc` item are a working music disc, and the `air_horn` sound and item are a working goat horn.
 :::
 
 ## Naming and IDs
 
-The file name without `.yml` is the sound's ID. The sound plays as `ecoitems:<id>`, which is what `/playsound`, effects, and jukebox items reference.
+The file name without `.yml` is the sound's ID. The sound plays as `ecoitems:<id>`, which is what `/playsound`, effects, jukebox items, and horns reference.
 
 :::warning ID rules
 IDs may only contain lowercase letters, numbers, and underscores (a-z, 0-9, _). No spaces, capitals, or hyphens, or the sound will not load.
@@ -38,6 +38,7 @@ IDs may only contain lowercase letters, numbers, and underscores (a-z, 0-9, _). 
 | **Subtitle** | The text shown when the sound plays with subtitles on |
 | **Sound files** | The `.ogg` files played, and how each one plays |
 | **Jukebox** | Optional registration as a music disc song |
+| **Instrument** | Optional registration as a goat horn instrument |
 
 ```yaml
 # === Category: the volume slider ===
@@ -63,6 +64,13 @@ jukebox:
   length-seconds: 10 # How long the jukebox stays busy
   comparator-output: 3 # Redstone comparator level, 1-15
   range: 48 # Optional; audible range in blocks
+
+# === Instrument: optional goat horn ===
+instrument:
+  description: "Battle Horn" # Optional; the horn tooltip text, defaults to the subtitle
+  use-duration: 7 # Optional; seconds the horn plays and stays on cooldown, defaults to 7
+  range: 256 # Optional; audible range in blocks, defaults to 256
+  durability-damage: 0 # Optional; durability lost per use, defaults to 0
 ```
 
 ### Category
@@ -96,6 +104,24 @@ item:
     "minecraft:max_stack_size": 1
     "minecraft:jukebox_playable": "ecoitems:welcome"
 ```
+
+### Instrument
+
+An `instrument` section registers the sound as a goat horn instrument through the same generated datapack, so it also **needs a server restart**. A `goat_horn` item with an `instrument` component pointing at the sound then plays it when used:
+
+```yaml
+item:
+  item: goat_horn
+  components:
+    "minecraft:max_stack_size": 1
+    "minecraft:instrument": "ecoitems:battle_horn"
+```
+
+Only goat horns play instruments, so keep `item: goat_horn` and change the look with a texture or model.
+
+:::info 26.3 and newer
+`use-duration: 0` (no cooldown) and `durability-damage` need a 26.3+ server. On older servers, a `use-duration` of 0 is raised to 0.05 and `durability-damage` is ignored, with a console warning. For `durability-damage` to have an effect, give the item `max_damage` and `damage` components, e.g. `"minecraft:max_damage": 10` and `"minecraft:damage": 0`.
+:::
 
 ## Playing a sound
 
@@ -139,6 +165,7 @@ Values support `:glyph:` placeholders (see [How to Make a Glyph](how-to-make-a-g
 :::tip Troubleshooting
 - **Sound doesn't play?** The console logs a warning on reload when a sound file doesn't exist in `pack/assets/`; check the path has no `.ogg` extension.
 - **Music disc does nothing?** Jukebox songs register at startup, so restart the server after adding a `jukebox` section.
+- **Horn plays the vanilla sound or nothing?** Instruments register at startup too, so restart the server after adding an `instrument` section.
 :::
 
 <hr/>
