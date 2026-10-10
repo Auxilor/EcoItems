@@ -1,5 +1,6 @@
 package com.willfp.ecoitems.loots
 
+import com.willfp.ecoitems.api.EcoItemsLoot
 import org.bukkit.entity.Item
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
@@ -22,20 +23,8 @@ object LootFishingListener : Listener {
         }
 
         val caught = event.caught as? Item ?: return
-        val hook = event.hook.location
-        val world = hook.world ?: return
-
-        for (loot in Loots.values()) {
-            if (!loot.rollsForFishing(world, hook.block.biome, event.player)) {
-                continue
-            }
-
-            val replacement = LootContributor.rollItems(loot, 0).firstOrNull() ?: continue
-            caught.itemStack = replacement
-            if (!loot.xp.isEmpty()) {
-                event.expToDrop += loot.xp.random().coerceAtLeast(0)
-            }
-            return
-        }
+        val roll = EcoItemsLoot.rollFishing(event.hook.location, event.player) ?: return
+        caught.itemStack = roll.item
+        event.expToDrop += roll.experience
     }
 }
