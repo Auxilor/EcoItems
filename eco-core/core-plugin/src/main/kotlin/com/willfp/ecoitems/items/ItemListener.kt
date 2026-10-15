@@ -1,5 +1,6 @@
 package com.willfp.ecoitems.items
 
+import org.bukkit.event.Event
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
@@ -37,7 +38,7 @@ object ItemListener : Listener {
         }
 
         if (event.action == Action.RIGHT_CLICK_BLOCK) {
-            event.isCancelled = true
+            event.setUseItemInHand(Event.Result.DENY)
         }
     }
 
