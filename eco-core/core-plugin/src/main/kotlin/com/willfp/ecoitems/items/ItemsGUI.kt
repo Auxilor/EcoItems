@@ -8,10 +8,9 @@ import com.willfp.eco.core.gui.menu
 import com.willfp.eco.core.gui.menu.Menu
 import com.willfp.eco.core.gui.menu.MenuBuilder
 import com.willfp.eco.core.gui.page.PageChanger
+import com.willfp.eco.core.gui.setMask
 import com.willfp.eco.core.gui.slot
 import com.willfp.eco.core.gui.slot.ConfigSlot
-import com.willfp.eco.core.gui.slot.FillerMask
-import com.willfp.eco.core.gui.slot.MaskItems
 import com.willfp.eco.core.gui.slot.Slot
 import com.willfp.eco.core.items.Items
 import com.willfp.eco.core.items.builder.ItemStackBuilder
@@ -151,12 +150,7 @@ object ItemsGUI {
             .takeIf { plugin.configYml.getBool("items-gui.background.enabled") }
         title = PackFeatures.instance?.decorateGuiTitle(plugin, plainTitle, background) ?: plainTitle
 
-        setMask(
-            FillerMask(
-                MaskItems.fromItemNames(plugin.configYml.getStrings("items-gui.mask.items")),
-                *plugin.configYml.getStrings("items-gui.mask.pattern").toTypedArray()
-            )
-        )
+        setMask(plugin.configYml, "items-gui")
 
         val pageSound = PlayableSound.create(plugin.configYml.getSubsection("items-gui.page-change.sound"))
         for (direction in PageChanger.Direction.entries) {
