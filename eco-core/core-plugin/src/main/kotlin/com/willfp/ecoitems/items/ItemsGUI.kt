@@ -3,6 +3,7 @@ package com.willfp.ecoitems.items
 import com.willfp.eco.core.drops.DropQueue
 import com.willfp.eco.core.gui.addCustomSlots
 import com.willfp.eco.core.gui.addPageChanger
+import com.willfp.eco.core.gui.component.ConfigButton
 import com.willfp.eco.core.gui.component.PagedAreaComponent
 import com.willfp.eco.core.gui.component.addComponent
 import com.willfp.eco.core.gui.component.addPagedArea
@@ -111,21 +112,20 @@ object ItemsGUI {
 
             addPagedArea(ItemScrollPane(items))
 
-            if (showBack && plugin.configYml.getBool("items-gui.back-button.enabled")) {
-                val fallback = ItemStackBuilder(
-                    Items.lookup(plugin.configYml.getString("items-gui.back-button.item"))
+            if (showBack) {
+                addComponent(
+                    ConfigButton(
+                        plugin.configYml.getSubsection("items-gui.back-button"),
+                        enabledByDefault = false,
+                        itemModifier = { item ->
+                            PackFeatures.instance?.decorateGuiItem(
+                                plugin,
+                                item,
+                                plugin.configYml.getStringOrNull("items-gui.back-button.model")
+                            ) ?: item
+                        }
+                    ) { player, _, _, _ -> mainMenu.open(player) }
                 )
-                    .setDisplayName(plugin.configYml.getFormattedString("items-gui.back-button.name"))
-                    .build()
-                val back = PackFeatures.instance?.decorateGuiItem(
-                    plugin,
-                    fallback,
-                    plugin.configYml.getStringOrNull("items-gui.back-button.model")
-                ) ?: fallback
-
-                for (location in plugin.configYml.getSlotLocations("items-gui.back-button")) {
-                    setSlot(location.row, location.column, slot(back) { onLeftClick { event, _ -> mainMenu.open(event.whoClicked as Player) } })
-                }
             }
         }
 
