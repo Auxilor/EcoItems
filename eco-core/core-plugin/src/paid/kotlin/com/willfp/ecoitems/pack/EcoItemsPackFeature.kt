@@ -36,6 +36,7 @@ import org.bukkit.inventory.ItemStack
 object EcoItemsPackFeature : PackFeature {
     private var packYml: PackYml? = null
     private var publisher: PackPublisher? = null
+    private var datapackRegistered = false
 
     override fun listeners(plugin: EcoItemsPlugin): List<Listener> {
         return listOf(PackListener, HudTicker.QuitListener, TridentListener, BlockSoundsListener) + GlyphListeners.listeners()
@@ -50,15 +51,11 @@ object EcoItemsPackFeature : PackFeature {
         PlaceholderManager.addIntegration(GlyphText.GlyphPlaceholderIntegration)
         PlaceholderManager.registerPlaceholder(GlyphPlaceholder)
         PlaceholderManager.registerPlaceholder(ShiftPlaceholder)
-
-        // Only once the replacement is installed: if the new pack fails validation, the legacy one
-        // is the only copy of this content left on disk.
-        if (Datapacks.register(plugin, EcoItemsDatapack(plugin)).succeeded()) {
-            LegacyDatapack.remove(plugin)
-        }
     }
 
     override fun handleReload(plugin: EcoItemsPlugin) {
+        registerDatapack(plugin)
+
         val config = packYml ?: PackYml(plugin).also { packYml = it }
         val settings = PackSettings(config)
 
@@ -190,6 +187,21 @@ object EcoItemsPackFeature : PackFeature {
 
         publisher = created
         return created
+    }
+
+    /**
+     * Registered on the first reload rather than on enable, so the first build already sees
+     * the loaded sounds and paintings instead of writing an empty pack.
+     */
+    private fun registerDatapack(plugin: EcoItemsPlugin) {
+        if (datapackRegistered) return
+        datapackRegistered = true
+
+        // Only once the replacement is installed: if the new pack fails validation, the legacy one
+        // is the only copy of this content left on disk.
+        if (Datapacks.register(plugin, EcoItemsDatapack(plugin)).succeeded()) {
+            LegacyDatapack.remove(plugin)
+        }
     }
 
     private fun shutdownPublisher() {
