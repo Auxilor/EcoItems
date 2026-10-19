@@ -4,7 +4,9 @@ import com.willfp.eco.core.drops.DropQueue
 import com.willfp.eco.core.gui.addCustomSlots
 import com.willfp.eco.core.gui.addPageChanger
 import com.willfp.eco.core.gui.component.PagedAreaComponent
+import com.willfp.eco.core.gui.component.addComponent
 import com.willfp.eco.core.gui.component.addPagedArea
+import com.willfp.eco.core.gui.component.closeButton
 import com.willfp.eco.core.gui.getSlotArea
 import com.willfp.eco.core.gui.getSlotLocations
 import com.willfp.eco.core.gui.menu
@@ -164,23 +166,19 @@ object ItemsGUI {
             }
         }
 
-        if (plugin.configYml.getBool("items-gui.close-button.enabled")) {
-            val fallback = ItemStackBuilder(
-                Items.lookup(plugin.configYml.getString("items-gui.close-button.item"))
+        addComponent(
+            closeButton(
+                plugin.configYml.getSubsection("items-gui.close-button"),
+                enabledByDefault = false,
+                itemModifier = { item ->
+                    PackFeatures.instance?.decorateGuiItem(
+                        plugin,
+                        item,
+                        plugin.configYml.getStringOrNull("items-gui.close-button.model")
+                    ) ?: item
+                }
             )
-                .setDisplayName(plugin.configYml.getFormattedString("items-gui.close-button.name"))
-                .addLoreLines(plugin.configYml.getStrings("items-gui.close-button.lore"))
-                .build()
-            val close = PackFeatures.instance?.decorateGuiItem(
-                plugin,
-                fallback,
-                plugin.configYml.getStringOrNull("items-gui.close-button.model")
-            ) ?: fallback
-
-            for (location in plugin.configYml.getSlotLocations("items-gui.close-button")) {
-                setSlot(location.row, location.column, slot(close) { onLeftClick { event, _ -> event.whoClicked.closeInventory() } })
-            }
-        }
+        )
 
         addCustomSlots(plugin.configYml, "items-gui")
     }
