@@ -2,6 +2,7 @@ package com.willfp.ecoitems.items
 
 import com.willfp.eco.core.drops.DropQueue
 import com.willfp.eco.core.gui.GUIComponent
+import com.willfp.eco.core.gui.addCustomSlots
 import com.willfp.eco.core.gui.addPageChanger
 import com.willfp.eco.core.gui.getSlotLocations
 import com.willfp.eco.core.gui.menu
@@ -10,7 +11,6 @@ import com.willfp.eco.core.gui.menu.MenuBuilder
 import com.willfp.eco.core.gui.page.PageChanger
 import com.willfp.eco.core.gui.setMask
 import com.willfp.eco.core.gui.slot
-import com.willfp.eco.core.gui.slot.ConfigSlot
 import com.willfp.eco.core.gui.slot.Slot
 import com.willfp.eco.core.items.Items
 import com.willfp.eco.core.items.builder.ItemStackBuilder
@@ -199,11 +199,7 @@ object ItemsGUI {
             }
         }
 
-        for (config in plugin.configYml.getSubsections("items-gui.custom-slots")) {
-            for (location in config.getSlotLocations()) {
-                setSlot(location.row, location.column, ConfigSlot(config))
-            }
-        }
+        addCustomSlots(plugin.configYml, "items-gui")
     }
 
     private class CategoryPane(private val categories: List<Category>) : GUIComponent {
