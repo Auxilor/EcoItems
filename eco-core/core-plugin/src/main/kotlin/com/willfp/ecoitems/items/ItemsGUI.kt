@@ -3,6 +3,7 @@ package com.willfp.ecoitems.items
 import com.willfp.eco.core.drops.DropQueue
 import com.willfp.eco.core.gui.GUIComponent
 import com.willfp.eco.core.gui.addPageChanger
+import com.willfp.eco.core.gui.getSlotLocations
 import com.willfp.eco.core.gui.menu
 import com.willfp.eco.core.gui.menu.Menu
 import com.willfp.eco.core.gui.menu.MenuBuilder
@@ -138,11 +139,9 @@ object ItemsGUI {
                     plugin.configYml.getStringOrNull("items-gui.back-button.model")
                 ) ?: fallback
 
-                setSlot(
-                    plugin.configYml.getInt("items-gui.back-button.row"),
-                    plugin.configYml.getInt("items-gui.back-button.column"),
-                    slot(back) { onLeftClick { event, _ -> mainMenu.open(event.whoClicked as Player) } }
-                )
+                for (location in plugin.configYml.getSlotLocations("items-gui.back-button")) {
+                    setSlot(location.row, location.column, slot(back) { onLeftClick { event, _ -> mainMenu.open(event.whoClicked as Player) } })
+                }
             }
         }
 
@@ -176,14 +175,16 @@ object ItemsGUI {
                 PackFeatures.instance?.decorateGuiItem(plugin, fallback.clone(), it)
             }
 
-            addPageChanger(
-                direction,
-                active,
-                locked,
-                pageSound,
-                plugin.configYml.getInt("$path.row"),
-                plugin.configYml.getInt("$path.column")
-            )
+            for (location in plugin.configYml.getSlotLocations(path)) {
+                addPageChanger(
+                    direction,
+                    active,
+                    locked,
+                    pageSound,
+                    location.row,
+                    location.column
+                )
+            }
         }
 
         if (plugin.configYml.getBool("items-gui.close-button.enabled")) {
@@ -199,15 +200,15 @@ object ItemsGUI {
                 plugin.configYml.getStringOrNull("items-gui.close-button.model")
             ) ?: fallback
 
-            setSlot(
-                plugin.configYml.getInt("items-gui.close-button.row"),
-                plugin.configYml.getInt("items-gui.close-button.column"),
-                slot(close) { onLeftClick { event, _ -> event.whoClicked.closeInventory() } }
-            )
+            for (location in plugin.configYml.getSlotLocations("items-gui.close-button")) {
+                setSlot(location.row, location.column, slot(close) { onLeftClick { event, _ -> event.whoClicked.closeInventory() } })
+            }
         }
 
         for (config in plugin.configYml.getSubsections("items-gui.custom-slots")) {
-            setSlot(config.getInt("row"), config.getInt("column"), ConfigSlot(config))
+            for (location in config.getSlotLocations()) {
+                setSlot(location.row, location.column, ConfigSlot(config))
+            }
         }
     }
 
