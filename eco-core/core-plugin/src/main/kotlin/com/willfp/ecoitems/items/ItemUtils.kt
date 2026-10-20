@@ -41,6 +41,15 @@ val baseTrimKey = namespacedKeyOf("ecoitems", "base-trim")
  */
 fun String.normalizeFormatting(): String = toComponent().toLegacy()
 
+/** True if the stack's name differs from the config name it was built with, e.g. a lookup `name:` or an anvil rename. */
+@Suppress("DEPRECATION")
+val ItemStack.isRenamed: Boolean
+    get() {
+        val meta = itemMeta ?: return false
+        val baseline = meta.persistentDataContainer.get(baseDisplayNameKey, PersistentDataType.STRING) ?: return false
+        return meta.hasDisplayName() && meta.displayName.normalizeFormatting() != baseline.normalizeFormatting()
+    }
+
 fun ArmorTrim.encoded(): String = "${material.key}:${pattern.key}"
 
 fun List<Component>.encoded(): String =

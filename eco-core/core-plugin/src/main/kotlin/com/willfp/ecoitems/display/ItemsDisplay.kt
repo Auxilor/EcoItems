@@ -8,6 +8,7 @@ import com.willfp.eco.core.fast.fast
 import com.willfp.eco.util.formatEco
 import com.willfp.eco.util.formatEcoRich
 import com.willfp.ecoitems.items.ecoItem
+import com.willfp.ecoitems.items.isRenamed
 import com.willfp.ecoitems.plugin
 import com.willfp.libreforge.ItemProvidedHolder
 import net.kyori.adventure.text.Component
@@ -33,7 +34,7 @@ object ItemsDisplay : DisplayModule(plugin, DisplayPriority.LOWEST) {
 
         context.lore.prepend(lore)
 
-        if (ecoItem.displayName != null) {
+        if (ecoItem.displayName != null && !itemStack.isRenamed) {
             val formatted = ecoItem.displayName.formatEco(context.placeholderContext)
             if (fis.displayName != formatted) {
                 fis.displayName = formatted
