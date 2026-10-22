@@ -124,7 +124,7 @@ Component keys without a namespace are treated as `minecraft:` components, so no
 `minecraft:attribute_modifiers` merges with the base item's own modifiers instead of replacing them: a modifier you configure takes over that attribute in that slot, and every attribute you say nothing about keeps the base item's value. So setting attack damage on an `iron_sword` keeps the sword's attack speed.
 
 :::tip Names
-`item.name` is shorthand for the `minecraft:item_name` component, the modern way to name items (no italics, no anvil-rename look). The older `item.display-name` still works and sets a custom name through the display system instead, which supports placeholders that update per-player.
+`item.name` is shorthand for the `minecraft:item_name` component, the modern way to name items (no italics, no anvil-rename look). The older `item.display-name` still works and sets a custom name through the display system instead, which supports placeholders that update per-player. An item renamed in an anvil, or given a `name:` in an item lookup (for example `ecoitems:my_item name:"&cShop Sword"` in a menu), keeps that name instead of the `display-name`.
 :::
 
 :::info Migrating from older versions
