@@ -1,0 +1,1204 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>BracesOnIfStatements:Furniture.kt:Furniture$if</ID>
+    <ID>BracesOnIfStatements:PackMcmeta.kt:PackMcmeta$else</ID>
+    <ID>BracesOnIfStatements:PackMcmeta.kt:PackMcmeta$if</ID>
+    <ID>BracesOnIfStatements:PickBlockListener.kt:PickBlockListener$if</ID>
+    <ID>BracesOnWhenStatements:BlockAssetGenerator.kt:BlockAssetGenerator$when</ID>
+    <ID>BracesOnWhenStatements:BlockSoundsListener.kt:BlockSoundsListener$when</ID>
+    <ID>BracesOnWhenStatements:EcoCrop.kt:EcoCrop$when</ID>
+    <ID>BracesOnWhenStatements:Furniture.kt:Furniture$when</ID>
+    <ID>BracesOnWhenStatements:FurnitureConnections.kt:FurnitureConnections$when</ID>
+    <ID>BracesOnWhenStatements:HudTicker.kt:HudTicker$when</ID>
+    <ID>BracesOnWhenStatements:ItemAssetGenerator.kt:ItemAssetGenerator$when</ID>
+    <ID>BracesOnWhenStatements:ItemsAdderMigration.kt:ItemsAdderMigration$when</ID>
+    <ID>BracesOnWhenStatements:ItemsAdderRecipes.kt:ItemsAdderRecipes$when</ID>
+    <ID>BracesOnWhenStatements:OraxenLikeMigration.kt:OraxenLikeMigration$when</ID>
+    <ID>BracesOnWhenStatements:PackObfuscator.kt:PackObfuscator$when</ID>
+    <ID>C001:SelfHostedPublisher.kt:SelfHostedPublisher$if (!packs.containsKey(pack.sha1)) { packs[pack.sha1] = pack.file.readBytes() history.addLast(pack.sha1) }</ID>
+    <ID>C001:VehicleTicker.kt:VehicleTicker$if (now - (lastFuelWarning[player.uniqueId] ?: 0) &gt; 1000) { lastFuelWarning[player.uniqueId] = now player.asAudience().sendActionBar( plugin.langYml.getString("messages.vehicle-no-fuel").formatEco().toComponent() ) }</ID>
+    <ID>C002:VehicleTicker.kt:VehicleTicker$entity.teleportSafely(to, TeleportFlag.EntityState.RETAIN_PASSENGERS)</ID>
+    <ID>CX016:BlockListener.kt:com.willfp.ecoitems.blocks.BlockListener.kt</ID>
+    <ID>CX016:OraxenLikeMigration.kt:com.willfp.ecoitems.migration.OraxenLikeMigration.kt</ID>
+    <ID>CanBeNonNullable:OraxenLikeMigration.kt:OraxenLikeMigration$pack: ConfigurationSection?</ID>
+    <ID>CascadingCallWrapping:BlockAssetGenerator.kt:BlockAssetGenerator$entrySet()</ID>
+    <ID>CascadingCallWrapping:DiscoverRecipeListener.kt:DiscoverRecipeListener$map { it.key }</ID>
+    <ID>CascadingCallWrapping:GifTexture.kt:GifTexture$toIntOrNull()</ID>
+    <ID>CascadingCallWrapping:ItemsAdderMigration.kt:ItemsAdderMigration$pack.walkTopDown() .filter { it.extension == "yml" } .mapNotNull { YamlConfiguration.loadConfiguration(it).getString("info.namespace") } .firstOrNull() ?: pack.name</ID>
+    <ID>CascadingCallWrapping:OraxenLikeMigration.kt:OraxenLikeMigration$listOf("sound.yml", "sounds.yml") .map { source.resolve(it) } .firstOrNull { it.exists() } ?: return</ID>
+    <ID>CascadingCallWrapping:OraxenLikeMigration.kt:OraxenLikeMigration$mapNotNull { it.trim().toDoubleOrNull() }</ID>
+    <ID>CascadingCallWrapping:PackBuilder.kt:PackBuilder$toList()</ID>
+    <ID>CognitiveComplexMethod:AtlasGenerator.kt:AtlasGenerator$fun generate</ID>
+    <ID>CognitiveComplexMethod:BlockListener.kt:BlockListener$@EventHandler(priority = EventPriority.HIGH) fun onPlace</ID>
+    <ID>CognitiveComplexMethod:BlockListener.kt:BlockListener$private fun rollDrops: Pair&lt;List&lt;ItemStack&gt;, Int&gt;</ID>
+    <ID>CognitiveComplexMethod:BlockSoundsListener.kt:BlockSoundsListener$@EventHandler(ignoreCancelled = true) fun onStepOrFall</ID>
+    <ID>CognitiveComplexMethod:BlockVariations.kt:BlockVariations$fun assign: Map&lt;String, List&lt;Int&gt;&gt;</ID>
+    <ID>CognitiveComplexMethod:ChunkSweeps.kt:ChunkSweeps$fun start</ID>
+    <ID>CognitiveComplexMethod:CommandHitbox.kt:CommandHitbox$private fun outline</ID>
+    <ID>CognitiveComplexMethod:EcoItem.kt:EcoItem$private fun ItemStack.withComponents: ItemStack</ID>
+    <ID>CognitiveComplexMethod:FurnitureListener.kt:FurnitureListener$@EventHandler(priority = EventPriority.HIGH) fun onPlace</ID>
+    <ID>CognitiveComplexMethod:GlyphAssetGenerator.kt:GlyphAssetGenerator$private fun addBitmapGrids</ID>
+    <ID>CognitiveComplexMethod:GlyphCodepoints.kt:GlyphCodepoints$fun assign: Map&lt;String, AssignedGlyph&gt;</ID>
+    <ID>CognitiveComplexMethod:ItemUpdater.kt:ItemUpdater$@Suppress("DEPRECATION") private fun updated: ItemStack?</ID>
+    <ID>CognitiveComplexMethod:ItemsAdderMigration.kt:ItemsAdderMigration$private fun convertComponents</ID>
+    <ID>CognitiveComplexMethod:ItemsAdderRecipes.kt:ItemsAdderRecipes$fun load</ID>
+    <ID>CognitiveComplexMethod:OraxenLikeMigration.kt:OraxenLikeMigration$private fun convertBlock</ID>
+    <ID>CognitiveComplexMethod:OraxenLikeMigration.kt:OraxenLikeMigration$private fun convertComponents</ID>
+    <ID>CognitiveComplexMethod:OraxenLikeMigration.kt:OraxenLikeMigration$private fun convertFurniture</ID>
+    <ID>CognitiveComplexMethod:OraxenLikeMigration.kt:OraxenLikeMigration$private fun convertGlyphs</ID>
+    <ID>CognitiveComplexMethod:OraxenLikeMigration.kt:OraxenLikeMigration$private fun convertSound</ID>
+    <ID>CognitiveComplexMethod:OraxenLikeMigration.kt:OraxenLikeMigration$private fun convertSounds</ID>
+    <ID>CognitiveComplexMethod:OraxenLikeMigration.kt:OraxenLikeMigration$private fun copyPack</ID>
+    <ID>CognitiveComplexMethod:PackImports.kt:PackImports$fun load: ImportedPacks</ID>
+    <ID>CognitiveComplexMethod:PackObfuscator.kt:PackObfuscator$private fun rewrite</ID>
+    <ID>CognitiveComplexMethod:S3Publisher.kt:S3Publisher$override fun publish: PublishedPack?</ID>
+    <ID>CognitiveComplexMethod:SoundAssetGenerator.kt:SoundAssetGenerator$fun generate</ID>
+    <ID>CognitiveComplexMethod:VehicleTicker.kt:VehicleTicker$private fun drive</ID>
+    <ID>CollapsibleIfStatements:RarityDisplay.kt:RarityDisplay$if (baseRarity == null) { if (!plugin.configYml.getBool("rarity.display-default")) { return } }</ID>
+    <ID>ComplexCondition:CommandDrop.kt:CommandDrop$x == null || y == null || z == null || world == null</ID>
+    <ID>ComplexCondition:EcoItem.kt:EcoItem$itemConfig.has("texture") || itemConfig.has("model") || itemConfig.has("definition") || blockAssets</ID>
+    <ID>ComplexCondition:EcoItemsPackFeature.kt:EcoItemsPackFeature$current is SelfHostedPublisher &amp;&amp; settings.mode == DeliveryMode.SELF_HOSTED &amp;&amp; current.bind == settings.selfHostedBind &amp;&amp; current.port == settings.selfHostedPort &amp;&amp; current.publicUrl == settings.selfHostedPublicUrl</ID>
+    <ID>ComplexCondition:ItemPackAsset.kt:ItemPackAsset.Companion$texture == null &amp;&amp; model == null &amp;&amp; definition == null &amp;&amp; states.isEmpty()</ID>
+    <ID>ComplexCondition:PackDefaults.kt:PackDefaults$entry.isDirectory || !entry.name.startsWith(only ?: "pack/") || entry.name.startsWith("pack/defaults/") || entry.name.startsWith("pack/builtin/")</ID>
+    <ID>ComplexCondition:PackImports.kt:PackImports$relative.startsWith("assets/") || isOverlayAssets || relative == "pack.mcmeta" || relative == "pack.png"</ID>
+    <ID>CouldBeSequence:CommandHitbox.kt:CommandHitbox$flatMap { it.barrierBlocks() }</ID>
+    <ID>CouldBeSequence:CommandHitbox.kt:CommandHitbox$flatMap { it.interactionEntities() }</ID>
+    <ID>CouldBeSequence:DiscoverRecipeListener.kt:DiscoverRecipeListener$filterIsInstance&lt;Keyed&gt;()</ID>
+    <ID>CouldBeSequence:EcoBlocks.kt:EcoBlocks$mapNotNull { flags[it] }</ID>
+    <ID>CouldBeSequence:EcoItem.kt:EcoItem$orEmpty()</ID>
+    <ID>CouldBeSequence:GlyphPicker.kt:GlyphPicker$chunked(PER_LINE)</ID>
+    <ID>CouldBeSequence:GlyphPicker.kt:GlyphPicker$filter { it.glyph.showInPicker }</ID>
+    <ID>CouldBeSequence:GlyphText.kt:GlyphText$filter { it.glyph.placeholders.isNotEmpty() }</ID>
+    <ID>CouldBeSequence:OraxenLikeMigration.kt:OraxenLikeMigration$orEmpty()</ID>
+    <ID>CyclomaticComplexMethod:AtlasGenerator.kt:AtlasGenerator$fun generate</ID>
+    <ID>CyclomaticComplexMethod:BlockAssetGenerator.kt:BlockAssetGenerator$fun generate</ID>
+    <ID>CyclomaticComplexMethod:BlockAssetGenerator.kt:BlockAssetGenerator$private fun resolveModel: String?</ID>
+    <ID>CyclomaticComplexMethod:BlockListener.kt:BlockListener$@EventHandler(priority = EventPriority.HIGH) fun onPlace</ID>
+    <ID>CyclomaticComplexMethod:BlockListener.kt:BlockListener$private fun rollDrops: Pair&lt;List&lt;ItemStack&gt;, Int&gt;</ID>
+    <ID>CyclomaticComplexMethod:BlockSoundsListener.kt:BlockSoundsListener$@EventHandler(ignoreCancelled = true) fun onStepOrFall</ID>
+    <ID>CyclomaticComplexMethod:BlockVariations.kt:BlockVariations$fun assign: Map&lt;String, List&lt;Int&gt;&gt;</ID>
+    <ID>CyclomaticComplexMethod:CropListener.kt:CropListener$@EventHandler(priority = EventPriority.HIGH) fun onPlant</ID>
+    <ID>CyclomaticComplexMethod:CropTracker.kt:CropTracker$private fun tickEntry: String?</ID>
+    <ID>CyclomaticComplexMethod:EcoItemsDatapack.kt:EcoItemsDatapack$override fun contribute</ID>
+    <ID>CyclomaticComplexMethod:FurnitureConnections.kt:FurnitureConnections$fun update</ID>
+    <ID>CyclomaticComplexMethod:FurnitureListener.kt:FurnitureListener$@EventHandler(priority = EventPriority.HIGH) fun onPlace</ID>
+    <ID>CyclomaticComplexMethod:GlyphAssetGenerator.kt:GlyphAssetGenerator$private fun addBitmapGrids</ID>
+    <ID>CyclomaticComplexMethod:GlyphAssetGenerator.kt:GlyphAssetGenerator$private fun addGlyph</ID>
+    <ID>CyclomaticComplexMethod:GlyphCodepoints.kt:GlyphCodepoints$fun assign: Map&lt;String, AssignedGlyph&gt;</ID>
+    <ID>CyclomaticComplexMethod:GlyphText.kt:GlyphText$fun replaceLegacy: String</ID>
+    <ID>CyclomaticComplexMethod:ItemAssetGenerator.kt:ItemAssetGenerator$private fun generate: String?</ID>
+    <ID>CyclomaticComplexMethod:ItemPackAsset.kt:ItemPackAsset.Companion$fun fromItem: ItemPackAsset?</ID>
+    <ID>CyclomaticComplexMethod:ItemUpdater.kt:ItemUpdater$@Suppress("DEPRECATION") private fun updated: ItemStack?</ID>
+    <ID>CyclomaticComplexMethod:ItemsAdderMigration.kt:ItemsAdderMigration$private fun convertBlock: Boolean</ID>
+    <ID>CyclomaticComplexMethod:ItemsAdderMigration.kt:ItemsAdderMigration$private fun convertComponents</ID>
+    <ID>CyclomaticComplexMethod:ItemsAdderMigration.kt:ItemsAdderMigration$private fun convertItem</ID>
+    <ID>CyclomaticComplexMethod:ItemsAdderRecipes.kt:ItemsAdderRecipes$fun load</ID>
+    <ID>CyclomaticComplexMethod:OraxenLikeMigration.kt:OraxenLikeMigration$private fun convertBlock</ID>
+    <ID>CyclomaticComplexMethod:OraxenLikeMigration.kt:OraxenLikeMigration$private fun convertComponents</ID>
+    <ID>CyclomaticComplexMethod:OraxenLikeMigration.kt:OraxenLikeMigration$private fun convertFurniture</ID>
+    <ID>CyclomaticComplexMethod:OraxenLikeMigration.kt:OraxenLikeMigration$private fun convertGlyphs</ID>
+    <ID>CyclomaticComplexMethod:OraxenLikeMigration.kt:OraxenLikeMigration$private fun convertItem</ID>
+    <ID>CyclomaticComplexMethod:OraxenLikeMigration.kt:OraxenLikeMigration$private fun convertSound</ID>
+    <ID>CyclomaticComplexMethod:OraxenLikeMigration.kt:OraxenLikeMigration$private fun convertSounds</ID>
+    <ID>CyclomaticComplexMethod:OraxenLikeMigration.kt:OraxenLikeMigration$private fun copyPack</ID>
+    <ID>CyclomaticComplexMethod:OraxenLikeMigration.kt:OraxenLikeMigration$private fun loadRecipes: Map&lt;String, Map&lt;String, Any&gt;&gt;</ID>
+    <ID>CyclomaticComplexMethod:PackDefaults.kt:PackDefaults$private fun extract</ID>
+    <ID>CyclomaticComplexMethod:S3Publisher.kt:S3Publisher$override fun publish: PublishedPack?</ID>
+    <ID>CyclomaticComplexMethod:SoundAssetGenerator.kt:SoundAssetGenerator$fun generate</ID>
+    <ID>CyclomaticComplexMethod:VehicleTicker.kt:VehicleTicker$private fun drive</ID>
+    <ID>CyclomaticComplexMethod:WorkstationRecipeLoader.kt:internal fun EcoItem.registerWorkstationRecipe</ID>
+    <ID>DocumentationOverPrivateFunction:BlockAssetGenerator.kt:BlockAssetGenerator$private fun generateItemDefinitions</ID>
+    <ID>DocumentationOverPrivateFunction:BlockAssetGenerator.kt:BlockAssetGenerator$private fun generateSoundRemap</ID>
+    <ID>DocumentationOverPrivateFunction:BlockAssetGenerator.kt:BlockAssetGenerator$private fun resolveModel: String?</ID>
+    <ID>DocumentationOverPrivateFunction:BlockAssetGenerator.kt:BlockAssetGenerator$private fun resolveModels: List&lt;String&gt;?</ID>
+    <ID>DocumentationOverPrivateFunction:BlockBacking.kt:private fun sixFaceData: BlockData</ID>
+    <ID>DocumentationOverPrivateFunction:BlockListener.kt:BlockListener$private fun damageTool</ID>
+    <ID>DocumentationOverPrivateFunction:BlockListener.kt:BlockListener$private fun growStack</ID>
+    <ID>DocumentationOverPrivateFunction:BlockListener.kt:BlockListener$private fun rollDrops: Pair&lt;List&lt;ItemStack&gt;, Int&gt;</ID>
+    <ID>DocumentationOverPrivateFunction:BlockPhysicsListener.kt:BlockPhysicsListener$private fun reapplyAbove</ID>
+    <ID>DocumentationOverPrivateFunction:ChunkSweeps.kt:ChunkSweeps$private fun seed</ID>
+    <ID>DocumentationOverPrivateFunction:CommandTake.kt:CommandTake$private fun take: Int</ID>
+    <ID>DocumentationOverPrivateFunction:CropTracker.kt:CropTracker$private fun tickEntry: String?</ID>
+    <ID>DocumentationOverPrivateFunction:EcoBlocks.kt:EcoBlocks$private fun clear</ID>
+    <ID>DocumentationOverPrivateFunction:EcoBlocks.kt:EcoBlocks$private fun customBlock: CustomBlock</ID>
+    <ID>DocumentationOverPrivateFunction:EcoItem.kt:EcoItem$private fun legacyAttributeModifiers: List&lt;LegacyModifier&gt;</ID>
+    <ID>DocumentationOverPrivateFunction:EcoItem.kt:EcoItem$private fun pendingRegistration: String?</ID>
+    <ID>DocumentationOverPrivateFunction:EcoItemsDatapack.kt:LegacyDatapack$private fun levelFolder: File</ID>
+    <ID>DocumentationOverPrivateFunction:EcoItemsPackFeature.kt:EcoItemsPackFeature$private fun registerDatapack</ID>
+    <ID>DocumentationOverPrivateFunction:Furniture.kt:Furniture$private fun parseCells: List&lt;Cell&gt;</ID>
+    <ID>DocumentationOverPrivateFunction:FurnitureConnections.kt:FurnitureConnections$private fun neighbor: PlacedFurniture?</ID>
+    <ID>DocumentationOverPrivateFunction:FurnitureConnections.kt:FurnitureConnections$private fun placementYaw: Float</ID>
+    <ID>DocumentationOverPrivateFunction:GlyphAssetGenerator.kt:GlyphAssetGenerator$private fun addBitmapGrids</ID>
+    <ID>DocumentationOverPrivateFunction:GlyphAssetGenerator.kt:GlyphAssetGenerator$private fun animConstants: String</ID>
+    <ID>DocumentationOverPrivateFunction:GlyphAssetGenerator.kt:GlyphAssetGenerator$private fun materializeGifs</ID>
+    <ID>DocumentationOverPrivateFunction:GlyphAssetGenerator.kt:GlyphAssetGenerator$private fun pngDimensions: Pair&lt;Int, Int&gt;?</ID>
+    <ID>DocumentationOverPrivateFunction:ItemAssetGenerator.kt:ItemAssetGenerator$private fun generate: String?</ID>
+    <ID>DocumentationOverPrivateFunction:ItemAssetGenerator.kt:ItemAssetGenerator$private fun resolveTexture: String?</ID>
+    <ID>DocumentationOverPrivateFunction:ItemUpdater.kt:ItemUpdater$@Suppress("DEPRECATION") private fun updated: ItemStack?</ID>
+    <ID>DocumentationOverPrivateFunction:ItemUpdater.kt:ItemUpdater$private fun List&lt;Component&gt;.isConfigLore: Boolean</ID>
+    <ID>DocumentationOverPrivateFunction:ItemsAdderMigration.kt:ItemsAdderMigration$private fun applyBlockTextures: Boolean</ID>
+    <ID>DocumentationOverPrivateFunction:ItemsAdderMigration.kt:ItemsAdderMigration$private fun applyItemResource</ID>
+    <ID>DocumentationOverPrivateFunction:ItemsAdderMigration.kt:ItemsAdderMigration$private fun copyAssets</ID>
+    <ID>DocumentationOverPrivateFunction:ItemsAdderMigration.kt:ItemsAdderMigration$private fun loadCache: Map&lt;String, Int&gt;</ID>
+    <ID>DocumentationOverPrivateFunction:ItemsAdderRecipes.kt:ItemsAdderRecipes$private fun itemId: String?</ID>
+    <ID>DocumentationOverPrivateFunction:ItemsAdderRecipes.kt:ItemsAdderRecipes$private fun lookup: String?</ID>
+    <ID>DocumentationOverPrivateFunction:ItemsGUI.kt:ItemsGUI$private fun MenuBuilder.frame</ID>
+    <ID>DocumentationOverPrivateFunction:ItemsGUI.kt:ItemsGUI$private fun itemFolders: Map&lt;String, String&gt;</ID>
+    <ID>DocumentationOverPrivateFunction:OraxenLikeMigration.kt:OraxenLikeMigration$private fun ConfigurationSection.any: Any?</ID>
+    <ID>DocumentationOverPrivateFunction:OraxenLikeMigration.kt:OraxenLikeMigration$private fun assetRef: String</ID>
+    <ID>DocumentationOverPrivateFunction:OraxenLikeMigration.kt:OraxenLikeMigration$private fun furnitureFloorOffset: Double?</ID>
+    <ID>DocumentationOverPrivateFunction:OraxenLikeMigration.kt:OraxenLikeMigration$private fun generateEquipment</ID>
+    <ID>DocumentationOverPrivateFunction:OraxenLikeMigration.kt:OraxenLikeMigration$private fun ingredient: String?</ID>
+    <ID>DocumentationOverPrivateFunction:OraxenLikeMigration.kt:OraxenLikeMigration$private fun loadItems: Map&lt;String, ConfigurationSection&gt;</ID>
+    <ID>DocumentationOverPrivateFunction:OraxenLikeMigration.kt:OraxenLikeMigration$private fun loadRecipes: Map&lt;String, Map&lt;String, Any&gt;&gt;</ID>
+    <ID>DocumentationOverPrivateFunction:OraxenLikeMigration.kt:OraxenLikeMigration$private fun normalizeTextureKeys: Map&lt;String, String&gt;</ID>
+    <ID>DocumentationOverPrivateFunction:OraxenLikeMigration.kt:OraxenLikeMigration$private fun parseDyeColor: Int?</ID>
+    <ID>DocumentationOverPrivateFunction:OraxenLikeMigration.kt:OraxenLikeMigration$private fun plain: Any?</ID>
+    <ID>DocumentationOverPrivateFunction:OraxenLikeMigration.kt:OraxenLikeMigration$private fun translateVariation: Int?</ID>
+    <ID>DocumentationOverPrivateFunction:PackBuilder.kt:PackBuilder$private fun minifyJson</ID>
+    <ID>DocumentationOverPrivateFunction:PackImports.kt:PackImports$private fun detectRoots: List&lt;String&gt;</ID>
+    <ID>DocumentationOverPrivateFunction:PackImports.kt:PackImports$private fun readPack: Map&lt;String, ByteArray&gt;</ID>
+    <ID>DocumentationOverPrivateFunction:PackObfuscator.kt:PackObfuscator$private fun normalize: String</ID>
+    <ID>DocumentationOverPrivateFunction:PackObfuscator.kt:PackObfuscator$private fun rewrite</ID>
+    <ID>DocumentationOverPrivateFunction:PickBlockListener.kt:PickBlockListener$private fun pick</ID>
+    <ID>DocumentationOverPrivateFunction:PlacedFurniture.kt:PlacedFurniture$private fun scheduleStateTimer</ID>
+    <ID>DocumentationOverPrivateFunction:SaplingGrowth.kt:SaplingGrowth$private fun tickEntry: String?</ID>
+    <ID>DocumentationOverPrivateFunction:SoundAssetGenerator.kt:SoundAssetGenerator$private fun resolveName: String?</ID>
+    <ID>DocumentationOverPrivateFunction:VehicleTicker.kt:VehicleTicker$private fun consumeFuel: Boolean</ID>
+    <ID>DocumentationOverPrivateFunction:WorkstationRecipeLoader.kt:private fun EcoItem.ingredient: Ingredient?</ID>
+    <ID>DocumentationOverPrivateFunction:WorldEditIntegration.kt:WorldEditIntegration.Hook$private fun fits: Boolean</ID>
+    <ID>DocumentationOverPrivateFunction:WorldEditIntegration.kt:WorldEditIntegration.Hook$private fun ownsFootprint: Boolean</ID>
+    <ID>DocumentationOverPrivateProperty:EcoItems.kt:EcoItems$/** Registered items. */ private val registry = Registry&lt;EcoItem&gt;()</ID>
+    <ID>DocumentationOverPrivateProperty:FurnitureListener.kt:FurnitureListener$/** * True while dispatching our own synthetic place/break events on this * thread; per thread, as Folia regions dispatch them concurrently. */ private val mutating = ThreadLocal.withInitial { false }</ID>
+    <ID>DocumentationOverPrivateProperty:OraxenLikeMigration.kt:OraxenLikeMigration$/** * Positional texture-list ordering for parent models where a Nexo/Oraxen * dialect gives `textures:` as a plain list instead of a keyed map. * Only includes parents we have confirmed real-world ordering for - * unlisted parents with a list-form `textures:` are left for the model * fallback rather than guessed at and silently mismatched. */ private val LIST_TEXTURE_KEYS = mapOf( "cube_all" to listOf("all"), "cross" to listOf("cross"), "cube_column" to listOf("end", "side") // Nexo list order: [top, sides] )</ID>
+    <ID>DocumentationOverPrivateProperty:PlacedFurniture.kt:PlacedFurniture.Companion$/** Pending state-timer tokens per base entity; newer tokens win. */ private val stateTimers = ConcurrentHashMap&lt;UUID, Int&gt;()</ID>
+    <ID>DocumentationOverPrivateProperty:TridentListener.kt:TridentListener$/** Item id -&gt; throwing definition key, rebuilt each reload. */ @Volatile private var throwingModels = emptyMap&lt;String, String&gt;()</ID>
+    <ID>DocumentationOverPrivateProperty:WorkstationRecipePermissions.kt:WorkstationRecipePermissions$/** Slots a finished item can be taken from, per workstation. */ private val resultSlots = mapOf( InventoryType.STONECUTTER to setOf(1), InventoryType.SMITHING to setOf(3), InventoryType.ANVIL to setOf(2), InventoryType.FURNACE to setOf(2), InventoryType.BLAST_FURNACE to setOf(2), InventoryType.SMOKER to setOf(2), // A brewing stand brews in place, so the bottle slots are the result slots. InventoryType.BREWING to setOf(0, 1, 2) )</ID>
+    <ID>DocumentationOverPrivateProperty:WorkstationRecipePermissions.kt:WorkstationRecipePermissions$/** Workstation recipes that carry a permission. Rebuilt on every reload. */ private val gated = CopyOnWriteArrayList&lt;WorkstationRecipe&gt;()</ID>
+    <ID>DoubleMutabilityForCollection:BlockListener.kt:BlockListener$var items = mutableListOf&lt;ItemStack&gt;()</ID>
+    <ID>DoubleNegativeLambda:PackImports.kt:PackImports$none { other -&gt; other != root &amp;&amp; root.startsWith(other) }</ID>
+    <ID>ElseCaseInsteadOfExhaustiveWhen:BlockListener.kt:BlockListener$when (event.action) { Action.RIGHT_CLICK_BLOCK -&gt; true Action.LEFT_CLICK_BLOCK -&gt; false else -&gt; return }</ID>
+    <ID>ElseCaseInsteadOfExhaustiveWhen:BlockListener.kt:when (face) { BlockFace.UP, BlockFace.DOWN -&gt; "y" BlockFace.EAST, BlockFace.WEST -&gt; "x" else -&gt; "z" }</ID>
+    <ID>ElseCaseInsteadOfExhaustiveWhen:FurnitureListener.kt:FurnitureListener$when (face) { // Player yaw directly makes the model front face the player. BlockFace.UP, BlockFace.DOWN -&gt; snapYaw(player.location.yaw, furniture.effectiveRotationStep) else -&gt; faceYaw(face) }</ID>
+    <ID>ElseCaseInsteadOfExhaustiveWhen:FurnitureListener.kt:FurnitureListener$when (face) { BlockFace.NORTH -&gt; 180f BlockFace.EAST -&gt; 270f BlockFace.SOUTH -&gt; 0f BlockFace.WEST -&gt; 90f else -&gt; 0f }</ID>
+    <ID>ElseCaseInsteadOfExhaustiveWhen:FurnitureListener.kt:FurnitureListener$when (face) { BlockFace.UP -&gt; furniture.floor BlockFace.DOWN -&gt; furniture.ceiling else -&gt; furniture.wall }</ID>
+    <ID>ElseCaseInsteadOfExhaustiveWhen:ItemsAdderMigration.kt:ItemsAdderMigration$when (backing) { BlockBacking.NOTEBLOCK -&gt; noteIds BlockBacking.STRINGBLOCK -&gt; wireIds else -&gt; emptyMap() }</ID>
+    <ID>ElseCaseInsteadOfExhaustiveWhen:LootContributor.kt:LootContributor$when (cause) { DropCause.BLOCK -&gt; context.block?.let { rollsForBlock(it, player) } ?: false DropCause.ENTITY -&gt; context.entity?.let { rollsForEntity(it, player) } ?: false // Fishing loot replaces the catch rather than adding to it, which a // contribution can't express - see LootFishingListener. else -&gt; false }</ID>
+    <ID>ExplicitCollectionElementAccessMethod:ItemsAdderMigration.kt:ItemsAdderMigration$out.set( "furniture.display.scale", "${it.getDouble("x", 1.0)},${it.getDouble("y", 1.0)},${it.getDouble("z", 1.0)}" )</ID>
+    <ID>ExplicitCollectionElementAccessMethod:ItemsAdderMigration.kt:ItemsAdderMigration$out.set( "furniture.display.translation", "${it.getDouble("x")},${it.getDouble("y")},${it.getDouble("z")}" )</ID>
+    <ID>ExplicitCollectionElementAccessMethod:ItemsAdderMigration.kt:ItemsAdderMigration$out.set("block.drops.items", emptyList&lt;Any&gt;())</ID>
+    <ID>ExplicitCollectionElementAccessMethod:ItemsAdderMigration.kt:ItemsAdderMigration$out.set("block.model", "$namespace:${strip(it)}")</ID>
+    <ID>ExplicitCollectionElementAccessMethod:ItemsAdderMigration.kt:ItemsAdderMigration$out.set("block.sounds.$event", it.lowercase().replace("_", "."))</ID>
+    <ID>ExplicitCollectionElementAccessMethod:ItemsAdderMigration.kt:ItemsAdderMigration$out.set("block.texture", textures[0])</ID>
+    <ID>ExplicitCollectionElementAccessMethod:ItemsAdderMigration.kt:ItemsAdderMigration$out.set("block.texture-parent", "cube")</ID>
+    <ID>ExplicitCollectionElementAccessMethod:ItemsAdderMigration.kt:ItemsAdderMigration$out.set("block.texture-parent", "cube_bottom_top")</ID>
+    <ID>ExplicitCollectionElementAccessMethod:ItemsAdderMigration.kt:ItemsAdderMigration$out.set("block.textures.bottom", down)</ID>
+    <ID>ExplicitCollectionElementAccessMethod:ItemsAdderMigration.kt:ItemsAdderMigration$out.set("block.textures.down", down)</ID>
+    <ID>ExplicitCollectionElementAccessMethod:ItemsAdderMigration.kt:ItemsAdderMigration$out.set("block.textures.east", east)</ID>
+    <ID>ExplicitCollectionElementAccessMethod:ItemsAdderMigration.kt:ItemsAdderMigration$out.set("block.textures.north", north)</ID>
+    <ID>ExplicitCollectionElementAccessMethod:ItemsAdderMigration.kt:ItemsAdderMigration$out.set("block.textures.side", east)</ID>
+    <ID>ExplicitCollectionElementAccessMethod:ItemsAdderMigration.kt:ItemsAdderMigration$out.set("block.textures.south", south)</ID>
+    <ID>ExplicitCollectionElementAccessMethod:ItemsAdderMigration.kt:ItemsAdderMigration$out.set("block.textures.top", up)</ID>
+    <ID>ExplicitCollectionElementAccessMethod:ItemsAdderMigration.kt:ItemsAdderMigration$out.set("block.textures.up", up)</ID>
+    <ID>ExplicitCollectionElementAccessMethod:ItemsAdderMigration.kt:ItemsAdderMigration$out.set("block.textures.west", west)</ID>
+    <ID>ExplicitCollectionElementAccessMethod:ItemsAdderMigration.kt:ItemsAdderMigration$out.set("block.type", backing.id)</ID>
+    <ID>ExplicitCollectionElementAccessMethod:ItemsAdderMigration.kt:ItemsAdderMigration$out.set("block.variation", cached)</ID>
+    <ID>ExplicitCollectionElementAccessMethod:ItemsAdderMigration.kt:ItemsAdderMigration$out.set("conditions", emptyList&lt;String&gt;())</ID>
+    <ID>ExplicitCollectionElementAccessMethod:ItemsAdderMigration.kt:ItemsAdderMigration$out.set("effects", emptyList&lt;String&gt;())</ID>
+    <ID>ExplicitCollectionElementAccessMethod:ItemsAdderMigration.kt:ItemsAdderMigration$out.set("furniture.barriers", listOf("0,0,0"))</ID>
+    <ID>ExplicitCollectionElementAccessMethod:ItemsAdderMigration.kt:ItemsAdderMigration$out.set("furniture.display.transform", it.lowercase())</ID>
+    <ID>ExplicitCollectionElementAccessMethod:ItemsAdderMigration.kt:ItemsAdderMigration$out.set("furniture.hitboxes", listOf("$x,$y,$z ${width}x$height"))</ID>
+    <ID>ExplicitCollectionElementAccessMethod:ItemsAdderMigration.kt:ItemsAdderMigration$out.set("furniture.lights", listOf("0,1,0 ${furniture.getInt("light_level").coerceIn(1, 15)}"))</ID>
+    <ID>ExplicitCollectionElementAccessMethod:ItemsAdderMigration.kt:ItemsAdderMigration$out.set("furniture.placement.ceiling", placing.getBoolean("ceiling"))</ID>
+    <ID>ExplicitCollectionElementAccessMethod:ItemsAdderMigration.kt:ItemsAdderMigration$out.set("furniture.placement.floor", placing.getBoolean("floor", true))</ID>
+    <ID>ExplicitCollectionElementAccessMethod:ItemsAdderMigration.kt:ItemsAdderMigration$out.set("furniture.placement.wall", placing.getBoolean("walls"))</ID>
+    <ID>ExplicitCollectionElementAccessMethod:ItemsAdderMigration.kt:ItemsAdderMigration$out.set("furniture.seats", listOf("0,$y,0"))</ID>
+    <ID>ExplicitCollectionElementAccessMethod:ItemsAdderMigration.kt:ItemsAdderMigration$out.set("item.components.$key", value)</ID>
+    <ID>ExplicitCollectionElementAccessMethod:ItemsAdderMigration.kt:ItemsAdderMigration$out.set("item.item", (resource?.getString("material") ?: "PAPER").lowercase())</ID>
+    <ID>ExplicitCollectionElementAccessMethod:ItemsAdderMigration.kt:ItemsAdderMigration$out.set("item.name", it)</ID>
+    <ID>ExplicitCollectionElementAccessMethod:ItemsAdderMigration.kt:ItemsAdderMigration$out.set("item.recipes.$key", value)</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set( "furniture.display.scale", "${scale.getDouble("x", 1.0)},${scale.getDouble("y", 1.0)},${scale.getDouble("z", 1.0)}" )</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set( "furniture.display.translation", "${t.getDouble("x")},${t.getDouble("y")},${t.getDouble("z")}" )</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set( "furniture.rotation", if (config.getString("restricted_rotation") == "VERY_STRICT") "4-way" else "8-way" )</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("$root.sounds.$ours", it)</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("ascent", glyph.getInt("ascent", 8))</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("ascent", sheet.getInt("ascent", 8))</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("bitmap.column", (bitmapRef.getInt("column") - 1).coerceAtLeast(0))</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("bitmap.columns", sheet.getInt("columns"))</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("bitmap.row", (bitmapRef.getInt("row") - 1).coerceAtLeast(0))</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("bitmap.rows", sheet.getInt("rows"))</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("bitmap.texture", assetRef(sheet.getString("texture")!!))</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("block.directional", type.lowercase())</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("block.hardness", it.toDouble())</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("block.minimum-tier", if (it.equals("wood", true)) "wooden" else it.lowercase())</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("block.texture", out.getString("item.texture"))</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("block.texture-parent", it)</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("block.texture-parent", normalizeTextureParent(parentModel, raw))</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("block.textures.$key", assetRef(texture))</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("block.type", backing.id)</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("block.variation", null)</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("block.variation", variation)</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("category", it.lowercase())</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("char", it)</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("conditions", emptyList&lt;String&gt;())</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("effects", emptyList&lt;String&gt;())</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("furniture.display.billboard", t.lowercase())</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("furniture.display.brightness", it.getInt("brightness.block_light"))</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("furniture.display.transform", t.lowercase())</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("furniture.display.translation", "$x,$y,$z")</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("furniture.display.y-rotation", 180)</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("furniture.placement.ceiling", roof)</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("furniture.placement.floor", floor)</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("furniture.placement.wall", wall)</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("height", glyph.getInt("height", 8))</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("height", sheet.getInt("height", 8))</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("item.components.$key", value)</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("item.item", (section.getString("material") ?: "PAPER").lowercase())</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("item.lore", section.getStringList("lore"))</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("item.model", assetRef(model))</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("item.name", it)</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("item.recipes.$key", value)</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("item.texture", assetRef(it))</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("item.texture", assetRef(map.getString(key)!!))</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("item.texture", null)</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("item.texture-parent", it.removePrefix("item/"))</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("item.texture-parent", null)</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("jukebox.description", d)</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("jukebox.length-seconds", d.toDouble())</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("permission", it)</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("sounds", files.map { raw -&gt; val name = raw.removeSuffix(".ogg").replace("\\", "/") if (":" in name) name else "minecraft:$name" })</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("subtitle", it)</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set("texture", assetRef(glyph.getString("texture") ?: continue))</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set(ours, assetRef(it))</ID>
+    <ID>ExplicitCollectionElementAccessMethod:OraxenLikeMigration.kt:OraxenLikeMigration$out.set(ours, pack.getStringList(key).map { assetRef(it) })</ID>
+    <ID>ExpressionBodySyntax:CommandEcoItems.kt:CommandEcoItems$return listOf("ei", "e", "ecoi", "items")</ID>
+    <ID>ExpressionBodySyntax:Dialogs.kt:Dialogs$return ImmutableList.copyOf(registry.values())</ID>
+    <ID>ExpressionBodySyntax:EcoBlockDropEvent.kt:EcoBlockDropEvent$return cancelled</ID>
+    <ID>ExpressionBodySyntax:EcoBlockDropEvent.kt:EcoBlockDropEvent$return handlerList</ID>
+    <ID>ExpressionBodySyntax:EcoBlocks.kt:EcoBlocks.Provider$return byId[key]?.let { customBlock(it) }</ID>
+    <ID>ExpressionBodySyntax:EcoDialog.kt:EcoDialog$return "EcoDialog{$id}"</ID>
+    <ID>ExpressionBodySyntax:EcoDialog.kt:EcoDialog$return Objects.hash(this.id)</ID>
+    <ID>ExpressionBodySyntax:EcoItem.kt:EcoItem$return "EcoItem{$id}"</ID>
+    <ID>ExpressionBodySyntax:EcoItem.kt:EcoItem$return Objects.hash(this.id)</ID>
+    <ID>ExpressionBodySyntax:EcoItem.kt:EcoItem$return this.id.key</ID>
+    <ID>ExpressionBodySyntax:EcoItemFinder.kt:EcoItemFinder$return holder.slot.isOrContains(slot)</ID>
+    <ID>ExpressionBodySyntax:EcoItemFinder.kt:EcoItemFinder$return listOfNotNull(item.ecoItem)</ID>
+    <ID>ExpressionBodySyntax:EcoItemTag.kt:EcoItemTag$return EcoItems.values().randomOrNull()?.itemStack</ID>
+    <ID>ExpressionBodySyntax:EcoItemTag.kt:EcoItemTag$return p0.ecoItem != null</ID>
+    <ID>ExpressionBodySyntax:EcoItems.kt:EcoItems$return ImmutableList.copyOf(registry.values())</ID>
+    <ID>ExpressionBodySyntax:EcoItemsPackFeature.kt:EcoItemsPackFeature$return GlyphPicker.open(player)</ID>
+    <ID>ExpressionBodySyntax:EcoItemsPackFeature.kt:EcoItemsPackFeature$return HudState.toggle(player, id)</ID>
+    <ID>ExpressionBodySyntax:EcoItemsPackFeature.kt:EcoItemsPackFeature$return listOf(PackListener, HudTicker.QuitListener, TridentListener, BlockSoundsListener) + GlyphListeners.listeners()</ID>
+    <ID>ExpressionBodySyntax:Glyph.kt:Glyph$return "Glyph{$id}"</ID>
+    <ID>ExpressionBodySyntax:Glyph.kt:Glyph$return Objects.hash(this.id)</ID>
+    <ID>ExpressionBodySyntax:GlyphText.kt:GlyphText.GlyphPlaceholderIntegration$return replaceLegacy(text, player, checkPermissions = false)</ID>
+    <ID>ExpressionBodySyntax:Hud.kt:Hud$return "Hud{$id}"</ID>
+    <ID>ExpressionBodySyntax:Hud.kt:Hud$return Objects.hash(this.id)</ID>
+    <ID>ExpressionBodySyntax:Loot.kt:Loot$return "Loot{$id}"</ID>
+    <ID>ExpressionBodySyntax:Loot.kt:Loot$return Objects.hash(this.id)</ID>
+    <ID>ExpressionBodySyntax:Loots.kt:Loots$return ImmutableList.copyOf(registry.values())</ID>
+    <ID>ExpressionBodySyntax:Painting.kt:Painting$return "Painting{$id}"</ID>
+    <ID>ExpressionBodySyntax:Painting.kt:Painting$return Objects.hash(this.id)</ID>
+    <ID>ExpressionBodySyntax:Rarities.kt:return Rarities[this.get(rarityKey, PersistentDataType.STRING)]</ID>
+    <ID>ExpressionBodySyntax:Rarities.kt:return this.fast().nbtRarity</ID>
+    <ID>ExpressionBodySyntax:Rarities.kt:return this.persistentDataContainer.nbtRarity</ID>
+    <ID>ExpressionBodySyntax:Rarity.kt:Rarity$return id.hashCode()</ID>
+    <ID>ExpressionBodySyntax:Rarity.kt:Rarity$return items.any { it.matches(item) }</ID>
+    <ID>ExpressionBodySyntax:Rarity.kt:Rarity$return other is Rarity &amp;&amp; other.id == this.id</ID>
+    <ID>ExpressionBodySyntax:RarityTag.kt:RarityTag$return p0.ecoItemRarity == rarity</ID>
+    <ID>ExpressionBodySyntax:RarityTag.kt:RarityTag$return rarity.items.randomOrNull()?.item</ID>
+    <ID>ExpressionBodySyntax:Sound.kt:Sound$return "Sound{$id}"</ID>
+    <ID>ExpressionBodySyntax:Sound.kt:Sound$return Objects.hash(this.id)</ID>
+    <ID>F001:EcoBlocks.kt:EcoBlocks$mutableSetOf&lt;NamespacedKey&gt;()</ID>
+    <ID>F001:HudTicker.kt:HudTicker$mutableListOf&lt;PersistentActionBar&gt;()</ID>
+    <ID>F001:ItemsAdderMigration.kt:ItemsAdderMigration$mutableSetOf&lt;String&gt;()</ID>
+    <ID>F001:ItemsAdderRecipes.kt:ItemsAdderRecipes$mutableMapOf&lt;String, Map&lt;String, Any&gt;&gt;()</ID>
+    <ID>F001:OraxenLikeMigration.kt:OraxenLikeMigration$mutableSetOf&lt;String&gt;()</ID>
+    <ID>F001:PackImports.kt:ImportedPacks$mutableSetOf&lt;Int&gt;()</ID>
+    <ID>F004:Folia.kt:teleport(location, *flags)</ID>
+    <ID>F005:ChunkSweeps.kt:ChunkSweeps$getChunkAt(ref.x, ref.z)</ID>
+    <ID>F005:ChunkSweeps.kt:ChunkSweeps$getChunkAt(x, z)</ID>
+    <ID>F008:EcoBlocks.kt:EcoBlocks$recommendedPaperFlags</ID>
+    <ID>F008:EcoItemsPackFeature.kt:EcoItemsPackFeature$datapackRegistered</ID>
+    <ID>F008:WorldGuardFlags.kt:WorldGuardFlags$registered</ID>
+    <ID>FunctionNameMinLength:EcoBlocks.kt:EcoBlocks$fun at: Placed?</ID>
+    <ID>IC001:BlockBacking.kt:BlockBacking$// Instrument type ids are the vanilla state values.</ID>
+    <ID>IC001:EcoItemsRecipes.kt:EcoItemsRecipes$// Legacy</ID>
+    <ID>IC001:FurnitureStorageManager.kt:FurnitureStorageManager$// Disposal discards.</ID>
+    <ID>IC001:GlyphAssetGenerator.kt:GlyphAssetGenerator$// warned at config parse</ID>
+    <ID>IC001:GlyphCodepoints.kt:GlyphCodepoints$// exclusive; shift chars live here</ID>
+    <ID>IC001:HudState.kt:HudState$// The chosen HUD no longer exists.</ID>
+    <ID>IC001:OraxenLikeMigration.kt:OraxenLikeMigration$// Nexo list order: [top, sides]</ID>
+    <ID>IC001:PackObfuscator.kt:PackObfuscator$// "ecoitems:path" -&gt; "ecoitems:x/hash"</ID>
+    <ID>IC002:AtlasGenerator.kt:AtlasGenerator$// Loose textures sitting directly in textures/ (no root folder). Vanilla</ID>
+    <ID>IC002:AtlasGenerator.kt:AtlasGenerator$// Texture roots from the pack folder and from anything already</ID>
+    <ID>IC002:BlockAssetGenerator.kt:BlockAssetGenerator$// An explicit model json in the pack folder shadows generation.</ID>
+    <ID>IC002:BlockAssetGenerator.kt:BlockAssetGenerator$// Merge over anything already there (imports).</ID>
+    <ID>IC002:BlockAssetGenerator.kt:BlockAssetGenerator$// One model per orientation for stackables, else one for all.</ID>
+    <ID>IC002:BlockAssetGenerator.kt:BlockAssetGenerator$// Seeds show their crop's final stage; blocks show their model.</ID>
+    <ID>IC002:BlockAssetGenerator.kt:BlockAssetGenerator$// SoundAssetGenerator runs later and merges this entry (it wins on</ID>
+    <ID>IC002:BlockAssetGenerator.kt:BlockAssetGenerator$// The player-placed all-faces state; the vanilla model file</ID>
+    <ID>IC002:BlockAssetGenerator.kt:BlockAssetGenerator$// The reserved default state keeps vanilla blocks looking vanilla.</ID>
+    <ID>IC002:BlockBreakSpeed.kt:BlockBreakSpeed$// What the config wants: correct tools mine at their speed, others at hand speed.</ID>
+    <ID>IC002:BlockBreakSpeed.kt:BlockBreakSpeed$// What vanilla thinks: axes speed up both backings.</ID>
+    <ID>IC002:BlockListener.kt:BlockListener$// Claim plugins integrate two ways: eco's antigrief wrappers and</ID>
+    <ID>IC002:BlockListener.kt:BlockListener$// Don't place inside the player.</ID>
+    <ID>IC002:BlockListener.kt:BlockListener$// Environmental destruction (explosions, water) bypasses tool</ID>
+    <ID>IC002:BlockListener.kt:BlockListener$// Furniture isn't a block, so it stays out of the block drop pipeline -</ID>
+    <ID>IC002:BlockListener.kt:BlockListener$// Keep the orientation when the stripped variant is directional too.</ID>
+    <ID>IC002:BlockListener.kt:BlockListener$// Let chests/doors/etc open unless sneaking - but custom blocks only</ID>
+    <ID>IC002:BlockListener.kt:BlockListener$// Placing something is not a click on the block underneath.</ID>
+    <ID>IC002:BlockListener.kt:BlockListener$// Player breaks go through libreforge's drop pipeline: the drop effects</ID>
+    <ID>IC002:BlockListener.kt:BlockListener$// Stacked blocks roll once per stacked item, but deliver as one break so</ID>
+    <ID>IC002:BlockListener.kt:BlockListener$// Stacking: clicking a stackable block with its own placer grows it.</ID>
+    <ID>IC002:BlockListener.kt:BlockListener$// eco's queue centers the location itself; hand it the corner.</ID>
+    <ID>IC002:BlockPhysicsListener.kt:BlockPhysicsListener$// Note blocks are placed with the instrument of the block below, and a</ID>
+    <ID>IC002:BlockPhysicsListener.kt:BlockPhysicsListener$// Only custom states need protecting. A neighbour update on a note</ID>
+    <ID>IC002:BlockPhysicsListener.kt:BlockPhysicsListener$// SoundGroup wrappers don't guarantee equals; compare by place sound.</ID>
+    <ID>IC002:BlockPhysicsListener.kt:BlockPhysicsListener$// The landed state is the falling entity's data verbatim, which is</ID>
+    <ID>IC002:BlockPhysicsListener.kt:BlockPhysicsListener$// Vanilla would drop nothing useful either way; handle ourselves.</ID>
+    <ID>IC002:BlockPhysicsListener.kt:BlockPhysicsListener$// Vertically stacked note blocks chain updates - re-push the stack.</ID>
+    <ID>IC002:BlockPhysicsListener.kt:BlockPhysicsListener$// With note block updates disabled the server never recalculates the</ID>
+    <ID>IC002:BlockSoundsListener.kt:BlockSoundsListener$// Players only: mobs stepping everywhere would be a lot of lookups.</ID>
+    <ID>IC002:BlockVariations.kt:BlockVariations$// Explicit variations win over everything and are never persisted;</ID>
+    <ID>IC002:BlockVariations.kt:BlockVariations$// Persisted assignments are reused when they still fit the block's</ID>
+    <ID>IC002:CommandDrop.kt:CommandDrop$// Either a player name or "x y z world".</ID>
+    <ID>IC002:CommandDrop.kt:CommandDrop$// Read on the player's own thread, below.</ID>
+    <ID>IC002:CommandHitbox.kt:CommandHitbox$// The 12 edges: hold two axes at their extremes, sweep the third.</ID>
+    <ID>IC002:CommandTake.kt:CommandTake$// The inventory belongs to the player's thread, which on Folia need</ID>
+    <ID>IC002:CropListener.kt:CropListener$// Seeds never place their base item.</ID>
+    <ID>IC002:CropTracker.kt:CropTracker$// Lost support (trampled farmland, broken block below) pops the crop.</ID>
+    <ID>IC002:CropTracker.kt:CropTracker$// Too dark: pause (the timer restarts rather than accruing).</ID>
+    <ID>IC002:CropTracker.kt:CropTracker$// Weather speeds growth up (or slows it): the stage time divides by</ID>
+    <ID>IC002:EcoBlocks.kt:EcoBlocks$// eco registration: ecoitems:&lt;id&gt; resolves in every plugin's block</ID>
+    <ID>IC002:EcoItem.kt:EcoItem$// Before components, combat stats were three top-level options holding</ID>
+    <ID>IC002:EcoItem.kt:EcoItem$// Having a recipe is what makes an item craftable. craftable is kept only</ID>
+    <ID>IC002:EcoItem.kt:EcoItem$// Keys without a namespace are minecraft components - saves quoting.</ID>
+    <ID>IC002:EcoItem.kt:EcoItem$// The original flat layout, kept working for configs written before the</ID>
+    <ID>IC002:EcoItem.kt:EcoItem$// The pack system generates the matching assets on reload.</ID>
+    <ID>IC002:EcoItem.kt:EcoItem$// The recipe lives in its own section, keyed the same way as EcoCrafting so</ID>
+    <ID>IC002:EcoItem.kt:EcoItem$// name is shorthand for the item_name component (unlike display-name,</ID>
+    <ID>IC002:EcoItems.kt:EcoItems$// Drop our old workstation recipes so deleted items don't leave one behind.</ID>
+    <ID>IC002:EcoItems.kt:EcoItems$// Recipes are registered after all items have been loaded so that</ID>
+    <ID>IC002:EcoItemsDatapack.kt:EcoItemsDatapack$// Always the inline form: a plain string would reference the</ID>
+    <ID>IC002:EcoItemsDatapack.kt:EcoItemsDatapack$// Paintings and jukebox songs are part of the pack; with it off, the</ID>
+    <ID>IC002:EcoItemsDatapack.kt:LegacyDatapack$// Only ours: a pack that doesn't hold ecoitems data isn't one we wrote.</ID>
+    <ID>IC002:EcoItemsPackFeature.kt:EcoItemsPackFeature$// Only once the replacement is installed: if the new pack fails validation, the legacy one</ID>
+    <ID>IC002:EcoItemsPackFeature.kt:EcoItemsPackFeature$// The self-hosted server is reused across reloads (unless rebound) so</ID>
+    <ID>IC002:EcoItemsPlugin.kt:EcoItemsPlugin$// Sounds and paintings load before items so component warnings can</ID>
+    <ID>IC002:EcoItemsPlugin.kt:EcoItemsPlugin$// WorldGuard locks its flag registry once it enables.</ID>
+    <ID>IC002:EcoItemsPlugin.kt:EcoItemsPlugin$// eco has just cancelled every task; tickers are registered afresh below.</ID>
+    <ID>IC002:EcoItemsRecipes.kt:EcoItemsRecipes$// Do nothing.</ID>
+    <ID>IC002:EcoItemsRecipes.kt:EcoItemsRecipes$// Recipe registration touches the server's recipe manager, which on</ID>
+    <ID>IC002:FurnitureConnections.kt:FurnitureConnections$// Next tick: the removed piece must be gone before neighbors look.</ID>
+    <ID>IC002:FurnitureConnections.kt:FurnitureConnections$// One row arriving sideways, one leaving at 90 degrees: a corner.</ID>
+    <ID>IC002:FurnitureListener.kt:FurnitureListener$// All collision cells need to be free.</ID>
+    <ID>IC002:FurnitureListener.kt:FurnitureListener$// Player yaw directly makes the model front face the player.</ID>
+    <ID>IC002:FurnitureStorageManager.kt:FurnitureStorageManager$// Close every session belonging to this placement.</ID>
+    <ID>IC002:FurnitureStorageManager.kt:FurnitureStorageManager$// On Folia a viewer in another region closes a tick later; empty the</ID>
+    <ID>IC002:FurnitureStorageManager.kt:FurnitureStorageManager$// The closer is still counted as a viewer during this event.</ID>
+    <ID>IC002:GifTexture.kt:GifTexture$// Delay comes from the first frame's GraphicControlExtension,</ID>
+    <ID>IC002:GlyphAssetGenerator.kt:GlyphAssetGenerator$// 1.21.8 runs on OpenGL 3.2 and rejects the #version 330</ID>
+    <ID>IC002:GlyphAssetGenerator.kt:GlyphAssetGenerator$// Animated: figure out the sprite sheet layout from the png header.</ID>
+    <ID>IC002:GlyphAssetGenerator.kt:GlyphAssetGenerator$// Horizontal strip: one row with every frame char.</ID>
+    <ID>IC002:GlyphAssetGenerator.kt:GlyphAssetGenerator$// Merge into minecraft:default - user-supplied providers first, since</ID>
+    <ID>IC002:GlyphAssetGenerator.kt:GlyphAssetGenerator$// Only the GLSL: shader programs are defined in code from 1.21.5</ID>
+    <ID>IC002:GlyphAssetGenerator.kt:GlyphAssetGenerator$// PNG magic + "IHDR" at offset 12.</ID>
+    <ID>IC002:GlyphAssetGenerator.kt:GlyphAssetGenerator$// Reset char: negative advance pulling the cursor back one frame width,</ID>
+    <ID>IC002:GlyphAssetGenerator.kt:GlyphAssetGenerator$// The standalone shift font, for components that want an explicit font.</ID>
+    <ID>IC002:GlyphAssetGenerator.kt:GlyphAssetGenerator$// Vertical strip: one char-row per frame.</ID>
+    <ID>IC002:GlyphCodepoints.kt:GlyphCodepoints$// Animated: a contiguous block of frames + reset + offset.</ID>
+    <ID>IC002:GlyphCodepoints.kt:GlyphCodepoints$// Codepoints used by imported packs' fonts: new assignments route</ID>
+    <ID>IC002:GlyphCodepoints.kt:GlyphCodepoints$// Explicit chars always win and are never persisted. Auto-assigned</ID>
+    <ID>IC002:GlyphPicker.kt:GlyphPicker$// The shared renderer keeps non-colorable glyphs white (book text</ID>
+    <ID>IC002:GlyphText.kt:GlyphText$// Longest placeholders first so e.g. ":hearts:" wins over ":heart:".</ID>
+    <ID>IC002:GlyphText.kt:GlyphText$// Raw characters first, so freshly inserted glyphs aren't re-processed.</ID>
+    <ID>IC002:GlyphText.kt:GlyphText$// Raw characters first: unpermitted ones are re-fonted to</ID>
+    <ID>IC002:GlyphText.kt:GlyphText.GlyphPlaceholderIntegration$// Registration is handled by PlaceholderManager.addIntegration.</ID>
+    <ID>IC002:HudFontGenerator.kt:HudFontGenerator$// The client requires ascent &lt;= height (8 for the ascii page).</ID>
+    <ID>IC002:HudTicker.kt:HudTicker$// Bars whose HUD no longer exists.</ID>
+    <ID>IC002:HudTicker.kt:HudTicker$// Tasks are cancelled by eco on reload, so this never stacks. Clear</ID>
+    <ID>IC002:ItemAssetGenerator.kt:ItemAssetGenerator$// A raw definition needs no base model.</ID>
+    <ID>IC002:ItemAssetGenerator.kt:ItemAssetGenerator$// An explicit model file with the same location beats the generated one.</ID>
+    <ID>IC002:ItemAssetGenerator.kt:ItemAssetGenerator$// Bare names are vanilla item models (generated, handheld, bow,</ID>
+    <ID>IC002:ItemAssetGenerator.kt:ItemAssetGenerator$// State models: check they exist, and generate simple models for</ID>
+    <ID>IC002:ItemDefinitionBuilder.kt:ItemDefinitionBuilder$// Innermost to outermost, mirroring the vanilla trees.</ID>
+    <ID>IC002:ItemDefinitionBuilder.kt:ItemDefinitionBuilder$// Re-declare the dye tint dropped by overriding item_model, so</ID>
+    <ID>IC002:ItemDefinitionBuilder.kt:ItemDefinitionBuilder$// The first stage is the fallback; the rest at vanilla-style</ID>
+    <ID>IC002:ItemDefinitionBuilder.kt:ItemDefinitionBuilder$// The raw escape hatch wins over everything.</ID>
+    <ID>IC002:ItemListener.kt:ItemListener$// Placer items (custom blocks/furniture) dispatch their own synthetic</ID>
+    <ID>IC002:ItemUpdater.kt:ItemUpdater$// A rename is only "custom" if it differs from the name the config had</ID>
+    <ID>IC002:ItemUpdater.kt:ItemUpdater$// Lore is compared and carried over as components. The legacy string form</ID>
+    <ID>IC002:ItemUpdater.kt:ItemUpdater$// Player-added enchantments survive; config levels win on overlap.</ID>
+    <ID>IC002:ItemUpdater.kt:ItemUpdater$// Same idea again for trims: configs can set them via item components, but</ID>
+    <ID>IC002:ItemUpdater.kt:ItemUpdater$// replace = false: foreign keys copy over, ours stay authoritative.</ID>
+    <ID>IC002:ItemsAdderMigration.kt:ItemsAdderMigration$// A custom block renders as its generated block model, so its textures</ID>
+    <ID>IC002:ItemsAdderMigration.kt:ItemsAdderMigration$// Block/furniture behaviours live under behaviours: (modern IA) or</ID>
+    <ID>IC002:ItemsAdderMigration.kt:ItemsAdderMigration$// Fully vanilla-structured variants copy as-is.</ID>
+    <ID>IC002:ItemsAdderMigration.kt:ItemsAdderMigration$// IA assigns state ids at runtime and caches them; note/wire ids use</ID>
+    <ID>IC002:ItemsAdderMigration.kt:ItemsAdderMigration$// IA sit_height is measured from the block bottom; our seat y is</ID>
+    <ID>IC002:ItemsAdderMigration.kt:ItemsAdderMigration$// IA uses enum-ish names (BLOCK_WOOD_PLACE); best effort.</ID>
+    <ID>IC002:ItemsAdderMigration.kt:ItemsAdderMigration$// Recipes first: they sit in their own section keyed by the item they make,</ID>
+    <ID>IC002:ItemsAdderMigration.kt:ItemsAdderMigration$// The placed block renders its own generated model, built from the</ID>
+    <ID>IC002:ItemsAdderRecipes.kt:ItemsAdderRecipes$// IA patterns can be smaller than 3x3 (a 2x2 recipe is two rows of two),</ID>
+    <ID>IC002:ItemsAdderRecipes.kt:ItemsAdderRecipes$// IA writes each rotation as pattern_2, pattern_3, and so on.</ID>
+    <ID>IC002:ItemsAdderRecipes.kt:ItemsAdderRecipes$// X is IA's empty slot, but only if it isn't a declared ingredient.</ID>
+    <ID>IC002:ItemsGUI.kt:ItemsGUI$// A locked-model swaps in when there's no page to turn to;</ID>
+    <ID>IC002:LangAssetGenerator.kt:LangAssetGenerator$// Global entries first; the per-language file (already merged</ID>
+    <ID>IC002:LangAssetGenerator.kt:LangAssetGenerator$// Languages to emit: all of them if global has entries, otherwise</ID>
+    <ID>IC002:LangAssetGenerator.kt:LangAssetGenerator$// Resolve :glyph: placeholders at build time.</ID>
+    <ID>IC002:LootContributor.kt:LootContributor$// Fishing loot replaces the catch rather than adding to it, which a</ID>
+    <ID>IC002:OraxenLikeMigration.kt:OraxenLikeMigration$// Barriers: Oraxen's map/keyword forms and Nexo's string lists.</ID>
+    <ID>IC002:OraxenLikeMigration.kt:OraxenLikeMigration$// Both dialects use _ (and plain spaces) for an empty slot.</ID>
+    <ID>IC002:OraxenLikeMigration.kt:OraxenLikeMigration$// Display properties (Oraxen display_entity_properties / Nexo properties).</ID>
+    <ID>IC002:OraxenLikeMigration.kt:OraxenLikeMigration$// Enum-style slot names (LEGS) and the legacy model key</ID>
+    <ID>IC002:OraxenLikeMigration.kt:OraxenLikeMigration$// External packs holding the assets item configs reference get</ID>
+    <ID>IC002:OraxenLikeMigration.kt:OraxenLikeMigration$// Hybrid layout: the shortcut folders are minecraft-namespaced.</ID>
+    <ID>IC002:OraxenLikeMigration.kt:OraxenLikeMigration$// Interaction hitboxes: "x,y,z w,h" both dialects, ours uses WxH.</ID>
+    <ID>IC002:OraxenLikeMigration.kt:OraxenLikeMigration$// Item tags have no single-item equivalent in a recipe slot.</ID>
+    <ID>IC002:OraxenLikeMigration.kt:OraxenLikeMigration$// Leather-dye tint (LEATHER_* base + "color"); without it the tinted</ID>
+    <ID>IC002:OraxenLikeMigration.kt:OraxenLikeMigration$// Lights.</ID>
+    <ID>IC002:OraxenLikeMigration.kt:OraxenLikeMigration$// Map-form textures belong to a block model; convertBlock picks</ID>
+    <ID>IC002:OraxenLikeMigration.kt:OraxenLikeMigration$// Mechanics-level `model` is often just Nexo's internal model name</ID>
+    <ID>IC002:OraxenLikeMigration.kt:OraxenLikeMigration$// Model files are JSON, not YAML - Bukkit's SnakeYAML chokes on them,</ID>
+    <ID>IC002:OraxenLikeMigration.kt:OraxenLikeMigration$// Modern Nexo directional is a single config, like ours; the old</ID>
+    <ID>IC002:OraxenLikeMigration.kt:OraxenLikeMigration$// Newer forks replace drop/hardness with a breaking: rule list; take</ID>
+    <ID>IC002:OraxenLikeMigration.kt:OraxenLikeMigration$// Nexo bits: N1 S2 E4 W8; ours: E1 W2 S4 N8. 16/32/64 match.</ID>
+    <ID>IC002:OraxenLikeMigration.kt:OraxenLikeMigration$// Oraxen bakes furniture against the FIXED (item-frame) context,</ID>
+    <ID>IC002:OraxenLikeMigration.kt:OraxenLikeMigration$// Oraxen names it font.yml, some forks fonts.yml.</ID>
+    <ID>IC002:OraxenLikeMigration.kt:OraxenLikeMigration$// Oraxen wraps the song key in a map; vanilla wants the string.</ID>
+    <ID>IC002:OraxenLikeMigration.kt:OraxenLikeMigration$// Oraxen/Nexo have no mushroom mechanic; nothing maps here.</ID>
+    <ID>IC002:OraxenLikeMigration.kt:OraxenLikeMigration$// Oraxen/Nexo wall models face out of the wall; our wall placement</ID>
+    <ID>IC002:OraxenLikeMigration.kt:OraxenLikeMigration$// Rotations and mirrors of one recipe are usually written out as separate</ID>
+    <ID>IC002:OraxenLikeMigration.kt:OraxenLikeMigration$// Seats. Seat vectors share our convention (y = 0 sits at natural</ID>
+    <ID>IC002:OraxenLikeMigration.kt:OraxenLikeMigration$// Some forks name it sounds.yml and/or use the Nexo-style</ID>
+    <ID>IC002:OraxenLikeMigration.kt:OraxenLikeMigration$// Some setups keep external-pack folders at the source root instead</ID>
+    <ID>IC002:OraxenLikeMigration.kt:OraxenLikeMigration$// State models map 1:1 onto our convenience keys.</ID>
+    <ID>IC002:OraxenLikeMigration.kt:OraxenLikeMigration$// Tall furniture (poles, canopies) often has model elements below y=0,</ID>
+    <ID>IC002:OraxenLikeMigration.kt:OraxenLikeMigration$// The block's look: a map of textures (generated model, like our</ID>
+    <ID>IC002:OraxenLikeMigration.kt:OraxenLikeMigration$// The layer textures keep the namespace they were copied into.</ID>
+    <ID>IC002:OraxenLikeMigration.kt:OraxenLikeMigration$// block.* / required.* entries are the wood/stone sound remap</ID>
+    <ID>IC002:OraxenLikeMigration.kt:OraxenLikeMigration$// input is the bottle in the lower slots, ingredient is the one on top.</ID>
+    <ID>IC002:PackBuilder.kt:PackBuilder$// After the pack folder, so user-supplied font/sounds/lang files are</ID>
+    <ID>IC002:PackBuilder.kt:PackBuilder$// External packs are the lowest-priority layer: everything EcoItems</ID>
+    <ID>IC002:PackBuilder.kt:PackBuilder$// Feature assets (currently the 2D head models) ship in every build</ID>
+    <ID>IC002:PackBuilder.kt:PackBuilder$// Last, so the overlay directories the pack ended up with are known.</ID>
+    <ID>IC002:PackBuilder.kt:PackBuilder$// Sorted paths and fixed timestamps keep the hash stable across</ID>
+    <ID>IC002:PackBuilder.kt:PackBuilder$// The pack folder wins on collisions with generated files and</ID>
+    <ID>IC002:PackDefaults.kt:PackDefaults$// Ship any new bundled defaults without touching edited files.</ID>
+    <ID>IC002:PackDefaults.kt:PackDefaults$// compatibility.default-assets: nothing is extracted, and</ID>
+    <ID>IC002:PackImports.kt:PackImports$// Drop roots nested inside other roots.</ID>
+    <ID>IC002:PackImports.kt:PackImports$// Keep base assets, overlay-directory assets, and root files.</ID>
+    <ID>IC002:PackImports.kt:PackImports$// Later imports win per key.</ID>
+    <ID>IC002:PackImports.kt:PackImports$// Later imports win: the first provider defining a</ID>
+    <ID>IC002:PackMcmeta.kt:PackMcmeta$// Later entries win, so imported overlays go first: our overlays must</ID>
+    <ID>IC002:PackObfuscator.kt:PackObfuscator$// The hashed texture folder still needs to stitch into the block atlas.</ID>
+    <ID>IC002:PlacedFurniture.kt:PlacedFurniture$// A newer setState invalidates every older pending timer.</ID>
+    <ID>IC002:PlacedFurniture.kt:PlacedFurniture$// Mounting mid-interact-packet desyncs the client; next tick is safe.</ID>
+    <ID>IC002:PlacedFurniture.kt:PlacedFurniture$// Shared storage contents always drop, like a broken chest.</ID>
+    <ID>IC002:PlacedFurniture.kt:PlacedFurniture$// The stored cells parallel the config's light list, in order.</ID>
+    <ID>IC002:PlacedFurniture.kt:PlacedFurniture.Companion$// Back-references need the base uuid, which only exists after spawn.</ID>
+    <ID>IC002:PlacedFurniture.kt:PlacedFurniture.Companion$// Furniture isn't a block: keep it out of the block drop</ID>
+    <ID>IC002:PlacedFurniture.kt:PlacedFurniture.Companion$// Markers have a zero-height hitbox: passengers sit at the</ID>
+    <ID>IC002:PlacedFurniture.kt:PlacedFurniture.Companion$// NONE-transform item displays render raw block geometry</ID>
+    <ID>IC002:PlacedFurniture.kt:PlacedFurniture.Companion$// Offsets (seats, hitboxes, lights) are relative to the block</ID>
+    <ID>IC002:PlacedFurniture.kt:PlacedFurniture.Companion$// displayYaw spins the look only, not collision or hitboxes.</ID>
+    <ID>IC002:SaplingGrowth.kt:SaplingGrowth$// Blocked or dark: try again after another interval.</ID>
+    <ID>IC002:SaplingGrowth.kt:SaplingGrowth$// The sapling makes way for its own trunk; restored if blocked.</ID>
+    <ID>IC002:SoundAssetGenerator.kt:SoundAssetGenerator$// A user-supplied sounds.json from pack/assets wins on collision.</ID>
+    <ID>IC002:TridentListener.kt:TridentListener$// Back to the item's own definition once landed.</ID>
+    <ID>IC002:VehicleTicker.kt:VehicleTicker$// Ground vehicles fall; flying vehicles hover.</ID>
+    <ID>IC002:VehicleTicker.kt:VehicleTicker$// Move every entity of the furniture by the same offset; the ridden</ID>
+    <ID>IC002:VehicleTicker.kt:VehicleTicker$// Only the first seat drives.</ID>
+    <ID>IC002:VehicleTicker.kt:VehicleTicker$// Rate-limit the warning to once a second.</ID>
+    <ID>IC002:VehicleTicker.kt:VehicleTicker$// The whole stack moves together or not at all; on Folia a piece</ID>
+    <ID>IC002:VehicleTicker.kt:VehicleTicker$// Two blocks of headroom, with a one-block step up on the ground.</ID>
+    <ID>IC002:WorkstationRecipeLoader.kt:// -1 keeps the per-workstation vanilla default.</ID>
+    <ID>IC002:WorkstationRecipeLoader.kt:// No result-name: the result is the item, which carries its own name.</ID>
+    <ID>IC002:WorkstationRecipeLoader.kt:// The second anvil slot is optional - no material means the base alone matches.</ID>
+    <ID>IC002:WorkstationRecipePermissions.kt:WorkstationRecipePermissions$// The client has already drawn the item into the cursor, so force it back.</ID>
+    <ID>IC002:WorldEditIntegration.kt:WorldEditIntegration.Hook$// On Folia a paste may only write chunks this thread owns; one</ID>
+    <ID>IM001:GifTexture.kt:GifTexture$javax.imageio.ImageReader</ID>
+    <ID>IM001:GifTexture.kt:GifTexture$javax.imageio.metadata.IIOMetadata</ID>
+    <ID>IM001:GlyphCodepoints.kt:GlyphCodepoints$java.io.File</ID>
+    <ID>IM002:GifTexture.kt:GifTexture$java.awt.AlphaComposite.Clear</ID>
+    <ID>IM002:GlyphAssetGenerator.kt:GlyphAssetGenerator$javax.imageio.ImageIO.write(sheet, "png", png)</ID>
+    <ID>ImplicitDefaultLocale:GlyphCodepoints.kt:GlyphCodepoints$"%04X".format(block.first)</ID>
+    <ID>ImplicitDefaultLocale:GlyphCodepoints.kt:GlyphCodepoints$"%04X".format(block.last)</ID>
+    <ID>ImplicitDefaultLocale:GlyphCodepoints.kt:GlyphCodepoints$"%04X".format(codepoint)</ID>
+    <ID>ImplicitDefaultLocale:GlyphCodepoints.kt:GlyphCodepoints$"%04X".format(collision)</ID>
+    <ID>ImplicitDefaultLocale:GlyphText.kt:GlyphText$"%06x".format(rgb)</ID>
+    <ID>ImplicitDefaultLocale:PackBuilder.kt:PackBuilder$"%02x".format(it)</ID>
+    <ID>ImplicitDefaultLocale:PackObfuscator.kt:PackObfuscator$"%02x".format(it)</ID>
+    <ID>ImplicitDefaultLocale:S3Publisher.kt:S3Publisher$"%02x".format(it)</ID>
+    <ID>ImplicitUnitReturnType:BlockBreakSpeed.kt:BlockBreakSpeed$@EventHandler fun onAbort</ID>
+    <ID>ImplicitUnitReturnType:BlockBreakSpeed.kt:BlockBreakSpeed$@EventHandler fun onHeldChange</ID>
+    <ID>ImplicitUnitReturnType:BlockBreakSpeed.kt:BlockBreakSpeed$@EventHandler fun onQuit</ID>
+    <ID>ImplicitUnitReturnType:BlockBreakSpeed.kt:BlockBreakSpeed$@EventHandler(priority = EventPriority.MONITOR) fun onBreak</ID>
+    <ID>ImplicitUnitReturnType:BlockSoundsListener.kt:BlockSoundsListener$@EventHandler fun onAbortMining</ID>
+    <ID>ImplicitUnitReturnType:BlockSoundsListener.kt:BlockSoundsListener$@EventHandler fun onQuit</ID>
+    <ID>ImplicitUnitReturnType:BlockSoundsListener.kt:BlockSoundsListener$@EventHandler(priority = EventPriority.MONITOR) fun onBreakBlock</ID>
+    <ID>ImplicitUnitReturnType:CropTracker.kt:CropTracker$fun remove</ID>
+    <ID>ImplicitUnitReturnType:CropTracker.kt:CropTracker$fun resetTimer</ID>
+    <ID>ImplicitUnitReturnType:SaplingGrowth.kt:SaplingGrowth$fun remove</ID>
+    <ID>LabeledExpression:BlockPhysicsListener.kt:BlockPhysicsListener$@run</ID>
+    <ID>LabeledExpression:BlockVariations.kt:BlockVariations$@filter</ID>
+    <ID>LabeledExpression:ContentEffects.kt:ContentEffects$@mapNotNull</ID>
+    <ID>LabeledExpression:EcoDialog.kt:EcoDialog.Paper$@customClick</ID>
+    <ID>LabeledExpression:EcoItem.kt:EcoItem$@mapNotNull</ID>
+    <ID>LabeledExpression:EcoItemsRecipes.kt:EcoItemsRecipes$@run</ID>
+    <ID>LabeledExpression:GifTexture.kt:GifTexture$@openReader</ID>
+    <ID>LabeledExpression:ItemsAdderMigration.kt:ItemsAdderMigration$@mapNotNull</ID>
+    <ID>LabeledExpression:OraxenLikeMigration.kt:OraxenLikeMigration$@map</ID>
+    <ID>LabeledExpression:OraxenLikeMigration.kt:OraxenLikeMigration$@mapNotNull</ID>
+    <ID>LabeledExpression:PlacedFurniture.kt:PlacedFurniture$@runLater</ID>
+    <ID>LargeClass:OraxenLikeMigration.kt:OraxenLikeMigration</ID>
+    <ID>LongMethod:AtlasGenerator.kt:AtlasGenerator$fun generate</ID>
+    <ID>LongMethod:BlockListener.kt:BlockListener$@EventHandler(priority = EventPriority.HIGH) fun onPlace</ID>
+    <ID>LongMethod:BlockVariations.kt:BlockVariations$fun assign: Map&lt;String, List&lt;Int&gt;&gt;</ID>
+    <ID>LongMethod:FurnitureListener.kt:FurnitureListener$@EventHandler(priority = EventPriority.HIGH) fun onPlace</ID>
+    <ID>LongMethod:GlyphAssetGenerator.kt:GlyphAssetGenerator$private fun addGlyph</ID>
+    <ID>LongMethod:GlyphCodepoints.kt:GlyphCodepoints$fun assign: Map&lt;String, AssignedGlyph&gt;</ID>
+    <ID>LongMethod:OraxenLikeMigration.kt:OraxenLikeMigration$private fun convertBlock</ID>
+    <ID>LongMethod:OraxenLikeMigration.kt:OraxenLikeMigration$private fun convertComponents</ID>
+    <ID>LongMethod:OraxenLikeMigration.kt:OraxenLikeMigration$private fun convertFurniture</ID>
+    <ID>LongMethod:PlacedFurniture.kt:PlacedFurniture.Companion$fun place: PlacedFurniture</ID>
+    <ID>LongMethod:S3Publisher.kt:S3Publisher$override fun publish: PublishedPack?</ID>
+    <ID>LongMethod:VehicleTicker.kt:VehicleTicker$private fun drive</ID>
+    <ID>LongMethod:WorkstationRecipeLoader.kt:internal fun EcoItem.registerWorkstationRecipe</ID>
+    <ID>LongParameterList:BlockListener.kt:BlockListener$fun spawnDrops</ID>
+    <ID>LongParameterList:BlockListener.kt:BlockListener$private fun growStack</ID>
+    <ID>LongParameterList:ItemPackAsset.kt:ItemPackAsset</ID>
+    <ID>LongParameterList:ItemsAdderMigration.kt:ItemsAdderMigration$private fun convertBlock: Boolean</ID>
+    <ID>LongParameterList:PackBuilder.kt:PackBuilder$fun build: BuiltPack</ID>
+    <ID>LongParameterList:S3Publisher.kt:S3Publisher</ID>
+    <ID>LoopWithTooManyJumpStatements:BlockAssetGenerator.kt:BlockAssetGenerator$for</ID>
+    <ID>LoopWithTooManyJumpStatements:BlockListener.kt:BlockListener$for</ID>
+    <ID>LoopWithTooManyJumpStatements:BlockPhysicsListener.kt:BlockPhysicsListener$for</ID>
+    <ID>LoopWithTooManyJumpStatements:BlockVariations.kt:BlockVariations$for</ID>
+    <ID>LoopWithTooManyJumpStatements:CommandTake.kt:CommandTake$for</ID>
+    <ID>LoopWithTooManyJumpStatements:EcoItemsDatapack.kt:EcoItemsDatapack$for</ID>
+    <ID>LoopWithTooManyJumpStatements:EcoItemsLoot.kt:EcoItemsLoot$for</ID>
+    <ID>LoopWithTooManyJumpStatements:FurnitureConnections.kt:FurnitureConnections$for</ID>
+    <ID>LoopWithTooManyJumpStatements:GlyphAssetGenerator.kt:GlyphAssetGenerator$for</ID>
+    <ID>LoopWithTooManyJumpStatements:GlyphCodepoints.kt:GlyphCodepoints$for</ID>
+    <ID>LoopWithTooManyJumpStatements:GlyphText.kt:GlyphText$for</ID>
+    <ID>LoopWithTooManyJumpStatements:ItemUpdater.kt:ItemUpdater$for</ID>
+    <ID>LoopWithTooManyJumpStatements:ItemsAdderRecipes.kt:ItemsAdderRecipes$for</ID>
+    <ID>LoopWithTooManyJumpStatements:LootContributor.kt:LootContributor$for</ID>
+    <ID>LoopWithTooManyJumpStatements:OraxenLikeMigration.kt:OraxenLikeMigration$for</ID>
+    <ID>LoopWithTooManyJumpStatements:PackDefaults.kt:PackDefaults$for</ID>
+    <ID>LoopWithTooManyJumpStatements:PackImports.kt:ImportedPacks$for</ID>
+    <ID>LoopWithTooManyJumpStatements:PackImports.kt:PackImports$for</ID>
+    <ID>LoopWithTooManyJumpStatements:PaperBlockUpdates.kt:PaperBlockUpdates$for</ID>
+    <ID>LoopWithTooManyJumpStatements:SoundAssetGenerator.kt:SoundAssetGenerator$for</ID>
+    <ID>MagicNumber:BlockAssetGenerator.kt:BlockAssetGenerator$16</ID>
+    <ID>MagicNumber:BlockAssetGenerator.kt:BlockAssetGenerator$25</ID>
+    <ID>MagicNumber:BlockAssetGenerator.kt:BlockAssetGenerator$32</ID>
+    <ID>MagicNumber:BlockAssetGenerator.kt:BlockAssetGenerator$4</ID>
+    <ID>MagicNumber:BlockAssetGenerator.kt:BlockAssetGenerator$400</ID>
+    <ID>MagicNumber:BlockAssetGenerator.kt:BlockAssetGenerator$64</ID>
+    <ID>MagicNumber:BlockAssetGenerator.kt:BlockAssetGenerator$8</ID>
+    <ID>MagicNumber:BlockBacking.kt:16</ID>
+    <ID>MagicNumber:BlockBacking.kt:32</ID>
+    <ID>MagicNumber:BlockBacking.kt:4</ID>
+    <ID>MagicNumber:BlockBacking.kt:8</ID>
+    <ID>MagicNumber:BlockBacking.kt:BlockBacking.CHORUS$63</ID>
+    <ID>MagicNumber:BlockBacking.kt:BlockBacking.MUSHROOM$62</ID>
+    <ID>MagicNumber:BlockBacking.kt:BlockBacking.MUSHROOM_RED$62</ID>
+    <ID>MagicNumber:BlockBacking.kt:BlockBacking.MUSHROOM_STEM$62</ID>
+    <ID>MagicNumber:BlockBacking.kt:BlockBacking.NOTEBLOCK$25</ID>
+    <ID>MagicNumber:BlockBacking.kt:BlockBacking.NOTEBLOCK$26</ID>
+    <ID>MagicNumber:BlockBacking.kt:BlockBacking.NOTEBLOCK$374</ID>
+    <ID>MagicNumber:BlockBacking.kt:BlockBacking.NOTEBLOCK$398</ID>
+    <ID>MagicNumber:BlockBacking.kt:BlockBacking.NOTEBLOCK$400</ID>
+    <ID>MagicNumber:BlockBacking.kt:BlockBacking.NOTEBLOCK$773</ID>
+    <ID>MagicNumber:BlockBacking.kt:BlockBacking.STRINGBLOCK$127</ID>
+    <ID>MagicNumber:BlockBacking.kt:BlockBacking.STRINGBLOCK$16</ID>
+    <ID>MagicNumber:BlockBacking.kt:BlockBacking.STRINGBLOCK$32</ID>
+    <ID>MagicNumber:BlockBacking.kt:BlockBacking.STRINGBLOCK$4</ID>
+    <ID>MagicNumber:BlockBacking.kt:BlockBacking.STRINGBLOCK$64</ID>
+    <ID>MagicNumber:BlockBacking.kt:BlockBacking.STRINGBLOCK$8</ID>
+    <ID>MagicNumber:BlockListener.kt:135</ID>
+    <ID>MagicNumber:BlockListener.kt:225</ID>
+    <ID>MagicNumber:BlockListener.kt:315</ID>
+    <ID>MagicNumber:BlockListener.kt:45</ID>
+    <ID>MagicNumber:BlockListener.kt:BlockListener$0.5</ID>
+    <ID>MagicNumber:BlockListener.kt:BlockListener$0.8f</ID>
+    <ID>MagicNumber:BlockPhysicsListener.kt:BlockPhysicsListener$0.5</ID>
+    <ID>MagicNumber:BlockSoundsListener.kt:BlockSoundsListener$0.25</ID>
+    <ID>MagicNumber:BlockSoundsListener.kt:BlockSoundsListener$0.5</ID>
+    <ID>MagicNumber:BlockSoundsListener.kt:BlockSoundsListener$0.8</ID>
+    <ID>MagicNumber:BlockSoundsListener.kt:BlockSoundsListener$4</ID>
+    <ID>MagicNumber:CommandDrop.kt:CommandDrop$5</ID>
+    <ID>MagicNumber:CommandGive.kt:CommandGive$3</ID>
+    <ID>MagicNumber:CropListener.kt:CropListener$0.3</ID>
+    <ID>MagicNumber:CropListener.kt:CropListener$0.5</ID>
+    <ID>MagicNumber:CropListener.kt:CropListener$12</ID>
+    <ID>MagicNumber:CropTracker.kt:CropTracker$1000</ID>
+    <ID>MagicNumber:CropTracker.kt:CropTracker$3</ID>
+    <ID>MagicNumber:EcoItem.kt:LegacyAttribute.BASE_ATTACK_RANGE$3.0</ID>
+    <ID>MagicNumber:EcoItem.kt:LegacyAttribute.BASE_ATTACK_SPEED$4.0</ID>
+    <ID>MagicNumber:EcoItems.kt:EcoItems$10</ID>
+    <ID>MagicNumber:EcoItemsPackFeature.kt:EcoItemsPackFeature$161</ID>
+    <ID>MagicNumber:EcoItemsPackFeature.kt:EcoItemsPackFeature$9</ID>
+    <ID>MagicNumber:EcoItemsRecipes.kt:EcoItemsRecipes$10</ID>
+    <ID>MagicNumber:Furniture.kt:Furniture$15</ID>
+    <ID>MagicNumber:Furniture.kt:Furniture$3</ID>
+    <ID>MagicNumber:FurnitureConnections.kt:FurnitureConnections$180f</ID>
+    <ID>MagicNumber:FurnitureListener.kt:FurnitureListener$0.5</ID>
+    <ID>MagicNumber:FurnitureListener.kt:FurnitureListener$0.8f</ID>
+    <ID>MagicNumber:FurnitureListener.kt:FurnitureListener$180f</ID>
+    <ID>MagicNumber:FurnitureListener.kt:FurnitureListener$270f</ID>
+    <ID>MagicNumber:FurnitureListener.kt:FurnitureListener$360</ID>
+    <ID>MagicNumber:FurnitureListener.kt:FurnitureListener$90f</ID>
+    <ID>MagicNumber:GlyphAssetGenerator.kt:GlyphAssetGenerator$0xFF</ID>
+    <ID>MagicNumber:GlyphAssetGenerator.kt:GlyphAssetGenerator$12</ID>
+    <ID>MagicNumber:GlyphAssetGenerator.kt:GlyphAssetGenerator$16</ID>
+    <ID>MagicNumber:GlyphAssetGenerator.kt:GlyphAssetGenerator$20</ID>
+    <ID>MagicNumber:GlyphAssetGenerator.kt:GlyphAssetGenerator$24</ID>
+    <ID>MagicNumber:GlyphAssetGenerator.kt:GlyphAssetGenerator$3</ID>
+    <ID>MagicNumber:GlyphAssetGenerator.kt:GlyphAssetGenerator$8</ID>
+    <ID>MagicNumber:GlyphChatListener.kt:GlyphSignListener$3</ID>
+    <ID>MagicNumber:GlyphCodepoints.kt:GlyphCodepoints$16</ID>
+    <ID>MagicNumber:GlyphColors.kt:GlyphColors$0x80</ID>
+    <ID>MagicNumber:GlyphColors.kt:GlyphColors$0xFE</ID>
+    <ID>MagicNumber:GlyphColors.kt:GlyphColors$16</ID>
+    <ID>MagicNumber:GlyphColors.kt:GlyphColors$4</ID>
+    <ID>MagicNumber:GlyphColors.kt:GlyphColors$8</ID>
+    <ID>MagicNumber:HostedPublisher.kt:HostedPublisher$200</ID>
+    <ID>MagicNumber:HudFontGenerator.kt:HudFontGenerator$8</ID>
+    <ID>MagicNumber:ItemDefinitionBuilder.kt:ItemDefinitionBuilder$0.05</ID>
+    <ID>MagicNumber:ItemsAdderMigration.kt:ItemsAdderMigration$15</ID>
+    <ID>MagicNumber:ItemsAdderMigration.kt:ItemsAdderMigration$6</ID>
+    <ID>MagicNumber:OraxenLikeMigration.kt:OraxenLikeMigration$0.01</ID>
+    <ID>MagicNumber:OraxenLikeMigration.kt:OraxenLikeMigration$100</ID>
+    <ID>MagicNumber:OraxenLikeMigration.kt:OraxenLikeMigration$100.0</ID>
+    <ID>MagicNumber:OraxenLikeMigration.kt:OraxenLikeMigration$16</ID>
+    <ID>MagicNumber:OraxenLikeMigration.kt:OraxenLikeMigration$16.0</ID>
+    <ID>MagicNumber:OraxenLikeMigration.kt:OraxenLikeMigration$180</ID>
+    <ID>MagicNumber:OraxenLikeMigration.kt:OraxenLikeMigration$25</ID>
+    <ID>MagicNumber:OraxenLikeMigration.kt:OraxenLikeMigration$26</ID>
+    <ID>MagicNumber:OraxenLikeMigration.kt:OraxenLikeMigration$3</ID>
+    <ID>MagicNumber:OraxenLikeMigration.kt:OraxenLikeMigration$4</ID>
+    <ID>MagicNumber:OraxenLikeMigration.kt:OraxenLikeMigration$400</ID>
+    <ID>MagicNumber:OraxenLikeMigration.kt:OraxenLikeMigration$8</ID>
+    <ID>MagicNumber:PackObfuscator.kt:PackObfuscator$16</ID>
+    <ID>MagicNumber:Painting.kt:Painting$16</ID>
+    <ID>MagicNumber:PaperBlockUpdates.kt:PaperBlockUpdates$3</ID>
+    <ID>MagicNumber:PickBlockListener.kt:PickBlockListener$9</ID>
+    <ID>MagicNumber:PlacedFurniture.kt:PlacedFurniture$3</ID>
+    <ID>MagicNumber:S3Publisher.kt:S3Publisher$200</ID>
+    <ID>MagicNumber:S3Publisher.kt:S3Publisher$299</ID>
+    <ID>MagicNumber:SaplingGrowth.kt:SaplingGrowth$0.3</ID>
+    <ID>MagicNumber:SaplingGrowth.kt:SaplingGrowth$0.5</ID>
+    <ID>MagicNumber:SaplingGrowth.kt:SaplingGrowth$1000</ID>
+    <ID>MagicNumber:SaplingGrowth.kt:SaplingGrowth$12</ID>
+    <ID>MagicNumber:SaplingGrowth.kt:SaplingGrowth$3</ID>
+    <ID>MagicNumber:SelfHostedPublisher.kt:SelfHostedPublisher$200</ID>
+    <ID>MagicNumber:SelfHostedPublisher.kt:SelfHostedPublisher$404</ID>
+    <ID>MagicNumber:SoundAssetGenerator.kt:SoundAssetGenerator$16</ID>
+    <ID>MagicNumber:VehicleTicker.kt:VehicleTicker$0.01</ID>
+    <ID>MagicNumber:VehicleTicker.kt:VehicleTicker$0.05</ID>
+    <ID>MagicNumber:VehicleTicker.kt:VehicleTicker$0.6</ID>
+    <ID>MagicNumber:VehicleTicker.kt:VehicleTicker$1.0E-6</ID>
+    <ID>MagicNumber:VehicleTicker.kt:VehicleTicker$1000</ID>
+    <ID>MagicNumber:VehicleTicker.kt:VehicleTicker$1000L</ID>
+    <ID>MagicNumber:VehicleTicker.kt:VehicleTicker$180f</ID>
+    <ID>MagicNumber:WorldEditIntegration.kt:WorldEditIntegration.Hook$4</ID>
+    <ID>MaxLineLength:BlockAssetGenerator.kt:BlockAssetGenerator$else -&gt; return warned(plugin, block, "texture-parent '$parent' needs a textures: map (all/cross work with a single texture)")</ID>
+    <ID>MaxLineLength:BlockAssetGenerator.kt:BlockAssetGenerator$plugin.logger.warning("Block ${block.id}: model file ${location.entry("models", "json")} does not exist")</ID>
+    <ID>MaxLineLength:BlockAssetGenerator.kt:BlockAssetGenerator$val location = PackLocation.parse(raw) ?: return warned(plugin, block, "model '$raw' is not a valid location")</ID>
+    <ID>MaxLineLength:BlockAssetGenerator.kt:BlockAssetGenerator$val location = PackLocation.parse(raw) ?: return warned(plugin, block, "texture '$raw' is not a valid location")</ID>
+    <ID>MaxLineLength:BlockSoundsListener.kt:BlockSoundsListener$?:</ID>
+    <ID>MaxLineLength:BlockVariations.kt:BlockVariations$"Block ${block.id} changed shape (was ${existing.size} states, now ${block.orientations.size}); "</ID>
+    <ID>MaxLineLength:EcoItemsDatapack.kt:EcoItemsDatapack$"Skipping painting ${painting.id}: texture file pack/assets/${location.namespace}/textures/painting/${location.path}.png does not exist"</ID>
+    <ID>MaxLineLength:EcoItemsDatapack.kt:EcoItemsDatapack$plugin.logger.warning("Skipping painting ${painting.id}: texture '${painting.texture}' is not a valid location")</ID>
+    <ID>MaxLineLength:EcoItemsPackFeature.kt:EcoItemsPackFeature$return listOf(PackListener, HudTicker.QuitListener, TridentListener, BlockSoundsListener) + GlyphListeners.listeners()</ID>
+    <ID>MaxLineLength:ExternalPublisher.kt:ExternalPublisher$plugin.logger.info("Exported pack to ${dir.resolve("pack.zip")} (sha1 ${pack.sha1}); set delivery.external.url to deliver it to players")</ID>
+    <ID>MaxLineLength:Furniture.kt:Furniture$plugin.logger.warning("Furniture $id has invalid barrier cell '$raw' (use \"x,y,z\", ranges like 0..1 allowed)")</ID>
+    <ID>MaxLineLength:Furniture.kt:Furniture$plugin.logger.warning("Furniture $id has unknown rotation '${config.getString("rotation")}' (8-way, 4-way, none)")</ID>
+    <ID>MaxLineLength:Furniture.kt:FurnitureConnectable$val</ID>
+    <ID>MaxLineLength:FurnitureListener.kt:FurnitureListener$playSound(block, placed.furniture, placed.furniture?.sounds?.breakSound ?: Sound.BLOCK_WOOD_BREAK.key().toString())</ID>
+    <ID>MaxLineLength:GlyphAssetGenerator.kt:GlyphAssetGenerator$"Glyph ${assigned.glyph.id} uses bitmap cell (${cell.row}, ${cell.column}), which is already taken; skipping it"</ID>
+    <ID>MaxLineLength:GlyphAssetGenerator.kt:GlyphAssetGenerator$"Skipping animated glyph ${glyph.id}: sprite sheet is ${width}x$height, which doesn't divide into ${animation.frames} frames"</ID>
+    <ID>MaxLineLength:GlyphAssetGenerator.kt:GlyphAssetGenerator$"Skipping bitmap sheet '${bitmap.texture}': pack/${location.entry("textures", "png")} does not exist"</ID>
+    <ID>MaxLineLength:GlyphAssetGenerator.kt:GlyphAssetGenerator$?:</ID>
+    <ID>MaxLineLength:GlyphAssetGenerator.kt:GlyphAssetGenerator$plugin.logger.warning("Skipping glyph ${glyph.id}: ascent (${glyph.ascent}) is larger than height (${glyph.height})")</ID>
+    <ID>MaxLineLength:GlyphCodepoints.kt:GlyphCodepoints$"Glyph ${glyph.id} has char ${"%04X".format(codepoint)} which another glyph's explicit char already uses; skipping it"</ID>
+    <ID>MaxLineLength:GlyphCodepoints.kt:GlyphCodepoints$"Glyph ${glyph.id} has explicit char ${"%04X".format(codepoint)}; reassigning animated glyph $holder"</ID>
+    <ID>MaxLineLength:GlyphCodepoints.kt:GlyphCodepoints$"Glyph ${glyph.id} uses char ${"%04X".format(collision)}, which an imported pack's font also defines; "</ID>
+    <ID>MaxLineLength:Glyphs.kt:Glyphs$plugin.logger.warning("${registry.values().size} glyphs are configured, but glyphs require the paid version of EcoItems.")</ID>
+    <ID>MaxLineLength:HostedPublisher.kt:HostedPublisher$plugin.logger.severe("Pack upload to $baseUrl failed (${response.statusCode()}): ${response.body().take(200)}")</ID>
+    <ID>MaxLineLength:HostedPublisher.kt:HostedPublisher$plugin.logger.severe("Pack upload to $baseUrl returned mismatched hash ($remoteSha1, expected ${pack.sha1})")</ID>
+    <ID>MaxLineLength:Huds.kt:Huds$plugin.logger.warning("${registry.values().size} HUDs are configured, but HUDs require the paid version of EcoItems.")</ID>
+    <ID>MaxLineLength:ItemUpdater.kt:ItemUpdater$if</ID>
+    <ID>MaxLineLength:ItemsAdderMigration.kt:ItemsAdderMigration$result.warn("Item $id: IA $it furniture converts, but EcoItems furniture is display-entity based - re-check its look")</ID>
+    <ID>MaxLineLength:ItemsAdderMigration.kt:ItemsAdderMigration$result.warn("Item $id: no usable cached state id - auto-assigning (already-placed blocks of it will look wrong)")</ID>
+    <ID>MaxLineLength:Migrations.kt:Migrations$plugin.logger.info("Found files in migrations/$source - run /ecoitems migrate ${source.lowercase()} to import them")</ID>
+    <ID>MaxLineLength:OraxenLikeMigration.kt:OraxenLikeMigration$for</ID>
+    <ID>MaxLineLength:OraxenLikeMigration.kt:OraxenLikeMigration$result.warn("Armor asset $assetId: no ${name}_layer_1.png texture found - the armor will be invisible when worn")</ID>
+    <ID>MaxLineLength:OraxenLikeMigration.kt:OraxenLikeMigration$result.warn("Item $id: $it furniture converts, but EcoItems furniture is display-entity based - re-check its look")</ID>
+    <ID>MaxLineLength:OraxenLikeMigration.kt:OraxenLikeMigration$result.warn("Item $id: furniture display_transform FIXED is Oraxen-specific and was skipped - EcoItems renders the model upright by default")</ID>
+    <ID>MaxLineLength:OraxenLikeMigration.kt:OraxenLikeMigration$result.warn("Item $id: furniture light moved to the cell above the origin - adjust furniture.lights if needed")</ID>
+    <ID>MaxLineLength:PackMcmeta.kt:PackMcmeta$"""{ "formats": { "min_inclusive": 65, "max_inclusive": 83 }, "min_format": 65, "max_format": 83, "directory": "overlay_pre_26" }"""</ID>
+    <ID>MaxLineLength:PackMcmeta.kt:PackMcmeta$"""{ "formats": { "min_inclusive": 84, "max_inclusive": 87 }, "min_format": 84, "max_format": 87, "directory": "overlay_26" }"""</ID>
+    <ID>MaxLineLength:PackMcmeta.kt:PackMcmeta$"""{ "formats": { "min_inclusive": 88, "max_inclusive": 96 }, "min_format": 88, "max_format": 96, "directory": "overlay_26_2" }"""</ID>
+    <ID>MaxLineLength:PackMcmeta.kt:PackMcmeta$"""{ "formats": { "min_inclusive": 97, "max_inclusive": 999 }, "min_format": 97, "max_format": 999, "directory": "overlay_26_3" }"""</ID>
+    <ID>MaxLineLength:Paintings.kt:Paintings$plugin.logger.warning("${registry.values().size} paintings are configured, but paintings require the paid version of EcoItems.")</ID>
+    <ID>MaxLineLength:PlacedFurniture.kt:PlacedFurniture.Companion$Vector3f(translation.first.toFloat(), translation.second.toFloat(), translation.third.toFloat())</ID>
+    <ID>MaxLineLength:SelfHostedPublisher.kt:SelfHostedPublisher$plugin.logger.severe("Self-hosted pack delivery requires delivery.self-hosted.public-url to be set in pack.yml")</ID>
+    <ID>MaxLineLength:Sound.kt:HornInstrument$plugin.logger.warning("Sound ${sound.id} has instrument durability-damage, which needs 26.3+; it will be ignored")</ID>
+    <ID>MaxLineLength:Sound.kt:HornInstrument$plugin.logger.warning("Sound ${sound.id} has instrument use-duration 0, which needs 26.3+; using 0.05 instead")</ID>
+    <ID>MaxLineLength:Sounds.kt:Sounds$plugin.logger.warning("${registry.values().size} sounds are configured, but custom sounds require the paid version of EcoItems.")</ID>
+    <ID>MultilineLambdaItParameter:EcoBlock.kt:EcoBlock${ if (it != null &amp;&amp; backing != BlockBacking.NOTEBLOCK) { plugin.logger.warning("Block $id: directional blocks must be noteblock-backed") } }</ID>
+    <ID>MultilineLambdaItParameter:EcoBlock.kt:EcoBlock${ if (it != null &amp;&amp; backing != BlockBacking.STRINGBLOCK) { plugin.logger.warning("Block $id: saplings must be stringblock-backed") } }</ID>
+    <ID>MultilineLambdaItParameter:EcoBlock.kt:EcoBlock${ if (it != null &amp;&amp; backing != BlockBacking.STRINGBLOCK) { plugin.logger.warning("Block $id: stackable blocks must be stringblock-backed") } if (it != null &amp;&amp; directional != null) { plugin.logger.warning("Block $id: stackable and directional don't combine; using directional") } }</ID>
+    <ID>MultilineLambdaItParameter:EcoDialog.kt:EcoDialog${ plugin.logger.warning("Dialogs need Paper 1.21.6+ ($it)") false }</ID>
+    <ID>MultilineLambdaItParameter:Furniture.kt:FurnitureVehicle${ if (it.size == fuelItems.size) { cachedFuelTestables = it } }</ID>
+    <ID>MultilineLambdaItParameter:GlyphCodepoints.kt:GlyphCodepoints${ staticAssignments[glyph.id] = it used.add(it) dirty = true }</ID>
+    <ID>MultilineLambdaItParameter:HudFontGenerator.kt:HudFontGenerator${ if (it != configured) { plugin.logger.warning("HUD ${hud.id} has text-ascent $configured, clamped to 8 (the maximum)") } }</ID>
+    <ID>MultilineLambdaItParameter:ItemsAdderMigration.kt:ItemsAdderMigration${ if (!it.equals("item_display", ignoreCase = true)) { result.warn("Item $id: IA $it furniture converts, but EcoItems furniture is display-entity based - re-check its look") } }</ID>
+    <ID>MultilineLambdaItParameter:ItemsAdderMigration.kt:ItemsAdderMigration${ out.set( "furniture.display.scale", "${it.getDouble("x", 1.0)},${it.getDouble("y", 1.0)},${it.getDouble("z", 1.0)}" ) }</ID>
+    <ID>MultilineLambdaItParameter:ItemsAdderMigration.kt:ItemsAdderMigration${ out.set( "furniture.display.translation", "${it.getDouble("x")},${it.getDouble("y")},${it.getDouble("z")}" ) }</ID>
+    <ID>MultilineLambdaItParameter:ItemsAdderMigration.kt:ItemsAdderMigration${ out.set("block.model", "$namespace:${strip(it)}") return true }</ID>
+    <ID>MultilineLambdaItParameter:Loot.kt:Loot${ Blocks.lookup(it).takeUnless { found -&gt; found is EmptyTestableBlock } ?: warnUnknownTarget(it, "block") }</ID>
+    <ID>MultilineLambdaItParameter:Loot.kt:Loot${ Entities.lookup(it).takeUnless { found -&gt; found is EmptyTestableEntity } ?: warnUnknownTarget(it, "entity") }</ID>
+    <ID>MultilineLambdaItParameter:Loot.kt:Loot${ if (it.size == targets.size) { cachedTargetBlocks = it } }</ID>
+    <ID>MultilineLambdaItParameter:Loot.kt:Loot${ if (it.size == targets.size) { cachedTargetEntities = it } }</ID>
+    <ID>MultilineLambdaItParameter:OraxenLikeMigration.kt:OraxenLikeMigration${ // Oraxen bakes furniture against the FIXED (item-frame) context, // which tilts geometry flat. Our furniture is a freestanding entity // wanting the raw upright geometry (NONE), so FIXED would lay it on // its side - drop it and forward only genuinely different contexts. it.getString("display_transform")?.let { t -&gt; if (!t.equals("FIXED", ignoreCase = true)) { out.set("furniture.display.transform", t.lowercase()) } else { result.warn("Item $id: furniture display_transform FIXED is Oraxen-specific and was skipped - EcoItems renders the model upright by default") } } it.getString("tracking_rotation")?.let { t -&gt; out.set("furniture.display.billboard", t.lowercase()) } if (it.contains("view_range")) out.set("furniture.display.view-range", it.getDouble("view_range")) if (it.contains("brightness.block_light")) { out.set("furniture.display.brightness", it.getInt("brightness.block_light")) } it.getConfigurationSection("scale")?.let { scale -&gt; out.set( "furniture.display.scale", "${scale.getDouble("x", 1.0)},${scale.getDouble("y", 1.0)},${scale.getDouble("z", 1.0)}" ) } when { it.isConfigurationSection("translation") -&gt; it.getConfigurationSection("translation")?.let { t -&gt; out.set( "furniture.display.translation", "${t.getDouble("x")},${t.getDouble("y")},${t.getDouble("z")}" ) } it.isString("translation") -&gt; out.set("furniture.display.translation", it.getString("translation")) } }</ID>
+    <ID>MultilineLambdaItParameter:OraxenLikeMigration.kt:OraxenLikeMigration${ for ((key, value) in it) { out.set("item.recipes.$key", value) } result.recipes++ }</ID>
+    <ID>MultilineLambdaItParameter:OraxenLikeMigration.kt:OraxenLikeMigration${ if (it != "DISPLAY_ENTITY") { result.warn("Item $id: $it furniture converts, but EcoItems furniture is display-entity based - re-check its look") } }</ID>
+    <ID>MultilineLambdaItParameter:OraxenLikeMigration.kt:OraxenLikeMigration${ it.getString("description")?.let { d -&gt; out.set("jukebox.description", d) } val duration = it.get("duration") ?: it.get("length_in_seconds") (duration as? Number)?.let { d -&gt; out.set("jukebox.length-seconds", d.toDouble()) } if (it.contains("comparator_output")) out.set("jukebox.comparator-output", it.getInt("comparator_output")) if (it.contains("range")) out.set("jukebox.range", it.getDouble("range")) }</ID>
+    <ID>MultilineLambdaItParameter:OraxenLikeMigration.kt:OraxenLikeMigration${ it.toString().substringAfterLast(":").substringAfterLast("_").uppercase() .takeIf { t -&gt; t in setOf("PICKAXE", "AXE", "SHOVEL", "HOE", "SWORD", "SHEARS") } }</ID>
+    <ID>MultilineLambdaItParameter:OraxenLikeMigration.kt:OraxenLikeMigration${ val yaw = if (it.contains("yaw")) " ${it.getDouble("yaw")}" else "" val y = Math.round((it.getDouble("height") - 0.6 + 1.0) * 100) / 100.0 seats += "0,$y,0$yaw" }</ID>
+    <ID>MultilineLambdaItParameter:PaintingListener.kt:PaintingListener${ it.removePrefix("minecraft:") == "painting/variant" &amp;&amp; components.getStringOrNull(it) == variant.toString() }</ID>
+    <ID>MultilineLambdaItParameter:Sound.kt:HornInstrument${ // Before 26.3 the instrument codec rejects 0, which fails the whole pack. if (it == 0.0 &amp;&amp; !Prerequisite.HAS_26_3.isMet) { plugin.logger.warning("Sound ${sound.id} has instrument use-duration 0, which needs 26.3+; using 0.05 instead") 0.05 } else { it } }</ID>
+    <ID>MultilineLambdaItParameter:Sound.kt:HornInstrument${ if (it &gt; 0 &amp;&amp; !Prerequisite.HAS_26_3.isMet) { plugin.logger.warning("Sound ${sound.id} has instrument durability-damage, which needs 26.3+; it will be ignored") 0 } else { it } }</ID>
+    <ID>MultilineLambdaItParameter:Sound.kt:Sound${ if (it !in CATEGORIES) { plugin.logger.warning("Sound $id has unknown category '$it', using master instead") } }</ID>
+    <ID>MultilineLambdaItParameter:WorldEditIntegration.kt:WorldEditIntegration${ plugin.logger.warning("Could not paste ${file.name}: $it") false }</ID>
+    <ID>MultilineRawStringIndentation:Migrations.kt:Migrations$""" Migrating from another custom items plugin: 1. Copy the contents of the old plugin's folder into the matching subfolder here (e.g. everything inside plugins/Oraxen/ into migrations/Oraxen/). 2. Back up your worlds. 3. Run /ecoitems migrate &lt;oraxen|nexo|itemsadder&gt; from the console. 4. Check the console for anything that could not be converted. Converted configs are written to items/imported/, glyphs/imported/ and sounds/imported/; pack assets are copied into pack/. Nothing in this folder is ever loaded directly, and running a migration twice skips files that already exist. """</ID>
+    <ID>NestedBlockDepth:ChunkSweeps.kt:ChunkSweeps$private fun seed</ID>
+    <ID>NestedBlockDepth:PackDefaults.kt:PackDefaults$private fun extract</ID>
+    <ID>NestedBlockDepth:PackImports.kt:PackImports$fun load: ImportedPacks</ID>
+    <ID>NestedBlockDepth:PackImports.kt:PackImports$private fun readPack: Map&lt;String, ByteArray&gt;</ID>
+    <ID>NestedScopeFunctions:AtlasGenerator.kt:AtlasGenerator$let { present += it }</ID>
+    <ID>NestedScopeFunctions:AtlasGenerator.kt:AtlasGenerator$let { presentSingles += it }</ID>
+    <ID>NestedScopeFunctions:ItemDefinitionBuilder.kt:ItemDefinitionBuilder$apply { add(JsonObject().apply { addProperty("type", "minecraft:dye") addProperty("default", dyeTint) }) }</ID>
+    <ID>NestedScopeFunctions:ItemDefinitionBuilder.kt:ItemDefinitionBuilder$apply { addProperty("type", "minecraft:dye") addProperty("default", dyeTint) }</ID>
+    <ID>NestedScopeFunctions:ItemDefinitionBuilder.kt:ItemDefinitionBuilder$apply { entries.forEach { add(it) } }</ID>
+    <ID>NestedScopeFunctions:ItemsAdderMigration.kt:ItemsAdderMigration$let { // IA uses enum-ish names (BLOCK_WOOD_PLACE); best effort. out.set("block.sounds.$event", it.lowercase().replace("_", ".")) }</ID>
+    <ID>NestedScopeFunctions:ItemsAdderMigration.kt:ItemsAdderMigration$let { out.set( "furniture.display.scale", "${it.getDouble("x", 1.0)},${it.getDouble("y", 1.0)},${it.getDouble("z", 1.0)}" ) }</ID>
+    <ID>NestedScopeFunctions:ItemsAdderMigration.kt:ItemsAdderMigration$let { out.set( "furniture.display.translation", "${it.getDouble("x")},${it.getDouble("y")},${it.getDouble("z")}" ) }</ID>
+    <ID>NestedScopeFunctions:ItemsAdderMigration.kt:ItemsAdderMigration$let { out.set("furniture.display.transform", it.lowercase()) }</ID>
+    <ID>NestedScopeFunctions:LangAssetGenerator.kt:LangAssetGenerator$let { copyInto(it, merged) }</ID>
+    <ID>NestedScopeFunctions:OraxenLikeMigration.kt:OraxenLikeMigration$let { d -&gt; out.set("jukebox.description", d) }</ID>
+    <ID>NestedScopeFunctions:OraxenLikeMigration.kt:OraxenLikeMigration$let { d -&gt; out.set("jukebox.length-seconds", d.toDouble()) }</ID>
+    <ID>NestedScopeFunctions:OraxenLikeMigration.kt:OraxenLikeMigration$let { out.set("block.hardness", it.toDouble()) }</ID>
+    <ID>NestedScopeFunctions:OraxenLikeMigration.kt:OraxenLikeMigration$let { out.set("block.minimum-tier", if (it.equals("wood", true)) "wooden" else it.lowercase()) }</ID>
+    <ID>NestedScopeFunctions:OraxenLikeMigration.kt:OraxenLikeMigration$let { scale -&gt; out.set( "furniture.display.scale", "${scale.getDouble("x", 1.0)},${scale.getDouble("y", 1.0)},${scale.getDouble("z", 1.0)}" ) }</ID>
+    <ID>NestedScopeFunctions:OraxenLikeMigration.kt:OraxenLikeMigration$let { t -&gt; if (!t.equals("FIXED", ignoreCase = true)) { out.set("furniture.display.transform", t.lowercase()) } else { result.warn("Item $id: furniture display_transform FIXED is Oraxen-specific and was skipped - EcoItems renders the model upright by default") } }</ID>
+    <ID>NestedScopeFunctions:OraxenLikeMigration.kt:OraxenLikeMigration$let { t -&gt; out.set( "furniture.display.translation", "${t.getDouble("x")},${t.getDouble("y")},${t.getDouble("z")}" ) }</ID>
+    <ID>NestedScopeFunctions:OraxenLikeMigration.kt:OraxenLikeMigration$let { t -&gt; out.set("furniture.display.billboard", t.lowercase()) }</ID>
+    <ID>NestedScopeFunctions:OraxenLikeMigration.kt:OraxenLikeMigration$let { tools -&gt; val categories = tools.mapNotNull { it.toString().substringAfterLast(":").substringAfterLast("_").uppercase() .takeIf { t -&gt; t in setOf("PICKAXE", "AXE", "SHOVEL", "HOE", "SWORD", "SHEARS") } }.distinct() if (categories.isNotEmpty()) out.set("block.correct-tools", categories) }</ID>
+    <ID>NestedScopeFunctions:WorkstationRecipeLoader.kt:let { builder.permission(it) }</ID>
+    <ID>NewLineAtEndOfFile:CommandReload.kt:com.willfp.ecoitems.commands.CommandReload.kt</ID>
+    <ID>NewLineAtEndOfFile:DiscoverRecipeListener.kt:com.willfp.ecoitems.util.DiscoverRecipeListener.kt</ID>
+    <ID>NewLineAtEndOfFile:EcoItemsRecipes.kt:com.willfp.ecoitems.items.EcoItemsRecipes.kt</ID>
+    <ID>NoNameShadowing:Rarities.kt:{ it.matches(this) }</ID>
+    <ID>NoNameShadowing:Rarities.kt:{ it.weight }</ID>
+    <ID>NullableBooleanCheck:EcoBlock.kt:SaplingBlock$config.getBoolOrNull("bonemeal") ?: true</ID>
+    <ID>NullableBooleanCheck:EcoBlock.kt:SaplingBlock$config.getBoolOrNull("require-space") ?: true</ID>
+    <ID>NullableBooleanCheck:EcoCrop.kt:EcoCrop$config.getBoolOrNull("bonemeal") ?: true</ID>
+    <ID>NullableBooleanCheck:EcoCrop.kt:EcoCrop$config.getBoolOrNull("requires-farmland") ?: true</ID>
+    <ID>NullableBooleanCheck:EcoDialog.kt:EcoDialog$config.getBoolOrNull("can-close-with-escape") ?: true</ID>
+    <ID>NullableBooleanCheck:Furniture.kt:Furniture$config.getBoolOrNull("cycle-states-on-click") ?: true</ID>
+    <ID>NullableBooleanCheck:Furniture.kt:Furniture$config.getBoolOrNull("placement.ceiling") ?: false</ID>
+    <ID>NullableBooleanCheck:Furniture.kt:Furniture$config.getBoolOrNull("placement.floor") ?: true</ID>
+    <ID>NullableBooleanCheck:Furniture.kt:Furniture$config.getBoolOrNull("placement.wall") ?: false</ID>
+    <ID>NullableBooleanCheck:Glyph.kt:Glyph$config.getBoolOrNull("show-in-picker") ?: true</ID>
+    <ID>NullableBooleanCheck:Glyph.kt:GlyphAnimation.Companion$config.getBoolOrNull("loop") ?: true</ID>
+    <ID>NullableBooleanCheck:LootContributor.kt:LootContributor$context.block?.let { rollsForBlock(it, player) } ?: false</ID>
+    <ID>NullableBooleanCheck:LootContributor.kt:LootContributor$context.entity?.let { rollsForEntity(it, player) } ?: false</ID>
+    <ID>NullableBooleanCheck:PackSettings.kt:PackSettings$config.getBoolOrNull("compatibility.default-assets") ?: true</ID>
+    <ID>NullableBooleanCheck:PackSettings.kt:PackSettings$config.getBoolOrNull("compatibility.glyph-shaders") ?: true</ID>
+    <ID>NullableBooleanCheck:PackSettings.kt:PackSettings$config.getBoolOrNull("delivery.s3.path-style") ?: true</ID>
+    <ID>NullableBooleanCheck:PackSettings.kt:PackSettings$config.getBoolOrNull("delivery.s3.public-read") ?: true</ID>
+    <ID>NullableBooleanCheck:PackSettings.kt:PackSettings$config.getBoolOrNull("minify-json") ?: true</ID>
+    <ID>NullableBooleanCheck:Sound.kt:SoundEntry$config?.getBoolOrNull("preload") ?: false</ID>
+    <ID>NullableBooleanCheck:Sound.kt:SoundEntry$config?.getBoolOrNull("stream") ?: false</ID>
+    <ID>NullableToStringCall:OraxenLikeMigration.kt:OraxenLikeMigration$$type</ID>
+    <ID>NullableToStringCall:OraxenLikeMigration.kt:OraxenLikeMigration$${bitmapRef.getString("id")}</ID>
+    <ID>NullableToStringCall:OraxenLikeMigration.kt:OraxenLikeMigration$${config.getString("type")}</ID>
+    <ID>NullableToStringCall:OraxenLikeMigration.kt:OraxenLikeMigration$it.key.toString()</ID>
+    <ID>NullableToStringCall:OraxenLikeMigration.kt:OraxenLikeMigration$it.toString()</ID>
+    <ID>NullableToStringCall:OraxenLikeMigration.kt:OraxenLikeMigration$k.toString()</ID>
+    <ID>NullableToStringCall:OraxenLikeMigration.kt:OraxenLikeMigration$key.toString()</ID>
+    <ID>NullableToStringCall:OraxenLikeMigration.kt:OraxenLikeMigration$v.toString()</ID>
+    <ID>NullableToStringCall:PlacedFurniture.kt:PlacedFurniture.Companion$${furniture?.id}</ID>
+    <ID>PF009:AtlasGenerator.kt:AtlasGenerator$Regex("assets/([^/]+)/textures/([^/]+)\\.png")</ID>
+    <ID>PF009:AtlasGenerator.kt:AtlasGenerator$Regex("assets/[^/]+/textures/([^/]+)/.+")</ID>
+    <ID>PF009:EcoItem.kt:EcoItem$toRegex()</ID>
+    <ID>PF009:ItemsAdderMigration.kt:ItemsAdderMigration$Regex("([a-z])([A-Z])")</ID>
+    <ID>PF009:OraxenLikeMigration.kt:OraxenLikeMigration$Regex("[^a-z0-9_]")</ID>
+    <ID>PF009:PackImports.kt:ImportedPacks$Regex("assets/[^/]+/font/.+\\.json")</ID>
+    <ID>PF009:PackImports.kt:PackImports$Regex("assets/[^/]+/atlases/.+\\.json")</ID>
+    <ID>PF009:PackImports.kt:PackImports$Regex("assets/[^/]+/font/.+\\.json")</ID>
+    <ID>PF009:PackImports.kt:PackImports$Regex("assets/[^/]+/lang/.+\\.json")</ID>
+    <ID>PF009:PackImports.kt:PackImports$Regex("assets/[^/]+/sounds\\.json")</ID>
+    <ID>PF012:BlockAssetGenerator.kt:BlockAssetGenerator$values()</ID>
+    <ID>PF012:EcoItemsDatapack.kt:EcoItemsDatapack$values()</ID>
+    <ID>PF012:EcoItemsLoot.kt:EcoItemsLoot$values()</ID>
+    <ID>PF012:HudTicker.kt:HudTicker$values()</ID>
+    <ID>PF012:LootContributor.kt:LootContributor$values()</ID>
+    <ID>PF012:PaintingListener.kt:PaintingListener$values()</ID>
+    <ID>PropertyUsedBeforeDeclaration:BlockAssetGenerator.kt:BlockAssetGenerator$ROTATIONS</ID>
+    <ID>PropertyUsedBeforeDeclaration:BlockListener.kt:BlockListener$REPLACEABLE</ID>
+    <ID>PropertyUsedBeforeDeclaration:BlockListener.kt:BlockListener$TIERS</ID>
+    <ID>PropertyUsedBeforeDeclaration:BlockPhysicsListener.kt:BlockPhysicsListener$MATERIAL_INSTRUMENTS</ID>
+    <ID>PropertyUsedBeforeDeclaration:BlockPhysicsListener.kt:BlockPhysicsListener$glass</ID>
+    <ID>PropertyUsedBeforeDeclaration:BlockPhysicsListener.kt:BlockPhysicsListener$sand</ID>
+    <ID>PropertyUsedBeforeDeclaration:BlockPhysicsListener.kt:BlockPhysicsListener$stone</ID>
+    <ID>PropertyUsedBeforeDeclaration:BlockPhysicsListener.kt:BlockPhysicsListener$wood</ID>
+    <ID>PropertyUsedBeforeDeclaration:FurnitureListener.kt:FurnitureListener$REPLACEABLE</ID>
+    <ID>PropertyUsedBeforeDeclaration:FurnitureStorageManager.kt:FurnitureStorageManager$sharedKey</ID>
+    <ID>PropertyUsedBeforeDeclaration:ItemsGUI.kt:ItemScrollPane$size</ID>
+    <ID>PropertyUsedBeforeDeclaration:ItemsGUI.kt:ItemsGUI.CategoryPane$size</ID>
+    <ID>PropertyUsedBeforeDeclaration:PlacedFurniture.kt:PlacedFurniture.Companion$SEARCH_RADIUS</ID>
+    <ID>RedundantHigherOrderMapUsage:OraxenLikeMigration.kt:OraxenLikeMigration$map</ID>
+    <ID>ReplaceSafeCallChainWithRun:BlockListener.kt:BlockListener$block.sounds?.pitch?.toFloat()</ID>
+    <ID>ReplaceSafeCallChainWithRun:BlockListener.kt:BlockListener$block.sounds?.volume?.toFloat()</ID>
+    <ID>ReplaceSafeCallChainWithRun:BlockListener.kt:BlockListener$tool?.type?.name</ID>
+    <ID>ReplaceSafeCallChainWithRun:CropTracker.kt:CropTracker$placed?.block?.crop</ID>
+    <ID>ReplaceSafeCallChainWithRun:CropTracker.kt:CropTracker$raw?.split(";")?.filter { it.isNotBlank() }</ID>
+    <ID>ReplaceSafeCallChainWithRun:EcoBlock.kt:EcoBlock$stackable?.count?.let { it &gt; 0 }</ID>
+    <ID>ReplaceSafeCallChainWithRun:EcoBlocks.kt:EcoBlocks$at(test)?.block?.id</ID>
+    <ID>ReplaceSafeCallChainWithRun:EcoItem.kt:EcoItem$"ecoitems:([a-z0-9_]+)".toRegex().find(error)?.groupValues?.get(1)</ID>
+    <ID>ReplaceSafeCallChainWithRun:EcoItem.kt:EcoItem$this@EcoItem.crop?.block?.hasAssets</ID>
+    <ID>ReplaceSafeCallChainWithRun:Furniture.kt:Furniture$parts.getOrNull(1)?.split("x", ",")?.mapNotNull { it.trim().toDoubleOrNull() }</ID>
+    <ID>ReplaceSafeCallChainWithRun:Furniture.kt:Furniture$parts.getOrNull(1)?.trim()?.toFloatOrNull()</ID>
+    <ID>ReplaceSafeCallChainWithRun:Furniture.kt:Furniture$parts.getOrNull(1)?.trim()?.toIntOrNull()</ID>
+    <ID>ReplaceSafeCallChainWithRun:FurnitureListener.kt:FurnitureListener$furniture?.sounds?.pitch?.toFloat()</ID>
+    <ID>ReplaceSafeCallChainWithRun:FurnitureListener.kt:FurnitureListener$furniture?.sounds?.volume?.toFloat()</ID>
+    <ID>ReplaceSafeCallChainWithRun:FurnitureListener.kt:FurnitureListener$placed.furniture?.effects?.dispatch( if (event.player.isSneaking) ContentEvent.SHIFT_PUNCH else ContentEvent.PUNCH, event.player, placed.base.location )</ID>
+    <ID>ReplaceSafeCallChainWithRun:FurnitureListener.kt:FurnitureListener$placed.furniture?.effects?.dispatch( if (player.isSneaking) ContentEvent.SHIFT_PUNCH else ContentEvent.PUNCH, player, placed.base.location )</ID>
+    <ID>ReplaceSafeCallChainWithRun:FurnitureListener.kt:FurnitureListener$placed.furniture?.effects?.dispatch(ContentEvent.BREAK, player, placed.base.location)</ID>
+    <ID>ReplaceSafeCallChainWithRun:GlyphText.kt:GlyphText$assignments.values .flatMap { it.glyph.placeholders } .takeIf { it.isNotEmpty() } ?.joinToString("|") { Pattern.quote(it) } ?.let { Pattern.compile("\\\\($it)") }</ID>
+    <ID>ReplaceSafeCallChainWithRun:HudTicker.kt:HudTicker$shownBossBars.remove(player.uniqueId)?.values?.forEach { player.asAudience().hideBossBar(it) }</ID>
+    <ID>ReplaceSafeCallChainWithRun:ItemListener.kt:ItemListener$event.item?.type?.isBlock</ID>
+    <ID>ReplaceSafeCallChainWithRun:ItemUpdater.kt:ItemUpdater$pdc.get(baseLoreKey, PersistentDataType.STRING) ?.split(LORE_SEPARATOR) ?.map { it.normalizeFormatting() }</ID>
+    <ID>ReplaceSafeCallChainWithRun:ItemsAdderMigration.kt:ItemsAdderMigration$behaviours?.getKeys(false)?.forEach { unsupported -&gt; if (unsupported !in setOf("block", "furniture", "furniture_sit")) { result.warn("Item $id: behaviour '$unsupported' is not supported and was skipped") } }</ID>
+    <ID>ReplaceSafeCallChainWithRun:ItemsAdderRecipes.kt:ItemsAdderRecipes$raw?.trim()?.takeIf { it.isNotEmpty() }</ID>
+    <ID>ReplaceSafeCallChainWithRun:Migrations.kt:folder.listFiles() ?.filter { it.isDirectory &amp;&amp; it.name != "__MACOSX" } ?.singleOrNull { candidate -&gt; markers.any { candidate.resolve(it).exists() } }</ID>
+    <ID>ReplaceSafeCallChainWithRun:OraxenLikeMigration.kt:OraxenLikeMigration$(value as? Map&lt;*, *&gt;)?.entries?.associate { (k, v) -&gt; val name = if (k == "model" &amp;&amp; "asset_id" !in value) "asset_id" else k.toString() if (name == "asset_id" &amp;&amp; ":" in v.toString()) { equipmentAssets += v.toString() } name to if (name == "slot") v.toString().lowercase() else v }</ID>
+    <ID>ReplaceSafeCallChainWithRun:OraxenLikeMigration.kt:OraxenLikeMigration$loot["minecraft_type"]?.toString()?.lowercase()</ID>
+    <ID>ReplaceSafeCallChainWithRun:OraxenLikeMigration.kt:OraxenLikeMigration$loot[dialect.itemRef]?.toString()?.let { "ecoitems:$it" }</ID>
+    <ID>ReplaceSafeCallChainWithRun:OraxenLikeMigration.kt:OraxenLikeMigration$out.getString("furniture.display.translation") ?.split(",")?.mapNotNull { it.trim().toDoubleOrNull() }</ID>
+    <ID>ReplaceSafeCallChainWithRun:PlacedFurniture.kt:PlacedFurniture$base.persistentDataContainer.get(key, PersistentDataType.STRING) ?.split(";") ?.mapNotNull { entry -&gt; val parts = entry.split(",").mapNotNull { it.toIntOrNull() } if (parts.size == 3) origin.getRelative(parts[0], parts[1], parts[2]) else null }</ID>
+    <ID>ReplaceSafeCallChainWithRun:PlacedFurniture.kt:PlacedFurniture$base.persistentDataContainer.get(key, PersistentDataType.STRING) ?.split(";") ?.mapNotNull { raw -&gt; runCatching { Bukkit.getEntity(UUID.fromString(raw)) }.getOrNull() }</ID>
+    <ID>ReplaceSafeCallChainWithRun:PlacedFurniture.kt:PlacedFurniture.Companion$player?.inventory?.itemInMainHand</ID>
+    <ID>ReplaceSafeCallChainWithRun:SaplingGrowth.kt:SaplingGrowth$placed?.block?.sapling</ID>
+    <ID>ReplaceSafeCallChainWithRun:SaplingGrowth.kt:SaplingGrowth$raw?.split(";")?.filter { it.isNotBlank() }</ID>
+    <ID>ReplaceSafeCallChainWithRun:Sound.kt:Sound$config.getStringOrNull("category") ?.lowercase() // Bukkit calls it RECORDS; the client calls it record. ?.let { if (it == "records") "record" else it } ?.also { if (it !in CATEGORIES) { plugin.logger.warning("Sound $id has unknown category '$it', using master instead") } } ?.takeIf { it in CATEGORIES }</ID>
+    <ID>ReplaceSafeCallChainWithRun:TridentListener.kt:TridentListener$stack.ecoItem?.id?.key</ID>
+    <ID>ReturnCount:ArgParserRarity.kt:ArgParserRarity$override fun parseArguments: Predicate&lt;ItemStack&gt;?</ID>
+    <ID>ReturnCount:BlockAssetGenerator.kt:BlockAssetGenerator$private fun resolveModel: String?</ID>
+    <ID>ReturnCount:BlockAssetGenerator.kt:BlockAssetGenerator$private fun resolveStackModels: List&lt;String&gt;?</ID>
+    <ID>ReturnCount:BlockBreakSpeed.kt:BlockBreakSpeed$@EventHandler(ignoreCancelled = true) fun onDamage</ID>
+    <ID>ReturnCount:BlockListener.kt:BlockListener$@EventHandler fun onClickEffects</ID>
+    <ID>ReturnCount:BlockListener.kt:BlockListener$@EventHandler(priority = EventPriority.HIGH) fun onPlace</ID>
+    <ID>ReturnCount:BlockListener.kt:BlockListener$@EventHandler(priority = EventPriority.HIGH) fun onStrip</ID>
+    <ID>ReturnCount:BlockListener.kt:BlockListener$@EventHandler(priority = EventPriority.LOWEST) fun onInteractCustomBlock</ID>
+    <ID>ReturnCount:BlockListener.kt:BlockListener$@EventHandler(priority = EventPriority.MONITOR) fun onUseItemOnCustomBlock</ID>
+    <ID>ReturnCount:BlockListener.kt:BlockListener$fun dropsFor: List&lt;ItemStack&gt;?</ID>
+    <ID>ReturnCount:BlockListener.kt:BlockListener$fun spawnDrops</ID>
+    <ID>ReturnCount:BlockListener.kt:BlockListener$internal fun passesPlacementCooldown: Boolean</ID>
+    <ID>ReturnCount:BlockListener.kt:BlockListener$private fun canHarvest: Boolean</ID>
+    <ID>ReturnCount:BlockListener.kt:BlockListener$private fun damageTool</ID>
+    <ID>ReturnCount:BlockListener.kt:BlockListener$private fun growStack</ID>
+    <ID>ReturnCount:BlockPhysicsListener.kt:BlockPhysicsListener$@EventHandler(ignoreCancelled = true) fun onFallingBlockDrop</ID>
+    <ID>ReturnCount:BlockPhysicsListener.kt:BlockPhysicsListener$@EventHandler(ignoreCancelled = true) fun onFallingBlockLand</ID>
+    <ID>ReturnCount:BlockPhysicsListener.kt:BlockPhysicsListener$@EventHandler(ignoreCancelled = true) fun onNoteBlockTuned</ID>
+    <ID>ReturnCount:BlockSoundsListener.kt:BlockSoundsListener$@EventHandler(ignoreCancelled = true) fun onStartMining</ID>
+    <ID>ReturnCount:BlockSoundsListener.kt:BlockSoundsListener$@EventHandler(ignoreCancelled = true) fun onStepOrFall</ID>
+    <ID>ReturnCount:CommandDialog.kt:CommandDialog$override fun tabComplete: List&lt;String&gt;</ID>
+    <ID>ReturnCount:CommandDrop.kt:CommandDrop$override fun tabComplete: List&lt;String&gt;</ID>
+    <ID>ReturnCount:CommandGive.kt:CommandGive$override fun tabComplete: List&lt;String&gt;</ID>
+    <ID>ReturnCount:CommandGlyph.kt:CommandGlyph$override fun onExecute</ID>
+    <ID>ReturnCount:CommandHud.kt:CommandHudToggle$override fun onExecute</ID>
+    <ID>ReturnCount:CommandItemEdits.kt:CommandRename$@Suppress("DEPRECATION") override fun onExecute</ID>
+    <ID>ReturnCount:CommandTake.kt:CommandTake$override fun tabComplete: List&lt;String&gt;</ID>
+    <ID>ReturnCount:CommandTotem.kt:CommandTotem$override fun tabComplete: List&lt;String&gt;</ID>
+    <ID>ReturnCount:CropListener.kt:CropListener$@EventHandler(priority = EventPriority.HIGH) fun onBonemeal</ID>
+    <ID>ReturnCount:CropListener.kt:CropListener$@EventHandler(priority = EventPriority.HIGH) fun onPlant</ID>
+    <ID>ReturnCount:CropTracker.kt:CropTracker$private fun tickEntry: String?</ID>
+    <ID>ReturnCount:EcoBlocks.kt:EcoBlocks$fun at: Placed?</ID>
+    <ID>ReturnCount:EcoBlocks.kt:EcoBlocks$fun enabledIn: Boolean</ID>
+    <ID>ReturnCount:EcoItem.kt:EcoItem$private fun pendingRegistration: String?</ID>
+    <ID>ReturnCount:EcoItemsDatapack.kt:EcoItemsDatapack$private fun paintingJson: String?</ID>
+    <ID>ReturnCount:EcoItemsLoot.kt:EcoItemsLoot$@JvmStatic fun rollFishing: FishingRoll?</ID>
+    <ID>ReturnCount:EcoItemsPackFeature.kt:EcoItemsPackFeature$override fun decorateGuiTitle: String</ID>
+    <ID>ReturnCount:ExternalPublisher.kt:ExternalPublisher$override fun publish: PublishedPack?</ID>
+    <ID>ReturnCount:FurnitureListener.kt:FurnitureListener$@EventHandler(ignoreCancelled = true) fun onInteractBarrier</ID>
+    <ID>ReturnCount:FurnitureListener.kt:FurnitureListener$@EventHandler(priority = EventPriority.HIGH) fun onPlace</ID>
+    <ID>ReturnCount:FurnitureListener.kt:FurnitureListener$private fun handleInteract</ID>
+    <ID>ReturnCount:GlyphAssetGenerator.kt:GlyphAssetGenerator$private fun addGlyph</ID>
+    <ID>ReturnCount:GlyphAssetGenerator.kt:GlyphAssetGenerator$private fun pngDimensions: Pair&lt;Int, Int&gt;?</ID>
+    <ID>ReturnCount:GlyphPlaceholders.kt:GlyphPlaceholder$override fun getValue: String?</ID>
+    <ID>ReturnCount:GlyphPlaceholders.kt:ShiftPlaceholder$override fun getValue: String?</ID>
+    <ID>ReturnCount:HostedPublisher.kt:HostedPublisher$override fun publish: PublishedPack?</ID>
+    <ID>ReturnCount:HudState.kt:HudState$fun isBossBarVisible: Boolean</ID>
+    <ID>ReturnCount:HudTicker.kt:HudTicker$private fun renderActionBar: Component?</ID>
+    <ID>ReturnCount:ItemAssetGenerator.kt:ItemAssetGenerator$private fun generate: String?</ID>
+    <ID>ReturnCount:ItemPackAsset.kt:StateModel.Companion$fun parse: Pair&lt;StateModel?, String?&gt;</ID>
+    <ID>ReturnCount:ItemTemplates.kt:ItemTemplates$private fun resolveTemplate: Map&lt;String, Any?&gt;</ID>
+    <ID>ReturnCount:ItemUpdater.kt:ItemUpdater$@Suppress("DEPRECATION") private fun updated: ItemStack?</ID>
+    <ID>ReturnCount:ItemUpdater.kt:ItemUpdater$private fun List&lt;Component&gt;.isConfigLore: Boolean</ID>
+    <ID>ReturnCount:ItemsAdderMigration.kt:ItemsAdderMigration$private fun applyBlockTextures: Boolean</ID>
+    <ID>ReturnCount:ItemsAdderRecipes.kt:ItemsAdderRecipes$private fun brewing: Map&lt;String, Any&gt;?</ID>
+    <ID>ReturnCount:ItemsAdderRecipes.kt:ItemsAdderRecipes$private fun crafting: Map&lt;String, Any&gt;?</ID>
+    <ID>ReturnCount:ItemsAdderRecipes.kt:ItemsAdderRecipes$private fun lookup: String?</ID>
+    <ID>ReturnCount:ItemsAdderRecipes.kt:ItemsAdderRecipes$private fun smithing: Map&lt;String, Any&gt;?</ID>
+    <ID>ReturnCount:Loot.kt:Loot$fun rollsForEntity: Boolean</ID>
+    <ID>ReturnCount:Loot.kt:Loot$private fun rolls: Boolean</ID>
+    <ID>ReturnCount:LootContributor.kt:LootContributor$override fun contribute: DropContribution</ID>
+    <ID>ReturnCount:LootFishingListener.kt:LootFishingListener$@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true) fun onFish</ID>
+    <ID>ReturnCount:Migrations.kt:internal fun resolveRoot: File</ID>
+    <ID>ReturnCount:OraxenLikeMigration.kt:OraxenLikeMigration$private fun brewingRecipe: Map&lt;String, Any&gt;?</ID>
+    <ID>ReturnCount:OraxenLikeMigration.kt:OraxenLikeMigration$private fun convertSounds</ID>
+    <ID>ReturnCount:OraxenLikeMigration.kt:OraxenLikeMigration$private fun furnitureFloorOffset: Double?</ID>
+    <ID>ReturnCount:OraxenLikeMigration.kt:OraxenLikeMigration$private fun ingredient: String?</ID>
+    <ID>ReturnCount:OraxenLikeMigration.kt:OraxenLikeMigration$private fun parseDyeColor: Int?</ID>
+    <ID>ReturnCount:OraxenLikeMigration.kt:OraxenLikeMigration$private fun textureList: List&lt;String&gt;</ID>
+    <ID>ReturnCount:PaintingListener.kt:PaintingListener$@EventHandler(ignoreCancelled = true) fun onBreak</ID>
+    <ID>ReturnCount:PaperBlockUpdates.kt:PaperBlockUpdates$private fun parse: Map&lt;String, Boolean&gt;</ID>
+    <ID>ReturnCount:PlacedFurniture.kt:PlacedFurniture.Companion$fun atBarrier: PlacedFurniture?</ID>
+    <ID>ReturnCount:PlacedFurniture.kt:PlacedFurniture.Companion$fun fromEntity: PlacedFurniture?</ID>
+    <ID>ReturnCount:RarityDisplay.kt:RarityDisplay$override fun display</ID>
+    <ID>ReturnCount:S3Publisher.kt:S3Publisher$override fun publish: PublishedPack?</ID>
+    <ID>ReturnCount:SaplingGrowth.kt:SaplingGrowth$@EventHandler(priority = EventPriority.HIGH) fun onBonemeal</ID>
+    <ID>ReturnCount:SaplingGrowth.kt:SaplingGrowth$fun grow: Boolean</ID>
+    <ID>ReturnCount:SaplingGrowth.kt:SaplingGrowth$private fun tickEntry: String?</ID>
+    <ID>ReturnCount:SelfHostedPublisher.kt:SelfHostedPublisher$override fun publish: PublishedPack?</ID>
+    <ID>ReturnCount:SoundAssetGenerator.kt:SoundAssetGenerator$private fun resolveName: String?</ID>
+    <ID>ReturnCount:TridentListener.kt:TridentListener$private fun swapModel</ID>
+    <ID>ReturnCount:VehicleTicker.kt:VehicleTicker$private fun consumeFuel: Boolean</ID>
+    <ID>ReturnCount:VehicleTicker.kt:VehicleTicker$private fun drive</ID>
+    <ID>ReturnCount:WorkstationRecipeLoader.kt:internal fun EcoItem.registerWorkstationRecipe</ID>
+    <ID>ReturnCount:WorkstationRecipeLoader.kt:private fun EcoItem.ingredient: Ingredient?</ID>
+    <ID>ReturnCount:WorkstationRecipePermissions.kt:WorkstationRecipePermissions$@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true) fun onTakeResult</ID>
+    <ID>ReturnCount:WorldEditIntegration.kt:WorldEditIntegration.Hook$fun paste: Boolean</ID>
+    <ID>ReturnCount:WorldEditIntegration.kt:WorldEditIntegration.Hook$private fun fits: Boolean</ID>
+    <ID>ReturnCount:WorldEditIntegration.kt:WorldEditIntegration.Hook$private fun ownsFootprint: Boolean</ID>
+    <ID>ReturnCount:WorldEditIntegration.kt:WorldEditIntegration.Hook.Parser$override fun parseFromInput: BaseBlock?</ID>
+    <ID>ReturnCount:WorldGuardFlags.kt:WorldGuardFlags.Hook$fun test: Boolean</ID>
+    <ID>SpreadOperator:ItemsDisplay.kt:ItemsDisplay$(*FastItemStack.wrap(ecoItem.itemStack).itemFlags.toTypedArray())</ID>
+    <ID>SpreadOperator:ItemsGUI.kt:ItemsGUI$( MaskItems.fromItemNames(plugin.configYml.getStrings("items-gui.mask.items")), *plugin.configYml.getStrings("items-gui.mask.pattern").toTypedArray() )</ID>
+    <ID>SwallowedException:PaperBlockUpdates.kt:PaperBlockUpdates$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:ExternalPublisher.kt:ExternalPublisher$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:HostedPublisher.kt:HostedPublisher$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:PackDefaults.kt:PackDefaults$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:PackFeature.kt:PackFeatures$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:PackImports.kt:PackImports$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:PaperBlockUpdates.kt:PaperBlockUpdates$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:S3Publisher.kt:S3Publisher$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:SelfHostedPublisher.kt:SelfHostedPublisher$e: Exception</ID>
+    <ID>TooManyFunctions:BlockListener.kt:BlockListener : Listener</ID>
+    <ID>TooManyFunctions:BlockPhysicsListener.kt:BlockPhysicsListener : Listener</ID>
+    <ID>TooManyFunctions:EcoBlocks.kt:EcoBlocks</ID>
+    <ID>TooManyFunctions:EcoItemsPackFeature.kt:EcoItemsPackFeature : PackFeature</ID>
+    <ID>TooManyFunctions:FurnitureListener.kt:FurnitureListener : Listener</ID>
+    <ID>TooManyFunctions:HudTicker.kt:HudTicker</ID>
+    <ID>TooManyFunctions:ItemsAdderRecipes.kt:ItemsAdderRecipes</ID>
+    <ID>TooManyFunctions:OraxenLikeMigration.kt:OraxenLikeMigration</ID>
+    <ID>TooManyFunctions:PlacedFurniture.kt:PlacedFurniture</ID>
+    <ID>TooManyFunctions:SaplingGrowth.kt:SaplingGrowth : Listener</ID>
+    <ID>TrimMultilineRawString:InterfaceShaders.kt:InterfaceShaders$"""#version $version // Copied from dynamictransforms.glsl and projection.glsl, which can't be // imported into a shader used during startup. layout(std140) uniform DynamicTransforms { mat4 ModelViewMat; vec4 ColorModulator; vec3 ModelOffset; mat4 TextureMat;${if (lineWidth) "\n float LineWidth;" else ""} }; layout(std140) uniform Projection { mat4 ProjMat; }; in vec3 Position; in vec4 Color; out vec4 vertexColor; void main() { gl_Position = ProjMat * ModelViewMat * vec4(Position, 1.0); vertexColor = Color; %PATCHES% } """</ID>
+    <ID>TrimMultilineRawString:PackMcmeta.kt:PackMcmeta$""" { "pack": { "description": ${description.toJsonString()}, "pack_format": $MIN_FORMAT, "supported_formats": { "min_inclusive": $MIN_FORMAT, "max_inclusive": $MAX_FORMAT }, "min_format": $MIN_FORMAT, "max_format": $MAX_FORMAT }$overlays } """</ID>
+    <ID>TrimMultilineRawString:PackMcmeta.kt:PackMcmeta$""", "overlays": { "entries": [ ${entries.joinToString(",\n ")} ] }"""</ID>
+    <ID>UnnamedParameterUse:BlockAssetGenerator.kt:BlockAssetGenerator$entry</ID>
+    <ID>UnnamedParameterUse:BlockAssetGenerator.kt:BlockAssetGenerator$file</ID>
+    <ID>UnnamedParameterUse:BlockListener.kt:BlockListener$coerceIn</ID>
+    <ID>UnnamedParameterUse:BlockListener.kt:BlockListener$nextInt</ID>
+    <ID>UnnamedParameterUse:BlockSoundsListener.kt:BlockSoundsListener$play</ID>
+    <ID>UnnamedParameterUse:CommandDrop.kt:CommandDrop$coerceIn</ID>
+    <ID>UnnamedParameterUse:CommandDrop.kt:CommandDrop$replace</ID>
+    <ID>UnnamedParameterUse:CommandGive.kt:CommandGive$replace</ID>
+    <ID>UnnamedParameterUse:CommandGlyph.kt:CommandGlyph$replace</ID>
+    <ID>UnnamedParameterUse:CommandHitbox.kt:CommandHitbox$doubleRange</ID>
+    <ID>UnnamedParameterUse:CommandHud.kt:CommandHudToggle$replace</ID>
+    <ID>UnnamedParameterUse:CommandItemEdits.kt:CommandDurability$coerceIn</ID>
+    <ID>UnnamedParameterUse:CommandItemEdits.kt:CommandDurability$replace</ID>
+    <ID>UnnamedParameterUse:CommandItemEdits.kt:CommandRename$replace</ID>
+    <ID>UnnamedParameterUse:CommandMigrate.kt:CommandMigrate$replace</ID>
+    <ID>UnnamedParameterUse:CommandReload.kt:CommandReload$replace</ID>
+    <ID>UnnamedParameterUse:CommandTake.kt:CommandTake$minOf</ID>
+    <ID>UnnamedParameterUse:CommandTake.kt:CommandTake$replace</ID>
+    <ID>UnnamedParameterUse:CommandTotem.kt:CommandTotem$replace</ID>
+    <ID>UnnamedParameterUse:ConditionHasEcoItem.kt:ConditionHasEcoItem$require</ID>
+    <ID>UnnamedParameterUse:CropTracker.kt:CropTracker$namespacedKeyOf</ID>
+    <ID>UnnamedParameterUse:EcoBlock.kt:EcoBlock$coerceIn</ID>
+    <ID>UnnamedParameterUse:EcoBlock.kt:SaplingBlock$coerceIn</ID>
+    <ID>UnnamedParameterUse:EcoCrop.kt:EcoCrop$coerceIn</ID>
+    <ID>UnnamedParameterUse:EcoDialog.kt:EcoDialog$DialogButton</ID>
+    <ID>UnnamedParameterUse:EcoDialog.kt:EcoDialog.Paper$replace</ID>
+    <ID>UnnamedParameterUse:EcoItems.kt:EcoItems$LegacyLocation</ID>
+    <ID>UnnamedParameterUse:EcoItemsPackFeature.kt:EcoItemsPackFeature$ExternalPublisher</ID>
+    <ID>UnnamedParameterUse:EcoItemsPackFeature.kt:EcoItemsPackFeature$S3Publisher</ID>
+    <ID>UnnamedParameterUse:EcoItemsRecipes.kt:EcoItemsRecipes$LegacyLocation</ID>
+    <ID>UnnamedParameterUse:Furniture.kt:Furniture$FurnitureState</ID>
+    <ID>UnnamedParameterUse:Furniture.kt:Furniture$Hitbox</ID>
+    <ID>UnnamedParameterUse:Furniture.kt:Furniture$Light</ID>
+    <ID>UnnamedParameterUse:Furniture.kt:Furniture$Seat</ID>
+    <ID>UnnamedParameterUse:Furniture.kt:Furniture$Triple</ID>
+    <ID>UnnamedParameterUse:Furniture.kt:Furniture$coerceIn</ID>
+    <ID>UnnamedParameterUse:Furniture.kt:Furniture$maxOf</ID>
+    <ID>UnnamedParameterUse:Furniture.kt:Furniture$minOf</ID>
+    <ID>UnnamedParameterUse:Furniture.kt:FurnitureStorage$coerceIn</ID>
+    <ID>UnnamedParameterUse:FurnitureConnections.kt:FurnitureConnections$neighbor</ID>
+    <ID>UnnamedParameterUse:FurnitureConnections.kt:FurnitureConnections$rotate</ID>
+    <ID>UnnamedParameterUse:FurnitureListener.kt:FurnitureListener$rotate</ID>
+    <ID>UnnamedParameterUse:GifTexture.kt:GifTexture$Meta</ID>
+    <ID>UnnamedParameterUse:GifTexture.kt:GifTexture$coerceIn</ID>
+    <ID>UnnamedParameterUse:Glyph.kt:Glyph$GlyphAnimation</ID>
+    <ID>UnnamedParameterUse:Glyph.kt:GlyphAnimation$coerceIn</ID>
+    <ID>UnnamedParameterUse:Glyph.kt:GlyphAnimation.Companion$GlyphAnimation</ID>
+    <ID>UnnamedParameterUse:GlyphAssetGenerator.kt:GlyphAssetGenerator$entry</ID>
+    <ID>UnnamedParameterUse:GlyphAssetGenerator.kt:GlyphAssetGenerator$file</ID>
+    <ID>UnnamedParameterUse:GlyphAssetGenerator.kt:GlyphAssetGenerator$max</ID>
+    <ID>UnnamedParameterUse:GlyphAssetGenerator.kt:GlyphAssetGenerator$replace</ID>
+    <ID>UnnamedParameterUse:GlyphAssetGenerator.kt:GlyphAssetGenerator$write</ID>
+    <ID>UnnamedParameterUse:GlyphPicker.kt:GlyphPicker$replace</ID>
+    <ID>UnnamedParameterUse:GlyphText.kt:GlyphText$replace</ID>
+    <ID>UnnamedParameterUse:GlyphText.kt:GlyphText$substring</ID>
+    <ID>UnnamedParameterUse:Hud.kt:BossBarOptions$coerceIn</ID>
+    <ID>UnnamedParameterUse:Hud.kt:HudType.Companion$replace</ID>
+    <ID>UnnamedParameterUse:HudState.kt:HudState$namespacedKeyOf</ID>
+    <ID>UnnamedParameterUse:HudTicker.kt:HudTicker$coerceIn</ID>
+    <ID>UnnamedParameterUse:HudTicker.kt:HudTicker$replace</ID>
+    <ID>UnnamedParameterUse:InterfaceShaders.kt:InterfaceShaders$replace</ID>
+    <ID>UnnamedParameterUse:ItemAssetGenerator.kt:ItemAssetGenerator$entry</ID>
+    <ID>UnnamedParameterUse:ItemAssetGenerator.kt:ItemAssetGenerator$file</ID>
+    <ID>UnnamedParameterUse:ItemDefinitionBuilder.kt:ItemDefinitionBuilder$Definitions</ID>
+    <ID>UnnamedParameterUse:ItemPackAsset.kt:ItemPackAsset.Companion$ItemPackAsset</ID>
+    <ID>UnnamedParameterUse:ItemTemplates.kt:ItemTemplates$merge</ID>
+    <ID>UnnamedParameterUse:ItemUtils.kt:namespacedKeyOf</ID>
+    <ID>UnnamedParameterUse:ItemsAdderMigration.kt:ItemsAdderMigration$coerceIn</ID>
+    <ID>UnnamedParameterUse:ItemsAdderMigration.kt:ItemsAdderMigration$convertFurniture</ID>
+    <ID>UnnamedParameterUse:ItemsAdderMigration.kt:ItemsAdderMigration$copyTree</ID>
+    <ID>UnnamedParameterUse:ItemsAdderMigration.kt:ItemsAdderMigration$replace</ID>
+    <ID>UnnamedParameterUse:ItemsAdderRecipes.kt:ItemsAdderRecipes$put</ID>
+    <ID>UnnamedParameterUse:ItemsGUI.kt:ItemsGUI$addPageChanger</ID>
+    <ID>UnnamedParameterUse:ItemsGUI.kt:ItemsGUI$decorateGuiTitle</ID>
+    <ID>UnnamedParameterUse:ItemsGUI.kt:ItemsGUI$replace</ID>
+    <ID>UnnamedParameterUse:ItemsGUI.kt:ItemsGUI.CategoryPane$replace</ID>
+    <ID>UnnamedParameterUse:LangAssetGenerator.kt:LangAssetGenerator$copyInto</ID>
+    <ID>UnnamedParameterUse:LangAssetGenerator.kt:LangAssetGenerator$replaceLegacy</ID>
+    <ID>UnnamedParameterUse:Loot.kt:Loot$warnUnknownTarget</ID>
+    <ID>UnnamedParameterUse:LootContributor.kt:LootContributor$coerceIn</ID>
+    <ID>UnnamedParameterUse:LootContributor.kt:LootContributor$nextInt</ID>
+    <ID>UnnamedParameterUse:Migrations.kt:isJunk</ID>
+    <ID>UnnamedParameterUse:OraxenLikeMigration.kt:OraxenLikeMigration$copyTree</ID>
+    <ID>UnnamedParameterUse:OraxenLikeMigration.kt:OraxenLikeMigration$isJunk</ID>
+    <ID>UnnamedParameterUse:OraxenLikeMigration.kt:OraxenLikeMigration$merged</ID>
+    <ID>UnnamedParameterUse:OraxenLikeMigration.kt:OraxenLikeMigration$minOf</ID>
+    <ID>UnnamedParameterUse:OraxenLikeMigration.kt:OraxenLikeMigration$put</ID>
+    <ID>UnnamedParameterUse:OraxenLikeMigration.kt:OraxenLikeMigration$replace</ID>
+    <ID>UnnamedParameterUse:PackBuilder.kt:PackBuilder$json</ID>
+    <ID>UnnamedParameterUse:PackImports.kt:PackImports$substring</ID>
+    <ID>UnnamedParameterUse:PackListener.kt:PackListener$maxOf</ID>
+    <ID>UnnamedParameterUse:PackMcmeta.kt:replace</ID>
+    <ID>UnnamedParameterUse:PackObfuscator.kt:PackObfuscator$move</ID>
+    <ID>UnnamedParameterUse:PackSettings.kt:DeliveryMode.Companion$replace</ID>
+    <ID>UnnamedParameterUse:Painting.kt:Painting$coerceIn</ID>
+    <ID>UnnamedParameterUse:PickBlockListener.kt:PickBlockListener$coerceIn</ID>
+    <ID>UnnamedParameterUse:PlacedFurniture.kt:PlacedFurniture.Companion$rotate</ID>
+    <ID>UnnamedParameterUse:SaplingGrowth.kt:SaplingGrowth$namespacedKeyOf</ID>
+    <ID>UnnamedParameterUse:ShiftChars.kt:ShiftChars$put</ID>
+    <ID>UnnamedParameterUse:Sound.kt:JukeboxSong$coerceIn</ID>
+    <ID>UnnamedParameterUse:Sound.kt:Sound$SoundEntry</ID>
+    <ID>UnnamedParameterUse:Sound.kt:SoundEntry$replace</ID>
+    <ID>UnnamedParameterUse:SoundAssetGenerator.kt:SoundAssetGenerator$entry</ID>
+    <ID>UnnamedParameterUse:SoundAssetGenerator.kt:SoundAssetGenerator$file</ID>
+    <ID>UnnamedParameterUse:VehicleTicker.kt:VehicleTicker$rotate</ID>
+    <ID>UnnamedParameterUse:WorldEditIntegration.kt:WorldEditIntegration.Hook$Triple</ID>
+    <ID>UnnecessaryApply:EcoItem.kt:EcoItem$apply { ecoItem = this@EcoItem }</ID>
+    <ID>UnnecessaryLet:EcoDialog.kt:EcoDialog.Paper$let { StringUtils.toComponent(it) }</ID>
+    <ID>UnnecessaryParentheses:BlockAssetGenerator.kt:BlockAssetGenerator$(0 to 0)</ID>
+    <ID>UnnecessaryParentheses:BlockAssetGenerator.kt:BlockAssetGenerator$(raw % 400)</ID>
+    <ID>UnnecessaryParentheses:BlockBacking.kt:BlockBacking.NOTEBLOCK$(raw % 400)</ID>
+    <ID>UnnecessaryParentheses:BlockBreakSpeed.kt:BlockBreakSpeed$(backingHardness / block.hardness)</ID>
+    <ID>UnnecessaryParentheses:BlockListener.kt:(location.yaw % 360)</ID>
+    <ID>UnnecessaryParentheses:BlockListener.kt:BlockListener$(TIERS[minimum] ?: 0)</ID>
+    <ID>UnnecessaryParentheses:FurnitureListener.kt:FurnitureListener$(yaw % 360)</ID>
+    <ID>UnnecessaryParentheses:GlyphAssetGenerator.kt:GlyphAssetGenerator$((header[offset].toInt() and 0xFF) shl 24)</ID>
+    <ID>UnnecessaryParentheses:GlyphAssetGenerator.kt:GlyphAssetGenerator$(header[offset + 1].toInt() and 0xFF)</ID>
+    <ID>UnnecessaryParentheses:GlyphAssetGenerator.kt:GlyphAssetGenerator$(header[offset + 2].toInt() and 0xFF)</ID>
+    <ID>UnnecessaryParentheses:GlyphAssetGenerator.kt:GlyphAssetGenerator$(header[offset].toInt() and 0xFF)</ID>
+    <ID>UnnecessaryParentheses:GlyphColors.kt:GlyphColors$(0xFE shl 16)</ID>
+    <ID>UnnecessaryParentheses:GlyphColors.kt:GlyphColors$(animation.frames - 1)</ID>
+    <ID>UnnecessaryParentheses:ItemsGUI.kt:ItemScrollPane$((row - 1) * columns)</ID>
+    <ID>UnnecessaryParentheses:ItemsGUI.kt:ItemsGUI.CategoryPane$((row - 1) * columns)</ID>
+    <ID>UnnecessaryParentheses:OraxenLikeMigration.kt:OraxenLikeMigration$(any(key) as? ConfigurationSection)</ID>
+    <ID>UnnecessaryParentheses:OraxenLikeMigration.kt:OraxenLikeMigration$(config.getMapList("breaking").firstOrNull())</ID>
+    <ID>UnnecessaryParentheses:OraxenLikeMigration.kt:OraxenLikeMigration$(r shl 16)</ID>
+    <ID>UnnecessaryParentheses:Painting.kt:Painting$(config.getIntOrNull("height") ?: 1)</ID>
+    <ID>UnnecessaryParentheses:Painting.kt:Painting$(config.getIntOrNull("width") ?: 1)</ID>
+    <ID>UnnecessaryParentheses:PlacedFurniture.kt:PlacedFurniture.Companion$(x * cos(radians) - z * sin(radians))</ID>
+    <ID>UnnecessaryParentheses:PlacedFurniture.kt:PlacedFurniture.Companion$(x * sin(radians) + z * cos(radians))</ID>
+    <ID>UnnecessaryParentheses:ShiftChars.kt:ShiftChars$(MAX_POWER + 1)</ID>
+    <ID>UnnecessaryParentheses:WorldEditIntegration.kt:WorldEditIntegration.Hook$(location.blockX + max.x() - origin.x())</ID>
+    <ID>UnnecessaryParentheses:WorldEditIntegration.kt:WorldEditIntegration.Hook$(location.blockX + min.x() - origin.x())</ID>
+    <ID>UnnecessaryParentheses:WorldEditIntegration.kt:WorldEditIntegration.Hook$(location.blockZ + max.z() - origin.z())</ID>
+    <ID>UnnecessaryParentheses:WorldEditIntegration.kt:WorldEditIntegration.Hook$(location.blockZ + min.z() - origin.z())</ID>
+    <ID>UnsafeCallOnNullableType:BlockAssetGenerator.kt:BlockAssetGenerator$PackLocation.parse("block/${block.id}")!!</ID>
+    <ID>UnsafeCallOnNullableType:BlockAssetGenerator.kt:BlockAssetGenerator$models.getValue(block)!!</ID>
+    <ID>UnsafeCallOnNullableType:BlockBacking.kt:BlockBacking.NOTEBLOCK$Instrument.getByType(((raw % 400) / 25).toByte())!!</ID>
+    <ID>UnsafeCallOnNullableType:BlockListener.kt:BlockListener$event.hand!!</ID>
+    <ID>UnsafeCallOnNullableType:CommandDrop.kt:CommandDrop$player!!</ID>
+    <ID>UnsafeCallOnNullableType:CropListener.kt:CropListener$event.hand!!</ID>
+    <ID>UnsafeCallOnNullableType:Furniture.kt:Furniture$it!!</ID>
+    <ID>UnsafeCallOnNullableType:FurnitureListener.kt:FurnitureListener$event.hand!!</ID>
+    <ID>UnsafeCallOnNullableType:GlyphAssetGenerator.kt:GlyphAssetGenerator$assigned.glyph.animation!!</ID>
+    <ID>UnsafeCallOnNullableType:GlyphAssetGenerator.kt:GlyphAssetGenerator$assigned.glyph.bitmap!!</ID>
+    <ID>UnsafeCallOnNullableType:GlyphAssetGenerator.kt:GlyphAssetGenerator$assigned.offsetChar!!</ID>
+    <ID>UnsafeCallOnNullableType:GlyphAssetGenerator.kt:GlyphAssetGenerator$assigned.reset!!</ID>
+    <ID>UnsafeCallOnNullableType:GlyphAssetGenerator.kt:GlyphAssetGenerator$sample.bitmap!!</ID>
+    <ID>UnsafeCallOnNullableType:GlyphText.kt:GlyphText$assigned.offsetChar!!</ID>
+    <ID>UnsafeCallOnNullableType:GlyphText.kt:GlyphText$assigned.reset!!</ID>
+    <ID>UnsafeCallOnNullableType:HudTicker.kt:HudTicker$counters.merge(player.uniqueId, HEARTBEAT_TICKS, Int::plus)!!</ID>
+    <ID>UnsafeCallOnNullableType:OraxenLikeMigration.kt:OraxenLikeMigration$map.getString(key)!!</ID>
+    <ID>UnsafeCallOnNullableType:OraxenLikeMigration.kt:OraxenLikeMigration$pack.getConfigurationSection("textures")!!</ID>
+    <ID>UnsafeCallOnNullableType:OraxenLikeMigration.kt:OraxenLikeMigration$sheet.getString("texture")!!</ID>
+    <ID>UnsafeCallOnNullableType:OraxenLikeMigration.kt:OraxenLikeMigration$textureMap.getString(it)!!</ID>
+    <ID>UnsafeCallOnNullableType:PlacedFurniture.kt:PlacedFurniture$stateTimers.merge(base.uniqueId, 1, Int::plus)!!</ID>
+    <ID>UnsafeCallOnNullableType:WorkstationRecipePermissions.kt:WorkstationRecipePermissions$recipe.permission!!</ID>
+    <ID>UnusedImport:BlockPhysicsListener.kt:import org.bukkit.SoundGroup</ID>
+    <ID>UnusedImport:CommandReload.kt:import com.willfp.eco.core.recipe.Recipes</ID>
+    <ID>UnusedImport:CommandReload.kt:import org.bukkit.inventory.Recipe</ID>
+    <ID>UnusedImport:PaintingListener.kt:import com.willfp.ecoitems.plugin</ID>
+    <ID>UnusedParameter:BlockAssetGenerator.kt:BlockAssetGenerator$blocks: Collection&lt;EcoBlock&gt;</ID>
+    <ID>UnusedParameter:LootContributor.kt:LootContributor$location: Location</ID>
+    <ID>UnusedParameter:OraxenLikeMigration.kt:OraxenLikeMigration$id: String</ID>
+    <ID>UseCheckOrError:Rarities.kt:Rarities$throw IllegalStateException("Invalid default rarity!")</ID>
+    <ID>UseEmptyCounterpart:EcoBlocks.kt:EcoBlocks$mapOf&lt;BlockBacking, Map&lt;Int, Placed&gt;&gt;()</ID>
+    <ID>UseEmptyCounterpart:EcoBlocks.kt:EcoBlocks$mapOf&lt;String, EcoBlock&gt;()</ID>
+    <ID>UseEmptyCounterpart:EcoBlocks.kt:EcoBlocks$mapOf&lt;String, List&lt;Int&gt;&gt;()</ID>
+    <ID>UseEmptyCounterpart:ItemsGUI.kt:ItemsGUI$mapOf&lt;String, Menu&gt;()</ID>
+    <ID>UseIfInsteadOfWhen:OraxenLikeMigration.kt:OraxenLikeMigration$when { sound.isList("sounds") -&gt; sound.getStringList("sounds") else -&gt; listOfNotNull(sound.getString("sound") ?: sound.getString("sounds")) }</ID>
+    <ID>UseLet:PickBlockListener.kt:PickBlockListener$if (ecoItem == null) null else { (0 until inventory.storageContents.size) .firstOrNull { inventory.getItem(it)?.ecoItem == ecoItem } }</ID>
+    <ID>UseOrEmpty:CropTracker.kt:CropTracker$raw?.split(";")?.filter { it.isNotBlank() } ?: emptyList()</ID>
+    <ID>UseOrEmpty:EcoItem.kt:EcoItem$components["minecraft:attribute_modifiers"] as? List&lt;*&gt; ?: emptyList&lt;Any?&gt;()</ID>
+    <ID>UseOrEmpty:EcoItemsPlugin.kt:EcoItemsPlugin$PackFeatures.instance?.listeners(this) ?: emptyList()</ID>
+    <ID>UseOrEmpty:Furniture.kt:Furniture$connectable?.all ?: emptyList()</ID>
+    <ID>UseOrEmpty:ItemsGUI.kt:ItemsGUI$folders[it.id.key] ?: ""</ID>
+    <ID>UseOrEmpty:OraxenLikeMigration.kt:OraxenLikeMigration$bitmapRef.getString("id") ?: ""</ID>
+    <ID>UseOrEmpty:OraxenLikeMigration.kt:OraxenLikeMigration$pack?.let { textureList(it, "textures", "texture") } ?: emptyList()</ID>
+    <ID>UseOrEmpty:PackImports.kt:PackImports$JsonParser.parseString(mcmeta.decodeToString()).asJsonObject .getAsJsonObject("overlays") ?.getAsJsonArray("entries") ?.map { it.asJsonObject } ?: emptyList()</ID>
+    <ID>UseOrEmpty:SaplingGrowth.kt:SaplingGrowth$raw?.split(";")?.filter { it.isNotBlank() } ?: emptyList()</ID>
+    <ID>VarCouldBeVal:GlyphText.kt:GlyphText$var framePart = Component.text(String(Character.toChars(frame))) .color(TextColor.color(GlyphColors.rgb(animation, index))) .shadowColor(ShadowColor.none())</ID>
+    <ID>VariableNaming:OraxenLikeMigration.kt:OraxenLikeMigration$/** * Positional texture-list ordering for parent models where a Nexo/Oraxen * dialect gives `textures:` as a plain list instead of a keyed map. * Only includes parents we have confirmed real-world ordering for - * unlisted parents with a list-form `textures:` are left for the model * fallback rather than guessed at and silently mismatched. */ private val LIST_TEXTURE_KEYS = mapOf( "cube_all" to listOf("all"), "cross" to listOf("cross"), "cube_column" to listOf("end", "side") // Nexo list order: [top, sides] )</ID>
+  </CurrentIssues>
+</SmellBaseline>
