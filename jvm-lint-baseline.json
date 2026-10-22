@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "findings": [
+    {
+      "code": "U003",
+      "path": "eco-core/core-plugin/src/main/kotlin/com/willfp/ecoitems/api/event/EcoBlockDropEvent.kt",
+      "message": "Unused property `tool`"
+    },
+    {
+      "code": "U003",
+      "path": "eco-core/core-plugin/src/main/kotlin/com/willfp/ecoitems/items/EcoItem.kt",
+      "message": "Unused property `craftingRecipe`"
+    },
+    {
+      "code": "U003",
+      "path": "eco-core/core-plugin/src/main/kotlin/com/willfp/ecoitems/items/EcoItem.kt",
+      "message": "Unused property `customItem`"
+    },
+    {
+      "code": "U002",
+      "path": "eco-core/core-plugin/src/main/kotlin/com/willfp/ecoitems/util/WorldEditIntegration.kt",
+      "message": "Unused function `schematicSize`"
+    },
+    {
+      "code": "U002",
+      "path": "eco-core/core-plugin/src/paid/kotlin/com/willfp/ecoitems/pack/glyphs/GlyphText.kt",
+      "message": "Unused function `shiftString`"
+    }
+  ]
+}
