@@ -24,7 +24,9 @@ class Rarity(
     val tag = RarityTag(this)
 
     init {
-        Items.registerTag(tag)
+        if (id != "item") {
+            Items.registerTag(tag)
+        }
     }
 
     fun matches(item: ItemStack): Boolean {
