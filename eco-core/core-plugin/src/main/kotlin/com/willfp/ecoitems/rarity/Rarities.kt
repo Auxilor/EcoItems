@@ -26,6 +26,9 @@ object Rarities : RegistrableCategory<Rarity>("rarity", "rarities") {
         registry.register(Rarity(id, config))
     }
 
+    val defaultRarity: Rarity?
+        get() = Rarities[plugin.configYml.getString("rarity.default")]
+
     override fun afterReload(plugin: LibreforgePlugin) {
         val defaultId = plugin.configYml.getString("rarity.default")
 
@@ -37,9 +40,6 @@ object Rarities : RegistrableCategory<Rarity>("rarity", "rarities") {
             plugin.logger.warning("Rarity ID 'item' clashes with the ecoitems:item tag, rename it")
         }
     }
-
-    val defaultRarity: Rarity?
-        get() = Rarities[plugin.configYml.getString("rarity.default")]
 }
 
 private val cache = EcoCache.builder<HashedItem, Optional<Rarity>>()
