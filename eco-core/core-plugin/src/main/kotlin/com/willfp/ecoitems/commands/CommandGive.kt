@@ -26,7 +26,7 @@ object CommandGive : Subcommand(plugin, "give", "ecoitems.command.give", false) 
 
         val ecoItem = notifyNull(EcoItems.getByID(args.getOrNull(1)), "invalid-item")
 
-        val amount = args.getOrNull(2)?.toIntOrNull() ?: 1
+        val amount = args.getOrNull(2)?.toIntOrNull()?.takeIf { it > 0 } ?: 1
 
         val message = plugin.langYml.getMessage("give-success")
             .replace("%item%", ecoItem.id.key)
@@ -50,7 +50,7 @@ object CommandGive : Subcommand(plugin, "give", "ecoitems.command.give", false) 
         val completions = mutableListOf<String>()
 
         if (args.isEmpty()) {
-            return EcoItems.values().filterNot { it.excludeFromCommands }.map { it.id.key }
+            return Bukkit.getOnlinePlayers().map { it.name }
         }
 
         if (args.size == 1) {
