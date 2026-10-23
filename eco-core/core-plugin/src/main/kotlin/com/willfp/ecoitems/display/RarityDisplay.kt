@@ -30,7 +30,7 @@ object RarityDisplay : DisplayModule(plugin, DisplayPriority.HIGHEST.weight + 1)
             return
         }
 
-        val rarity = baseRarity ?: Rarities.defaultRarity
+        val rarity = baseRarity ?: Rarities.defaultRarity ?: return
 
         if (plugin.configYml.getBool("rarity.blank-lore-line")) {
             context.lore.append(listOf(Component.empty()) + rarity.loreComponents)

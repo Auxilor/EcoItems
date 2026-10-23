@@ -26,9 +26,20 @@ object Rarities : RegistrableCategory<Rarity>("rarity", "rarities") {
         registry.register(Rarity(id, config))
     }
 
-    val defaultRarity: Rarity
+    val defaultRarity: Rarity?
         get() = Rarities[plugin.configYml.getString("rarity.default")]
-            ?: throw IllegalStateException("Invalid default rarity!")
+
+    override fun afterReload(plugin: LibreforgePlugin) {
+        val defaultId = plugin.configYml.getString("rarity.default")
+
+        if (defaultRarity == null) {
+            plugin.logger.warning("Invalid rarity.default '$defaultId': no rarity with that ID is loaded")
+        }
+
+        if (Rarities["item"] != null) {
+            plugin.logger.warning("Rarity ID 'item' clashes with the ecoitems:item tag, rename it")
+        }
+    }
 }
 
 private val cache = EcoCache.builder<HashedItem, Optional<Rarity>>()
