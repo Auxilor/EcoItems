@@ -35,6 +35,7 @@ object EcoItemsRecipes : ConfigCategory("recipe", "recipes") {
         if (BuildConfig.FREE_VERSION && id !in registeredIds && registeredIds.size >= 10) {
             return
         }
+        registeredIds.add(id)
         val result = Items.lookup(config.getString("result"))
         val item = result.item.clone()
 
@@ -45,7 +46,6 @@ object EcoItemsRecipes : ConfigCategory("recipe", "recipes") {
         // Recipe registration touches the server's recipe manager, which on
         // Folia belongs to the global region.
         plugin.scheduler.global().run {
-            registeredIds.add(id)
             val recipeStrings = config.getStrings("recipe")
             if (recipeStrings.isEmpty()) return@run
 
