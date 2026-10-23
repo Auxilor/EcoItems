@@ -15,8 +15,7 @@ import com.willfp.libreforge.toDispatcher
 import org.bukkit.entity.LivingEntity
 
 object ConditionHasEcoItem : Condition<NoCompileData>("has_ecoitem") {
-    override val description = "Passes when the player has the specified EcoItem in their inventory, " +
-        "armor, or held items."
+    override val description = "Passes when the player has the specified EcoItem in a slot the item is active in."
 
     override val categories = setOf("inventory")
 
