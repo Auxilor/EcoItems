@@ -65,6 +65,7 @@ items-gui:
     name: "&fBack"
     row: 6
     column: 1
+    locations: [ ] # Optional list of row/column slots; if set, the button shows in each of them instead of row/column
 
   background:
     enabled: true
@@ -95,12 +96,14 @@ items-gui:
       locked-model: ecoitems:previous_locked
       row: 6
       column: 4
+      locations: [ ] # Optional list of row/column slots; if set, the button shows in each of them instead of row/column
     forwards:
       item: arrow name:"&fNext Page"
       model: ecoitems:next
       locked-model: ecoitems:next_locked
       row: 6
       column: 6
+      locations: [ ] # Optional list of row/column slots; if set, the button shows in each of them instead of row/column
 
   close-button:
     enabled: true
@@ -110,6 +113,7 @@ items-gui:
     lore: []
     row: 6
     column: 5
+    locations: [ ] # Optional list of row/column slots; if set, the button shows in each of them instead of row/column
 
   item-area:
     width: 7

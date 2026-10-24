@@ -1,16 +1,21 @@
 package com.willfp.ecoitems.items
 
 import com.willfp.eco.core.drops.DropQueue
-import com.willfp.eco.core.gui.GUIComponent
+import com.willfp.eco.core.gui.addCustomSlots
 import com.willfp.eco.core.gui.addPageChanger
+import com.willfp.eco.core.gui.component.ConfigButton
+import com.willfp.eco.core.gui.component.PagedAreaComponent
+import com.willfp.eco.core.gui.component.addComponent
+import com.willfp.eco.core.gui.component.addPagedArea
+import com.willfp.eco.core.gui.component.closeButton
+import com.willfp.eco.core.gui.getSlotArea
+import com.willfp.eco.core.gui.getSlotLocations
 import com.willfp.eco.core.gui.menu
 import com.willfp.eco.core.gui.menu.Menu
 import com.willfp.eco.core.gui.menu.MenuBuilder
 import com.willfp.eco.core.gui.page.PageChanger
+import com.willfp.eco.core.gui.setMask
 import com.willfp.eco.core.gui.slot
-import com.willfp.eco.core.gui.slot.ConfigSlot
-import com.willfp.eco.core.gui.slot.FillerMask
-import com.willfp.eco.core.gui.slot.MaskItems
 import com.willfp.eco.core.gui.slot.Slot
 import com.willfp.eco.core.items.Items
 import com.willfp.eco.core.items.builder.ItemStackBuilder
@@ -18,7 +23,6 @@ import com.willfp.eco.core.sound.PlayableSound
 import com.willfp.ecoitems.pack.PackFeatures
 import com.willfp.ecoitems.plugin
 import org.bukkit.entity.Player
-import kotlin.math.ceil
 
 /**
  * The /ecoitems gui. Folders under items/ are categories: with more than one,
@@ -68,16 +72,7 @@ object ItemsGUI {
         mainMenu = menu(plugin.configYml.getInt("items-gui.rows")) {
             frame(plugin.configYml.getFormattedString("items-gui.title"))
 
-            val pane = CategoryPane(categories)
-            addComponent(
-                plugin.configYml.getInt("items-gui.item-area.row"),
-                plugin.configYml.getInt("items-gui.item-area.column"),
-                pane
-            )
-
-            maxPages {
-                if (categories.isEmpty()) 0 else ceil(categories.size.toDouble() / pane.size).toInt()
-            }
+            addPagedArea(CategoryPane(categories))
         }
     }
 
@@ -115,33 +110,21 @@ object ItemsGUI {
         menu(plugin.configYml.getInt("items-gui.rows")) {
             frame(plainTitle)
 
-            val pane = ItemScrollPane(items)
-            addComponent(
-                plugin.configYml.getInt("items-gui.item-area.row"),
-                plugin.configYml.getInt("items-gui.item-area.column"),
-                pane
-            )
+            addPagedArea(ItemScrollPane(items))
 
-            maxPages {
-                if (items.isEmpty()) 0 else ceil(items.size.toDouble() / pane.size).toInt()
-            }
-
-            if (showBack && plugin.configYml.getBool("items-gui.back-button.enabled")) {
-                val fallback = ItemStackBuilder(
-                    Items.lookup(plugin.configYml.getString("items-gui.back-button.item"))
-                )
-                    .setDisplayName(plugin.configYml.getFormattedString("items-gui.back-button.name"))
-                    .build()
-                val back = PackFeatures.instance?.decorateGuiItem(
-                    plugin,
-                    fallback,
-                    plugin.configYml.getStringOrNull("items-gui.back-button.model")
-                ) ?: fallback
-
-                setSlot(
-                    plugin.configYml.getInt("items-gui.back-button.row"),
-                    plugin.configYml.getInt("items-gui.back-button.column"),
-                    slot(back) { onLeftClick { event, _ -> mainMenu.open(event.whoClicked as Player) } }
+            if (showBack) {
+                addComponent(
+                    ConfigButton(
+                        plugin.configYml.getSubsection("items-gui.back-button"),
+                        enabledByDefault = false,
+                        itemModifier = { item ->
+                            PackFeatures.instance?.decorateGuiItem(
+                                plugin,
+                                item,
+                                plugin.configYml.getStringOrNull("items-gui.back-button.model")
+                            ) ?: item
+                        }
+                    ) { player, _, _, _ -> mainMenu.open(player) }
                 )
             }
         }
@@ -152,12 +135,7 @@ object ItemsGUI {
             .takeIf { plugin.configYml.getBool("items-gui.background.enabled") }
         title = PackFeatures.instance?.decorateGuiTitle(plugin, plainTitle, background) ?: plainTitle
 
-        setMask(
-            FillerMask(
-                MaskItems.fromItemNames(plugin.configYml.getStrings("items-gui.mask.items")),
-                *plugin.configYml.getStrings("items-gui.mask.pattern").toTypedArray()
-            )
-        )
+        setMask(plugin.configYml, "items-gui")
 
         val pageSound = PlayableSound.create(plugin.configYml.getSubsection("items-gui.page-change.sound"))
         for (direction in PageChanger.Direction.entries) {
@@ -176,82 +154,75 @@ object ItemsGUI {
                 PackFeatures.instance?.decorateGuiItem(plugin, fallback.clone(), it)
             }
 
-            addPageChanger(
-                direction,
-                active,
-                locked,
-                pageSound,
-                plugin.configYml.getInt("$path.row"),
-                plugin.configYml.getInt("$path.column")
-            )
+            for (location in plugin.configYml.getSlotLocations(path)) {
+                addPageChanger(
+                    direction,
+                    active,
+                    locked,
+                    pageSound,
+                    location.row,
+                    location.column
+                )
+            }
         }
 
-        if (plugin.configYml.getBool("items-gui.close-button.enabled")) {
-            val fallback = ItemStackBuilder(
-                Items.lookup(plugin.configYml.getString("items-gui.close-button.item"))
+        addComponent(
+            closeButton(
+                plugin.configYml.getSubsection("items-gui.close-button"),
+                enabledByDefault = false,
+                itemModifier = { item ->
+                    PackFeatures.instance?.decorateGuiItem(
+                        plugin,
+                        item,
+                        plugin.configYml.getStringOrNull("items-gui.close-button.model")
+                    ) ?: item
+                }
             )
-                .setDisplayName(plugin.configYml.getFormattedString("items-gui.close-button.name"))
-                .addLoreLines(plugin.configYml.getStrings("items-gui.close-button.lore"))
-                .build()
-            val close = PackFeatures.instance?.decorateGuiItem(
-                plugin,
-                fallback,
-                plugin.configYml.getStringOrNull("items-gui.close-button.model")
-            ) ?: fallback
+        )
 
-            setSlot(
-                plugin.configYml.getInt("items-gui.close-button.row"),
-                plugin.configYml.getInt("items-gui.close-button.column"),
-                slot(close) { onLeftClick { event, _ -> event.whoClicked.closeInventory() } }
-            )
-        }
-
-        for (config in plugin.configYml.getSubsections("items-gui.custom-slots")) {
-            setSlot(config.getInt("row"), config.getInt("column"), ConfigSlot(config))
-        }
+        addCustomSlots(plugin.configYml, "items-gui")
     }
 
-    private class CategoryPane(private val categories: List<Category>) : GUIComponent {
+    private class CategoryPane(private val categories: List<Category>) :
+        PagedAreaComponent<Category>(plugin.configYml.getSlotArea("items-gui.item-area")) {
         private val empty = slot(Items.lookup(plugin.configYml.getString("items-gui.empty-item")))
 
-        override fun getSlotAt(row: Int, column: Int, player: Player, menu: Menu): Slot {
-            val index = column + ((row - 1) * columns) - 1
-            val category = categories.getOrNull(index + size * (menu.getPage(player) - 1)) ?: return empty
+        override fun getEntries(player: Player, menu: Menu) = categories
 
-            val icon = ItemStackBuilder(category.items.first().itemStack)
+        override fun getEmptySlot(player: Player, menu: Menu) = empty
+
+        override fun getEntrySlot(player: Player, menu: Menu, entry: Category): Slot {
+            val icon = ItemStackBuilder(entry.items.first().itemStack)
                 .setDisplayName(
                     plugin.configYml.getFormattedString("items-gui.category-item.name")
-                        .replace("%category%", category.name)
+                        .replace("%category%", entry.name)
                 )
                 .addLoreLines(
                     plugin.configYml.getFormattedStrings("items-gui.category-item.lore").map {
-                        it.replace("%count%", category.items.size.toString())
+                        it.replace("%count%", entry.items.size.toString())
                     }
                 )
                 .build()
 
             return slot(icon) {
-                onLeftClick { event, _ -> openCategory(event.whoClicked as Player, category.path) }
+                onLeftClick { event, _ -> openCategory(event.whoClicked as Player, entry.path) }
             }
         }
-
-        override fun getRows() = plugin.configYml.getInt("items-gui.item-area.height")
-        override fun getColumns() = plugin.configYml.getInt("items-gui.item-area.width")
-
-        val size = rows * columns
     }
 }
 
-private class ItemScrollPane(private val items: List<EcoItem>) : GUIComponent {
+private class ItemScrollPane(private val items: List<EcoItem>) :
+    PagedAreaComponent<EcoItem>(plugin.configYml.getSlotArea("items-gui.item-area")) {
     private val empty = slot(Items.lookup(plugin.configYml.getString("items-gui.empty-item")))
 
-    override fun getSlotAt(row: Int, column: Int, player: Player, menu: Menu): Slot {
-        val index = column + ((row - 1) * columns) - 1
-        val item = items.getOrNull(index + size * (menu.getPage(player) - 1)) ?: return empty
+    override fun getEntries(player: Player, menu: Menu) = items
 
-        return slot(item.itemStack) {
+    override fun getEmptySlot(player: Player, menu: Menu) = empty
+
+    override fun getEntrySlot(player: Player, menu: Menu, entry: EcoItem): Slot =
+        slot(entry.itemStack) {
             onLeftClick { event, _ ->
-                val itemStack = item.itemStack
+                val itemStack = entry.itemStack
                 itemStack.amount = 1
 
                 DropQueue(event.whoClicked as Player)
@@ -260,10 +231,4 @@ private class ItemScrollPane(private val items: List<EcoItem>) : GUIComponent {
                     .push()
             }
         }
-    }
-
-    override fun getRows() = plugin.configYml.getInt("items-gui.item-area.height")
-    override fun getColumns() = plugin.configYml.getInt("items-gui.item-area.width")
-
-    val size = rows * columns
 }
