@@ -2,6 +2,7 @@ package com.willfp.ecoitems.items
 
 import com.google.common.collect.ImmutableList
 import com.willfp.eco.core.config.interfaces.Config
+import com.willfp.eco.core.recipe.Recipes
 import com.willfp.eco.core.recipe.workstation.WorkstationRecipes
 import com.willfp.eco.core.registry.Registry
 import com.willfp.ecoitems.plugin
@@ -33,6 +34,9 @@ object EcoItems : ConfigCategory("item", "items") {
     }
 
     override fun clear(plugin: LibreforgePlugin) {
+        for (item in registry.values()) {
+            item.craftingRecipe?.let { Recipes.unregister(it) }
+        }
         registry.clear()
     }
 
