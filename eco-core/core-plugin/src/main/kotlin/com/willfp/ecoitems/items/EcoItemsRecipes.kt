@@ -28,7 +28,10 @@ object EcoItemsRecipes : ConfigCategory("recipe", "recipes") {
     )
 
     override fun clear(plugin: LibreforgePlugin) {
-        // Do nothing.
+        for (id in registeredIds) {
+            Recipes.unregister(plugin.createNamespacedKey(id))
+        }
+        registeredIds.clear()
     }
 
     override fun acceptConfig(plugin: LibreforgePlugin, id: String, config: Config) {
