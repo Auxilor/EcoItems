@@ -65,6 +65,11 @@ item:
 # If you don't specify this, it will default to mainhand.
 slot: mainhand
 
+# (Optional) Items that repair this item at an anvil, a quarter of its durability each.
+# Any item lookup works, including other EcoItems.
+repair-items:
+  - ecoitems:mithril
+
 # (Optional) The rarity of the item
 rarity: rare
 

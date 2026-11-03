@@ -2,8 +2,11 @@ package com.willfp.ecoitems.materials
 
 import com.willfp.eco.core.drops.DropQueue
 import com.willfp.ecoitems.ext.madeFrom
+import com.willfp.ecoitems.items.ItemRepairs
 import com.willfp.ecoitems.items.ecoItem
 import com.willfp.ecoitems.plugin
+import java.util.UUID
+import java.util.concurrent.ConcurrentHashMap
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
@@ -18,8 +21,6 @@ import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.inventory.AnvilInventory
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.view.AnvilView
-import java.util.UUID
-import java.util.concurrent.ConcurrentHashMap
 
 /**
  * Runs after eco's workstation and crafting listeners, which set the plain recipe output, and
@@ -44,12 +45,18 @@ object MaterialsListener : Listener {
             return
         }
 
+        if (!applyRepair(event)) {
+            applySwap(event)
+        }
+    }
+
+    private fun applySwap(event: PrepareAnvilEvent) {
         val swap = ModularItemService.swap(
             item = event.inventory.getItem(0),
             part = event.inventory.getItem(1)
         ) ?: return
         event.result = swap.result
-        swap.returnedPart?.let { swappedOutParts[player.uniqueId] = it }
+        swap.returnedPart?.let { swappedOutParts[event.view.player.uniqueId] = it }
         (event.view as? AnvilView)?.let { view ->
             view.repairCost = swap.cost
             view.repairItemCountCost = 1
@@ -74,6 +81,18 @@ object MaterialsListener : Listener {
                 swappedOutParts.putIfAbsent(player.uniqueId, oldPart)
             }
         }
+    }
+
+    private fun applyRepair(event: PrepareAnvilEvent): Boolean {
+        val repair = ItemRepairs.repair(item = event.inventory.getItem(0), addition = event.inventory.getItem(1))
+        if (repair != null) {
+            event.result = repair.result
+            (event.view as? AnvilView)?.let { view ->
+                view.repairCost = repair.itemsUsed
+                view.repairItemCountCost = repair.itemsUsed
+            }
+        }
+        return repair != null
     }
 
     @EventHandler

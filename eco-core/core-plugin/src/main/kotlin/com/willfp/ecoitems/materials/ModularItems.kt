@@ -54,4 +54,7 @@ class ModularConfig(config: Config) {
 
     /** The slot whose material gives the mining speed and tier. */
     val miningSlot: String? = config.getStringOrNull("mining.from")
+
+    /** The slot whose material repairs the item at an anvil, or null to repair it the vanilla way only. */
+    val repairSlot: String? = config.getStringOrNull("repair-from")
 }
