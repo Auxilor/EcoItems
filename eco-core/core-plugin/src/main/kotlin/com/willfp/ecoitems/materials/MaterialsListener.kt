@@ -92,9 +92,12 @@ object MaterialsListener : Listener {
             return
         }
 
+        swappedOutParts.remove(player.uniqueId)
         plugin.scheduler.on(player).runLater(1) {
-            if (inventory.getItem(0) == null && swappedOutParts.remove(player.uniqueId, oldPart)) {
+            if (inventory.getItem(0) == null) {
                 DropQueue(player).addItem(oldPart).forceTelekinesis().push()
+            } else {
+                swappedOutParts.putIfAbsent(player.uniqueId, oldPart)
             }
         }
     }
