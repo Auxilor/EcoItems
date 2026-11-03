@@ -59,6 +59,8 @@ items:
 # === Slots: what it gives in each slot of a modular item ===
 slots:
   head:
+    overlays: # Drawn on the item when this material is in this slot.
+      - ecoitems:item/part/cobalt_gem
     mining-speed: 14 # Used if this slot is the item's mining slot.
     mining-tier: diamond # Which blocks drop: wooden, stone, iron, diamond or netherite.
     components:
@@ -99,6 +101,7 @@ The keys are the slot IDs your modular items use. A slot can give:
 | `durability-multiplier` | Multiplies the item's durability after every slot is added |
 | `mining-speed`, `mining-tier` | The mining speed and tier, read only from the item's mining slot |
 | `effects` | [Effects](https://hub.auxilor.io/wiki/libreforge/configuring-an-effect) that only work in this slot |
+| `overlays` | Textures drawn on the modular item when this material is in this slot, never recoloured. Parts on their own don't show them |
 
 A slot that isn't listed gives nothing from this material.
 

@@ -103,6 +103,8 @@ modular:
     - handle
     - head
     - binding
+  overlays: # Drawn on top, never recoloured.
+    - ecoitems:item/part/pickaxe_shine
 
   # === Display: name and lore ===
   name: "%material_head% Pickaxe"
@@ -121,6 +123,10 @@ modular:
 
 slot: mainhand
 ```
+
+### Layers and overlays
+
+The slot textures are drawn in `layers` order, bottom to top. Above them come any overlays the slots' materials add (see [How to Make a Material](how-to-make-a-material)), then the item's own `overlays`. Overlays are never recoloured, and every item from this config shows its `overlays` whatever its materials.
 
 ### Recipe
 
