@@ -29,6 +29,7 @@ import com.willfp.ecoitems.items.EcoItemsRecipes
 import com.willfp.ecoitems.items.ItemListener
 import com.willfp.ecoitems.items.ItemUpdater
 import com.willfp.ecoitems.items.ItemsGUI
+import com.willfp.ecoitems.items.KeepWhenBrokenListener
 import com.willfp.ecoitems.items.WorkstationRecipePermissions
 import com.willfp.ecoitems.libreforge.ConditionHasEcoItem
 import com.willfp.ecoitems.loots.LootContributor
@@ -138,6 +139,7 @@ class EcoItemsPlugin : LibreforgePlugin() {
             ItemListener,
             ItemUpdater,
             MaterialsListener,
+            KeepWhenBrokenListener,
             PaintingListener,
             BlockListener,
             BlockPhysicsListener,
