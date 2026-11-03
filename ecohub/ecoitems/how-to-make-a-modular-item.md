@@ -75,6 +75,7 @@ Draw the texture with only these 8 greys, darkest to lightest: 34, 62, 92, 122, 
 | **Display** | Name and lore, from the slot materials |
 | **Swapping** | Replacing one part at an anvil |
 | **Mining** | Which blocks it mines, and at what speed and tier |
+| **Animation** | Bow and crossbow pull states |
 
 ```yaml
 # === Recipe: parts of any material fit ===
@@ -135,6 +136,29 @@ Each part ingredient matches that part made from any material. When the item is 
 ### Stats
 
 The item's stats are built from its slots: attribute modifiers and durability add up, then each `durability-multiplier` is applied. See [How to Make a Material](how-to-make-a-material) for what a slot can give. The item's own `components` and `effects` still apply on top.
+
+### Animation
+
+Bows and crossbows change their look while pulled. Set `animation: bow` or `animation: crossbow` on the modular item, and give each part a texture per state under `states`:
+
+```yaml
+# In the part:
+part:
+  texture: ecoitems:item/part/bow_limb
+  states:
+    pulling_0: ecoitems:item/part/bow_limb_pulling_0
+    pulling_1: ecoitems:item/part/bow_limb_pulling_1
+    pulling_2: ecoitems:item/part/bow_limb_pulling_2
+
+# In the modular item:
+modular:
+  animation: bow
+  state-overlays: # Drawn on top in one state only, never recoloured.
+    pulling_2:
+      - ecoitems:item/arrow_nocked
+```
+
+A bow has the states `pulling_0`, `pulling_1` and `pulling_2`. A crossbow also has `arrow` and `rocket`, for when it is loaded. A part with no texture for a state uses its `texture`. The thresholds match vanilla, and the item's base should be a `bow` or `crossbow` so it can be drawn.
 
 ### Swapping
 
