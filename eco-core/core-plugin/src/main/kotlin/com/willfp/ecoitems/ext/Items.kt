@@ -12,6 +12,7 @@ import org.bukkit.persistence.PersistentDataType
 
 internal val PART_MATERIAL_KEY = plugin.createNamespacedKey("part_material")
 internal val MODULAR_MATERIALS_KEY = plugin.createNamespacedKey("modular_materials")
+private val MINIMUM_MINING_TIER_KEY = plugin.createNamespacedKey("minimum_mining_tier")
 
 var ItemStack.partMaterial: Material?
     get() = itemMeta?.run { persistentDataContainer.get(PART_MATERIAL_KEY, PersistentDataType.STRING) }
@@ -39,6 +40,19 @@ var ItemStack.modularMaterials: Map<String, Material>
                 PersistentDataType.STRING,
                 value.entries.joinToString(",") { "${it.key}=${it.value.getID()}" }
             )
+        }
+    }
+
+/** The lowest tier a modular item mines at, whatever its materials, or null for its materials' tier. */
+var ItemStack.minimumMiningTier: String?
+    get() = itemMeta?.run { persistentDataContainer.get(MINIMUM_MINING_TIER_KEY, PersistentDataType.STRING) }
+    set(value) {
+        itemMeta = itemMeta?.apply {
+            if (value == null) {
+                persistentDataContainer.remove(MINIMUM_MINING_TIER_KEY)
+            } else {
+                persistentDataContainer.set(MINIMUM_MINING_TIER_KEY, PersistentDataType.STRING, value)
+            }
         }
     }
 
