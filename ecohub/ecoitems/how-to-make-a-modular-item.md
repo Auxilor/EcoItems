@@ -112,6 +112,7 @@ modular:
   # === Swapping: replace a part at an anvil ===
   swappable: true
   swap-cost: 1 # The level cost.
+  swap-returns-part: false # Give the replaced part back.
 
   # === Mining: optional ===
   mining:
@@ -131,7 +132,7 @@ The item's stats are built from its slots: attribute modifiers and durability ad
 
 ### Swapping
 
-With `swappable: true`, put the item in the left slot of an anvil and a part in the right. The part replaces the one in the first slot of its shape that has a different material, and the old part is given back once the new item is taken.
+With `swappable: true`, put the item in the left slot of an anvil and a part in the right. The part replaces the one in the first slot of its shape that has a different material, for `swap-cost` levels. The replaced part is used up, unless `swap-returns-part: true`, in which case it is given back once the new item is taken.
 
 ## Internal placeholders
 
