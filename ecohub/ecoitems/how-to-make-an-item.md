@@ -71,6 +71,7 @@ item:
 # === Behaviour: where it works ===
 slot: mainhand # The slot the item must be in to activate; defaults to mainhand
 rarity: rare # Optional; the item rarity from the rarities folder
+keep-when-broken: false # Optional; stays broken at 1 durability instead of breaking
 
 # === Effects: what it does ===
 effects:
@@ -167,6 +168,10 @@ item:
 ```
 
 The item's own keys always win over the template's; nested sections merge key-by-key and lists are replaced whole. `template:` also accepts a list (later templates override earlier ones), and templates can themselves extend other templates.
+
+### Breaking
+
+`keep-when-broken: true` stops an item with durability at its last point instead of breaking. While broken it can't break blocks and its attacks deal one damage, but it keeps everything on it: enchantments, scrolls, levels and parts. Repair it to use it again.
 
 ### Hiding items
 
