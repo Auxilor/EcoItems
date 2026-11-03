@@ -1,0 +1,61 @@
+# The ID of the item is the name of the .yml file,
+# for example modular_pickaxe.yml has the ID of modular_pickaxe
+# You can place items anywhere in this folder,
+# including in subfolders if you want to organize your item configs
+# _example_modular.yml is not loaded.
+
+# A modular item is built from parts (see _example_part.yml), one in each of its slots.
+# Each slot keeps the material of the part put in it, so one item config covers every
+# combination of materials.
+
+item:
+  item: iron_pickaxe # The base item in-game
+
+  # Put together at a crafting table. Each part ingredient accepts that part made from any material.
+  recipes:
+    type: crafting_table
+    recipe:
+      - ""
+      - ecoitems:pickaxe_head
+      - ""
+      - ""
+      - ecoitems:binding
+      - ""
+      - ""
+      - ecoitems:tool_rod
+      - ""
+
+modular:
+  # The slots of the item. The key is the slot ID (your choice), the value is the part shape it takes.
+  slots:
+    head: pickaxe_head
+    handle: tool_rod
+    binding: binding
+
+  # The order the slot textures are drawn in, bottom to top.
+  layers:
+    - handle
+    - head
+    - binding
+
+  # %material_<slot>% is the name of the material in that slot.
+  name: "%material_head% Pickaxe"
+  lore:
+    - "&7Head: %material_head%"
+    - "&7Handle: %material_handle%"
+    - "&7Binding: %material_binding%"
+
+  # If a part can be replaced at an anvil: the item on the left, the new part on the right.
+  # The old part is given back.
+  swappable: true
+  swap-cost: 1 # The level cost of replacing a part
+
+  # Optional, for items that mine.
+  mining:
+    blocks: "#minecraft:mineable/pickaxe" # The blocks the item is the right tool for
+    from: head # The slot whose material gives the mining speed and tier
+
+slot: mainhand # Where the item has to be for its effects and its materials' traits to work
+
+effects: [ ] # The item's own effects, on top of its materials' traits
+conditions: [ ]

@@ -1,0 +1,29 @@
+# The ID of the item is the name of the .yml file,
+# for example pickaxe_head.yml has the ID of pickaxe_head
+# You can place items anywhere in this folder,
+# including in subfolders if you want to organize your item configs
+# _example_part.yml is not loaded.
+
+# A part is an item made from one material, see materials/_example.yml.
+# Parts are put together into modular items, see _example_modular.yml.
+
+item:
+  item: flint # The base item in-game
+
+  # Parts are made at an anvil or a smithing table.
+  # "material" accepts any material, and the part is made from whichever one was used.
+  recipes:
+    type: anvil
+    base: ecoitems:pickaxe_head_pattern # The left slot
+    material: material # The right slot: any material
+    repair-cost: 1 # The level cost
+
+part:
+  shape: pickaxe_head # The shape ID; modular items say which shape fits each of their slots
+  name: "%material% Pickaxe Head" # %material% is the name of the material it was made from
+  cost: 2 # How many of the material's items it takes
+
+  # The greyscale texture, recoloured for each material by the resource pack.
+  # It must only use the 8 greys 34, 62, 92, 122, 152, 186, 220 and 250, darkest to lightest.
+  # Textures are read from pack/assets/<namespace>/textures/<path>.png
+  texture: ecoitems:item/part/pickaxe_head
