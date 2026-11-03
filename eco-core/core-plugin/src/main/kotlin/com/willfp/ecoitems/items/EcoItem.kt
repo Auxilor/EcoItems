@@ -166,7 +166,7 @@ class EcoItem(
                     recipeConfig.getIntOrNull("give-amount") ?: 1
                 )
             } else {
-                registerWorkstationRecipe(type, recipeConfig)
+                registerWorkstationRecipes(type, recipeConfig)
             }
 
             return

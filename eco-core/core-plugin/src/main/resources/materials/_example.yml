@@ -7,7 +7,7 @@
 # A material is what parts are made from. A part item stores which material it was made from,
 # and a modular item stores one material per slot. Their name, stats and look all come from these.
 
-name: "&9Cobalt" # Used in %material% and %material_<slot>% in part and modular item names and lore
+name: "&9Cobalt" # Used in %material% in part names, and %material_<slot>% in modular item names and lore
 
 # The tint used if the resource pack can't recolour a part, and the base for a generated palette.
 color: "#2376DD"

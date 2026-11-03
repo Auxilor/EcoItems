@@ -4,10 +4,12 @@ import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.eco.core.config.toPlainValues
 import com.willfp.eco.core.items.legacyToComponentValue
 import com.willfp.eco.util.formatEco
+import com.willfp.ecoitems.ext.modularMaterials
+import com.willfp.ecoitems.ext.partMaterial
 import com.willfp.ecoitems.items.EcoItem
-import org.bukkit.inventory.ItemStack
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.CopyOnWriteArrayList
+import org.bukkit.inventory.ItemStack
 
 private const val FALLBACK_COLOR = 0xFFFFFF
 
@@ -75,7 +77,8 @@ private fun ModularConfig.components(materials: Map<String, Material>, itemConfi
         material.slot(slotId)?.let { totals.add(slotId, it) }
     }
 
-    val result = totals.others.toMutableMap<String, Any?>()
+    val ownComponents = itemConfig.getSubsection("item").plainComponents().keys
+    val result = totals.others.filterKeys { it !in ownComponents }.toMutableMap<String, Any?>()
 
     if (totals.attributeModifiers.isNotEmpty()) {
         result["minecraft:attribute_modifiers"] = totals.attributeModifiers

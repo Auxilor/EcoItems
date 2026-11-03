@@ -1,5 +1,6 @@
 package com.willfp.ecoitems.materials
 
+import com.willfp.ecoitems.ext.modularMaterials
 import com.willfp.ecoitems.items.EcoItem
 import com.willfp.ecoitems.items.ecoItem
 import com.willfp.ecoitems.plugin
@@ -8,9 +9,9 @@ import com.willfp.libreforge.conditions.ConditionList
 import com.willfp.libreforge.effects.EffectList
 import com.willfp.libreforge.slot.ItemHolderFinder
 import com.willfp.libreforge.slot.SlotType
+import java.util.concurrent.ConcurrentHashMap
 import org.bukkit.NamespacedKey
 import org.bukkit.inventory.ItemStack
-import java.util.concurrent.ConcurrentHashMap
 
 /** One material in one slot of one modular item, active wherever that item is active. */
 class MaterialHolder(

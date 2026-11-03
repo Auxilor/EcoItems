@@ -1,7 +1,7 @@
 package com.willfp.ecoitems.items
 
 import com.willfp.eco.core.fast.fast
-import com.willfp.ecoitems.materials.withMaterials
+import com.willfp.ecoitems.ext.withMaterialsOf
 import com.willfp.ecoitems.plugin
 import com.willfp.ecoitems.util.runFor
 import net.kyori.adventure.text.Component
@@ -75,7 +75,7 @@ object ItemUpdater : Listener {
     private fun updated(stack: ItemStack): ItemStack? {
         val item = stack.ecoItem ?: return null
 
-        val fresh = item.itemStack
+        val fresh = item.itemStack.withMaterialsOf(stack)
         fresh.amount = stack.amount
 
         val oldMeta = stack.itemMeta ?: return null
@@ -132,9 +132,7 @@ object ItemUpdater : Listener {
             fresh.fast().loreComponents = customLore
         }
 
-        val rebuilt = fresh.withMaterials()
-
-        return if (rebuilt == stack) null else rebuilt
+        return if (fresh == stack) null else fresh
     }
 
     /**

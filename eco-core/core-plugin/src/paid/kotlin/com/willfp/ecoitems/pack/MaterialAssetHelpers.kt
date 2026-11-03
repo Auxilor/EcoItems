@@ -38,13 +38,13 @@ internal fun warnIfMissing(plugin: EcoItemsPlugin, texture: PackLocation) {
     }
 }
 
-internal fun warnAboutStrayGreys(plugin: EcoItemsPlugin, texture: PackLocation) {
+internal fun warnAboutOffRampColours(plugin: EcoItemsPlugin, texture: PackLocation) {
     val file = texture.file(plugin, root = "textures", extension = "png")
     if (!file.exists()) {
         plugin.logger.warning(
             "Part texture pack/${texture.entry(root = "textures", extension = "png")} does not exist"
         )
-    } else if (strayColours(file) > 0) {
+    } else if (offRampColours(file) > 0) {
         plugin.logger.warning(
             "Part texture ${texture.key} uses colours outside the material grey ramp " +
                 "${MaterialPalettes.RAMP}; they will not be recoloured"
@@ -52,7 +52,7 @@ internal fun warnAboutStrayGreys(plugin: EcoItemsPlugin, texture: PackLocation) 
     }
 }
 
-private fun strayColours(file: File): Int {
+private fun offRampColours(file: File): Int {
     val image = runCatching { ImageIO.read(file) }.getOrNull() ?: return 0
     val ramp = MaterialPalettes.RAMP.map { it * GREY_STEP }.toSet()
 

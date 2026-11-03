@@ -2,8 +2,8 @@ package com.willfp.ecoitems.commands
 
 import com.willfp.eco.core.command.impl.Subcommand
 import com.willfp.eco.core.drops.DropQueue
+import com.willfp.ecoitems.ext.withMaterialArgs
 import com.willfp.ecoitems.items.EcoItems
-import com.willfp.ecoitems.materials.withMaterialArgs
 import com.willfp.ecoitems.plugin
 import com.willfp.ecoitems.util.runFor
 import org.bukkit.Bukkit
@@ -27,7 +27,8 @@ object CommandGive : Subcommand(plugin, "give", "ecoitems.command.give", false) 
 
         val ecoItem = notifyNull(EcoItems.getByID(args.getOrNull(1)), "invalid-item")
 
-        val amount = args.getOrNull(2)?.toIntOrNull()?.takeIf { it > 0 } ?: 1
+        val amountArg = args.getOrNull(2)?.toIntOrNull()
+        val amount = amountArg?.takeIf { it > 0 } ?: 1
 
         val message = plugin.langYml.getMessage("give-success")
             .replace("%item%", ecoItem.id.key)
@@ -35,7 +36,7 @@ object CommandGive : Subcommand(plugin, "give", "ecoitems.command.give", false) 
 
         sender.sendMessage(message)
 
-        val item = ecoItem.itemStack.withMaterialArgs(args.drop(3))
+        val item = ecoItem.itemStack.withMaterialArgs(args.drop(if (amountArg == null) 2 else 3))
 
         item.amount = amount
 

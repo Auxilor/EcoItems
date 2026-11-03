@@ -1,14 +1,13 @@
 package com.willfp.ecoitems.pack
 
-import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import com.google.gson.JsonParser
 import com.willfp.ecoitems.EcoItemsPlugin
 import com.willfp.ecoitems.items.EcoItem
 import com.willfp.ecoitems.items.EcoItems
+import com.willfp.ecoitems.materials.Material
 import com.willfp.ecoitems.materials.MaterialPalettes
 import com.willfp.ecoitems.materials.Materials
-import com.willfp.ecoitems.materials.partItemForShape
+import com.willfp.ecoitems.materials.ModularItemService
 
 /**
  * Generates the look of parts and modular items, the armor trim way: one greyscale texture per part
@@ -16,59 +15,75 @@ import com.willfp.ecoitems.materials.partItemForShape
  * material palettes, the atlas source, a model per shape and material, and the item definitions,
  * which select each layer's model on the material id stored in custom_model_data.
  *
- * Runs before the pack folder is merged, so user files still win.
+ * Runs before the pack folder is merged, so user files still win. An item that sets its own
+ * texture, model or definition keeps that instead of a generated definition.
  */
 object MaterialAssetGenerator {
-    private const val ITEMS_ATLAS = "assets/minecraft/atlases/items.json"
-    private const val PALETTE_KEY = "ecoitems:material_key"
-    private const val PALETTE_KEY_ENTRY = "assets/ecoitems/textures/palettes/material_key.png"
-
+    private val OWN_MODEL_KEYS = listOf("texture", "model", "definition")
 
     fun generate(plugin: EcoItemsPlugin, entries: MutableMap<String, ByteArray>) {
-        val materialIds = Materials.values().map { it.getID() }
-        val textures = EcoItems.values().mapNotNull { it.partTexture() }.distinct()
-
-        if (materialIds.isEmpty() || textures.isEmpty()) {
-            return
-        }
-
         val materials = Materials.values()
+        val materialIds = materials.map { it.getID() }
         val items = EcoItems.values()
-        textures.forEach { warnAboutStrayGreys(plugin, it) }
+        val textures = items.mapNotNull { it.partTexture() }.distinct()
 
-        entries[PALETTE_KEY_ENTRY] = paletteImage(MaterialPalettes.RAMP.map { it * GREY_STEP })
-        for (material in materials) {
-            entries[paletteEntry(material.getID())] = paletteImage(material.palette)
+        if (materialIds.isNotEmpty() && textures.isNotEmpty()) {
+            writeRecolouring(plugin, entries, textures, materials)
         }
+        writeOverlayModels(plugin, entries, items, materials)
 
-        entries[ITEMS_ATLAS] = withSource(
-            existing = entries[ITEMS_ATLAS],
-            source = permutationSource(textures, materialIds)
-        )
-
-        val overlays = items.flatMap { it.overlayTextures() } +
-            materials.flatMap { material -> material.allOverlays.mapNotNull { PackLocation.parse(it) } }
-        for (overlay in overlays.distinct()) {
-            warnIfMissing(plugin, overlay)
-            entries.putIfAbsent(overlay.entry(root = "models", extension = "json"), modelJson(overlay.key))
-        }
-
-        for (texture in textures) {
-            entries.putIfAbsent(texture.entry(root = "models", extension = "json"), modelJson(texture.key))
-            for (id in materialIds) {
-                entries.putIfAbsent(recolouredEntry(texture, id), modelJson("${texture.key}_$id"))
-            }
-        }
-
-        for (item in items) {
-            val path = "assets/ecoitems/items/${item.id.key}.json"
-            val definition = definition(item, materialIds)
-            if (definition != null && path !in entries) {
-                entries[path] = materialGson.toJson(jsonObject("model" to definition)).encodeToByteArray()
+        val textureIds = if (textures.isEmpty()) emptyList() else materialIds
+        for (item in items.filterNot { item -> OWN_MODEL_KEYS.any { item.config.getSubsection("item").has(it) } }) {
+            definition(item, textureIds)?.let { definition ->
+                entries["assets/ecoitems/items/${item.id.key}.json"] =
+                    materialGson.toJson(jsonObject("model" to definition)).encodeToByteArray()
             }
         }
     }
 
+    private fun writeRecolouring(
+        plugin: EcoItemsPlugin,
+        entries: MutableMap<String, ByteArray>,
+        textures: List<PackLocation>,
+        materials: List<Material>
+    ) {
+        textures.forEach { warnAboutOffRampColours(plugin, it) }
+
+        val keyImage = paletteImage(MaterialPalettes.RAMP.map { it * GREY_STEP })
+        paletteEntries(PALETTE_KEY_NAME).forEach { entries[it] = keyImage }
+        for (material in materials) {
+            val image = paletteImage(material.palette)
+            paletteEntries(materialPaletteName(material.getID())).forEach { entries[it] = image }
+        }
+
+        val source = permutationSource(textures, materials.map { it.getID() })
+        ATLASES.forEach { entries[it] = withSource(existing = entries[it], source = source) }
+
+        for (texture in textures) {
+            entries.putIfAbsent(texture.entry(root = "models", extension = "json"), modelJson(texture.key))
+            for (material in materials) {
+                entries.putIfAbsent(
+                    recolouredEntry(texture, material.getID()),
+                    modelJson("${texture.key}_${material.getID()}")
+                )
+            }
+        }
+    }
+
+    private fun writeOverlayModels(
+        plugin: EcoItemsPlugin,
+        entries: MutableMap<String, ByteArray>,
+        items: List<EcoItem>,
+        materials: List<Material>
+    ) {
+        val overlays = items.flatMap { it.overlayTextures() } +
+            materials.flatMap { material -> material.allOverlays.mapNotNull { PackLocation.parse(it) } }
+
+        for (overlay in overlays.distinct()) {
+            warnIfMissing(plugin, overlay)
+            entries.putIfAbsent(overlay.entry(root = "models", extension = "json"), modelJson(overlay.key))
+        }
+    }
 
     private fun definition(item: EcoItem, materialIds: List<String>): JsonObject? {
         val partTexture = item.partTexture()
@@ -81,9 +96,9 @@ object MaterialAssetGenerator {
                 "models" to jsonArray(
                     modular.layers.mapIndexedNotNull { index, slotId ->
                         modular.slots[slotId]
-                            ?.let { shape -> partItemForShape(shape)?.partTexture() }
+                            ?.let { shape -> ModularItemService.partItemForShape(shape)?.partTexture() }
                             ?.let { recolouredOrTintedLayer(it, index, materialIds) }
-                    } +
+                    }.ifEmpty { listOf(baseModel(item)) } +
                         modular.layers.mapIndexedNotNull { index, slotId -> materialOverlayLayer(slotId, index) } +
                         item.overlayTextures().map { modelNode(it.key, tintIndex = null) }
                 )
@@ -91,6 +106,9 @@ object MaterialAssetGenerator {
             else -> null
         }
     }
+
+    private fun baseModel(item: EcoItem): JsonObject =
+        modelNode("minecraft:item/${item.itemStack.type.key.key}", tintIndex = null)
 
     private fun materialOverlayLayer(slotId: String, index: Int): JsonObject? {
         val cases = Materials.values().mapNotNull { material ->
@@ -147,37 +165,4 @@ object MaterialAssetGenerator {
         }
         return node
     }
-
-    private fun permutationSource(textures: List<PackLocation>, materialIds: List<String>): JsonObject = jsonObject(
-        "type" to "minecraft:paletted_permutations",
-        "textures" to jsonArray(textures.map { it.key }),
-        "palette_key" to PALETTE_KEY,
-        "permutations" to permutations(materialIds)
-    )
-
-    private fun permutations(materialIds: List<String>): JsonObject {
-        val json = JsonObject()
-        materialIds.forEach { json.addProperty(it, "ecoitems:material/$it") }
-        return json
-    }
-
-    private fun withSource(existing: ByteArray?, source: JsonObject): ByteArray {
-        val atlas = existing
-            ?.let { runCatching { JsonParser.parseString(it.decodeToString()).asJsonObject }.getOrNull() }
-            ?: JsonObject()
-        val sources = atlas.getAsJsonArray("sources") ?: JsonArray().also { atlas.add("sources", it) }
-        sources.add(source)
-        return materialGson.toJson(atlas).encodeToByteArray()
-    }
-
-    private fun paletteEntry(materialId: String): String = "assets/ecoitems/textures/palettes/material/$materialId.png"
-
-    private fun recolouredEntry(texture: PackLocation, materialId: String): String =
-        "assets/${texture.namespace}/models/${texture.path}_$materialId.json"
-
-    private fun modelJson(texture: String): ByteArray = materialGson.toJson(
-        jsonObject("parent" to "minecraft:item/handheld", "textures" to jsonObject("layer0" to texture))
-    ).encodeToByteArray()
-
-
 }

@@ -14,7 +14,7 @@ item:
   # "material" accepts any material, and the part is made from whichever one was used.
   recipes:
     type: anvil
-    base: ecoitems:pickaxe_head_pattern # The left slot
+    base: ecoitems:pickaxe_head_pattern # The left slot: an item you make yourself, or any item lookup
     material: material # The right slot: any material
     repair-cost: 1 # The level cost
 

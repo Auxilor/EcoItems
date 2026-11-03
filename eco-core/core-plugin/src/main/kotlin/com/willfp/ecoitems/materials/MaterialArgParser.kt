@@ -2,13 +2,19 @@ package com.willfp.ecoitems.materials
 
 import com.willfp.eco.core.items.args.LookupArgParser
 import com.willfp.eco.util.namespacedKeyOf
+import com.willfp.ecoitems.ext.MODULAR_MATERIALS_KEY
+import com.willfp.ecoitems.ext.PART_MATERIAL_KEY
+import com.willfp.ecoitems.ext.materialArgs
+import com.willfp.ecoitems.ext.modularMaterials
+import com.willfp.ecoitems.ext.partMaterial
+import com.willfp.ecoitems.ext.withMaterialArgs
 import com.willfp.ecoitems.items.EcoItem
 import com.willfp.ecoitems.items.EcoItems
+import java.util.function.Predicate
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.Damageable
 import org.bukkit.inventory.meta.ItemMeta
 import org.bukkit.persistence.PersistentDataType
-import java.util.function.Predicate
 
 /**
  * Lets item lookups name materials: `ecoitems:<part> material:<id>` and
@@ -19,11 +25,19 @@ object MaterialArgParser : LookupArgParser {
     private val ITEM_KEY = namespacedKeyOf(namespace = "ecoitems", key = "item")
 
     override fun parseArguments(args: Array<String>, meta: ItemMeta): Predicate<ItemStack>? {
-        val built = EcoItems.getByID(meta.persistentDataContainer.get(ITEM_KEY, PersistentDataType.STRING))
-            ?.takeIf { it.part != null || it.modular != null }
-            ?.let { builtWithMaterials(it, args) }
+        val item = EcoItems.getByID(meta.persistentDataContainer.get(ITEM_KEY, PersistentDataType.STRING))
+            ?.takeIf { it.requestsMaterials(args) }
             ?: return null
 
+        return builtWithMaterials(item, args)?.let { matching(built = it, meta = meta) } ?: Predicate { false }
+    }
+
+    private fun EcoItem.requestsMaterials(args: Array<String>): Boolean {
+        val requested = materialArgs(args.toList()).keys
+        return part != null && "material" in requested || modular?.run { slots.keys }.orEmpty().any { it in requested }
+    }
+
+    private fun matching(built: ItemStack, meta: ItemMeta): Predicate<ItemStack> {
         built.itemMeta?.let { copyMaterialData(from = it, to = meta) }
 
         val partMaterial = built.partMaterial

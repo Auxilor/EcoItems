@@ -1,6 +1,7 @@
 package com.willfp.ecoitems.materials
 
 import com.willfp.eco.core.drops.DropQueue
+import com.willfp.ecoitems.ext.madeFrom
 import com.willfp.ecoitems.items.ecoItem
 import com.willfp.ecoitems.plugin
 import org.bukkit.entity.Player
@@ -9,6 +10,7 @@ import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.inventory.CraftItemEvent
 import org.bukkit.event.inventory.InventoryClickEvent
+import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.inventory.PrepareAnvilEvent
 import org.bukkit.event.inventory.PrepareItemCraftEvent
 import org.bukkit.event.inventory.PrepareSmithingEvent
@@ -21,7 +23,7 @@ import java.util.concurrent.ConcurrentHashMap
 
 /**
  * Runs after eco's workstation and crafting listeners, which set the plain recipe output, and
- * rebuilds that output with the materials of its inputs.
+ * rebuilds that output with the materials of its inputs through [ModularItemService].
  */
 object MaterialsListener : Listener {
     private const val ANVIL_RESULT_SLOT = 2
@@ -33,57 +35,26 @@ object MaterialsListener : Listener {
         val player = event.view.player
         swappedOutParts.remove(player.uniqueId)
 
-        val left = event.inventory.getItem(0)
-        val right = event.inventory.getItem(1)
         val result = event.result
         val part = result?.ecoItem?.part
 
         if (part != null) {
-            event.result = Materials.forItem(right)
-                ?.takeIf { right != null && right.amount >= part.cost }
-                ?.let { result.madeFrom(it) }
+            event.result = ModularItemService.partResult(result, part, event.inventory.getItem(1))
             (event.view as? AnvilView)?.repairItemCountCost = part.cost
             return
         }
 
-        val swap = swapResult(item = left, part = right) ?: return
-        event.result = swap.first
-        swap.second?.let { swappedOutParts[player.uniqueId] = it }
+        val swap = ModularItemService.swap(
+            item = event.inventory.getItem(0),
+            part = event.inventory.getItem(1)
+        ) ?: return
+        event.result = swap.result
+        swap.returnedPart?.let { swappedOutParts[player.uniqueId] = it }
         (event.view as? AnvilView)?.let { view ->
-            view.repairCost = left?.ecoItem?.modular?.swapCost ?: 1
+            view.repairCost = swap.cost
             view.repairItemCountCost = 1
         }
     }
-
-    private fun swapResult(item: ItemStack?, part: ItemStack?): Pair<ItemStack, ItemStack?>? {
-        val modular = item?.ecoItem?.modular?.takeIf { it.isSwappable }
-        val shape = part?.ecoItem?.part?.shape
-        val newMaterial = part?.partMaterial
-
-        if (modular == null || shape == null || newMaterial == null) {
-            return null
-        }
-
-        val materials = item.modularMaterials
-        val slotId = modular.slots.entries
-            .firstOrNull { (slotId, slotShape) -> slotShape == shape && materials[slotId] != newMaterial }
-            ?.key
-
-        return slotId?.let {
-            item.builtFrom(materials + (it to newMaterial)).asOne() to returnedPart(modular, shape, materials[it])
-        }
-    }
-
-    private fun returnedPart(modular: ModularConfig, shape: String, material: Material?): ItemStack? {
-        val partItem = partItemForShape(shape)
-        return if (modular.returnsSwappedPart && material != null && partItem != null) {
-            partOf(partItem, material)
-        } else {
-            null
-        }
-    }
-
-    private fun ItemStack.asOne(): ItemStack = also { it.amount = 1 }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     fun onTakeSwap(event: InventoryClickEvent) {
@@ -106,6 +77,13 @@ object MaterialsListener : Listener {
     }
 
     @EventHandler
+    fun onCloseAnvil(event: InventoryCloseEvent) {
+        if (event.inventory is AnvilInventory) {
+            swappedOutParts.remove(event.player.uniqueId)
+        }
+    }
+
+    @EventHandler
     fun onQuit(event: PlayerQuitEvent) {
         swappedOutParts.remove(event.player.uniqueId)
     }
@@ -122,7 +100,7 @@ object MaterialsListener : Listener {
     fun onPrepareCraft(event: PrepareItemCraftEvent) {
         val result = event.inventory.result
         if (result?.ecoItem?.modular != null) {
-            event.inventory.result = assembledFrom(result, event.inventory.matrix)
+            event.inventory.result = ModularItemService.assembledFrom(result, event.inventory.matrix)
         }
     }
 
@@ -130,21 +108,7 @@ object MaterialsListener : Listener {
     fun onCraft(event: CraftItemEvent) {
         val result = event.inventory.result
         if (result?.ecoItem?.modular != null) {
-            event.inventory.result = assembledFrom(result, event.inventory.matrix)
+            event.inventory.result = ModularItemService.assembledFrom(result, event.inventory.matrix)
         }
-    }
-
-    private fun assembledFrom(result: ItemStack, matrix: Array<ItemStack?>): ItemStack? {
-        val modular = result.ecoItem?.modular ?: return null
-        val parts = matrix.filterNotNull().filter { it.ecoItem?.part != null }.toMutableList()
-
-        val materials = modular.slots.mapNotNull { (slotId, shape) ->
-            parts.firstOrNull { it.ecoItem?.part?.shape == shape }
-                ?.also { parts.remove(it) }
-                ?.partMaterial
-                ?.let { slotId to it }
-        }.toMap()
-
-        return if (materials.size == modular.slots.size) result.builtFrom(materials) else null
     }
 }
