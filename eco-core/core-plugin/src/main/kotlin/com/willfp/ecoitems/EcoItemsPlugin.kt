@@ -1,28 +1,29 @@
 package com.willfp.ecoitems
 
+import com.willfp.eco.core.blocks.Blocks
 import com.willfp.eco.core.bstats.EcoMetricsChart
 import com.willfp.eco.core.command.impl.PluginCommand
 import com.willfp.eco.core.display.DisplayModule
 import com.willfp.eco.core.items.Items
-import com.willfp.eco.core.blocks.Blocks
 import com.willfp.ecoitems.blocks.BlockBreakSpeed
 import com.willfp.ecoitems.blocks.BlockListener
 import com.willfp.ecoitems.blocks.BlockPhysicsListener
 import com.willfp.ecoitems.blocks.EcoBlocks
 import com.willfp.ecoitems.blocks.PaperBlockListener
 import com.willfp.ecoitems.blocks.SaplingGrowth
-import com.willfp.ecoitems.furniture.FurnitureListener
-import com.willfp.ecoitems.furniture.FurnitureStorageManager
-import com.willfp.ecoitems.furniture.VehicleTicker
 import com.willfp.ecoitems.commands.CommandEcoItems
 import com.willfp.ecoitems.crops.CropListener
 import com.willfp.ecoitems.crops.CropTracker
 import com.willfp.ecoitems.dialogs.Dialogs
 import com.willfp.ecoitems.display.ItemsDisplay
 import com.willfp.ecoitems.display.RarityDisplay
+import com.willfp.ecoitems.furniture.FurnitureListener
+import com.willfp.ecoitems.furniture.FurnitureStorageManager
+import com.willfp.ecoitems.furniture.VehicleTicker
 import com.willfp.ecoitems.glyphs.Glyphs
 import com.willfp.ecoitems.huds.Huds
 import com.willfp.ecoitems.items.EcoItemFinder
+import com.willfp.ecoitems.items.EcoItemTag
 import com.willfp.ecoitems.items.EcoItems
 import com.willfp.ecoitems.items.EcoItemsRecipes
 import com.willfp.ecoitems.items.ItemListener
@@ -33,6 +34,9 @@ import com.willfp.ecoitems.libreforge.ConditionHasEcoItem
 import com.willfp.ecoitems.loots.LootContributor
 import com.willfp.ecoitems.loots.LootFishingListener
 import com.willfp.ecoitems.loots.Loots
+import com.willfp.ecoitems.materials.MaterialFinder
+import com.willfp.ecoitems.materials.Materials
+import com.willfp.ecoitems.materials.MaterialsListener
 import com.willfp.ecoitems.migration.Migrations
 import com.willfp.ecoitems.pack.PackFeatures
 import com.willfp.ecoitems.paintings.PaintingListener
@@ -40,7 +44,6 @@ import com.willfp.ecoitems.paintings.Paintings
 import com.willfp.ecoitems.rarity.ArgParserRarity
 import com.willfp.ecoitems.rarity.Rarities
 import com.willfp.ecoitems.sounds.Sounds
-import com.willfp.ecoitems.items.EcoItemTag
 import com.willfp.ecoitems.util.ChunkSweeps
 import com.willfp.ecoitems.util.DiscoverRecipeListener
 import com.willfp.ecoitems.util.PickBlockListener
@@ -52,8 +55,8 @@ import com.willfp.libreforge.drops.LibreforgeDrops
 import com.willfp.libreforge.loader.LibreforgePlugin
 import com.willfp.libreforge.loader.configs.ConfigCategory
 import com.willfp.libreforge.registerHolderProvider
-import org.bukkit.event.Listener
 import java.io.File
+import org.bukkit.event.Listener
 
 internal lateinit var plugin: EcoItemsPlugin
     private set
@@ -79,6 +82,7 @@ class EcoItemsPlugin : LibreforgePlugin() {
         Conditions.register(ConditionHasEcoItem)
 
         registerHolderProvider(EcoItemFinder.toHolderProvider())
+        registerHolderProvider(MaterialFinder.toHolderProvider())
 
         Blocks.registerBlockProvider(EcoBlocks.Provider)
 
@@ -116,6 +120,7 @@ class EcoItemsPlugin : LibreforgePlugin() {
             Rarities,
             Sounds,
             Paintings,
+            Materials,
             EcoItems,
             EcoItemsRecipes,
             Glyphs,
@@ -130,6 +135,7 @@ class EcoItemsPlugin : LibreforgePlugin() {
             DiscoverRecipeListener,
             ItemListener,
             ItemUpdater,
+            MaterialsListener,
             PaintingListener,
             BlockListener,
             BlockPhysicsListener,

@@ -1,6 +1,7 @@
 package com.willfp.ecoitems.items
 
 import com.willfp.eco.core.fast.fast
+import com.willfp.ecoitems.materials.withMaterials
 import com.willfp.ecoitems.plugin
 import com.willfp.ecoitems.util.runFor
 import net.kyori.adventure.text.Component
@@ -131,7 +132,9 @@ object ItemUpdater : Listener {
             fresh.fast().loreComponents = customLore
         }
 
-        return if (fresh == stack) null else fresh
+        val rebuilt = fresh.withMaterials()
+
+        return if (rebuilt == stack) null else rebuilt
     }
 
     /**

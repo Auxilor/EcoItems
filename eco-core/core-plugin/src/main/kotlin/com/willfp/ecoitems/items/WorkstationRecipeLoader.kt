@@ -4,6 +4,7 @@ import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.eco.core.items.Items
 import com.willfp.eco.core.items.TestableItem
 import com.willfp.eco.core.recipe.parts.EmptyTestableItem
+import com.willfp.eco.core.recipe.parts.GroupedTestableItems
 import com.willfp.eco.core.recipe.workstation.AnvilRecipe
 import com.willfp.eco.core.recipe.workstation.BrewingRecipe
 import com.willfp.eco.core.recipe.workstation.SmeltingRecipe
@@ -11,6 +12,7 @@ import com.willfp.eco.core.recipe.workstation.SmeltingType
 import com.willfp.eco.core.recipe.workstation.SmithingRecipe
 import com.willfp.eco.core.recipe.workstation.StonecuttingRecipe
 import com.willfp.eco.core.recipe.workstation.WorkstationRecipe
+import com.willfp.ecoitems.materials.Materials
 import com.willfp.ecoitems.plugin
 import org.bukkit.inventory.ItemStack
 
@@ -139,6 +141,15 @@ private fun EcoItem.ingredient(recipeConfig: Config, key: String): Ingredient? {
     if (lookup.isNullOrBlank()) {
         plugin.logger.warning("Item ${id.key} is missing '$key' for its recipe, so the recipe was skipped")
         return null
+    }
+
+    if (lookup == "material") {
+        val materialItems = Materials.values().flatMap { it.items }
+        if (materialItems.isEmpty()) {
+            plugin.logger.warning("Item ${id.key} uses any material for '$key', but no materials are loaded")
+            return null
+        }
+        return Ingredient(GroupedTestableItems(materialItems), materialItems.first().item.clone())
     }
 
     val testable = Items.lookup(lookup)

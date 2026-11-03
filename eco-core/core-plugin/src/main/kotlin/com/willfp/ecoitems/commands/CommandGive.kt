@@ -3,6 +3,7 @@ package com.willfp.ecoitems.commands
 import com.willfp.eco.core.command.impl.Subcommand
 import com.willfp.eco.core.drops.DropQueue
 import com.willfp.ecoitems.items.EcoItems
+import com.willfp.ecoitems.materials.withMaterialArgs
 import com.willfp.ecoitems.plugin
 import com.willfp.ecoitems.util.runFor
 import org.bukkit.Bukkit
@@ -34,7 +35,7 @@ object CommandGive : Subcommand(plugin, "give", "ecoitems.command.give", false) 
 
         sender.sendMessage(message)
 
-        val item = ecoItem.itemStack
+        val item = ecoItem.itemStack.withMaterialArgs(args.drop(3))
 
         item.amount = amount
 
