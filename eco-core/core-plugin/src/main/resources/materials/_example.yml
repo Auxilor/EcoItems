@@ -1,0 +1,74 @@
+# The ID of the material is the name of the .yml file,
+# for example cobalt.yml has the ID of cobalt
+# You can place materials anywhere in this folder,
+# including in subfolders if you want to organize your material configs
+# _example.yml is not loaded.
+
+# A material is what parts are made from. A part item stores which material it was made from,
+# and a modular item stores one material per slot. Their name, stats and look all come from these.
+
+name: "&9Cobalt" # Used in %material% in part names, and %material_<slot>% in modular item names and lore
+
+# The tint used if the resource pack can't recolour a part, and the base for a generated palette.
+color: "#2376DD"
+
+# The 8 colours, darkest to lightest, that replace the 8 greys part textures are drawn with.
+# Leave it out to generate one from color.
+palette:
+  - "#071338"
+  - "#0D2466"
+  - "#14389A"
+  - "#1C4FC0"
+  - "#2766D9"
+  - "#3E86EC"
+  - "#6FAEF7"
+  - "#B4DCFF"
+
+# The items that count as this material when making a part.
+# Read here: https://hub.auxilor.io/wiki/eco/the-item-lookup-system-the-item-lookup-system
+items:
+  - ecoitems:cobalt_ingot
+
+# What the material adds in each slot of a modular item. The keys match the slot IDs in the
+# modular item's config. A slot that isn't listed here gets nothing from this material.
+slots:
+  head:
+    # Textures drawn on the modular item when this material is in this slot, never recoloured.
+    overlays:
+      - ecoitems:item/part/cobalt_gem
+
+    mining-speed: 14 # The mining speed, if this slot is the modular item's mining slot
+    mining-tier: diamond # The vanilla tier for which blocks drop: wooden, stone, iron, diamond or netherite
+
+    # Vanilla item components, with the same format as in vanilla commands:
+    # https://minecraft.wiki/w/Data_component_format
+    components:
+      max_damage: 800 # Durability from every slot is added together
+      attribute_modifiers: # Modifiers from every slot are added together
+        - type: "minecraft:attack_damage"
+          id: "ecoitems:cobalt_head_damage"
+          amount: 4
+          operation: "add_value"
+          slot: "mainhand"
+
+    # Effects that only work while the material is in this slot.
+    # Read here: https://hub.auxilor.io/wiki/libreforge/configuring-an-effect
+    effects: [ ]
+
+  handle:
+    durability-multiplier: 1.75 # Multiplies the item's durability after every slot is added
+
+  binding:
+    components:
+      max_damage: 100
+
+# Effects that work while the material is in any slot of a modular item.
+# Read here: https://hub.auxilor.io/wiki/libreforge/configuring-an-effect
+traits:
+  - id: movement_speed_multiplier
+    args:
+      multiplier: 1.1
+
+# The conditions for the traits and slot effects to work.
+# Read here: https://hub.auxilor.io/wiki/libreforge/configuring-a-condition
+conditions: [ ]

@@ -16,6 +16,8 @@ import com.willfp.ecoitems.BuildConfig
 import com.willfp.ecoitems.blocks.EcoBlock
 import com.willfp.ecoitems.crops.EcoCrop
 import com.willfp.ecoitems.furniture.Furniture
+import com.willfp.ecoitems.materials.ModularConfig
+import com.willfp.ecoitems.materials.PartConfig
 import com.willfp.ecoitems.paintings.Paintings
 import com.willfp.ecoitems.plugin
 import com.willfp.ecoitems.rarity.Rarities
@@ -76,6 +78,12 @@ class EcoItem(
      * vanilla fuel (furnaces only consume those); 0 blocks burning entirely.
      */
     val fuelBurnTicks = config.getIntOrNull("fuel.burn-ticks")
+
+    /** The part this item is, if it has a part: section. Its material is stored on each stack. */
+    val part = config.getSubsectionOrNull("part")?.let { PartConfig(it) }
+
+    /** The modular item this is, if it has a modular: section. Built from parts, one material per slot. */
+    val modular = config.getSubsectionOrNull("modular")?.let { ModularConfig(it) }
 
     /** Hidden from the /ecoitems gui browser. */
     val excludeFromGui = config.getBool("exclude-from-gui")
@@ -158,7 +166,7 @@ class EcoItem(
                     recipeConfig.getIntOrNull("give-amount") ?: 1
                 )
             } else {
-                registerWorkstationRecipe(type, recipeConfig)
+                registerWorkstationRecipes(type, recipeConfig)
             }
 
             return
@@ -225,16 +233,13 @@ class EcoItem(
             components["minecraft:attribute_modifiers"] = legacy.map { it.modifier } + configured
         }
 
-        val blockAssets = this@EcoItem.block?.hasAssets == true || this@EcoItem.crop?.block?.hasAssets == true
-        if (itemConfig.has("texture") || itemConfig.has("model") || itemConfig.has("definition") || blockAssets) {
-            if (BuildConfig.FREE_VERSION) {
-                plugin.logger.warning(
-                    "Item ${this@EcoItem.id.key} has a texture, but item textures require the paid version of EcoItems"
-                )
-            } else {
-                // The pack system generates the matching assets on reload.
-                components.putIfAbsent("minecraft:item_model", "ecoitems:${this@EcoItem.id.key}")
-            }
+        if (BuildConfig.FREE_VERSION && hasTextureConfig(itemConfig)) {
+            plugin.logger.warning(
+                "Item ${this@EcoItem.id.key} has a texture, but item textures require the paid version of EcoItems"
+            )
+        } else if (!BuildConfig.FREE_VERSION && needsItemModel(itemConfig)) {
+            // The pack system generates the matching assets on reload.
+            components.putIfAbsent("minecraft:item_model", "ecoitems:${this@EcoItem.id.key}")
         }
 
         if (components.isEmpty()) {
@@ -256,6 +261,14 @@ class EcoItem(
 
         return result.item
     }
+
+    private fun hasTextureConfig(itemConfig: Config): Boolean =
+        listOf("texture", "model", "definition").any { itemConfig.has(it) } ||
+            block?.hasAssets == true ||
+            crop?.run { block.hasAssets } == true
+
+    private fun needsItemModel(itemConfig: Config): Boolean =
+        hasTextureConfig(itemConfig) || part?.texture != null || modular != null
 
     /**
      * The [LegacyAttribute] options this item sets, as attribute modifier

@@ -1,6 +1,6 @@
 ---
 title: "Commands and Permissions"
-sidebar_position: 16
+sidebar_position: 17
 ---
 
 Every EcoItems command and permission node, for reloading, giving and taking items, editing held items, and opening HUDs, glyphs, and dialogs. All commands sit under `/ecoitems`.
@@ -8,7 +8,7 @@ Every EcoItems command and permission node, for reloading, giving and taking ite
 | Command                                   | Description                                                              | Permission                               |
 |-------------------------------------------|--------------------------------------------------------------------------|------------------------------------------|
 | `/ecoitems reload`                        | Reload the plugin configs                                                | `ecoitems.command.reload`                |
-| `/ecoitems give <player> <item> [amount]` | Give an EcoItem to a player                                              | `ecoitems.command.give`                  |
+| `/ecoitems give <player> <item> [amount] [materials]` | Give an EcoItem to a player; parts take `material:<id>`, modular items `<slot>:<id>` | `ecoitems.command.give`                  |
 | `/ecoitems gui`                           | Opens the operator item browser. Left-click an item to receive one copy. | `ecoitems.command.gui` (operators)       |
 | `/ecoitems hud toggle <id>`               | Toggle a [HUD](how-to-make-a-hud) on or off                                     | `ecoitems.command.hud.toggle` (everyone) |
 | `/ecoitems glyph <id>`                    | Echo a [glyph](how-to-make-a-glyph)'s character, e.g. to copy it from console   | `ecoitems.command.glyph` (operators)     |

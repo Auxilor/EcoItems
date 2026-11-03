@@ -11,7 +11,9 @@ import com.willfp.eco.core.recipe.workstation.SmeltingType
 import com.willfp.eco.core.recipe.workstation.SmithingRecipe
 import com.willfp.eco.core.recipe.workstation.StonecuttingRecipe
 import com.willfp.eco.core.recipe.workstation.WorkstationRecipe
+import com.willfp.ecoitems.materials.Materials
 import com.willfp.ecoitems.plugin
+import org.bukkit.NamespacedKey
 import org.bukkit.inventory.ItemStack
 
 /**
@@ -47,7 +49,28 @@ internal val WORKSTATIONS = SMELTING_TYPES.keys +
  * recipes section. Does nothing if an ingredient doesn't resolve - a half-registered
  * recipe would match on the wrong items, so a bad lookup drops the whole recipe.
  */
-internal fun EcoItem.registerWorkstationRecipe(workstation: String, recipeConfig: Config) {
+internal fun EcoItem.registerWorkstationRecipes(workstation: String, recipeConfig: Config) {
+    val usesMaterial = recipeConfig.getKeys(false).any { recipeConfig.getStringOrNull(it) == "material" }
+    val materialItems = Materials.values().flatMap { it.items }
+
+    if (!usesMaterial) {
+        registerWorkstationRecipe(workstation, recipeConfig, id, materialItem = null)
+    } else if (materialItems.isEmpty()) {
+        plugin.logger.warning("Item ${id.key} uses any material in its recipe, but no materials are loaded")
+    } else {
+        materialItems.forEachIndexed { index, materialItem ->
+            val recipeKey = plugin.createNamespacedKey("${id.key}_material_$index")
+            registerWorkstationRecipe(workstation, recipeConfig, recipeKey, materialItem)
+        }
+    }
+}
+
+internal fun EcoItem.registerWorkstationRecipe(
+    workstation: String,
+    recipeConfig: Config,
+    recipeKey: NamespacedKey,
+    materialItem: TestableItem?
+) {
     val output = itemStack.apply {
         amount = recipeConfig.getIntOrNull("give-amount") ?: 1
     }
@@ -57,9 +80,9 @@ internal fun EcoItem.registerWorkstationRecipe(workstation: String, recipeConfig
 
     val recipe: WorkstationRecipe = when {
         smeltingType != null -> {
-            val input = ingredient(recipeConfig, "input") ?: return
+            val input = ingredient(recipeConfig, "input", materialItem) ?: return
 
-            SmeltingRecipe.builder(id, output, input.testable, smeltingType)
+            SmeltingRecipe.builder(recipeKey, output, input.testable, smeltingType)
                 .inputDisplay(input.display)
                 // -1 keeps the per-workstation vanilla default.
                 .cookTime(recipeConfig.getIntOrNull("cook-time") ?: -1)
@@ -69,20 +92,20 @@ internal fun EcoItem.registerWorkstationRecipe(workstation: String, recipeConfig
         }
 
         workstation == "stonecutter" -> {
-            val input = ingredient(recipeConfig, "input") ?: return
+            val input = ingredient(recipeConfig, "input", materialItem) ?: return
 
-            StonecuttingRecipe.builder(id, output, input.testable)
+            StonecuttingRecipe.builder(recipeKey, output, input.testable)
                 .inputDisplay(input.display)
                 .also { builder -> permission?.let { builder.permission(it) } }
                 .build()
         }
 
         workstation == "smithing_table" -> {
-            val template = ingredient(recipeConfig, "template") ?: return
-            val base = ingredient(recipeConfig, "base") ?: return
-            val addition = ingredient(recipeConfig, "addition") ?: return
+            val template = ingredient(recipeConfig, "template", materialItem) ?: return
+            val base = ingredient(recipeConfig, "base", materialItem) ?: return
+            val addition = ingredient(recipeConfig, "addition", materialItem) ?: return
 
-            SmithingRecipe.builder(id, output)
+            SmithingRecipe.builder(recipeKey, output)
                 .template(template.testable, template.display)
                 .base(base.testable, base.display)
                 .addition(addition.testable, addition.display)
@@ -91,16 +114,16 @@ internal fun EcoItem.registerWorkstationRecipe(workstation: String, recipeConfig
         }
 
         workstation == "anvil" -> {
-            val base = ingredient(recipeConfig, "base") ?: return
+            val base = ingredient(recipeConfig, "base", materialItem) ?: return
             // The second anvil slot is optional - no material means the base alone matches.
             val material = if (recipeConfig.getStringOrNull("material")?.isNotBlank() == true) {
-                ingredient(recipeConfig, "material") ?: return
+                ingredient(recipeConfig, "material", materialItem) ?: return
             } else {
                 null
             }
 
             // No result-name: the result is the item, which carries its own name.
-            AnvilRecipe.builder(id, output, base.testable)
+            AnvilRecipe.builder(recipeKey, output, base.testable)
                 .baseDisplay(base.display)
                 .material(material?.testable)
                 .materialDisplay(material?.display)
@@ -110,10 +133,10 @@ internal fun EcoItem.registerWorkstationRecipe(workstation: String, recipeConfig
         }
 
         workstation == "brewing_stand" -> {
-            val base = ingredient(recipeConfig, "base") ?: return
-            val brewingIngredient = ingredient(recipeConfig, "ingredient") ?: return
+            val base = ingredient(recipeConfig, "base", materialItem) ?: return
+            val brewingIngredient = ingredient(recipeConfig, "ingredient", materialItem) ?: return
 
-            BrewingRecipe.builder(id, output, base.testable, brewingIngredient.testable)
+            BrewingRecipe.builder(recipeKey, output, base.testable, brewingIngredient.testable)
                 .brewTime(recipeConfig.getIntOrNull("brew-time") ?: 400)
                 .also { builder -> permission?.let { builder.permission(it) } }
                 .build()
@@ -132,8 +155,11 @@ internal fun EcoItem.registerWorkstationRecipe(workstation: String, recipeConfig
     WorkstationRecipePermissions.track(recipe)
 }
 
-/** Look up the ingredient at [key], warning and returning null if it doesn't resolve. */
-private fun EcoItem.ingredient(recipeConfig: Config, key: String): Ingredient? {
+/**
+ * Look up the ingredient at [key], warning and returning null if it doesn't resolve. "material" is
+ * [materialItem]: vanilla stations only match exact items, so each material item gets its own recipe.
+ */
+private fun EcoItem.ingredient(recipeConfig: Config, key: String, materialItem: TestableItem?): Ingredient? {
     val lookup = recipeConfig.getStringOrNull(key)
 
     if (lookup.isNullOrBlank()) {
@@ -141,7 +167,7 @@ private fun EcoItem.ingredient(recipeConfig: Config, key: String): Ingredient? {
         return null
     }
 
-    val testable = Items.lookup(lookup)
+    val testable = if (lookup == "material") materialItem ?: EmptyTestableItem() else Items.lookup(lookup)
 
     if (testable is EmptyTestableItem) {
         plugin.logger.warning("Item ${id.key} has an invalid recipe $key '$lookup', so the recipe was skipped")

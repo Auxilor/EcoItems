@@ -1,6 +1,6 @@
 ---
 title: "Plugin Config"
-sidebar_position: 17
+sidebar_position: 18
 ---
 
 This is the main `config.yml` for EcoItems, found at `/plugins/EcoItems/config.yml`. It controls recipe discovery, the global rarity system, and the admin item GUI. Apply changes by running `/ecoitems reload`.

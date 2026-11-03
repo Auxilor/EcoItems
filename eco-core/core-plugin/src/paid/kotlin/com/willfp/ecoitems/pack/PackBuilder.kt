@@ -48,6 +48,7 @@ object PackBuilder {
         entries["pack.png"] = bundledPackPng()
 
         ItemAssetGenerator.generate(plugin, assets, entries)
+        MaterialAssetGenerator.generate(plugin, entries)
         BlockAssetGenerator.generate(plugin, settings, entries)
 
         // Feature assets (currently the 2D head models) ship in every build
