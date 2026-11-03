@@ -44,8 +44,14 @@ internal fun withSource(existing: ByteArray?, source: JsonObject): ByteArray {
     return materialGson.toJson(atlas).encodeToByteArray()
 }
 
-internal fun recolouredEntry(texture: PackLocation, materialId: String): String =
-    "assets/${texture.namespace}/models/${texture.path}_$materialId.json"
+/**
+ * Where the generated model for [texture] lives, recoloured for [materialId] if given. Always under
+ * the ecoitems namespace, so a vanilla texture never overwrites its own vanilla model.
+ */
+internal fun generatedModel(texture: PackLocation, materialId: String? = null): PackLocation = PackLocation(
+    namespace = "ecoitems",
+    path = "material/${texture.namespace}/${texture.path}" + materialId?.let { "_$it" }.orEmpty()
+)
 
 internal fun modelJson(texture: String): ByteArray = materialGson.toJson(
     jsonObject("parent" to "minecraft:item/handheld", "textures" to jsonObject("layer0" to texture))

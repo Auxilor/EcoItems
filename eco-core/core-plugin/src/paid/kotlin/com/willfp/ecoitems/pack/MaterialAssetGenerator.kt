@@ -28,7 +28,7 @@ object MaterialAssetGenerator {
         val textures = items.mapNotNull { it.partTexture() }.distinct()
 
         for (texture in textures) {
-            entries.putIfAbsent(texture.entry(root = "models", extension = "json"), modelJson(texture.key))
+            entries[generatedModel(texture).entry(root = "models", extension = "json")] = modelJson(texture.key)
         }
 
         if (materialIds.isNotEmpty() && textures.isNotEmpty()) {
@@ -65,10 +65,8 @@ object MaterialAssetGenerator {
 
         for (texture in textures) {
             for (material in materials) {
-                entries.putIfAbsent(
-                    recolouredEntry(texture, material.getID()),
+                entries[generatedModel(texture, material.getID()).entry(root = "models", extension = "json")] =
                     modelJson("${texture.key}_${material.getID()}")
-                )
             }
         }
     }
@@ -84,7 +82,7 @@ object MaterialAssetGenerator {
 
         for (overlay in overlays.distinct()) {
             warnIfMissing(plugin, overlay)
-            entries.putIfAbsent(overlay.entry(root = "models", extension = "json"), modelJson(overlay.key))
+            entries[generatedModel(overlay).entry(root = "models", extension = "json")] = modelJson(overlay.key)
         }
     }
 
@@ -103,7 +101,7 @@ object MaterialAssetGenerator {
                             ?.let { recolouredOrTintedLayer(it, index, materialIds) }
                     }.ifEmpty { listOf(baseModel(item)) } +
                         modular.layers.mapIndexedNotNull { index, slotId -> materialOverlayLayer(slotId, index) } +
-                        item.overlayTextures().map { modelNode(it.key, tintIndex = null) }
+                        item.overlayTextures().map { modelNode(generatedModel(it).key, tintIndex = null) }
                 )
             )
             else -> null
@@ -123,7 +121,7 @@ object MaterialAssetGenerator {
                         "when" to material.getID(),
                         "model" to jsonObject(
                             "type" to "minecraft:composite",
-                            "models" to jsonArray(textures.map { modelNode(it.key, tintIndex = null) })
+                            "models" to jsonArray(textures.map { modelNode(generatedModel(it).key, tintIndex = null) })
                         )
                     )
                 }
@@ -145,7 +143,7 @@ object MaterialAssetGenerator {
         index: Int,
         materialIds: List<String>
     ): JsonObject = if (materialIds.isEmpty()) {
-        modelNode(texture.key, tintIndex = index)
+        modelNode(generatedModel(texture).key, tintIndex = index)
     } else {
         recolouredLayer(texture, index, materialIds)
     }
@@ -160,10 +158,10 @@ object MaterialAssetGenerator {
         "index" to index,
         "cases" to jsonArray(
             materialIds.map { id ->
-                jsonObject("when" to id, "model" to modelNode("${texture.key}_$id", tintIndex = null))
+                jsonObject("when" to id, "model" to modelNode(generatedModel(texture, id).key, tintIndex = null))
             }
         ),
-        "fallback" to modelNode(texture.key, tintIndex = index)
+        "fallback" to modelNode(generatedModel(texture).key, tintIndex = index)
     )
 
     private fun modelNode(model: String, tintIndex: Int?): JsonObject {
