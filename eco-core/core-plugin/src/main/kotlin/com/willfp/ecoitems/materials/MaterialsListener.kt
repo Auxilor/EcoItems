@@ -48,14 +48,14 @@ object MaterialsListener : Listener {
 
         val swap = swapResult(item = left, part = right) ?: return
         event.result = swap.first
-        swappedOutParts[player.uniqueId] = swap.second
+        swap.second?.let { swappedOutParts[player.uniqueId] = it }
         (event.view as? AnvilView)?.let { view ->
             view.repairCost = left?.ecoItem?.modular?.swapCost ?: 1
             view.repairItemCountCost = 1
         }
     }
 
-    private fun swapResult(item: ItemStack?, part: ItemStack?): Pair<ItemStack, ItemStack>? {
+    private fun swapResult(item: ItemStack?, part: ItemStack?): Pair<ItemStack, ItemStack?>? {
         val modular = item?.ecoItem?.modular?.takeIf { it.isSwappable }
         val shape = part?.ecoItem?.part?.shape
         val newMaterial = part?.partMaterial
@@ -68,17 +68,20 @@ object MaterialsListener : Listener {
         val slotId = modular.slots.entries
             .firstOrNull { (slotId, slotShape) -> slotShape == shape && materials[slotId] != newMaterial }
             ?.key
-        val oldPart = slotId?.let { materials[it] }?.let { oldPartOf(shape, it) }
 
-        return if (slotId == null || oldPart == null) {
-            null
-        } else {
-            item.builtFrom(materials + (slotId to newMaterial)).asOne() to oldPart
+        return slotId?.let {
+            item.builtFrom(materials + (it to newMaterial)).asOne() to returnedPart(modular, shape, materials[it])
         }
     }
 
-    private fun oldPartOf(shape: String, material: Material): ItemStack? =
-        partItemForShape(shape)?.let { partOf(it, material) }
+    private fun returnedPart(modular: ModularConfig, shape: String, material: Material?): ItemStack? {
+        val partItem = partItemForShape(shape)
+        return if (modular.returnsSwappedPart && material != null && partItem != null) {
+            partOf(partItem, material)
+        } else {
+            null
+        }
+    }
 
     private fun ItemStack.asOne(): ItemStack = also { it.amount = 1 }
 

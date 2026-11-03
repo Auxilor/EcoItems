@@ -43,6 +43,9 @@ class ModularConfig(config: Config) {
     /** The anvil level cost of replacing a part. */
     val swapCost: Int = (config.getIntOrNull("swap-cost") ?: 1).coerceAtLeast(1)
 
+    /** Whether the replaced part is given back. Off unless set, so a swap uses up the old part. */
+    val returnsSwappedPart: Boolean = config.getBool("swap-returns-part")
+
     /** The block tag the item mines, or null if it isn't a mining tool. */
     val miningBlocks: String? = config.getStringOrNull("mining.blocks")
 

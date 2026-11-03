@@ -46,9 +46,9 @@ modular:
     - "&7Binding: %material_binding%"
 
   # If a part can be replaced at an anvil: the item on the left, the new part on the right.
-  # The old part is given back.
   swappable: true
   swap-cost: 1 # The level cost of replacing a part
+  swap-returns-part: false # If the replaced part is given back; otherwise it is used up
 
   # Optional, for items that mine.
   mining:
