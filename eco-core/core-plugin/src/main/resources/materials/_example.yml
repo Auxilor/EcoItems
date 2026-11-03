@@ -33,6 +33,10 @@ items:
 # modular item's config. A slot that isn't listed here gets nothing from this material.
 slots:
   head:
+    # Textures drawn on the modular item when this material is in this slot, never recoloured.
+    overlays:
+      - ecoitems:item/part/cobalt_gem
+
     mining-speed: 14 # The mining speed, if this slot is the modular item's mining slot
     mining-tier: diamond # The vanilla tier for which blocks drop: wooden, stone, iron, diamond or netherite
 

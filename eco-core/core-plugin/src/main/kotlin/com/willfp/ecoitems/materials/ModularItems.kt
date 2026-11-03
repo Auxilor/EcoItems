@@ -33,6 +33,9 @@ class ModularConfig(config: Config) {
     /** Slot draw order for the model, bottom to top. */
     val layers: List<String> = config.getStrings("layers").ifEmpty { slots.keys.toList() }
 
+    /** Textures drawn above the slot layers as they are, never recoloured. */
+    val overlays: List<String> = config.getStrings("overlays")
+
     val name: String = config.getString("name")
 
     val lore: List<String> = config.getStrings("lore")

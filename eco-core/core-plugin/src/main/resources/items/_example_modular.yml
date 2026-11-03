@@ -38,6 +38,10 @@ modular:
     - head
     - binding
 
+  # Textures drawn on top of every one of these items, whatever its materials, never recoloured.
+  overlays:
+    - ecoitems:item/part/pickaxe_shine
+
   # %material_<slot>% is the name of the material in that slot.
   name: "%material_head% Pickaxe"
   lore:

@@ -5,6 +5,7 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.willfp.ecoitems.EcoItemsPlugin
+import com.willfp.ecoitems.items.EcoItem
 import com.willfp.ecoitems.materials.MaterialPalettes
 import java.awt.image.BufferedImage
 import java.io.ByteArrayOutputStream
@@ -22,6 +23,19 @@ internal fun paletteImage(colors: List<Int>): ByteArray {
     val image = BufferedImage(colors.size, 1, BufferedImage.TYPE_INT_ARGB)
     colors.forEachIndexed { x, rgb -> image.setRGB(x, 0, OPAQUE or rgb) }
     return ByteArrayOutputStream().also { ImageIO.write(image, "png", it) }.toByteArray()
+}
+
+internal fun EcoItem.partTexture(): PackLocation? = part?.texture?.let { PackLocation.parse(it) }
+
+internal fun EcoItem.overlayTextures(): List<PackLocation> =
+    modular?.overlays.orEmpty().mapNotNull { PackLocation.parse(it) }
+
+internal fun warnIfMissing(plugin: EcoItemsPlugin, texture: PackLocation) {
+    if (!texture.file(plugin, root = "textures", extension = "png").exists()) {
+        plugin.logger.warning(
+            "Overlay texture pack/${texture.entry(root = "textures", extension = "png")} does not exist"
+        )
+    }
 }
 
 internal fun warnAboutStrayGreys(plugin: EcoItemsPlugin, texture: PackLocation) {

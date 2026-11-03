@@ -54,6 +54,13 @@ class Material(
     /** The material's settings for one slot of a modular item, or null if it gives nothing there. */
     fun slot(slotId: String): Config? = config.getSubsectionOrNull("slots.$slotId")
 
+    /** Textures drawn on a modular item when this material is in [slotId], never recoloured. */
+    fun overlaysIn(slotId: String): List<String> = slot(slotId)?.getStrings("overlays").orEmpty()
+
+    /** Every overlay texture across all slots. */
+    val allOverlays: List<String>
+        get() = config.getSubsection("slots").getKeys(false).flatMap { overlaysIn(it) }
+
     /** The traits plus the slot's own effects, compiled once per slot. */
     fun effectsInSlot(slotId: String): EffectList = slotEffects.computeIfAbsent(slotId) {
         Effects.compile(

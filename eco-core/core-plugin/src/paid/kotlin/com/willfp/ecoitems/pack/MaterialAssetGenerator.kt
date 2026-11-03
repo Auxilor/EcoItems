@@ -46,6 +46,13 @@ object MaterialAssetGenerator {
             source = permutationSource(textures, materialIds)
         )
 
+        val overlays = items.flatMap { it.overlayTextures() } +
+            materials.flatMap { material -> material.allOverlays.mapNotNull { PackLocation.parse(it) } }
+        for (overlay in overlays.distinct()) {
+            warnIfMissing(plugin, overlay)
+            entries.putIfAbsent(overlay.entry(root = "models", extension = "json"), modelJson(overlay.key))
+        }
+
         for (texture in textures) {
             entries.putIfAbsent(texture.entry(root = "models", extension = "json"), modelJson(texture.key))
             for (id in materialIds) {
@@ -62,7 +69,6 @@ object MaterialAssetGenerator {
         }
     }
 
-    private fun EcoItem.partTexture(): PackLocation? = part?.texture?.let { PackLocation.parse(it) }
 
     private fun definition(item: EcoItem, materialIds: List<String>): JsonObject? {
         val partTexture = item.partTexture()
@@ -77,10 +83,39 @@ object MaterialAssetGenerator {
                         modular.slots[slotId]
                             ?.let { shape -> partItemForShape(shape)?.partTexture() }
                             ?.let { recolouredOrTintedLayer(it, index, materialIds) }
-                    }
+                    } +
+                        modular.layers.mapIndexedNotNull { index, slotId -> materialOverlayLayer(slotId, index) } +
+                        item.overlayTextures().map { modelNode(it.key, tintIndex = null) }
                 )
             )
             else -> null
+        }
+    }
+
+    private fun materialOverlayLayer(slotId: String, index: Int): JsonObject? {
+        val cases = Materials.values().mapNotNull { material ->
+            material.overlaysIn(slotId)
+                .mapNotNull { PackLocation.parse(it) }
+                .takeIf { it.isNotEmpty() }
+                ?.let { textures ->
+                    jsonObject(
+                        "when" to material.getID(),
+                        "model" to jsonObject(
+                            "type" to "minecraft:composite",
+                            "models" to jsonArray(textures.map { modelNode(it.key, tintIndex = null) })
+                        )
+                    )
+                }
+        }
+
+        return cases.takeIf { it.isNotEmpty() }?.let { overlayCases ->
+            jsonObject(
+                "type" to "minecraft:select",
+                "property" to "minecraft:custom_model_data",
+                "index" to index,
+                "cases" to jsonArray(overlayCases),
+                "fallback" to jsonObject("type" to "minecraft:empty")
+            )
         }
     }
 
