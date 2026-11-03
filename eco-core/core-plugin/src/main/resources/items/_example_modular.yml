@@ -38,6 +38,11 @@ modular:
     - head
     - binding
 
+  # Optional: a texture per slot drawn on this item in place of the part's own texture, recoloured the same way.
+  # Useful when a part sits in a different place on different items.
+  # textures:
+  #   handle: ecoitems:item/part/pickaxe_handle
+
   # Textures drawn on top of every one of these items, whatever its materials, never recoloured.
   overlays:
     - ecoitems:item/part/pickaxe_shine

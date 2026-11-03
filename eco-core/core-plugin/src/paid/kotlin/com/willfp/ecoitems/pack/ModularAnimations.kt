@@ -33,7 +33,8 @@ internal object ModularAnimations {
         val drawn = modular.layers
             .mapNotNull { modular.slots[it] }
             .mapNotNull { ModularItemService.partItemForShape(it) }
-        return (drawn.flatMap { it.allPartTextures() } + item.allOverlayTextures()).map { it to pose }
+        return (drawn.flatMap { it.allPartTextures() } + item.slotTextures() + item.allOverlayTextures())
+            .map { it to pose }
     }
 
     /** The model for [animation], where [model] gives the composite for a state, or null for idle. */
