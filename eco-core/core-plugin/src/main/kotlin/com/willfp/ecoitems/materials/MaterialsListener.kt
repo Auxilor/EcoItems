@@ -50,7 +50,7 @@ object MaterialsListener : Listener {
         event.result = swap.first
         swappedOutParts[player.uniqueId] = swap.second
         (event.view as? AnvilView)?.let { view ->
-            view.repairCost = 1
+            view.repairCost = left?.ecoItem?.modular?.swapCost ?: 1
             view.repairItemCountCost = 1
         }
     }

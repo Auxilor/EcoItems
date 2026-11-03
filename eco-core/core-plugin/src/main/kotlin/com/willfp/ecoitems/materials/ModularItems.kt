@@ -9,8 +9,8 @@ import com.willfp.ecoitems.plugin
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
 
-private val PART_MATERIAL_KEY = plugin.createNamespacedKey("part_material")
-private val MODULAR_MATERIALS_KEY = plugin.createNamespacedKey("modular_materials")
+internal val PART_MATERIAL_KEY = plugin.createNamespacedKey("part_material")
+internal val MODULAR_MATERIALS_KEY = plugin.createNamespacedKey("modular_materials")
 
 /** An item that is a part, made from one material. Read from its part: section. */
 class PartConfig(config: Config) {
@@ -39,6 +39,9 @@ class ModularConfig(config: Config) {
 
     /** Whether a slot's part can be replaced at an anvil. */
     val isSwappable: Boolean = config.getBool("swappable")
+
+    /** The anvil level cost of replacing a part. */
+    val swapCost: Int = (config.getIntOrNull("swap-cost") ?: 1).coerceAtLeast(1)
 
     /** The block tag the item mines, or null if it isn't a mining tool. */
     val miningBlocks: String? = config.getStringOrNull("mining.blocks")

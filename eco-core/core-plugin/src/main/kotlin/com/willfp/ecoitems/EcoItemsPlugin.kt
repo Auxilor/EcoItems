@@ -34,6 +34,7 @@ import com.willfp.ecoitems.libreforge.ConditionHasEcoItem
 import com.willfp.ecoitems.loots.LootContributor
 import com.willfp.ecoitems.loots.LootFishingListener
 import com.willfp.ecoitems.loots.Loots
+import com.willfp.ecoitems.materials.MaterialArgParser
 import com.willfp.ecoitems.materials.MaterialFinder
 import com.willfp.ecoitems.materials.Materials
 import com.willfp.ecoitems.materials.MaterialsListener
@@ -77,6 +78,7 @@ class EcoItemsPlugin : LibreforgePlugin() {
 
     override fun handleEnable() {
         Items.registerArgParser(ArgParserRarity)
+        Items.registerArgParser(MaterialArgParser)
         Items.registerTag(EcoItemTag)
 
         Conditions.register(ConditionHasEcoItem)
