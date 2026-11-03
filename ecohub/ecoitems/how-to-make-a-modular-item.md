@@ -11,7 +11,7 @@ Recoloured, layered textures are part of the resource pack system, which require
 
 ## Quick start
 
-1. Make at least one [material](how-to-make-a-material).
+1. Make the [materials](how-to-make-a-material) you'll use, e.g. `cobalt`, `wood` and `iron`.
 2. In `/plugins/EcoItems/items/`, create one item per part shape, e.g. `pickaxe_head.yml`, with a `part:` section. `items/_example_part.yml` lists every option.
 3. Create the modular item, e.g. `modular_pickaxe.yml`, with a `modular:` section naming its slots. `items/_example_modular.yml` lists every option.
 4. Draw one greyscale texture per part shape and put it in `pack/assets/<namespace>/textures/`.
@@ -138,7 +138,7 @@ The item's stats are built from its slots: attribute modifiers and durability ad
 
 ### Swapping
 
-With `swappable: true`, put the item in the left slot of an anvil and a part in the right. The part replaces the one in the first slot of its shape that has a different material, for `swap-cost` levels. The replaced part is used up, unless `swap-returns-part: true`, in which case it is given back once the new item is taken.
+With `swappable: true`, put the item in the left slot of an anvil and a part in the right. The part replaces the one in the first slot of its shape that has a different material, for `swap-cost` levels. The replaced part is used up, unless `swap-returns-part: true`, in which case it is given back once the new item is taken. If more than one part item has that shape, the one whose ID is the shape name is given back.
 
 ## Internal placeholders
 
