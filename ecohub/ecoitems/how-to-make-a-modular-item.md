@@ -146,6 +146,7 @@ With `swappable: true`, put the item in the left slot of an anvil and a part in 
 | --- | --- |
 | `%material%` | In a part's `name`: the name of its material |
 | `%material_<slot>%` | In a modular item's `name` and `lore`: the name of the material in that slot |
+| `%ecoitems_material_count_<material>%` | Anywhere an item is read, for example another plugin's limits or conditions: how many of the item's slots are made of that material |
 
 Lookups and `/ecoitems give` take materials as arguments: `material:<id>` for a part, and `<slot>:<id>` for each slot of a modular item.
 
