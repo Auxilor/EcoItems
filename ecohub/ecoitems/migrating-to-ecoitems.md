@@ -1,6 +1,6 @@
 ---
 title: "Migrating to EcoItems"
-sidebar_position: 15
+sidebar_position: 16
 ---
 
 Switching to EcoItems doesn't mean rebuilding your setup by hand. EcoItems can import from **Oraxen**, **Nexo**, or **ItemsAdder**: items, custom blocks, furniture, glyphs, sounds, and resource pack assets. This page covers running a migration, what converts, and what carries over in your worlds.

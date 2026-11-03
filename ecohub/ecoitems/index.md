@@ -23,6 +23,7 @@ EcoItems is a Minecraft plugin that adds fully customizable weapons, tools, armo
 
 - **Make your first item:** [How to Make an Item](how-to-make-an-item) walks you from an empty file to a working item.
 - **Item types:** [Custom Foods](item-types-foods), [Custom Tools](item-types-tools), [Custom Armor](item-types-armor), [Custom Weapons](item-types-weapons), [Custom Shields](item-types-shields), [Custom Totems](item-types-totems), and [Custom Fuels](item-types-fuels) cover what items do, and [Repairable Items](item-types-repairing) covers durability.
+- **Modular items:** [How to Make a Material](how-to-make-a-material) and [How to Make a Modular Item](how-to-make-a-modular-item) for items built from parts.
 - **Blocks and furniture:** [How to Make a Block](how-to-make-a-block) and [How to Make Furniture](how-to-make-furniture) for placeable content.
 - **Glyphs:** [How to Make a Glyph](how-to-make-a-glyph) for custom emojis, chat tags, and GUI backgrounds.
 - **Resource packs:** [Resource Packs](resource-packs) covers item textures, `pack.yml`, and pack delivery.
