@@ -27,6 +27,10 @@ object MaterialAssetGenerator {
         val items = EcoItems.values()
         val textures = items.mapNotNull { it.partTexture() }.distinct()
 
+        for (texture in textures) {
+            entries.putIfAbsent(texture.entry(root = "models", extension = "json"), modelJson(texture.key))
+        }
+
         if (materialIds.isNotEmpty() && textures.isNotEmpty()) {
             writeRecolouring(plugin, entries, textures, materials)
         }
@@ -60,7 +64,6 @@ object MaterialAssetGenerator {
         ATLASES.forEach { entries[it] = withSource(existing = entries[it], source = source) }
 
         for (texture in textures) {
-            entries.putIfAbsent(texture.entry(root = "models", extension = "json"), modelJson(texture.key))
             for (material in materials) {
                 entries.putIfAbsent(
                     recolouredEntry(texture, material.getID()),
@@ -138,6 +141,16 @@ object MaterialAssetGenerator {
     }
 
     private fun recolouredOrTintedLayer(
+        texture: PackLocation,
+        index: Int,
+        materialIds: List<String>
+    ): JsonObject = if (materialIds.isEmpty()) {
+        modelNode(texture.key, tintIndex = index)
+    } else {
+        recolouredLayer(texture, index, materialIds)
+    }
+
+    private fun recolouredLayer(
         texture: PackLocation,
         index: Int,
         materialIds: List<String>
