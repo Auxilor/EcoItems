@@ -12,6 +12,7 @@ import org.bukkit.persistence.PersistentDataType
 
 internal val PART_MATERIAL_KEY = plugin.createNamespacedKey("part_material")
 internal val MODULAR_MATERIALS_KEY = plugin.createNamespacedKey("modular_materials")
+private val MINIMUM_MINING_TIER_KEY = plugin.createNamespacedKey("minimum_mining_tier")
 
 var ItemStack.partMaterial: Material?
     get() = itemMeta?.run { persistentDataContainer.get(PART_MATERIAL_KEY, PersistentDataType.STRING) }
@@ -42,6 +43,19 @@ var ItemStack.modularMaterials: Map<String, Material>
         }
     }
 
+/** The lowest tier a modular item mines at, whatever its materials, or null for its materials' tier. */
+var ItemStack.minimumMiningTier: String?
+    get() = itemMeta?.run { persistentDataContainer.get(MINIMUM_MINING_TIER_KEY, PersistentDataType.STRING) }
+    set(value) {
+        itemMeta = itemMeta?.apply {
+            if (value == null) {
+                persistentDataContainer.remove(MINIMUM_MINING_TIER_KEY)
+            } else {
+                persistentDataContainer.set(MINIMUM_MINING_TIER_KEY, PersistentDataType.STRING, value)
+            }
+        }
+    }
+
 /** A copy of this part, made from [material]. */
 fun ItemStack.madeFrom(material: Material): ItemStack {
     val copy = clone()
@@ -61,6 +75,7 @@ fun ItemStack.withMaterialsOf(source: ItemStack): ItemStack {
     val copy = clone()
     source.partMaterial?.let { copy.partMaterial = it }
     source.modularMaterials.takeIf { it.isNotEmpty() }?.let { copy.modularMaterials = it }
+    copy.minimumMiningTier = source.minimumMiningTier
     return copy.withMaterials()
 }
 

@@ -54,7 +54,7 @@ internal object ModularAnimations {
         val drawn = modular.layers
             .mapNotNull { modular.slots[it] }
             .mapNotNull { ModularItemService.partItemForShape(it) }
-        return (drawn.flatMap { it.allPartTextures() } + item.allOverlayTextures())
+        return (drawn.flatMap { it.allPartTextures() } + item.slotTextures() + item.allOverlayTextures())
             .flatMap { texture -> poses.map { texture to it } }
     }
 

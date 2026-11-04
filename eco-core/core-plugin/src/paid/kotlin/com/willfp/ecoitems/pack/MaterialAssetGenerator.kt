@@ -26,7 +26,7 @@ object MaterialAssetGenerator {
         val materials = Materials.values()
         val materialIds = materials.map { it.getID() }
         val items = EcoItems.values()
-        val textures = items.flatMap { it.allPartTextures() }.distinct()
+        val textures = items.flatMap { it.allPartTextures() + it.slotTextures() }.distinct()
 
         for (texture in textures) {
             entries[generatedModel(texture).entry(root = "models", extension = "json")] = modelJson(texture.key)
@@ -118,8 +118,8 @@ object MaterialAssetGenerator {
         "models" to jsonArray(
             modular.layers.mapIndexedNotNull { index, slotId ->
                 val part = modular.slots[slotId]?.let { ModularItemService.partItemForShape(it) }
-                part?.partTexture(state)?.let { texture ->
-                    val shape = part.partModel()?.takeIf { it in layers.shapes }
+                modular.layerTexture(slotId, state)?.let { texture ->
+                    val shape = part?.partModel()?.takeIf { it in layers.shapes && texture in part.allPartTextures() }
                     recolouredOrTintedLayer(texture, index, layers.materialIds, pose, shape)
                 }
             }.ifEmpty { listOf(baseModel(item)) } +

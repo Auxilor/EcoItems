@@ -44,6 +44,11 @@ class ModularConfig(config: Config) {
     /** Textures drawn above the slot layers as they are, never recoloured. */
     val overlays: List<String> = config.getStrings("overlays")
 
+    /** A texture per slot drawn on this item in place of the part's own, recoloured the same way. */
+    val slotTextures: Map<String, String> = config.getSubsection("textures").run {
+        getKeys(false).associateWith { getString(it) }
+    }
+
     val name: String = config.getString("name")
 
     val lore: List<String> = config.getStrings("lore")
@@ -62,6 +67,9 @@ class ModularConfig(config: Config) {
 
     /** The slot whose material gives the mining speed and tier. */
     val miningSlot: String? = config.getStringOrNull("mining.from")
+
+    /** The slot whose material repairs the item at an anvil, or null to repair it the vanilla way only. */
+    val repairSlot: String? = config.getStringOrNull("repair-from")
 
     /** The vanilla animation the item's model follows, or null for a still model. */
     val animation: ItemAnimation? = config.getStringOrNull("animation")?.let { id ->

@@ -65,6 +65,14 @@ item:
 # If you don't specify this, it will default to mainhand.
 slot: mainhand
 
+# (Optional) Items that repair this item at an anvil, a quarter of its durability each.
+# Any item lookup works, including other EcoItems.
+repair-items:
+  - ecoitems:mithril
+# (Optional) If the item stops at its last point of durability instead of breaking.
+# While broken it can't break blocks and its attacks deal one damage, until it is repaired.
+keep-when-broken: false
+
 # (Optional) The rarity of the item
 rarity: rare
 

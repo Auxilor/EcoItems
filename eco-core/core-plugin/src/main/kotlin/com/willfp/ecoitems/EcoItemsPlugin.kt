@@ -22,6 +22,7 @@ import com.willfp.ecoitems.furniture.FurnitureStorageManager
 import com.willfp.ecoitems.furniture.VehicleTicker
 import com.willfp.ecoitems.glyphs.Glyphs
 import com.willfp.ecoitems.huds.Huds
+import com.willfp.ecoitems.items.BrokenTridentListener
 import com.willfp.ecoitems.items.EcoItemFinder
 import com.willfp.ecoitems.items.EcoItemTag
 import com.willfp.ecoitems.items.EcoItems
@@ -29,14 +30,17 @@ import com.willfp.ecoitems.items.EcoItemsRecipes
 import com.willfp.ecoitems.items.ItemListener
 import com.willfp.ecoitems.items.ItemUpdater
 import com.willfp.ecoitems.items.ItemsGUI
+import com.willfp.ecoitems.items.KeepWhenBrokenListener
 import com.willfp.ecoitems.items.WorkstationRecipePermissions
 import com.willfp.ecoitems.libreforge.ConditionHasEcoItem
+import com.willfp.ecoitems.libreforge.EffectRaiseMiningTier
 import com.willfp.ecoitems.loots.LootContributor
 import com.willfp.ecoitems.loots.LootFishingListener
 import com.willfp.ecoitems.loots.Loots
 import com.willfp.ecoitems.materials.MaterialArgParser
 import com.willfp.ecoitems.materials.MaterialFinder
 import com.willfp.ecoitems.materials.Materials
+import com.willfp.ecoitems.materials.MaterialCountPlaceholder
 import com.willfp.ecoitems.materials.MaterialsListener
 import com.willfp.ecoitems.migration.Migrations
 import com.willfp.ecoitems.pack.PackFeatures
@@ -52,6 +56,7 @@ import com.willfp.ecoitems.util.PlayerTickers
 import com.willfp.ecoitems.util.WorldEditIntegration
 import com.willfp.ecoitems.util.WorldGuardFlags
 import com.willfp.libreforge.conditions.Conditions
+import com.willfp.libreforge.effects.Effects
 import com.willfp.libreforge.drops.LibreforgeDrops
 import com.willfp.libreforge.loader.LibreforgePlugin
 import com.willfp.libreforge.loader.configs.ConfigCategory
@@ -82,6 +87,8 @@ class EcoItemsPlugin : LibreforgePlugin() {
         Items.registerTag(EcoItemTag)
 
         Conditions.register(ConditionHasEcoItem)
+        MaterialCountPlaceholder(this).register()
+        Effects.register(EffectRaiseMiningTier)
 
         registerHolderProvider(EcoItemFinder.toHolderProvider())
         registerHolderProvider(MaterialFinder.toHolderProvider())
@@ -138,6 +145,7 @@ class EcoItemsPlugin : LibreforgePlugin() {
             ItemListener,
             ItemUpdater,
             MaterialsListener,
+            KeepWhenBrokenListener,
             PaintingListener,
             BlockListener,
             BlockPhysicsListener,
@@ -152,7 +160,8 @@ class EcoItemsPlugin : LibreforgePlugin() {
             ChunkSweeps
         ) + listOfNotNull(
             PaperBlockListener.createIfSupported(),
-            PickBlockListener.createIfSupported()
+            PickBlockListener.createIfSupported(),
+            BrokenTridentListener.createIfSupported()
         ) +
             (PackFeatures.instance?.listeners(this) ?: emptyList())
     }
