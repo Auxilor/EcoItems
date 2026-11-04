@@ -7,6 +7,7 @@ import com.willfp.eco.util.toComponent
 import com.willfp.ecoitems.plugin
 import org.bukkit.entity.AbstractArrow
 import org.bukkit.entity.Player
+import org.bukkit.entity.Trident
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
@@ -41,9 +42,7 @@ object KeepWhenBrokenListener : Listener {
     fun onBreak(event: BlockBreakEvent) {
         if (event.player.inventory.itemInMainHand.isBroken()) {
             event.isCancelled = true
-            event.player.asAudience().sendActionBar(
-                plugin.langYml.getString("messages.item-broken").formatEco().toComponent()
-            )
+            sendBrokenMessage(event.player)
         }
     }
 
@@ -52,6 +51,7 @@ object KeepWhenBrokenListener : Listener {
         val damager = event.damager
         val weapon = when (damager) {
             is Player -> damager.inventory.itemInMainHand
+            is Trident -> damager.item
             is AbstractArrow -> damager.weapon
             else -> null
         }
@@ -68,7 +68,13 @@ object KeepWhenBrokenListener : Listener {
         }
     }
 
-    private fun ItemStack.isBroken(): Boolean = damageLeft()?.let { it <= 0 } == true
+    fun sendBrokenMessage(player: Player) {
+        player.asAudience().sendActionBar(
+            plugin.langYml.getString("messages.item-broken").formatEco().toComponent()
+        )
+    }
+
+    fun ItemStack.isBroken(): Boolean = damageLeft()?.let { it <= 0 } == true
 
     private fun ItemStack.damageLeft(): Int? {
         val meta = itemMeta as? Damageable

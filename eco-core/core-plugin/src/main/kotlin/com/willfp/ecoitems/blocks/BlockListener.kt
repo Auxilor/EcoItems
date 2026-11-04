@@ -9,6 +9,8 @@ import com.willfp.libreforge.drops.LibreforgeDrops
 import com.willfp.libreforge.triggers.event.DropCause
 import com.willfp.libreforge.triggers.event.DropContext
 import com.willfp.ecoitems.items.EcoItems
+import com.willfp.ecoitems.items.KeepWhenBrokenListener
+import com.willfp.ecoitems.items.KeepWhenBrokenListener.isBroken
 import com.willfp.ecoitems.items.ecoItem
 import com.willfp.ecoitems.plugin
 import com.willfp.ecoitems.util.WorldGuardFlags
@@ -190,6 +192,12 @@ object BlockListener : Listener {
         val player = event.player
 
         if (!AntigriefManager.canBreakBlock(player, block)) {
+            return
+        }
+
+        if (tool.isBroken()) {
+            event.isCancelled = true
+            KeepWhenBrokenListener.sendBrokenMessage(player)
             return
         }
 
