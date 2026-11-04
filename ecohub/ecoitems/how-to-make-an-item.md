@@ -71,6 +71,8 @@ item:
 # === Behaviour: where it works ===
 slot: mainhand # The slot the item must be in to activate; defaults to mainhand
 rarity: rare # Optional; the item rarity from the rarities folder
+repair-items: # Optional; items that repair it at an anvil, custom items included
+  - ecoitems:mithril
 keep-when-broken: false # Optional; stays broken at 1 durability instead of breaking
 
 # === Effects: what it does ===
@@ -168,6 +170,10 @@ item:
 ```
 
 The item's own keys always win over the template's; nested sections merge key-by-key and lists are replaced whole. `template:` also accepts a list (later templates override earlier ones), and templates can themselves extend other templates.
+
+### Repairing
+
+`repair-items` lists the items that repair the item at an anvil. Any [item lookup](https://hub.auxilor.io/wiki/eco/the-item-lookup-system-the-item-lookup-system) works, including other EcoItems, which a vanilla `repairable` component can't tell apart from their base item. Each repair item restores a quarter of the durability and costs one level.
 
 ### Breaking
 

@@ -55,6 +55,10 @@ modular:
     - "&7Binding: %material_binding%"
     - "%materials_lore%" # On its own line: the lore of every material in the item
 
+  # Optional: the slot whose material repairs the item at an anvil, custom items included.
+  # Each item repairs a quarter of the durability.
+  repair-from: head
+
   # If a part can be replaced at an anvil: the item on the left, the new part on the right.
   swappable: true
   swap-cost: 1 # The level cost of replacing a part

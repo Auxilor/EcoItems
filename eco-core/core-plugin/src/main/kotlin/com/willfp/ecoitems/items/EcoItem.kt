@@ -6,6 +6,7 @@ import com.willfp.eco.core.display.Display
 import com.willfp.eco.core.fast.fast
 import com.willfp.eco.core.items.CustomItem
 import com.willfp.eco.core.items.Items
+import com.willfp.eco.core.items.TestableItem
 import com.willfp.eco.core.items.builder.ItemStackBuilder
 import com.willfp.eco.core.items.legacyToComponentValue
 import com.willfp.eco.core.recipe.Recipes
@@ -72,6 +73,13 @@ class EcoItem(
     val displayName: String? = config.getStringOrNull("item.display-name")
 
     val slot = SlotTypes[config.getString("slot")] ?: SlotTypeMainhand
+
+    /** The items that repair this one at an anvil, resolved on first use so they can name other EcoItems. */
+    val repairItems: List<TestableItem> by lazy {
+        config.getStrings("repair-items")
+            .map { Items.lookup(it) }
+            .filterNot { it is EmptyTestableItem }
+    }
 
     /** Whether the item stops at its last point of durability and stays broken until repaired. */
     val keepsWhenBroken: Boolean = config.getBool("keep-when-broken")

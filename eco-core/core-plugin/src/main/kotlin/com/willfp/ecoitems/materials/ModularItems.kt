@@ -65,6 +65,9 @@ class ModularConfig(config: Config) {
     /** The slot whose material gives the mining speed and tier. */
     val miningSlot: String? = config.getStringOrNull("mining.from")
 
+    /** The slot whose material repairs the item at an anvil, or null to repair it the vanilla way only. */
+    val repairSlot: String? = config.getStringOrNull("repair-from")
+
     /** The vanilla animation the item's model follows, or null for a still model. */
     val animation: ItemAnimation? = config.getStringOrNull("animation")?.let { id ->
         ItemAnimation.fromId(id).also { animation ->

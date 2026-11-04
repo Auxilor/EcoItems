@@ -75,6 +75,7 @@ Draw the texture with only these 8 greys, darkest to lightest: 34, 62, 92, 122, 
 | **Display** | Name and lore, from the slot materials |
 | **Swapping** | Replacing one part at an anvil |
 | **Mining** | Which blocks it mines, and at what speed and tier |
+| **Repairing** | Repairing it at an anvil with its material |
 | **Animation** | Bow and crossbow pull states |
 
 ```yaml
@@ -136,6 +137,17 @@ Each part ingredient matches that part made from any material. When the item is 
 ### Stats
 
 The item's stats are built from its slots: attribute modifiers and durability add up, then each `durability-multiplier` is applied. See [How to Make a Material](how-to-make-a-material) for what a slot can give. The item's own `components` and `effects` still apply on top.
+
+### Repairing
+
+With `repair-from` set to a slot ID, the item can be repaired at an anvil with any item that counts as the material in that slot, including custom items such as `ecoitems:cobalt_ingot`. Each item repairs a quarter of the item's durability and costs one level, like a vanilla repair.
+
+```yaml
+modular:
+  repair-from: head # The slot whose material repairs the item.
+```
+
+It works alongside the item's own `repair-items`, see [How to Make an Item](how-to-make-an-item). Leave both out and the item repairs only the vanilla way, for example through a `repairable` component.
 
 ### Slot textures
 
