@@ -113,7 +113,7 @@ object MaterialAssetGenerator {
                 modular.layers.mapIndexedNotNull { index, slotId ->
                     modular.layerTexture(slotId, state)?.let { recolouredOrTintedLayer(it, index, materialIds, pose) }
                 }.ifEmpty { listOf(baseModel(item)) } +
-                    modular.layers.mapIndexedNotNull { index, slotId -> materialOverlayLayer(slotId, index) } +
+                    modular.layers.mapIndexedNotNull { index, slotId -> materialOverlayLayer(slotId, index, pose) } +
                     item.overlayTextures(state).map { modelNode(generatedModel(it, pose = pose).key, tintIndex = null) }
             )
         )
@@ -122,7 +122,7 @@ object MaterialAssetGenerator {
     private fun baseModel(item: EcoItem): JsonObject =
         modelNode("minecraft:item/${item.itemStack.type.key.key}", tintIndex = null)
 
-    private fun materialOverlayLayer(slotId: String, index: Int): JsonObject? {
+    private fun materialOverlayLayer(slotId: String, index: Int, pose: String?): JsonObject? {
         val cases = Materials.values().mapNotNull { material ->
             material.overlaysIn(slotId)
                 .mapNotNull { PackLocation.parse(it) }
@@ -132,7 +132,9 @@ object MaterialAssetGenerator {
                         "when" to material.getID(),
                         "model" to jsonObject(
                             "type" to "minecraft:composite",
-                            "models" to jsonArray(textures.map { modelNode(generatedModel(it).key, tintIndex = null) })
+                            "models" to jsonArray(
+                                textures.map { modelNode(generatedModel(it, pose = pose).key, tintIndex = null) }
+                            )
                         )
                     )
                 }
