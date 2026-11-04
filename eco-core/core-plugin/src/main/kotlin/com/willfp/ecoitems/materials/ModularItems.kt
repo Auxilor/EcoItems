@@ -15,6 +15,11 @@ class PartConfig(config: Config) {
 
     /** The greyscale texture the resource pack recolours for each material. */
     val texture: String? = config.getStringOrNull("texture")
+
+    /** The texture for each animation state, such as a bow's pulling_0, recoloured like [texture]. */
+    val stateTextures: Map<String, String> = config.getSubsection("states").run {
+        getKeys(false).withoutUnknownStates().associateWith { getString(it) }
+    }
 }
 
 /** An item built from parts, one material per slot. Read from its modular: section. */
@@ -54,4 +59,40 @@ class ModularConfig(config: Config) {
 
     /** The slot whose material gives the mining speed and tier. */
     val miningSlot: String? = config.getStringOrNull("mining.from")
+
+    /** The vanilla animation the item's model follows, or null for a still model. */
+    val animation: ItemAnimation? = config.getStringOrNull("animation")?.let { id ->
+        ItemAnimation.fromId(id).also { animation ->
+            if (animation == null) {
+                plugin.logger.warning("Modular animation '$id' is skipped: use bow or crossbow")
+            }
+        }
+    }
+
+    /** Textures drawn on top in one animation state only, never recoloured. */
+    val stateOverlays: Map<String, List<String>> = config.getSubsection("state-overlays").run {
+        getKeys(false).withoutUnknownStates().associateWith { getStrings(it) }
+    }
+}
+
+private val ANIMATION_STATES: Set<String> = ItemAnimation.entries.flatMapTo(mutableSetOf()) { it.states }
+
+private fun Collection<String>.withoutUnknownStates(): List<String> = filter { state ->
+    (state in ANIMATION_STATES).also { known ->
+        if (!known) {
+            plugin.logger.warning(
+                "Modular state '$state' is ignored: use pulling_0, pulling_1, pulling_2, arrow or rocket"
+            )
+        }
+    }
+}
+
+/** A vanilla item animation a modular item's model can follow, with the states it draws. */
+enum class ItemAnimation(val id: String, val states: List<String>) {
+    BOW("bow", listOf("pulling_0", "pulling_1", "pulling_2")),
+    CROSSBOW("crossbow", listOf("pulling_0", "pulling_1", "pulling_2", "arrow", "rocket"));
+
+    companion object {
+        fun fromId(id: String): ItemAnimation? = entries.firstOrNull { it.id == id.lowercase() }
+    }
 }

@@ -25,10 +25,23 @@ internal fun paletteImage(colors: List<Int>): ByteArray {
     return ByteArrayOutputStream().also { ImageIO.write(image, "png", it) }.toByteArray()
 }
 
-internal fun EcoItem.partTexture(): PackLocation? = part?.texture?.let { PackLocation.parse(it) }
+internal fun EcoItem.partTexture(state: String? = null): PackLocation? {
+    val part = part ?: return null
+    return (state?.let { part.stateTextures[it] } ?: part.texture)?.let { PackLocation.parse(it) }
+}
 
-internal fun EcoItem.overlayTextures(): List<PackLocation> =
-    modular?.overlays.orEmpty().mapNotNull { PackLocation.parse(it) }
+/** The part's texture and every animation state texture, all recoloured per material. */
+internal fun EcoItem.allPartTextures(): List<PackLocation> =
+    part?.run { listOfNotNull(texture) + stateTextures.values }.orEmpty().mapNotNull { PackLocation.parse(it) }
+
+internal fun EcoItem.overlayTextures(state: String? = null): List<PackLocation> {
+    val modular = modular ?: return emptyList()
+    return (modular.overlays + state?.let { modular.stateOverlays[it] }.orEmpty()).mapNotNull { PackLocation.parse(it) }
+}
+
+/** Every overlay the item can draw, in any animation state. */
+internal fun EcoItem.allOverlayTextures(): List<PackLocation> =
+    modular?.run { overlays + stateOverlays.values.flatten() }.orEmpty().mapNotNull { PackLocation.parse(it) }
 
 internal fun warnIfMissing(plugin: EcoItemsPlugin, texture: PackLocation) {
     if (!texture.file(plugin, root = "textures", extension = "png").exists()) {

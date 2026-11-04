@@ -59,6 +59,13 @@ modular:
     blocks: "#minecraft:mineable/pickaxe" # The blocks the item is the right tool for
     from: head # The slot whose material gives the mining speed and tier
 
+  # Optional, for bows and crossbows: the vanilla animation the model follows, bow or crossbow.
+  # Parts give a texture per state under states, see _example_part.yml.
+  # animation: bow
+  # state-overlays: # Textures drawn on top in one state only, never recoloured.
+  #   pulling_2:
+  #     - ecoitems:item/arrow_nocked
+
 slot: mainhand # Where the item has to be for its effects and its materials' traits to work
 
 effects: [ ] # The item's own effects, on top of its materials' traits
