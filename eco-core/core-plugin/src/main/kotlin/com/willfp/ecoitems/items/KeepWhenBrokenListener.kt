@@ -1,11 +1,13 @@
 package com.willfp.ecoitems.items
 
+import com.willfp.eco.core.Prerequisite
 import com.willfp.eco.util.asAudience
 import com.willfp.eco.util.formatEco
 import com.willfp.eco.util.namespacedKeyOf
 import com.willfp.eco.util.toComponent
 import com.willfp.ecoitems.plugin
 import org.bukkit.entity.AbstractArrow
+import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
 import org.bukkit.entity.Trident
 import org.bukkit.event.EventHandler
@@ -51,7 +53,7 @@ object KeepWhenBrokenListener : Listener {
         val damager = event.damager
         val weapon = when (damager) {
             is Player -> damager.inventory.itemInMainHand
-            is Trident -> damager.item
+            is Trident -> damager.item.takeUnless { Prerequisite.HAS_PAPER.isMet }
             is AbstractArrow -> damager.weapon
             else -> null
         }
@@ -64,8 +66,12 @@ object KeepWhenBrokenListener : Listener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     fun onShoot(event: EntityShootBowEvent) {
         if (event.bow?.isBroken() == true) {
-            event.projectile.persistentDataContainer.set(firedFromBrokenKey, PersistentDataType.BOOLEAN, true)
+            markFiredFromBroken(event.projectile)
         }
+    }
+
+    fun markFiredFromBroken(projectile: Entity) {
+        projectile.persistentDataContainer.set(firedFromBrokenKey, PersistentDataType.BOOLEAN, true)
     }
 
     fun sendBrokenMessage(player: Player) {

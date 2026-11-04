@@ -22,6 +22,7 @@ import com.willfp.ecoitems.furniture.FurnitureStorageManager
 import com.willfp.ecoitems.furniture.VehicleTicker
 import com.willfp.ecoitems.glyphs.Glyphs
 import com.willfp.ecoitems.huds.Huds
+import com.willfp.ecoitems.items.BrokenTridentListener
 import com.willfp.ecoitems.items.EcoItemFinder
 import com.willfp.ecoitems.items.EcoItemTag
 import com.willfp.ecoitems.items.EcoItems
@@ -154,7 +155,8 @@ class EcoItemsPlugin : LibreforgePlugin() {
             ChunkSweeps
         ) + listOfNotNull(
             PaperBlockListener.createIfSupported(),
-            PickBlockListener.createIfSupported()
+            PickBlockListener.createIfSupported(),
+            BrokenTridentListener.createIfSupported()
         ) +
             (PackFeatures.instance?.listeners(this) ?: emptyList())
     }
