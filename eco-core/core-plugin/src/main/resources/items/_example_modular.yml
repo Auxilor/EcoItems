@@ -38,6 +38,11 @@ modular:
     - head
     - binding
 
+  # Optional: a texture per slot drawn on this item in place of the part's own texture, recoloured the same way.
+  # Useful when a part sits in a different place on different items.
+  # textures:
+  #   handle: ecoitems:item/part/pickaxe_handle
+
   # Textures drawn on top of every one of these items, whatever its materials, never recoloured.
   overlays:
     - ecoitems:item/part/pickaxe_shine
@@ -48,6 +53,7 @@ modular:
     - "&7Head: %material_head%"
     - "&7Handle: %material_handle%"
     - "&7Binding: %material_binding%"
+    - "%materials_lore%" # On its own line: the lore of every material in the item
 
   # Optional: the slot whose material repairs the item at an anvil, custom items included.
   # Each item repairs a quarter of the durability.
@@ -62,6 +68,13 @@ modular:
   mining:
     blocks: "#minecraft:mineable/pickaxe" # The blocks the item is the right tool for
     from: head # The slot whose material gives the mining speed and tier
+
+  # Optional, for bows and crossbows: the vanilla animation the model follows, bow or crossbow.
+  # Parts give a texture per state under states, see _example_part.yml.
+  # animation: bow
+  # state-overlays: # Textures drawn on top in one state only, never recoloured.
+  #   pulling_2:
+  #     - ecoitems:item/arrow_nocked
 
 slot: mainhand # Where the item has to be for its effects and its materials' traits to work
 

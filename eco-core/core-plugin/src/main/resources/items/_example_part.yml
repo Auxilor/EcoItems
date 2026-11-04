@@ -27,3 +27,8 @@ part:
   # It must only use the 8 greys 34, 62, 92, 122, 152, 186, 220 and 250, darkest to lightest.
   # Textures are read from pack/assets/<namespace>/textures/<path>.png
   texture: ecoitems:item/part/pickaxe_head
+
+  # Optional, for parts of animated items: a texture per animation state, recoloured the same way.
+  # Bows use pulling_0, pulling_1 and pulling_2. Crossbows also use arrow and rocket.
+  # states:
+  #   pulling_0: ecoitems:item/part/bow_limb_pulling_0

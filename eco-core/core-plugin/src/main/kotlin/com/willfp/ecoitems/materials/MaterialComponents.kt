@@ -12,6 +12,7 @@ import java.util.concurrent.CopyOnWriteArrayList
 import org.bukkit.inventory.ItemStack
 
 private const val FALLBACK_COLOR = 0xFFFFFF
+private const val MATERIAL_LORE = "%materials_lore%"
 
 internal fun ItemStack.materialComponents(item: EcoItem): Map<String, Any?>? {
     val part = item.part
@@ -106,8 +107,16 @@ private fun ModularConfig.displayComponents(materials: Map<String, Material>): M
     if (lore.isNotEmpty()) {
         put(
             key = "minecraft:lore",
-            value = lore.map { legacyToComponentValue("&r${it.withMaterialNames(materials)}".formatEco()) }
+            value = loreWithMaterials(materials).map { legacyToComponentValue("&r$it".formatEco()) }
         )
+    }
+}
+
+private fun ModularConfig.loreWithMaterials(materials: Map<String, Material>): List<String> = lore.flatMap { line ->
+    if (line.trim() == MATERIAL_LORE) {
+        materials.flatMap { (slotId, material) -> material.loreIn(slotId) + material.lore }.distinct()
+    } else {
+        listOf(line.withMaterialNames(materials))
     }
 }
 

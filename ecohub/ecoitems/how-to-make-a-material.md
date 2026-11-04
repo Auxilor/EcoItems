@@ -41,6 +41,8 @@ IDs may only contain lowercase letters, numbers, and underscores (a-z, 0-9, _). 
 ```yaml
 # === Display: how the material looks in names and textures ===
 name: "&9Cobalt" # Used in %material% and %material_<slot>%.
+lore: # Shown through %materials_lore% in a modular item's lore.
+  - "&9Cobalt: &7Mine faster"
 color: "#2376DD" # The fallback tint, and the base for a generated palette.
 palette: # 8 colours, darkest to lightest, replacing the 8 texture greys.
   - "#071338"
@@ -85,7 +87,7 @@ conditions: [ ]
 
 ### Display
 
-`name` goes into part and modular item names through `%material%` and `%material_<slot>%`. The resource pack recolours part textures with the `palette`: each of the 8 greys a part texture is drawn with is swapped for the palette colour in the same position, the same way vanilla colours armor trims. Leave `palette` out and one is made from `color`.
+`name` goes into part and modular item names through `%material%` and `%material_<slot>%`. `lore` lists what the material gives, for example its traits, and shows wherever a modular item's lore has a `%materials_lore%` line. The resource pack recolours part textures with the `palette`: each of the 8 greys a part texture is drawn with is swapped for the palette colour in the same position, the same way vanilla colours armor trims. Leave `palette` out and one is made from `color`.
 
 ### Items
 
@@ -101,6 +103,7 @@ The keys are the slot IDs your modular items use. A slot can give:
 | `durability-multiplier` | Multiplies the item's durability after every slot is added |
 | `mining-speed`, `mining-tier` | The mining speed and tier, read only from the item's mining slot |
 | `effects` | [Effects](https://hub.auxilor.io/wiki/libreforge/configuring-an-effect) that only work in this slot |
+| `lore` | Lines shown through `%materials_lore%` only while the material is in this slot |
 | `overlays` | Textures drawn on the modular item when this material is in this slot, never recoloured. Parts on their own don't show them |
 
 A slot that isn't listed gives nothing from this material.
