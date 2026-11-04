@@ -18,7 +18,7 @@ class PartConfig(config: Config) {
 
     /** The texture for each animation state, such as a bow's pulling_0, recoloured like [texture]. */
     val stateTextures: Map<String, String> = config.getSubsection("states").run {
-        getKeys(false).associateWith { getString(it) }
+        getKeys(false).warnUnknownStates().associateWith { getString(it) }
     }
 }
 
@@ -71,7 +71,15 @@ class ModularConfig(config: Config) {
 
     /** Textures drawn on top in one animation state only, never recoloured. */
     val stateOverlays: Map<String, List<String>> = config.getSubsection("state-overlays").run {
-        getKeys(false).associateWith { getStrings(it) }
+        getKeys(false).warnUnknownStates().associateWith { getStrings(it) }
+    }
+}
+
+private val ANIMATION_STATES: Set<String> = ItemAnimation.entries.flatMapTo(mutableSetOf()) { it.states }
+
+private fun Collection<String>.warnUnknownStates(): Collection<String> = onEach { state ->
+    if (state !in ANIMATION_STATES) {
+        plugin.logger.warning("Modular state '$state' is ignored: use pulling_0, pulling_1, pulling_2, arrow or rocket")
     }
 }
 
