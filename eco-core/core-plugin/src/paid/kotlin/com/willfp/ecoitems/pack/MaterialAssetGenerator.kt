@@ -39,8 +39,11 @@ object MaterialAssetGenerator {
         ModularAnimations.writePosedModels(entries, items, if (textures.isEmpty()) emptyList() else materialIds)
 
         val textureIds = if (textures.isEmpty()) emptyList() else materialIds
+        val shapes = PartShapes.read(plugin, items)
+        PartShapes.write(entries, items, shapes, textureIds)
+        val layers = LayerModels(textureIds, shapes.keys)
         for (item in items.filterNot { item -> OWN_MODEL_KEYS.any { item.config.getSubsection("item").has(it) } }) {
-            definition(item, textureIds)?.let { definition ->
+            definition(item, layers)?.let { definition ->
                 entries["assets/ecoitems/items/${item.id.key}.json"] =
                     materialGson.toJson(jsonObject("model" to definition)).encodeToByteArray()
             }
@@ -88,14 +91,17 @@ object MaterialAssetGenerator {
         }
     }
 
-    private fun definition(item: EcoItem, materialIds: List<String>): JsonObject? {
+    /** The material ids textures are recoloured for, and the part models that can be drawn in 3D. */
+    private class LayerModels(val materialIds: List<String>, val shapes: Set<PackLocation>)
+
+    private fun definition(item: EcoItem, layers: LayerModels): JsonObject? {
         val partTexture = item.partTexture()
         val modular = item.modular
 
         return when {
-            partTexture != null -> recolouredOrTintedLayer(partTexture, index = 0, materialIds = materialIds)
-            modular != null -> ModularAnimations.modelTree(modular.animation) { state ->
-                composite(item, modular, materialIds, state)
+            partTexture != null -> recolouredOrTintedLayer(partTexture, index = 0, materialIds = layers.materialIds)
+            modular != null -> ModularAnimations.modelTree(modular.animation) { state, pose ->
+                composite(item, modular, layers, state, pose)
             }
             else -> null
         }
@@ -104,23 +110,23 @@ object MaterialAssetGenerator {
     private fun composite(
         item: EcoItem,
         modular: ModularConfig,
-        materialIds: List<String>,
-        state: String?
-    ): JsonObject {
-        val pose = modular.animation?.id
-        return jsonObject(
-            "type" to "minecraft:composite",
-            "models" to jsonArray(
-                modular.layers.mapIndexedNotNull { index, slotId ->
-                    modular.slots[slotId]
-                        ?.let { shape -> ModularItemService.partItemForShape(shape)?.partTexture(state) }
-                        ?.let { recolouredOrTintedLayer(it, index, materialIds, pose) }
-                }.ifEmpty { listOf(baseModel(item)) } +
-                    modular.layers.mapIndexedNotNull { index, slotId -> materialOverlayLayer(slotId, index, pose) } +
-                    item.overlayTextures(state).map { modelNode(generatedModel(it, pose = pose).key, tintIndex = null) }
-            )
+        layers: LayerModels,
+        state: String?,
+        pose: String?
+    ): JsonObject = jsonObject(
+        "type" to "minecraft:composite",
+        "models" to jsonArray(
+            modular.layers.mapIndexedNotNull { index, slotId ->
+                val part = modular.slots[slotId]?.let { ModularItemService.partItemForShape(it) }
+                part?.partTexture(state)?.let { texture ->
+                    val shape = part.partModel()?.takeIf { it in layers.shapes }
+                    recolouredOrTintedLayer(texture, index, layers.materialIds, pose, shape)
+                }
+            }.ifEmpty { listOf(baseModel(item)) } +
+                modular.layers.mapIndexedNotNull { index, slotId -> materialOverlayLayer(slotId, index, pose) } +
+                item.overlayTextures(state).map { modelNode(generatedModel(it, pose = pose).key, tintIndex = null) }
         )
-    }
+    )
 
     private fun baseModel(item: EcoItem): JsonObject =
         modelNode("minecraft:item/${item.itemStack.type.key.key}", tintIndex = null)
@@ -158,28 +164,33 @@ object MaterialAssetGenerator {
         texture: PackLocation,
         index: Int,
         materialIds: List<String>,
-        pose: String? = null
+        pose: String? = null,
+        shape: PackLocation? = null
     ): JsonObject = if (materialIds.isEmpty()) {
-        modelNode(generatedModel(texture, pose = pose).key, tintIndex = index)
+        modelNode(layerModel(texture, null, pose, shape), tintIndex = index)
     } else {
-        recolouredLayer(texture, index, materialIds, pose)
+        recolouredLayer(texture, index, materialIds, pose, shape)
     }
+
+    private fun layerModel(texture: PackLocation, materialId: String?, pose: String?, shape: PackLocation?): String =
+        (shape?.let { shapedModel(texture, it, materialId, pose) } ?: generatedModel(texture, materialId, pose)).key
 
     private fun recolouredLayer(
         texture: PackLocation,
         index: Int,
         materialIds: List<String>,
-        pose: String?
+        pose: String?,
+        shape: PackLocation?
     ): JsonObject = jsonObject(
         "type" to "minecraft:select",
         "property" to "minecraft:custom_model_data",
         "index" to index,
         "cases" to jsonArray(
             materialIds.map { id ->
-                jsonObject("when" to id, "model" to modelNode(generatedModel(texture, id, pose).key, tintIndex = null))
+                jsonObject("when" to id, "model" to modelNode(layerModel(texture, id, pose, shape), tintIndex = null))
             }
         ),
-        "fallback" to modelNode(generatedModel(texture, pose = pose).key, tintIndex = index)
+        "fallback" to modelNode(layerModel(texture, null, pose, shape), tintIndex = index)
     )
 
     private fun modelNode(model: String, tintIndex: Int?): JsonObject {
