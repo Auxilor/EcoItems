@@ -33,6 +33,7 @@ import com.willfp.ecoitems.items.ItemsGUI
 import com.willfp.ecoitems.items.KeepWhenBrokenListener
 import com.willfp.ecoitems.items.WorkstationRecipePermissions
 import com.willfp.ecoitems.libreforge.ConditionHasEcoItem
+import com.willfp.ecoitems.libreforge.EffectRaiseMiningTier
 import com.willfp.ecoitems.loots.LootContributor
 import com.willfp.ecoitems.loots.LootFishingListener
 import com.willfp.ecoitems.loots.Loots
@@ -54,6 +55,7 @@ import com.willfp.ecoitems.util.PlayerTickers
 import com.willfp.ecoitems.util.WorldEditIntegration
 import com.willfp.ecoitems.util.WorldGuardFlags
 import com.willfp.libreforge.conditions.Conditions
+import com.willfp.libreforge.effects.Effects
 import com.willfp.libreforge.drops.LibreforgeDrops
 import com.willfp.libreforge.loader.LibreforgePlugin
 import com.willfp.libreforge.loader.configs.ConfigCategory
@@ -84,6 +86,7 @@ class EcoItemsPlugin : LibreforgePlugin() {
         Items.registerTag(EcoItemTag)
 
         Conditions.register(ConditionHasEcoItem)
+        Effects.register(EffectRaiseMiningTier)
 
         registerHolderProvider(EcoItemFinder.toHolderProvider())
         registerHolderProvider(MaterialFinder.toHolderProvider())
