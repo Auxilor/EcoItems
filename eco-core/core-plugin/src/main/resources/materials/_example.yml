@@ -9,7 +9,7 @@
 
 name: "&9Cobalt" # Used in %material% in part names, and %material_<slot>% in modular item names and lore
 
-# Lines shown through a %material_lore% line in a modular item's lore, for example to list traits.
+# Lines shown through a %materials_lore% line in a modular item's lore, for example to list traits.
 # A slot can also have its own lore, shown only while the material is in that slot.
 lore:
   - "&9Cobalt: &7Mine faster"

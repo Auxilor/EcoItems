@@ -12,7 +12,7 @@ import java.util.concurrent.CopyOnWriteArrayList
 import org.bukkit.inventory.ItemStack
 
 private const val FALLBACK_COLOR = 0xFFFFFF
-private const val MATERIAL_LORE = "%material_lore%"
+private const val MATERIAL_LORE = "%materials_lore%"
 
 internal fun ItemStack.materialComponents(item: EcoItem): Map<String, Any?>? {
     val part = item.part
