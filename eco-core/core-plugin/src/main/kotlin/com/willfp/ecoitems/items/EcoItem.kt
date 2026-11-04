@@ -73,6 +73,9 @@ class EcoItem(
 
     val slot = SlotTypes[config.getString("slot")] ?: SlotTypeMainhand
 
+    /** Whether the item stops at its last point of durability and stays broken until repaired. */
+    val keepsWhenBroken: Boolean = config.getBool("keep-when-broken")
+
     /**
      * Burn time override when used as furnace fuel. The base item must be a
      * vanilla fuel (furnaces only consume those); 0 blocks burning entirely.
