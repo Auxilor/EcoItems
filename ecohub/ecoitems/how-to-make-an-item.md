@@ -171,7 +171,7 @@ The item's own keys always win over the template's; nested sections merge key-by
 
 ### Breaking
 
-`keep-when-broken: true` stops an item with durability at its last point instead of breaking. While broken it can't break blocks and its attacks deal one damage, arrows and tridents fired from it included, but it keeps everything on it: enchantments, scrolls, levels and parts. Repair it to use it again.
+`keep-when-broken: true` stops an item with durability at its last point instead of breaking. While broken it can't break blocks and its attacks deal one damage, arrows, tridents and rockets fired from it included, but it keeps everything on it: enchantments, scrolls, levels and parts. Repair it to use it again.
 
 ### Hiding items
 
