@@ -22,6 +22,7 @@ import com.willfp.ecoitems.furniture.FurnitureStorageManager
 import com.willfp.ecoitems.furniture.VehicleTicker
 import com.willfp.ecoitems.glyphs.Glyphs
 import com.willfp.ecoitems.huds.Huds
+import com.willfp.ecoitems.items.BrokenTridentListener
 import com.willfp.ecoitems.items.EcoItemFinder
 import com.willfp.ecoitems.items.EcoItemTag
 import com.willfp.ecoitems.items.EcoItems
@@ -29,6 +30,7 @@ import com.willfp.ecoitems.items.EcoItemsRecipes
 import com.willfp.ecoitems.items.ItemListener
 import com.willfp.ecoitems.items.ItemUpdater
 import com.willfp.ecoitems.items.ItemsGUI
+import com.willfp.ecoitems.items.KeepWhenBrokenListener
 import com.willfp.ecoitems.items.WorkstationRecipePermissions
 import com.willfp.ecoitems.libreforge.ConditionHasEcoItem
 import com.willfp.ecoitems.libreforge.EffectRaiseMiningTier
@@ -141,6 +143,7 @@ class EcoItemsPlugin : LibreforgePlugin() {
             ItemListener,
             ItemUpdater,
             MaterialsListener,
+            KeepWhenBrokenListener,
             PaintingListener,
             BlockListener,
             BlockPhysicsListener,
@@ -155,7 +158,8 @@ class EcoItemsPlugin : LibreforgePlugin() {
             ChunkSweeps
         ) + listOfNotNull(
             PaperBlockListener.createIfSupported(),
-            PickBlockListener.createIfSupported()
+            PickBlockListener.createIfSupported(),
+            BrokenTridentListener.createIfSupported()
         ) +
             (PackFeatures.instance?.listeners(this) ?: emptyList())
     }
