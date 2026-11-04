@@ -40,6 +40,7 @@ import com.willfp.ecoitems.loots.Loots
 import com.willfp.ecoitems.materials.MaterialArgParser
 import com.willfp.ecoitems.materials.MaterialFinder
 import com.willfp.ecoitems.materials.Materials
+import com.willfp.ecoitems.materials.MaterialCountPlaceholder
 import com.willfp.ecoitems.materials.MaterialsListener
 import com.willfp.ecoitems.migration.Migrations
 import com.willfp.ecoitems.pack.PackFeatures
@@ -86,6 +87,7 @@ class EcoItemsPlugin : LibreforgePlugin() {
         Items.registerTag(EcoItemTag)
 
         Conditions.register(ConditionHasEcoItem)
+        MaterialCountPlaceholder(this).register()
         Effects.register(EffectRaiseMiningTier)
 
         registerHolderProvider(EcoItemFinder.toHolderProvider())
