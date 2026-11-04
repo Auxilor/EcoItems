@@ -21,7 +21,7 @@ internal object PartShapes {
             val elements = runCatching {
                 val file = shape.file(plugin, root = "models", extension = "json")
                 JsonParser.parseString(file.readText()).asJsonObject.getAsJsonArray("elements")
-            }.getOrNull()
+            }.getOrNull()?.takeUnless { it.isEmpty }
             if (elements == null) {
                 plugin.logger.warning(
                     "Part model pack/${shape.entry(root = "models", extension = "json")} is skipped: " +
