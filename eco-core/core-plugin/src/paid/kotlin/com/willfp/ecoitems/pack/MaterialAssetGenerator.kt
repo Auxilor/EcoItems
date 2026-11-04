@@ -8,7 +8,6 @@ import com.willfp.ecoitems.materials.Material
 import com.willfp.ecoitems.materials.MaterialPalettes
 import com.willfp.ecoitems.materials.Materials
 import com.willfp.ecoitems.materials.ModularConfig
-import com.willfp.ecoitems.materials.ModularItemService
 
 /**
  * Generates the look of parts and modular items, the armor trim way: one greyscale texture per part
@@ -26,7 +25,7 @@ object MaterialAssetGenerator {
         val materials = Materials.values()
         val materialIds = materials.map { it.getID() }
         val items = EcoItems.values()
-        val textures = items.flatMap { it.allPartTextures() }.distinct()
+        val textures = items.flatMap { it.allPartTextures() + it.slotTextures() }.distinct()
 
         for (texture in textures) {
             entries[generatedModel(texture).entry(root = "models", extension = "json")] = modelJson(texture.key)
@@ -112,9 +111,7 @@ object MaterialAssetGenerator {
             "type" to "minecraft:composite",
             "models" to jsonArray(
                 modular.layers.mapIndexedNotNull { index, slotId ->
-                    modular.slots[slotId]
-                        ?.let { shape -> ModularItemService.partItemForShape(shape)?.partTexture(state) }
-                        ?.let { recolouredOrTintedLayer(it, index, materialIds, pose) }
+                    modular.layerTexture(slotId, state)?.let { recolouredOrTintedLayer(it, index, materialIds, pose) }
                 }.ifEmpty { listOf(baseModel(item)) } +
                     modular.layers.mapIndexedNotNull { index, slotId -> materialOverlayLayer(slotId, index, pose) } +
                     item.overlayTextures(state).map { modelNode(generatedModel(it, pose = pose).key, tintIndex = null) }

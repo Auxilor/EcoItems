@@ -41,6 +41,11 @@ class ModularConfig(config: Config) {
     /** Textures drawn above the slot layers as they are, never recoloured. */
     val overlays: List<String> = config.getStrings("overlays")
 
+    /** A texture per slot drawn on this item in place of the part's own, recoloured the same way. */
+    val slotTextures: Map<String, String> = config.getSubsection("textures").run {
+        getKeys(false).associateWith { getString(it) }
+    }
+
     val name: String = config.getString("name")
 
     val lore: List<String> = config.getStrings("lore")

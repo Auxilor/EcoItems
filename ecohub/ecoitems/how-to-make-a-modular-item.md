@@ -137,6 +137,18 @@ Each part ingredient matches that part made from any material. When the item is 
 
 The item's stats are built from its slots: attribute modifiers and durability add up, then each `durability-multiplier` is applied. See [How to Make a Material](how-to-make-a-material) for what a slot can give. The item's own `components` and `effects` still apply on top.
 
+### Slot textures
+
+A part is drawn with its own `texture` by default. When one part sits in a different place on different items, for example a handle that is longer on a hammer than on an axe, give the item its own texture for that slot. It is recoloured per material the same way, and drawn in that slot's place in `layers`:
+
+```yaml
+modular:
+  textures:
+    handle: ecoitems:item/hammer/handle # Greyscale, recoloured per material.
+```
+
+A slot with no entry here uses its part's `texture`. Animated items use the part's `states` while pulled.
+
 ### Animation
 
 Bows and crossbows change their look while pulled. Set `animation: bow` or `animation: crossbow` on the modular item, and give each part a texture per state under `states`:
