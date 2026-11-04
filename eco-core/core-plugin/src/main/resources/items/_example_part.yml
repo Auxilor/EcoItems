@@ -30,5 +30,11 @@ part:
 
   # Optional, for parts of animated items: a texture per animation state, recoloured the same way.
   # Bows use pulling_0, pulling_1 and pulling_2. Crossbows also use arrow and rocket.
+  # Shields use blocking, tridents use throwing.
   # states:
   #   pulling_0: ecoitems:item/part/bow_limb_pulling_0
+
+  # Optional: a model drawn in 3D in place of the flat texture when the part is in a modular item,
+  # such as a shield strap. Its elements use #layer0, which is the texture recoloured for the material.
+  # Models are read from pack/assets/<namespace>/models/<path>.json
+  # model: ecoitems:item/part/shield_strap_3d

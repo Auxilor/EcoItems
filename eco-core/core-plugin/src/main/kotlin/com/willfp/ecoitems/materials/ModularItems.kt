@@ -16,6 +16,9 @@ class PartConfig(config: Config) {
     /** The greyscale texture the resource pack recolours for each material. */
     val texture: String? = config.getStringOrNull("texture")
 
+    /** A model whose elements use #layer0, drawn in 3D in place of the flat [texture], such as a shield strap. */
+    val model: String? = config.getStringOrNull("model")
+
     /** The texture for each animation state, such as a bow's pulling_0, recoloured like [texture]. */
     val stateTextures: Map<String, String> = config.getSubsection("states").run {
         getKeys(false).withoutUnknownStates().associateWith { getString(it) }
@@ -72,7 +75,8 @@ class ModularConfig(config: Config) {
     val animation: ItemAnimation? = config.getStringOrNull("animation")?.let { id ->
         ItemAnimation.fromId(id).also { animation ->
             if (animation == null) {
-                plugin.logger.warning("Modular animation '$id' is skipped: use bow or crossbow")
+                val options = ItemAnimation.entries.joinToString { it.id }
+                plugin.logger.warning("Modular animation '$id' is skipped: use $options")
             }
         }
     }
@@ -88,9 +92,7 @@ private val ANIMATION_STATES: Set<String> = ItemAnimation.entries.flatMapTo(muta
 private fun Collection<String>.withoutUnknownStates(): List<String> = filter { state ->
     (state in ANIMATION_STATES).also { known ->
         if (!known) {
-            plugin.logger.warning(
-                "Modular state '$state' is ignored: use pulling_0, pulling_1, pulling_2, arrow or rocket"
-            )
+            plugin.logger.warning("Modular state '$state' is ignored: use ${ANIMATION_STATES.joinToString()}")
         }
     }
 }
@@ -98,7 +100,9 @@ private fun Collection<String>.withoutUnknownStates(): List<String> = filter { s
 /** A vanilla item animation a modular item's model can follow, with the states it draws. */
 enum class ItemAnimation(val id: String, val states: List<String>) {
     BOW("bow", listOf("pulling_0", "pulling_1", "pulling_2")),
-    CROSSBOW("crossbow", listOf("pulling_0", "pulling_1", "pulling_2", "arrow", "rocket"));
+    CROSSBOW("crossbow", listOf("pulling_0", "pulling_1", "pulling_2", "arrow", "rocket")),
+    SHIELD("shield", listOf("blocking")),
+    TRIDENT("trident", listOf("throwing"));
 
     companion object {
         fun fromId(id: String): ItemAnimation? = entries.firstOrNull { it.id == id.lowercase() }
