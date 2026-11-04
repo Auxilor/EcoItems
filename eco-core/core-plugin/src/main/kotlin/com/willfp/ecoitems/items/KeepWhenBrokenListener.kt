@@ -2,6 +2,7 @@ package com.willfp.ecoitems.items
 
 import com.willfp.eco.util.asAudience
 import com.willfp.eco.util.formatEco
+import com.willfp.eco.util.namespacedKeyOf
 import com.willfp.eco.util.toComponent
 import com.willfp.ecoitems.plugin
 import org.bukkit.entity.AbstractArrow
@@ -11,9 +12,11 @@ import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.entity.EntityDamageByEntityEvent
+import org.bukkit.event.entity.EntityShootBowEvent
 import org.bukkit.event.player.PlayerItemDamageEvent
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.Damageable
+import org.bukkit.persistence.PersistentDataType
 
 /**
  * Items with keep-when-broken stop at their last point of durability instead of breaking. While
@@ -21,6 +24,8 @@ import org.bukkit.inventory.meta.Damageable
  */
 object KeepWhenBrokenListener : Listener {
     private const val BROKEN_ATTACK_DAMAGE = 1.0
+
+    private val firedFromBrokenKey = namespacedKeyOf(namespace = "ecoitems", key = "fired_from_broken")
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     fun onItemDamage(event: PlayerItemDamageEvent) {
@@ -44,14 +49,22 @@ object KeepWhenBrokenListener : Listener {
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     fun onAttack(event: EntityDamageByEntityEvent) {
-        val weapon = when (val damager = event.damager) {
+        val damager = event.damager
+        val weapon = when (damager) {
             is Player -> damager.inventory.itemInMainHand
             is AbstractArrow -> damager.weapon
             else -> null
         }
 
-        if (weapon?.isBroken() == true) {
+        if (weapon?.isBroken() == true || damager.persistentDataContainer.has(firedFromBrokenKey)) {
             event.damage = BROKEN_ATTACK_DAMAGE
+        }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    fun onShoot(event: EntityShootBowEvent) {
+        if (event.bow?.isBroken() == true) {
+            event.projectile.persistentDataContainer.set(firedFromBrokenKey, PersistentDataType.BOOLEAN, true)
         }
     }
 

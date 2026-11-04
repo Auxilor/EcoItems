@@ -220,8 +220,7 @@ object BlockListener : Listener {
             return
         }
 
-        val meta = tool.itemMeta as? Damageable ?: return
-        if (meta.isUnbreakable) {
+        if ((tool.itemMeta as? Damageable)?.isUnbreakable != false) {
             return
         }
 
@@ -236,6 +235,7 @@ object BlockListener : Listener {
             return
         }
 
+        val meta = tool.itemMeta as? Damageable ?: return
         meta.damage += damageEvent.damage
         val max = if (meta.hasMaxDamage()) meta.maxDamage else tool.type.maxDurability.toInt()
         if (meta.damage >= max) {
