@@ -4,6 +4,7 @@ import com.willfp.eco.util.asAudience
 import com.willfp.eco.util.formatEco
 import com.willfp.eco.util.toComponent
 import com.willfp.ecoitems.plugin
+import org.bukkit.entity.AbstractArrow
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
@@ -43,13 +44,18 @@ object KeepWhenBrokenListener : Listener {
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     fun onAttack(event: EntityDamageByEntityEvent) {
-        val player = event.damager as? Player ?: return
-        if (player.inventory.itemInMainHand.isBroken()) {
+        val weapon = when (val damager = event.damager) {
+            is Player -> damager.inventory.itemInMainHand
+            is AbstractArrow -> damager.weapon
+            else -> null
+        }
+
+        if (weapon?.isBroken() == true) {
             event.damage = BROKEN_ATTACK_DAMAGE
         }
     }
 
-    private fun ItemStack.isBroken(): Boolean = damageLeft() == 0
+    private fun ItemStack.isBroken(): Boolean = damageLeft()?.let { it <= 0 } == true
 
     private fun ItemStack.damageLeft(): Int? {
         val meta = itemMeta as? Damageable
@@ -58,6 +64,6 @@ object KeepWhenBrokenListener : Listener {
         }
 
         val maxDamage = if (meta.hasMaxDamage()) meta.maxDamage else type.maxDurability.toInt()
-        return maxDamage - 1 - meta.damage
+        return (maxDamage - 1 - meta.damage).takeIf { maxDamage > 0 }
     }
 }

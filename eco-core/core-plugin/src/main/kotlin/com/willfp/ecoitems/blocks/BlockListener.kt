@@ -12,6 +12,7 @@ import com.willfp.ecoitems.items.EcoItems
 import com.willfp.ecoitems.items.ecoItem
 import com.willfp.ecoitems.plugin
 import com.willfp.ecoitems.util.WorldGuardFlags
+import org.bukkit.Bukkit
 import org.bukkit.GameMode
 import org.bukkit.Location
 import org.bukkit.Material
@@ -30,6 +31,7 @@ import org.bukkit.event.block.Action
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.event.player.PlayerInteractEvent
+import org.bukkit.event.player.PlayerItemDamageEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemStack
@@ -228,7 +230,13 @@ object BlockListener : Listener {
             return
         }
 
-        meta.damage += 1
+        val damageEvent = PlayerItemDamageEvent(player, tool, 1)
+        Bukkit.getPluginManager().callEvent(damageEvent)
+        if (damageEvent.isCancelled) {
+            return
+        }
+
+        meta.damage += damageEvent.damage
         val max = if (meta.hasMaxDamage()) meta.maxDamage else tool.type.maxDurability.toInt()
         if (meta.damage >= max) {
             tool.amount = 0
