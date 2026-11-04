@@ -28,6 +28,9 @@ class Material(
     /** The display name, with colour codes. */
     val name: String = config.getString("name")
 
+    /** Lines shown through %materials_lore% in a modular item's lore, whatever slot the material is in. */
+    val lore: List<String> = config.getStrings("lore")
+
     /** The fallback tint colour, also the base for a generated palette. */
     val color: Int = parseColor(config.getStringOrNull("color")) ?: 0xFFFFFF
 
@@ -53,6 +56,9 @@ class Material(
 
     /** The material's settings for one slot of a modular item, or null if it gives nothing there. */
     fun slot(slotId: String): Config? = config.getSubsectionOrNull("slots.$slotId")
+
+    /** Lines shown through %materials_lore% only while the material is in [slotId]. */
+    fun loreIn(slotId: String): List<String> = slot(slotId)?.getStrings("lore").orEmpty()
 
     /** Textures drawn on a modular item when this material is in [slotId], never recoloured. */
     fun overlaysIn(slotId: String): List<String> = slot(slotId)?.getStrings("overlays").orEmpty()

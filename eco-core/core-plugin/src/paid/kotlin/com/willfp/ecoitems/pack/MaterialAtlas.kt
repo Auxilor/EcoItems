@@ -48,11 +48,15 @@ internal fun withSource(existing: ByteArray?, source: JsonObject): ByteArray {
  * Where the generated model for [texture] lives, recoloured for [materialId] if given. Always under
  * the ecoitems namespace, so a vanilla texture never overwrites its own vanilla model.
  */
-internal fun generatedModel(texture: PackLocation, materialId: String? = null): PackLocation = PackLocation(
-    namespace = "ecoitems",
-    path = "material/${texture.namespace}/${texture.path}" + materialId?.let { "_$it" }.orEmpty()
-)
+internal fun generatedModel(texture: PackLocation, materialId: String? = null, pose: String? = null): PackLocation =
+    PackLocation(
+        namespace = "ecoitems",
+        path = "material" + pose?.let { "_$it" }.orEmpty() + "/${texture.namespace}/${texture.path}" +
+            materialId?.let { "_$it" }.orEmpty()
+    )
 
-internal fun modelJson(texture: String): ByteArray = materialGson.toJson(
-    jsonObject("parent" to "minecraft:item/handheld", "textures" to jsonObject("layer0" to texture))
+internal fun modelJson(texture: String, parent: String = HANDHELD_PARENT): ByteArray = materialGson.toJson(
+    jsonObject("parent" to parent, "textures" to jsonObject("layer0" to texture))
 ).encodeToByteArray()
+
+internal const val HANDHELD_PARENT = "minecraft:item/handheld"

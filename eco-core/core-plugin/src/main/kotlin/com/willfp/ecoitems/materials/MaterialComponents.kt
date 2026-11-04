@@ -4,6 +4,7 @@ import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.eco.core.config.toPlainValues
 import com.willfp.eco.core.items.legacyToComponentValue
 import com.willfp.eco.util.formatEco
+import com.willfp.ecoitems.ext.minimumMiningTier
 import com.willfp.ecoitems.ext.modularMaterials
 import com.willfp.ecoitems.ext.partMaterial
 import com.willfp.ecoitems.items.EcoItem
@@ -12,6 +13,7 @@ import java.util.concurrent.CopyOnWriteArrayList
 import org.bukkit.inventory.ItemStack
 
 private const val FALLBACK_COLOR = 0xFFFFFF
+private const val MATERIAL_LORE = "%materials_lore%"
 
 internal fun ItemStack.materialComponents(item: EcoItem): Map<String, Any?>? {
     val part = item.part
@@ -21,7 +23,7 @@ internal fun ItemStack.materialComponents(item: EcoItem): Map<String, Any?>? {
         part != null -> partMaterial?.let { part.components(it) }
         modular != null -> modularMaterials
             .takeIf { it.keys == modular.slots.keys }
-            ?.let { modular.components(it, item.config) }
+            ?.let { modular.components(it, item.config, minimumMiningTier) }
         else -> null
     }
 }
@@ -67,7 +69,11 @@ private class SlotTotals {
     }
 }
 
-private fun ModularConfig.components(materials: Map<String, Material>, itemConfig: Config): Map<String, Any?> {
+private fun ModularConfig.components(
+    materials: Map<String, Material>,
+    itemConfig: Config,
+    minimumTier: String?
+): Map<String, Any?> {
     val totals = SlotTotals()
     totals.attributeModifiers.addAll(
         (itemConfig.getSubsection("item").plainComponents()["minecraft:attribute_modifiers"] as? List<*>).orEmpty()
@@ -88,7 +94,7 @@ private fun ModularConfig.components(materials: Map<String, Material>, itemConfi
         result["minecraft:max_damage"] = (totals.maxDamage * totals.durabilityMultiplier).toInt().coerceAtLeast(1)
     }
 
-    miningComponent(materials)?.let { result["minecraft:tool"] = it }
+    miningComponent(materials, minimumTier)?.let { result["minecraft:tool"] = it }
 
     return result + displayComponents(materials)
 }
@@ -106,15 +112,23 @@ private fun ModularConfig.displayComponents(materials: Map<String, Material>): M
     if (lore.isNotEmpty()) {
         put(
             key = "minecraft:lore",
-            value = lore.map { legacyToComponentValue("&r${it.withMaterialNames(materials)}".formatEco()) }
+            value = loreWithMaterials(materials).map { legacyToComponentValue("&r$it".formatEco()) }
         )
     }
 }
 
-private fun ModularConfig.miningComponent(materials: Map<String, Material>): Map<String, Any?>? {
+private fun ModularConfig.loreWithMaterials(materials: Map<String, Material>): List<String> = lore.flatMap { line ->
+    if (line.trim() == MATERIAL_LORE) {
+        materials.flatMap { (slotId, material) -> material.loreIn(slotId) + material.lore }.distinct()
+    } else {
+        listOf(line.withMaterialNames(materials))
+    }
+}
+
+private fun ModularConfig.miningComponent(materials: Map<String, Material>, minimumTier: String?): Map<String, Any?>? {
     val blocks = miningBlocks ?: return null
     val slotConfig = miningSlot?.let { materials[it]?.slot(it) }
-    val tier = slotConfig?.getStringOrNull("mining-tier")
+    val tier = MiningTiers.higher(first = slotConfig?.getStringOrNull("mining-tier"), second = minimumTier)
     val speed = slotConfig?.getDoubleOrNull("mining-speed") ?: 1.0
 
     return mapOf(
