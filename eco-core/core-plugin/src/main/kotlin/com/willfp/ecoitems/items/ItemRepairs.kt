@@ -34,7 +34,7 @@ object ItemRepairs {
 
     private fun repaired(item: ItemStack, meta: Damageable, available: Int): ItemRepair {
         val maxDamage = if (meta.hasMaxDamage()) meta.maxDamage else item.type.maxDurability.toInt()
-        val perItem = ((maxDamage + ITEMS_FOR_FULL_REPAIR - 1) / ITEMS_FOR_FULL_REPAIR).coerceAtLeast(1)
+        val perItem = (maxDamage / ITEMS_FOR_FULL_REPAIR).coerceAtLeast(1)
         val used = available.coerceAtMost((meta.damage + perItem - 1) / perItem)
 
         meta.damage = (meta.damage - used * perItem).coerceAtLeast(0)

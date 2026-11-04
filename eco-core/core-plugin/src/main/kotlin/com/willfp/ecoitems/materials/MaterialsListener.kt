@@ -7,6 +7,7 @@ import com.willfp.ecoitems.items.ecoItem
 import com.willfp.ecoitems.plugin
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
+import org.bukkit.ChatColor
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
@@ -40,6 +41,9 @@ object MaterialsListener : Listener {
         val part = result?.ecoItem?.part
 
         if (part != null) {
+            if (event.inventory.getItem(0)?.ecoItem == result.ecoItem && applyRepair(event)) {
+                return
+            }
             event.result = ModularItemService.partResult(result, part, event.inventory.getItem(1))
             (event.view as? AnvilView)?.repairItemCountCost = part.cost
             return
@@ -86,13 +90,33 @@ object MaterialsListener : Listener {
     private fun applyRepair(event: PrepareAnvilEvent): Boolean {
         val repair = ItemRepairs.repair(item = event.inventory.getItem(0), addition = event.inventory.getItem(1))
         if (repair != null) {
+            val view = event.view as? AnvilView
+            val renamed = repair.result.applyRenameText(view?.renameText)
             event.result = repair.result
-            (event.view as? AnvilView)?.let { view ->
-                view.repairCost = repair.itemsUsed
-                view.repairItemCountCost = repair.itemsUsed
+            view?.let { anvilView ->
+                anvilView.repairCost = repair.itemsUsed + if (renamed) 1 else 0
+                anvilView.repairItemCountCost = repair.itemsUsed
             }
         }
         return repair != null
+    }
+
+    @Suppress("DEPRECATION")
+    private fun ItemStack.applyRenameText(renameText: String?): Boolean {
+        val meta = itemMeta ?: return false
+        val currentName = if (meta.hasDisplayName()) ChatColor.stripColor(meta.displayName) else null
+
+        val changed = when {
+            renameText == null -> false
+            renameText.isBlank() -> meta.hasDisplayName()
+            else -> renameText != currentName
+        }
+
+        if (changed) {
+            meta.setDisplayName(renameText?.takeUnless { it.isBlank() })
+            itemMeta = meta
+        }
+        return changed
     }
 
     @EventHandler
