@@ -66,6 +66,18 @@ part:
 
 Draw the texture with only these 8 greys, darkest to lightest: 34, 62, 92, 122, 152, 186, 220 and 250. The resource pack makes a copy for each material by swapping each grey for that material's palette colour, the way vanilla colours armor trims. Draw each part where it sits on the finished item, since the item stacks the part textures on top of each other.
 
+### 3D model
+
+A part can be drawn in 3D in a modular item, such as a strap behind a shield. Set `model` to a model whose `elements` use the texture `#layer0`:
+
+```yaml
+part:
+  texture: ecoitems:item/part/shield_strap # The part's own icon, and the texture the model's faces use.
+  model: ecoitems:item/part/shield_strap_3d # Read from pack/assets/ecoitems/models/item/part/shield_strap_3d.json
+```
+
+The model is written again for each material with the recoloured texture as `#layer0`, and is held the same way as the rest of the item. The part's own icon stays flat. A model with no `elements` is skipped with a warning, and the part is drawn flat.
+
 ## The structure of a modular item
 
 | Part | What it controls |
@@ -75,7 +87,7 @@ Draw the texture with only these 8 greys, darkest to lightest: 34, 62, 92, 122, 
 | **Display** | Name and lore, from the slot materials |
 | **Swapping** | Replacing one part at an anvil |
 | **Mining** | Which blocks it mines, and at what speed and tier |
-| **Animation** | Bow and crossbow pull states |
+| **Animation** | Bow and crossbow pull states, shield blocking, trident throwing |
 
 ```yaml
 # === Recipe: parts of any material fit ===
@@ -159,6 +171,8 @@ modular:
 ```
 
 A bow has the states `pulling_0`, `pulling_1` and `pulling_2`. A crossbow also has `arrow` and `rocket`, for when it is loaded. A part with no texture for a state uses its `texture`. The thresholds match vanilla, and the item's base should be a `bow` or `crossbow` so it can be drawn.
+
+Shields and tridents work the same way with `animation: shield` and `animation: trident`. A shield has the state `blocking` and a trident has `throwing`, both optional. Vanilla draws these two as 3D models, so EcoItems holds the flat item its own way: a shield at your side and up in front of you while blocking, and a trident over your shoulder while throwing. The shield's back faces you, so a 3D part such as a strap goes on the back, at z 8.5 and up. Use a `shield` or `trident` base so it can block or be thrown. A thrown trident looks like the vanilla one.
 
 ### Swapping
 
