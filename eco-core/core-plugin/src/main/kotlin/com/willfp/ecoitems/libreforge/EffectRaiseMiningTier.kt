@@ -25,9 +25,15 @@ object EffectRaiseMiningTier : Effect<NoCompileData>("raise_mining_tier") {
     override val arguments = arguments {
         require(
             name = "tier",
-            message = "You must specify the tier!",
+            message = "You must specify a valid tier! (wooden, stone, iron, diamond or netherite)",
+            getter = Config::getString,
+            predicate = { MiningTiers.isKnown(it) }
+        )
+        describe(
+            name = "tier",
             description = "The lowest tier the item mines at: wooden, stone, iron, diamond or netherite.",
             type = ArgType.STRING,
+            choices = listOf("wooden", "stone", "iron", "diamond", "netherite"),
             example = "diamond"
         )
     }

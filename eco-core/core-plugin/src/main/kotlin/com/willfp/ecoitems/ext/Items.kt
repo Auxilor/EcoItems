@@ -75,6 +75,7 @@ fun ItemStack.withMaterialsOf(source: ItemStack): ItemStack {
     val copy = clone()
     source.partMaterial?.let { copy.partMaterial = it }
     source.modularMaterials.takeIf { it.isNotEmpty() }?.let { copy.modularMaterials = it }
+    copy.minimumMiningTier = source.minimumMiningTier
     return copy.withMaterials()
 }
 
