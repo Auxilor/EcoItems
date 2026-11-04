@@ -3,6 +3,7 @@ package com.willfp.ecoitems.pack
 import com.google.gson.JsonObject
 import com.willfp.ecoitems.items.EcoItem
 import com.willfp.ecoitems.materials.ItemAnimation
+import com.willfp.ecoitems.materials.Materials
 import com.willfp.ecoitems.materials.ModularItemService
 
 /** Builds the vanilla bow and crossbow model trees around a modular item's state models. */
@@ -25,6 +26,21 @@ internal object ModularAnimations {
                     modelJson("${texture.key}_$id", parent)
             }
         }
+        for ((texture, pose) in items.flatMap { posedMaterialOverlays(it) }.distinct()) {
+            entries[generatedModel(texture, pose = pose).entry(root = "models", extension = "json")] =
+                modelJson(texture = texture.key, parent = "minecraft:item/$pose")
+        }
+    }
+
+    private fun posedMaterialOverlays(item: EcoItem): List<Pair<PackLocation, String>> {
+        val modular = item.modular
+        val pose = modular?.animation?.id ?: return emptyList()
+        val materials = Materials.values()
+        return modular.layers.asSequence()
+            .flatMap { slotId -> materials.flatMap { it.overlaysIn(slotId) } }
+            .mapNotNull { PackLocation.parse(it) }
+            .map { it to pose }
+            .toList()
     }
 
     private fun posedTextures(item: EcoItem): List<Pair<PackLocation, String>> {
