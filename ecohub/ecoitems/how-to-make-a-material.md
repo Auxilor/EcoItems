@@ -6,7 +6,7 @@ sidebar_position: 13
 A material is what **parts** are made from. A part remembers its material, and a [modular item](how-to-make-a-modular-item) remembers the material in each of its slots, so its **name, stats, effects and look** all come from them. One material config works in every part and modular item. This page covers making one from scratch.
 
 :::info
-Materials, parts and modular items require the paid version of EcoItems. On the free version, material configs are not loaded, and the console lists them after each reload.
+Materials, parts and modular items require the paid version of EcoItems. On the free version, material configs are not loaded, and the console lists them at startup and whenever the list changes.
 :::
 
 ## Quick start
