@@ -77,9 +77,14 @@ items: # Items from the Item Lookup System
   - diamond
 ```
 
+:::warning Vanilla items need an eco setting
+eco skips its item display for items with no item meta. A vanilla item that has never been changed (no damage, enchantments, name or lore) gets no rarity tag, even when it matches `items` or would get the default rarity. To show rarities on these items, set `display-without-meta: true` in `/plugins/eco/config.yml` and restart the server. eco then displays every item, which costs some performance on busy servers.
+:::
+
 :::tip Troubleshooting
 - **No rarity tag showing?** The system is off by default; set `rarity.enabled: true` in `config.yml`.
 - **Wrong rarity on an item?** Another rarity has a higher `weight`; raise this one or lower the other.
+- **Rarity only showing on some vanilla items?** eco skips items with no item meta. Set `display-without-meta: true` in eco's `config.yml` (see the warning under [Items](#items)).
 - **EcoItem ignoring a rarity listed here?** Set `rarity:` in the EcoItem's own config instead of adding it to `items`.
 :::
 
