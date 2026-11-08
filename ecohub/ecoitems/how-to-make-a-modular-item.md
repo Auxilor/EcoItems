@@ -6,7 +6,7 @@ sidebar_position: 14
 A modular item is built from **parts**, one in each of its **slots**, and each part is made from a [material](how-to-make-a-material). The item remembers the material in every slot, so **one item config covers every combination**: three slots and 20 materials is 8,000 different items from one file. This page covers making parts and a modular item from scratch.
 
 :::info
-Recoloured, layered textures are part of the resource pack system, which requires the paid version of EcoItems. On the free version, parts and modular items use their base item's look.
+Parts and modular items require the paid version of EcoItems. On the free version, items with a `part:` or `modular:` section load as plain items with their base look, and the console lists them after each reload.
 :::
 
 ## Quick start
@@ -215,7 +215,8 @@ Lookups and `/ecoitems give` take materials as arguments: `material:<id>` for a 
 
 :::tip Troubleshooting
 - **Crafting gives nothing?** A part in the grid doesn't match a slot's shape, or a slot has no part.
-- **Item keeps its base look?** A slot has no material, or the server is on the free version.
+- **Item keeps its base look?** A slot has no material.
+- **Item is a plain item?** The server is on the free version, which does not load parts or modular items.
 - **Anvil doesn't offer a swap?** The item isn't `swappable`, or the part's material is already in every slot of its shape.
 :::
 
