@@ -21,6 +21,8 @@ import com.willfp.ecoitems.materials.ModularConfig
 import com.willfp.ecoitems.materials.PartConfig
 import com.willfp.ecoitems.paintings.Paintings
 import com.willfp.ecoitems.plugin
+import com.willfp.ecoitems.premium.PremiumFeature
+import com.willfp.ecoitems.premium.PremiumFeatures
 import com.willfp.ecoitems.rarity.Rarities
 import com.willfp.ecoitems.sounds.Sounds
 import com.willfp.libreforge.Holder
@@ -244,11 +246,11 @@ class EcoItem(
             components["minecraft:attribute_modifiers"] = legacy.map { it.modifier } + configured
         }
 
-        if (BuildConfig.FREE_VERSION && hasTextureConfig(itemConfig)) {
-            plugin.logger.warning(
-                "Item ${this@EcoItem.id.key} has a texture, but item textures require the paid version of EcoItems"
-            )
-        } else if (!BuildConfig.FREE_VERSION && needsItemModel(itemConfig)) {
+        if (hasTextureConfig(itemConfig)) {
+            PremiumFeatures.report(PremiumFeature.TEXTURES, this@EcoItem.id.key)
+        }
+
+        if (!BuildConfig.FREE_VERSION && needsItemModel(itemConfig)) {
             // The pack system generates the matching assets on reload.
             components.putIfAbsent("minecraft:item_model", "ecoitems:${this@EcoItem.id.key}")
         }

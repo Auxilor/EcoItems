@@ -5,8 +5,8 @@ import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.eco.core.recipe.Recipes
 import com.willfp.eco.core.recipe.workstation.WorkstationRecipes
 import com.willfp.eco.core.registry.Registry
-import com.willfp.ecoitems.plugin
-import com.willfp.ecoitems.BuildConfig
+import com.willfp.ecoitems.premium.PremiumFeature
+import com.willfp.ecoitems.premium.PremiumFeatures
 import com.willfp.libreforge.loader.LibreforgePlugin
 import com.willfp.libreforge.loader.configs.ConfigCategory
 import com.willfp.libreforge.loader.configs.LegacyLocation
@@ -45,9 +45,9 @@ object EcoItems : ConfigCategory("item", "items") {
     }
 
     override fun acceptConfig(plugin: LibreforgePlugin, id: String, config: Config) {
-        if (BuildConfig.FREE_VERSION && registry.values().size >= 10) {
-            plugin.logger.warning("The free version of EcoItems only supports 10 items.")
-            plugin.logger.warning("Purchase the full version of EcoItems to remove this restriction!")
+        if (registry.values().size >= PremiumFeatures.FREE_LIMIT &&
+            PremiumFeatures.isLocked(PremiumFeature.ITEM_LIMIT, id)
+        ) {
             return
         }
         registry.register(EcoItem(id, ItemTemplates.resolve(id, config).separatorAmbivalent()))

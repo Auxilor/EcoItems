@@ -4,11 +4,12 @@ import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.eco.core.items.Items
 import com.willfp.eco.core.items.TestableItem
 import com.willfp.eco.core.recipe.parts.EmptyTestableItem
-import com.willfp.ecoitems.BuildConfig
 import com.willfp.ecoitems.blocks.BlockDrops
 import com.willfp.ecoitems.blocks.BlockSounds
 import com.willfp.ecoitems.libreforge.ContentEffects
 import com.willfp.ecoitems.plugin
+import com.willfp.ecoitems.premium.PremiumFeature
+import com.willfp.ecoitems.premium.PremiumFeatures
 import org.bukkit.Particle
 import org.bukkit.Sound
 import org.bukkit.entity.Display
@@ -162,10 +163,8 @@ class Furniture(val id: String, val config: Config) {
         get() = states.values + listOfNotNull(door?.openState) + (connectable?.all ?: emptyList())
 
     init {
-        if (BuildConfig.FREE_VERSION && stateModels.any { it.hasAssets }) {
-            plugin.logger.warning(
-                "Furniture $id has state models, but state models require the paid version of EcoItems"
-            )
+        if (stateModels.any { it.hasAssets }) {
+            PremiumFeatures.report(PremiumFeature.FURNITURE_STATES, id)
         }
     }
 

@@ -46,6 +46,7 @@ import com.willfp.ecoitems.migration.Migrations
 import com.willfp.ecoitems.pack.PackFeatures
 import com.willfp.ecoitems.paintings.PaintingListener
 import com.willfp.ecoitems.paintings.Paintings
+import com.willfp.ecoitems.premium.PremiumFeatures
 import com.willfp.ecoitems.rarity.ArgParserRarity
 import com.willfp.ecoitems.rarity.Rarities
 import com.willfp.ecoitems.sounds.Sounds
@@ -115,6 +116,7 @@ class EcoItemsPlugin : LibreforgePlugin() {
         CropTracker.start()
         SaplingGrowth.start(this)
         VehicleTicker.start(this)
+        PremiumFeatures.publish()
     }
 
     override fun handleDisable() {
@@ -157,7 +159,8 @@ class EcoItemsPlugin : LibreforgePlugin() {
             LootFishingListener,
             WorkstationRecipePermissions,
             PlayerTickers,
-            ChunkSweeps
+            ChunkSweeps,
+            PremiumFeatures
         ) + listOfNotNull(
             PaperBlockListener.createIfSupported(),
             PickBlockListener.createIfSupported(),

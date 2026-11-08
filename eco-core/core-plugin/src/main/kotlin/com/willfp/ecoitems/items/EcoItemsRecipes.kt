@@ -3,7 +3,8 @@ package com.willfp.ecoitems.items
 import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.eco.core.items.Items
 import com.willfp.eco.core.recipe.Recipes
-import com.willfp.ecoitems.BuildConfig
+import com.willfp.ecoitems.premium.PremiumFeature
+import com.willfp.ecoitems.premium.PremiumFeatures
 import com.willfp.libreforge.loader.LibreforgePlugin
 import com.willfp.libreforge.loader.configs.ConfigCategory
 import com.willfp.libreforge.loader.configs.LegacyLocation
@@ -35,7 +36,9 @@ object EcoItemsRecipes : ConfigCategory("recipe", "recipes") {
     }
 
     override fun acceptConfig(plugin: LibreforgePlugin, id: String, config: Config) {
-        if (BuildConfig.FREE_VERSION && id !in registeredIds && registeredIds.size >= 10) {
+        if (id !in registeredIds && registeredIds.size >= PremiumFeatures.FREE_LIMIT &&
+            PremiumFeatures.isLocked(PremiumFeature.RECIPE_LIMIT, id)
+        ) {
             return
         }
         registeredIds.add(id)
