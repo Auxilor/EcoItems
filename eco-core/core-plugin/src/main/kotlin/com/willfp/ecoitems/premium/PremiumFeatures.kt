@@ -18,7 +18,12 @@ enum class PremiumFeature(val displayName: String) {
     SOUNDS("Custom sounds"),
     PAINTINGS("Custom paintings"),
     GLYPHS("Glyphs"),
-    HUDS("HUDs")
+    HUDS("HUDs"),
+    MATERIALS("Materials"),
+    PARTS("Parts"),
+    MODULAR_ITEMS("Modular items"),
+    KEEP_WHEN_BROKEN("Keep when broken"),
+    RAISE_MINING_TIER("The raise_mining_tier effect")
 }
 
 /**
