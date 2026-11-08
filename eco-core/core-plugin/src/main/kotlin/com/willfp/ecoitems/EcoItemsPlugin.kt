@@ -88,9 +88,7 @@ class EcoItemsPlugin : LibreforgePlugin() {
         Items.registerTag(EcoItemTag)
 
         Conditions.register(ConditionHasEcoItem)
-        if (!BuildConfig.FREE_VERSION) {
-            MaterialCountPlaceholder(this).register()
-        }
+        MaterialCountPlaceholder(this).register()
         Effects.register(EffectRaiseMiningTier)
 
         registerHolderProvider(EcoItemFinder.toHolderProvider())
