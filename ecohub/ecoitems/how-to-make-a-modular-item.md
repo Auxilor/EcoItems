@@ -6,7 +6,7 @@ sidebar_position: 14
 A modular item is built from **parts**, one in each of its **slots**, and each part is made from a [material](how-to-make-a-material). The item remembers the material in every slot, so **one item config covers every combination**: three slots and 20 materials is 8,000 different items from one file. This page covers making parts and a modular item from scratch.
 
 :::info
-Recoloured, layered textures are part of the resource pack system, which requires the paid version of EcoItems. On the free version, parts and modular items use their base item's look.
+Parts and modular items require the paid version of EcoItems. On the free version, items with a `part:` or `modular:` section load as plain items with their base look, and the console lists them at startup and whenever the list changes.
 :::
 
 ## Quick start
@@ -208,14 +208,15 @@ With `swappable: true`, put the item in the left slot of an anvil and a part in 
 | --- | --- |
 | `%material%` | In a part's `name`: the name of its material |
 | `%material_<slot>%` | In a modular item's `name` and `lore`: the name of the material in that slot |
-| `%ecoitems_material_count_<material>%` | Where the item is passed in with the placeholder, for example EcoScrolls scroll limits: how many of the item's slots are made of that material. With no item (PlaceholderAPI, chat, scoreboards), it is `0` |
+| `%ecoitems_material_count_<material>%` | Where the item is passed in with the placeholder, for example EcoScrolls scroll limits: how many of the item's slots are made of that material. With no item (PlaceholderAPI, chat, scoreboards), or on the free version, it is `0` |
 | `%materials_lore%` | On its own line in a modular item's `lore`: for each slot, the material's `lore` for that slot and then its own `lore`, with repeats removed |
 
 Lookups and `/ecoitems give` take materials as arguments: `material:<id>` for a part, and `<slot>:<id>` for each slot of a modular item.
 
 :::tip Troubleshooting
 - **Crafting gives nothing?** A part in the grid doesn't match a slot's shape, or a slot has no part.
-- **Item keeps its base look?** A slot has no material, or the server is on the free version.
+- **Item keeps its base look?** A slot has no material.
+- **Item is a plain item?** The server is on the free version, which does not load parts or modular items.
 - **Anvil doesn't offer a swap?** The item isn't `swappable`, or the part's material is already in every slot of its shape.
 :::
 

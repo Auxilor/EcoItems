@@ -21,6 +21,8 @@ import com.willfp.ecoitems.materials.ModularConfig
 import com.willfp.ecoitems.materials.PartConfig
 import com.willfp.ecoitems.paintings.Paintings
 import com.willfp.ecoitems.plugin
+import com.willfp.ecoitems.premium.PremiumFeature
+import com.willfp.ecoitems.premium.PremiumFeatures
 import com.willfp.ecoitems.rarity.Rarities
 import com.willfp.ecoitems.sounds.Sounds
 import com.willfp.libreforge.Holder
@@ -82,7 +84,8 @@ class EcoItem(
     }
 
     /** Whether the item stops at its last point of durability and stays broken until repaired. */
-    val keepsWhenBroken: Boolean = config.getBool("keep-when-broken")
+    val keepsWhenBroken: Boolean = config.getBool("keep-when-broken") &&
+        !PremiumFeatures.isLocked(PremiumFeature.KEEP_WHEN_BROKEN, id)
 
     /**
      * Burn time override when used as furnace fuel. The base item must be a
@@ -91,10 +94,14 @@ class EcoItem(
     val fuelBurnTicks = config.getIntOrNull("fuel.burn-ticks")
 
     /** The part this item is, if it has a part: section. Its material is stored on each stack. */
-    val part = config.getSubsectionOrNull("part")?.let { PartConfig(it) }
+    val part = config.getSubsectionOrNull("part")
+        ?.takeUnless { PremiumFeatures.isLocked(PremiumFeature.PARTS, id) }
+        ?.let { PartConfig(it) }
 
     /** The modular item this is, if it has a modular: section. Built from parts, one material per slot. */
-    val modular = config.getSubsectionOrNull("modular")?.let { ModularConfig(it) }
+    val modular = config.getSubsectionOrNull("modular")
+        ?.takeUnless { PremiumFeatures.isLocked(PremiumFeature.MODULAR_ITEMS, id) }
+        ?.let { ModularConfig(it) }
 
     /** Hidden from the /ecoitems gui browser. */
     val excludeFromGui = config.getBool("exclude-from-gui")
@@ -244,11 +251,11 @@ class EcoItem(
             components["minecraft:attribute_modifiers"] = legacy.map { it.modifier } + configured
         }
 
-        if (BuildConfig.FREE_VERSION && hasTextureConfig(itemConfig)) {
-            plugin.logger.warning(
-                "Item ${this@EcoItem.id.key} has a texture, but item textures require the paid version of EcoItems"
-            )
-        } else if (!BuildConfig.FREE_VERSION && needsItemModel(itemConfig)) {
+        if (hasTextureConfig(itemConfig)) {
+            PremiumFeatures.report(PremiumFeature.TEXTURES, this@EcoItem.id.key)
+        }
+
+        if (!BuildConfig.FREE_VERSION && needsItemModel(itemConfig)) {
             // The pack system generates the matching assets on reload.
             components.putIfAbsent("minecraft:item_model", "ecoitems:${this@EcoItem.id.key}")
         }

@@ -8,7 +8,7 @@ Every EcoItems command and permission node, for reloading, giving and taking ite
 | Command                                   | Description                                                              | Permission                               |
 |-------------------------------------------|--------------------------------------------------------------------------|------------------------------------------|
 | `/ecoitems reload`                        | Reload the plugin configs                                                | `ecoitems.command.reload`                |
-| `/ecoitems give <player> <item> [amount] [materials]` | Give an EcoItem to a player; parts take `material:<id>`, modular items `<slot>:<id>` | `ecoitems.command.give`                  |
+| `/ecoitems give <player> <item> [amount] [materials]` | Give an EcoItem to a player; parts take `material:<id>`, modular items `<slot>:<id>` (paid version) | `ecoitems.command.give`                  |
 | `/ecoitems gui`                           | Opens the operator item browser. Left-click an item to receive one copy. | `ecoitems.command.gui` (operators)       |
 | `/ecoitems hud toggle <id>`               | Toggle a [HUD](how-to-make-a-hud) on or off                                     | `ecoitems.command.hud.toggle` (everyone) |
 | `/ecoitems glyph <id>`                    | Echo a [glyph](how-to-make-a-glyph)'s character, e.g. to copy it from console   | `ecoitems.command.glyph` (operators)     |
@@ -23,6 +23,8 @@ Every EcoItems command and permission node, for reloading, giving and taking ite
 | `/ecoitems dialog <id> [player]`          | Open a [dialog](how-to-make-a-dialog) screen                                    | `ecoitems.command.dialog` (operators)    |
 
 `ecoitems.command.gui` defaults to operators and is included in `ecoitems.command.*`.
+
+`ecoitems.premiumnotice` defaults to operators. On the free version, players with it are told on join and after `/ecoitems reload` when configs use features that need the paid version; the console lists each feature and the configs that use it.
 
 `e`, `ei`, `ecoi`, and `items` all work as aliases of `/ecoitems` (e.g. `/e reload` also reloads plugin configs).
 
