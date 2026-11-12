@@ -1,28 +1,18 @@
 package com.willfp.ecoitems.commands
 
-import com.willfp.eco.core.command.impl.Subcommand
 import com.willfp.ecoitems.pack.PackFeatures
-import com.willfp.ecoitems.plugin
 import org.bukkit.command.CommandSender
-import org.bukkit.entity.Player
+import wiki.ecohub.core.command.CommandBuilder
 
-object CommandGlyphs : Subcommand(
-    plugin,
-    "glyphs",
-    "ecoitems.command.glyphs",
-    true
+internal fun CommandBuilder<CommandSender>.glyphsCommand() = playerSubcommand(
+    name = "glyphs",
+    permission = "ecoitems.command.glyphs"
 ) {
-    override fun onExecute(sender: CommandSender, args: List<String>) {
-        val player = sender as Player
+    executes {
+        val feature = PackFeatures.instance ?: fail("glyphs-require-paid")
 
-        val feature = PackFeatures.instance
-        if (feature == null) {
-            sender.sendMessage(plugin.langYml.getMessage("glyphs-require-paid"))
-            return
-        }
-
-        if (!feature.openGlyphPicker(player)) {
-            sender.sendMessage(plugin.langYml.getMessage("no-glyphs"))
+        if (!feature.openGlyphPicker(sender)) {
+            reply("no-glyphs")
         }
     }
 }

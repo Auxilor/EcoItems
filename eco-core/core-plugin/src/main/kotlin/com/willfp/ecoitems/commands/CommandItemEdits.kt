@@ -1,82 +1,81 @@
 package com.willfp.ecoitems.commands
 
-import com.willfp.eco.core.command.impl.Subcommand
-import com.willfp.ecoitems.plugin
 import org.bukkit.command.CommandSender
-import org.bukkit.entity.Player
 import org.bukkit.inventory.meta.Damageable
+import wiki.ecohub.core.command.CommandBuilder
 import wiki.ecohub.ui.text.formatEco
 
 /**
  * Held-item editing: rename (glyph/color aware), repair, and set durability.
  * They work on any item, custom or vanilla, like their IA counterparts.
  */
-object CommandRename : Subcommand(plugin, "rename", "ecoitems.command.rename", true) {
-    @Suppress("DEPRECATION")
-    override fun onExecute(sender: CommandSender, args: List<String>) {
-        val player = sender as Player
-        val stack = player.inventory.itemInMainHand
+@Suppress("DEPRECATION")
+internal fun CommandBuilder<CommandSender>.renameCommand() = playerSubcommand(
+    name = "rename",
+    permission = "ecoitems.command.rename"
+) {
+    executes {
+        val stack = sender.inventory.itemInMainHand
 
         if (stack.type.isAir) {
-            sender.sendMessage(plugin.langYml.getMessage("must-hold-item"))
-            return
+            fail("must-hold-item")
         }
 
         if (args.isEmpty()) {
-            sender.sendMessage(plugin.langYml.getMessage("rename-usage"))
-            return
+            fail("rename-usage")
         }
 
-        val name = args.joinToString(" ").formatEco(player = player, formatPlaceholders = true)
-        val meta = stack.itemMeta ?: return
-        meta.setDisplayName(name)
-        stack.itemMeta = meta
+        val name = args.joinToString(" ").formatEco(player = sender, formatPlaceholders = true)
+        val meta = stack.itemMeta
+        if (meta != null) {
+            meta.setDisplayName(name)
+            stack.itemMeta = meta
 
-        sender.sendMessage(plugin.langYml.getMessage("renamed").replace("%name%", name))
+            sender.sendMessage(plugin.langYml.getMessage("renamed").replace(oldValue = "%name%", newValue = name))
+        }
     }
 }
 
-object CommandRepair : Subcommand(plugin, "repair", "ecoitems.command.repair", true) {
-    override fun onExecute(sender: CommandSender, args: List<String>) {
-        val player = sender as Player
-        val stack = player.inventory.itemInMainHand
+internal fun CommandBuilder<CommandSender>.repairCommand() = playerSubcommand(
+    name = "repair",
+    permission = "ecoitems.command.repair"
+) {
+    executes {
+        val stack = sender.inventory.itemInMainHand
         val meta = stack.itemMeta as? Damageable
 
         if (stack.type.isAir || meta == null) {
-            sender.sendMessage(plugin.langYml.getMessage("not-damageable"))
-            return
+            fail("not-damageable")
         }
 
         meta.damage = 0
         stack.itemMeta = meta
-        sender.sendMessage(plugin.langYml.getMessage("repaired"))
+        reply("repaired")
     }
 }
 
-object CommandDurability : Subcommand(plugin, "durability", "ecoitems.command.durability", true) {
-    override fun onExecute(sender: CommandSender, args: List<String>) {
-        val player = sender as Player
-        val stack = player.inventory.itemInMainHand
+internal fun CommandBuilder<CommandSender>.durabilityCommand() = playerSubcommand(
+    name = "durability",
+    permission = "ecoitems.command.durability"
+) {
+    executes {
+        val stack = sender.inventory.itemInMainHand
         val meta = stack.itemMeta as? Damageable
 
         if (stack.type.isAir || meta == null) {
-            sender.sendMessage(plugin.langYml.getMessage("not-damageable"))
-            return
+            fail("not-damageable")
         }
 
-        val value = args.getOrNull(0)?.toIntOrNull() ?: run {
-            sender.sendMessage(plugin.langYml.getMessage("durability-usage"))
-            return
-        }
+        val value = args.getOrNull(0)?.toIntOrNull() ?: fail("durability-usage")
 
         val max = if (meta.hasMaxDamage()) meta.maxDamage else stack.type.maxDurability.toInt()
-        meta.damage = (max - value).coerceIn(0, max)
+        meta.damage = (max - value).coerceIn(minimumValue = 0, maximumValue = max)
         stack.itemMeta = meta
 
         sender.sendMessage(
             plugin.langYml.getMessage("durability-set")
-                .replace("%durability%", (max - meta.damage).toString())
-                .replace("%max%", max.toString())
+                .replace(oldValue = "%durability%", newValue = (max - meta.damage).toString())
+                .replace(oldValue = "%max%", newValue = max.toString())
         )
     }
 }
