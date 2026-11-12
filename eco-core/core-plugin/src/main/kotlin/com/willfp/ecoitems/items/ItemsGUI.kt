@@ -133,7 +133,7 @@ object ItemsGUI {
     private fun MenuBuilder.frame(plainTitle: String) {
         val background = plugin.configYml.getString("items-gui.background.glyph")
             .takeIf { plugin.configYml.getBool("items-gui.background.enabled") }
-        title = PackFeatures.instance?.decorateGuiTitle(plugin, plainTitle, background) ?: plainTitle
+        setTitle(PackFeatures.instance?.decorateGuiTitle(plugin, plainTitle, background) ?: plainTitle)
 
         setMask(plugin.configYml, "items-gui")
 
@@ -141,7 +141,7 @@ object ItemsGUI {
         for (direction in PageChanger.Direction.entries) {
             val name = direction.name.lowercase()
             val path = "items-gui.page-change.$name"
-            val fallback = Items.lookup(plugin.configYml.getString("$path.item")).item
+            val fallback = Items.lookup(plugin.configYml.getString("$path.item")).getItem()
             val active = PackFeatures.instance?.decorateGuiItem(
                 plugin,
                 fallback,
