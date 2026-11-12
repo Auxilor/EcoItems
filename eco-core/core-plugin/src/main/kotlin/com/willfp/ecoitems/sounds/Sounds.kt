@@ -7,11 +7,11 @@ import wiki.ecohub.config.category.RegistrableCategory
 import wiki.ecohub.core.plugin.EcoPlugin
 
 object Sounds : RegistrableCategory<Sound>("sound", "sounds") {
-    override fun clear(plugin: LibreforgePlugin) {
+    override fun clear(plugin: EcoPlugin) {
         registry.clear()
     }
 
-    override fun acceptConfig(plugin: LibreforgePlugin, id: String, config: Config) {
+    override fun acceptConfig(plugin: EcoPlugin, id: String, config: Config) {
         PremiumFeatures.report(PremiumFeature.SOUNDS, id)
         registry.register(Sound(id, config))
     }

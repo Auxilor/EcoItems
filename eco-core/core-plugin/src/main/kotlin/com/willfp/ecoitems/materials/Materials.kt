@@ -8,7 +8,7 @@ import wiki.ecohub.config.category.NativeConfigCategory
 import wiki.ecohub.core.plugin.EcoPlugin
 import wiki.ecohub.core.registry.Registry
 
-object Materials : ConfigCategory("material", "materials") {
+object Materials : NativeConfigCategory("materials", "material") {
     private val registry = Registry<Material>()
 
     operator fun get(id: String?): Material? = id?.let { registry[it] }
@@ -18,12 +18,12 @@ object Materials : ConfigCategory("material", "materials") {
     /** The first material whose items match [item]. */
     fun forItem(item: ItemStack?): Material? = registry.values().firstOrNull { it.matches(item) }
 
-    override fun clear(plugin: LibreforgePlugin) {
+    override fun clear(plugin: EcoPlugin) {
         registry.clear()
         MaterialHolders.clear()
     }
 
-    override fun acceptConfig(plugin: LibreforgePlugin, id: String, config: Config) {
+    override fun acceptConfig(plugin: EcoPlugin, id: String, config: Config) {
         if (PremiumFeatures.isLocked(PremiumFeature.MATERIALS, id)) {
             return
         }

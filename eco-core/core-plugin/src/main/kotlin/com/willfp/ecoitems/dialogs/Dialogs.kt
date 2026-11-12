@@ -7,7 +7,7 @@ import wiki.ecohub.config.section.separatorAmbivalent
 import wiki.ecohub.core.plugin.EcoPlugin
 import wiki.ecohub.core.registry.Registry
 
-object Dialogs : ConfigCategory("dialog", "dialogs") {
+object Dialogs : NativeConfigCategory("dialogs", "dialog") {
     private val registry = Registry<EcoDialog>()
 
     fun getByID(id: String?): EcoDialog? {
@@ -22,11 +22,11 @@ object Dialogs : ConfigCategory("dialog", "dialogs") {
         return ImmutableList.copyOf(registry.values())
     }
 
-    override fun clear(plugin: LibreforgePlugin) {
+    override fun clear(plugin: EcoPlugin) {
         registry.clear()
     }
 
-    override fun acceptConfig(plugin: LibreforgePlugin, id: String, config: Config) {
+    override fun acceptConfig(plugin: EcoPlugin, id: String, config: Config) {
         registry.register(EcoDialog(id, config.separatorAmbivalent()))
     }
 }

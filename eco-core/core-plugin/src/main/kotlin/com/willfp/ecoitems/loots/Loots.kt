@@ -7,18 +7,18 @@ import wiki.ecohub.config.section.separatorAmbivalent
 import wiki.ecohub.core.plugin.EcoPlugin
 import wiki.ecohub.core.registry.Registry
 
-object Loots : ConfigCategory("loot", "loots") {
+object Loots : NativeConfigCategory("loots", "loot") {
     private val registry = Registry<Loot>()
 
     fun values(): List<Loot> {
         return ImmutableList.copyOf(registry.values())
     }
 
-    override fun clear(plugin: LibreforgePlugin) {
+    override fun clear(plugin: EcoPlugin) {
         registry.clear()
     }
 
-    override fun acceptConfig(plugin: LibreforgePlugin, id: String, config: Config) {
+    override fun acceptConfig(plugin: EcoPlugin, id: String, config: Config) {
         registry.register(Loot(id, config.separatorAmbivalent()))
     }
 }

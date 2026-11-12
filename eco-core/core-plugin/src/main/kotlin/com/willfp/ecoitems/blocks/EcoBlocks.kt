@@ -88,7 +88,7 @@ object EcoBlocks {
             stale -= key
         }
         for (key in stale) {
-            Blocks.removeCustomBlock(key)
+            Blocks.removeCustom(key)
             registeredKeys -= key
         }
     }
@@ -100,7 +100,7 @@ object EcoBlocks {
         assignments = emptyMap()
 
         for (key in registeredKeys) {
-            Blocks.removeCustomBlock(key)
+            Blocks.removeCustom(key)
         }
         registeredKeys.clear()
     }
