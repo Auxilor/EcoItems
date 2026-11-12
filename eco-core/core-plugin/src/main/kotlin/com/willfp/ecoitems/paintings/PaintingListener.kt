@@ -13,7 +13,7 @@ import org.bukkit.event.Listener
 import org.bukkit.event.hanging.HangingBreakByEntityEvent
 import org.bukkit.event.hanging.HangingBreakEvent
 import org.bukkit.inventory.ItemStack
-import wiki.ecohub.game.item.Items
+import wiki.ecohub.game.item.withComponents
 
 /**
  * Vanilla drops a plain painting item when a painting breaks, losing the
@@ -53,10 +53,8 @@ object PaintingListener : Listener {
             }
         }
 
-        return Items.withComponents(
-                ItemStack(Material.PAINTING),
-                mapOf("minecraft:painting/variant" to variant.toString())
-            )
+        return ItemStack(Material.PAINTING)
+            .withComponents(mapOf("minecraft:painting/variant" to variant.toString()))
             .item
     }
 }

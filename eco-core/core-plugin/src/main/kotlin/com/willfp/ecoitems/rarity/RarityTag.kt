@@ -11,7 +11,5 @@ class RarityTag(
         return p0.ecoItemRarity == rarity
     }
 
-    override fun getExampleItem(): ItemStack? {
-        return rarity.items.randomOrNull()?.item
-    }
+    override fun getExampleItem(): ItemStack? = rarity.items.randomOrNull()?.getItem()
 }

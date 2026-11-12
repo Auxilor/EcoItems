@@ -22,7 +22,7 @@ import org.bukkit.util.BoundingBox
 import org.bukkit.util.Transformation
 import org.joml.Quaternionf
 import org.joml.Vector3f
-import wiki.ecohub.game.item.Items
+import wiki.ecohub.game.item.withComponents
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.math.cos
@@ -166,7 +166,7 @@ class PlacedFurniture(
     internal fun applyModel(modelKey: String?) {
         val stack = item?.itemStack ?: return
         base.setItemStack(modelKey?.let { model ->
-            Items.withComponents(stack, mapOf("minecraft:item_model" to model)).item
+            stack.withComponents(mapOf("minecraft:item_model" to model)).item
         } ?: stack)
     }
 

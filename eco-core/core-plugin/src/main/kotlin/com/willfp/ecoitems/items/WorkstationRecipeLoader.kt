@@ -136,7 +136,7 @@ internal fun EcoItem.registerWorkstationRecipe(
             val base = ingredient(recipeConfig, "base", materialItem) ?: return
             val brewingIngredient = ingredient(recipeConfig, "ingredient", materialItem) ?: return
 
-            BrewingRecipe.builder(recipeKey, output, base.testable, brewingIngredient.testable)
+            BrewingRecipe.builder(recipeKey, output, base = base.testable, ingredient = brewingIngredient.testable)
                 .brewTime(recipeConfig.getIntOrNull("brew-time") ?: 400)
                 .also { builder -> permission?.let { builder.permission(it) } }
                 .build()
@@ -174,5 +174,5 @@ private fun EcoItem.ingredient(recipeConfig: Config, key: String, materialItem: 
         return null
     }
 
-    return Ingredient(testable, testable.item.clone())
+    return Ingredient(testable, testable.getItem().clone())
 }

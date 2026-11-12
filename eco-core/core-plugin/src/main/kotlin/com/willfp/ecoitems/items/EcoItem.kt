@@ -26,6 +26,7 @@ import wiki.ecohub.game.item.component.legacyToComponentValue
 import wiki.ecohub.game.item.fast
 import wiki.ecohub.game.item.lookup.EmptyTestableItem
 import wiki.ecohub.game.item.lookup.TestableItem
+import wiki.ecohub.game.item.withComponents
 import wiki.ecohub.modules.recipe.Recipes
 import wiki.ecohub.modules.recipe.crafting.CraftingRecipe
 import wiki.ecohub.rules.condition.Conditions
@@ -124,7 +125,7 @@ class EcoItem(
 
         val lore = itemConfig.getFormattedStrings("lore").map { "${Display.PREFIX}$it" }
 
-        val built = ItemStackBuilder(base.item).apply {
+        val built = ItemStackBuilder(base.getItem()).apply {
             if (displayName != null) {
                 setDisplayName(displayName)
             }
@@ -135,7 +136,7 @@ class EcoItem(
             ecoItem = this@EcoItem
         }
 
-        val loreComponents = built.fast().loreComponents.encoded()
+        val loreComponents = built.fast().getLoreComponents().encoded()
 
         built.itemMeta = built.itemMeta?.apply {
             if (displayName != null) {
@@ -264,7 +265,7 @@ class EcoItem(
             return this
         }
 
-        val result = Items.withComponents(this, components)
+        val result = withComponents(components)
 
         for (error in result.errors) {
             val pending = pendingRegistration(error)

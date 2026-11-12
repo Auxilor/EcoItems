@@ -53,7 +53,7 @@ object ChunkSweeps : Listener {
                     continue
                 }
 
-                plugin.scheduler.at(world, ref.x, ref.z).run {
+                plugin.scheduler.at(world, chunkX = ref.x, chunkZ = ref.z).run {
                     if (world.isChunkLoaded(ref.x, ref.z)) {
                         tick(world.getChunkAt(ref.x, ref.z))
                     }
@@ -80,7 +80,7 @@ object ChunkSweeps : Listener {
             val chunks = runCatching { world.loadedChunks.map { it.x to it.z } }.getOrNull() ?: continue
 
             for ((x, z) in chunks) {
-                plugin.scheduler.at(world, x, z).run {
+                plugin.scheduler.at(world, chunkX = x, chunkZ = z).run {
                     if (world.isChunkLoaded(x, z)) {
                         val chunk = world.getChunkAt(x, z)
                         if (chunk.persistentDataContainer.has(key)) {

@@ -7,7 +7,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.ProjectileHitEvent
 import org.bukkit.event.entity.ProjectileLaunchEvent
-import wiki.ecohub.game.item.Items
+import wiki.ecohub.game.item.withComponents
 
 /**
  * Custom trident models: there's no client-side "is thrown" property, so a
@@ -49,7 +49,7 @@ object TridentListener : Listener {
         val id = stack.ecoItem?.id?.key ?: return
         val key = model(id) ?: return
 
-        val result = Items.withComponents(stack, mapOf("minecraft:item_model" to key))
+        val result = stack.withComponents(mapOf("minecraft:item_model" to key))
 
         for (error in result.errors) {
             plugin.logger.warning("Could not swap thrown trident model for $id: $error")

@@ -1,7 +1,6 @@
 package com.willfp.ecoitems.libreforge
 
 import com.willfp.ecoitems.items.EcoItem
-import com.willfp.libreforge.getHoldersOfType
 import org.bukkit.entity.LivingEntity
 import wiki.ecohub.config.ArgType
 import wiki.ecohub.config.Config
@@ -12,6 +11,7 @@ import wiki.ecohub.rules.condition.Condition
 import wiki.ecohub.rules.holder.Dispatcher
 import wiki.ecohub.rules.holder.ProvidedHolder
 import wiki.ecohub.rules.holder.get
+import wiki.ecohub.rules.holder.holders
 import wiki.ecohub.ui.text.containsIgnoreCase
 
 object ConditionHasEcoItem : Condition<NoCompileData>("has_ecoitem") {
@@ -36,7 +36,8 @@ object ConditionHasEcoItem : Condition<NoCompileData>("has_ecoitem") {
     ): Boolean {
         val entity = dispatcher.get<LivingEntity>() ?: return false
 
-        return entity.toDispatcher().getHoldersOfType<EcoItem>()
+        return entity.toDispatcher().holders
+            .mapNotNull { it.holder as? EcoItem }
             .map { it.id.key }
             .containsIgnoreCase(config.getString("item"))
     }

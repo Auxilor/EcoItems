@@ -99,7 +99,7 @@ object ItemUpdater : Listener {
         // cannot represent everything a component can, so going through it both
         // reports unchanged lore as customised and rewrites it into a shape that
         // no longer stacks with a freshly built item.
-        val oldLore = stack.fast().loreComponents
+        val oldLore = stack.fast().getLoreComponents()
         val customLore = if (oldLore.isEmpty() || oldLore.isConfigLore(oldMeta, stack, fresh)) {
             null
         } else {
@@ -129,7 +129,7 @@ object ItemUpdater : Listener {
         fresh.itemMeta = freshMeta
 
         if (customLore != null) {
-            fresh.fast().loreComponents = customLore
+            fresh.fast().setLoreComponents(customLore)
         }
 
         return if (fresh == stack) null else fresh
@@ -150,7 +150,7 @@ object ItemUpdater : Listener {
         stack: ItemStack,
         fresh: ItemStack
     ): Boolean {
-        if (this == fresh.fast().loreComponents) {
+        if (this == fresh.fast().getLoreComponents()) {
             return true
         }
 
@@ -160,9 +160,9 @@ object ItemUpdater : Listener {
             return true
         }
 
-        val legacyLore = stack.fast().lore.map { it.normalizeFormatting() }
+        val legacyLore = stack.fast().getLore().map { it.normalizeFormatting() }
 
-        return legacyLore == fresh.fast().lore.map { it.normalizeFormatting() } ||
+        return legacyLore == fresh.fast().getLore().map { it.normalizeFormatting() } ||
                 legacyLore == pdc.get(baseLoreKey, PersistentDataType.STRING)
             ?.split(LORE_SEPARATOR)
             ?.map { it.normalizeFormatting() }

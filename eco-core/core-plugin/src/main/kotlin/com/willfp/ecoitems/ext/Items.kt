@@ -8,7 +8,7 @@ import com.willfp.ecoitems.materials.materialComponents
 import com.willfp.ecoitems.plugin
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
-import wiki.ecohub.game.item.Items
+import wiki.ecohub.game.item.withComponents
 
 internal val PART_MATERIAL_KEY = plugin.createNamespacedKey("part_material")
 internal val MODULAR_MATERIALS_KEY = plugin.createNamespacedKey("modular_materials")
@@ -89,7 +89,7 @@ fun ItemStack.withMaterials(): ItemStack {
 }
 
 private fun ItemStack.withComponentsOf(item: EcoItem, components: Map<String, Any?>): ItemStack {
-    val result = Items.withComponents(this, components)
+    val result = withComponents(components)
     for (error in result.errors) {
         plugin.logger.warning("Invalid material component on item ${item.id.key}: $error")
     }

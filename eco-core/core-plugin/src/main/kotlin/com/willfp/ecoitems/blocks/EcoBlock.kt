@@ -160,7 +160,7 @@ class BlockDropItem(
             ?.also { cached = it }
             ?: return null
 
-        return testable.item.takeIf { it.type != Material.AIR }
+        return testable.getItem().takeIf { it.type != Material.AIR }
     }
 }
 

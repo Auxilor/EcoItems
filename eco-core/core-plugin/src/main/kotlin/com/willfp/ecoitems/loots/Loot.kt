@@ -222,6 +222,6 @@ class LootItem(
             return null
         }
 
-        return testable.item.takeIf { it.type != Material.AIR }
+        return testable.getItem().takeIf { it.type != Material.AIR }
     }
 }
