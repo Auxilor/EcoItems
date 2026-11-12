@@ -1,11 +1,11 @@
 package com.willfp.ecoitems.glyphs
 
-import com.willfp.eco.core.config.interfaces.Config
-import com.willfp.libreforge.configs.category.FoundConfig
 import com.willfp.ecoitems.premium.PremiumFeature
 import com.willfp.ecoitems.premium.PremiumFeatures
-import com.willfp.libreforge.loader.LibreforgePlugin
-import com.willfp.libreforge.loader.configs.RegistrableCategory
+import wiki.ecohub.config.Config
+import wiki.ecohub.config.category.FoundConfig
+import wiki.ecohub.config.category.RegistrableCategory
+import wiki.ecohub.core.plugin.EcoPlugin
 
 object Glyphs : RegistrableCategory<Glyph>("glyph", "glyphs") {
     override fun beforeReload(plugin: LibreforgePlugin) {

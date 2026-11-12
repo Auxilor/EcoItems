@@ -1,6 +1,5 @@
 package com.willfp.ecoitems.paintings
 
-import com.willfp.eco.core.items.Items
 import com.willfp.ecoitems.items.EcoItems
 import com.willfp.ecoitems.plugin
 import org.bukkit.GameMode
@@ -14,6 +13,7 @@ import org.bukkit.event.Listener
 import org.bukkit.event.hanging.HangingBreakByEntityEvent
 import org.bukkit.event.hanging.HangingBreakEvent
 import org.bukkit.inventory.ItemStack
+import wiki.ecohub.game.item.Items
 
 /**
  * Vanilla drops a plain painting item when a painting breaks, losing the

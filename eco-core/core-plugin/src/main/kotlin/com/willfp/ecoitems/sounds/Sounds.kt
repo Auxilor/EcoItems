@@ -1,10 +1,10 @@
 package com.willfp.ecoitems.sounds
 
-import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.ecoitems.premium.PremiumFeature
 import com.willfp.ecoitems.premium.PremiumFeatures
-import com.willfp.libreforge.loader.LibreforgePlugin
-import com.willfp.libreforge.loader.configs.RegistrableCategory
+import wiki.ecohub.config.Config
+import wiki.ecohub.config.category.RegistrableCategory
+import wiki.ecohub.core.plugin.EcoPlugin
 
 object Sounds : RegistrableCategory<Sound>("sound", "sounds") {
     override fun clear(plugin: LibreforgePlugin) {

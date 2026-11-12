@@ -1,8 +1,5 @@
 package com.willfp.ecoitems.pack
 
-import com.willfp.eco.core.datapack.Datapacks
-import com.willfp.eco.core.integrations.placeholder.PlaceholderManager
-import com.willfp.eco.core.items.Items
 import com.willfp.ecoitems.EcoItemsPlugin
 import com.willfp.ecoitems.blocks.BlockBacking
 import com.willfp.ecoitems.blocks.BlockSoundState
@@ -32,6 +29,9 @@ import com.willfp.ecoitems.sounds.Sounds
 import org.bukkit.entity.Player
 import org.bukkit.event.Listener
 import org.bukkit.inventory.ItemStack
+import wiki.ecohub.game.item.Items
+import wiki.ecohub.modules.datapack.Datapacks
+import wiki.ecohub.ui.placeholder.PlaceholderManager
 
 object EcoItemsPackFeature : PackFeature {
     private var packYml: PackYml? = null

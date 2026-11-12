@@ -1,11 +1,11 @@
 package com.willfp.ecoitems.commands
 
 import com.willfp.eco.core.command.impl.Subcommand
-import com.willfp.eco.util.formatEco
 import com.willfp.ecoitems.plugin
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.inventory.meta.Damageable
+import wiki.ecohub.ui.text.formatEco
 
 /**
  * Held-item editing: rename (glyph/color aware), repair, and set durability.

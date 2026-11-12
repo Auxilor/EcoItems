@@ -1,19 +1,19 @@
 package com.willfp.ecoitems.rarity
 
-import com.willfp.eco.core.cache.EcoCache
-import com.willfp.eco.core.config.interfaces.Config
-import com.willfp.eco.core.fast.FastItemStack
-import com.willfp.eco.core.fast.fast
-import com.willfp.eco.core.items.HashedItem
 import com.willfp.ecoitems.items.ecoItem
 import com.willfp.ecoitems.plugin
-import com.willfp.libreforge.loader.LibreforgePlugin
-import com.willfp.libreforge.loader.configs.RegistrableCategory
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataContainer
 import org.bukkit.persistence.PersistentDataType
-import java.util.Optional
+import wiki.ecohub.config.Config
+import wiki.ecohub.config.category.RegistrableCategory
+import wiki.ecohub.core.plugin.EcoPlugin
+import wiki.ecohub.data.cache.EcoCache
+import wiki.ecohub.game.item.FastItemStack
+import wiki.ecohub.game.item.HashedItem
+import wiki.ecohub.game.item.fast
 import java.time.Duration
+import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 object Rarities : RegistrableCategory<Rarity>("rarity", "rarities") {

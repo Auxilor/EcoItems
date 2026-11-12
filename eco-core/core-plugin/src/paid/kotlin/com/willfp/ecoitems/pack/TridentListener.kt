@@ -1,6 +1,5 @@
 package com.willfp.ecoitems.pack
 
-import com.willfp.eco.core.items.Items
 import com.willfp.ecoitems.items.ecoItem
 import com.willfp.ecoitems.plugin
 import org.bukkit.entity.Trident
@@ -8,6 +7,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.ProjectileHitEvent
 import org.bukkit.event.entity.ProjectileLaunchEvent
+import wiki.ecohub.game.item.Items
 
 /**
  * Custom trident models: there's no client-side "is thrown" property, so a

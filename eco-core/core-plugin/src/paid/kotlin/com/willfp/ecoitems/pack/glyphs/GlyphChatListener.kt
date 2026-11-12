@@ -1,6 +1,5 @@
 package com.willfp.ecoitems.pack.glyphs
 
-import com.willfp.eco.core.Prerequisite
 import com.willfp.ecoitems.EcoItemsPlugin
 import io.papermc.paper.event.player.AsyncChatEvent
 import org.bukkit.Bukkit
@@ -12,6 +11,7 @@ import org.bukkit.event.block.SignChangeEvent
 import org.bukkit.event.player.AsyncPlayerChatEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
+import wiki.ecohub.core.plugin.startup.Prerequisite
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
 

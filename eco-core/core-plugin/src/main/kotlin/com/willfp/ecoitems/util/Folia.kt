@@ -1,14 +1,14 @@
 package com.willfp.ecoitems.util
 
-import com.willfp.eco.core.Eco
-import com.willfp.eco.core.EcoPlugin
-import com.willfp.eco.core.Prerequisite
 import io.papermc.paper.entity.TeleportFlag
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerTeleportEvent
+import wiki.ecohub.core.Eco
+import wiki.ecohub.core.plugin.EcoPlugin
+import wiki.ecohub.core.plugin.startup.Prerequisite
 import java.util.concurrent.CompletableFuture
 
 /*

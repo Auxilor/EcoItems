@@ -1,16 +1,16 @@
 package com.willfp.ecoitems.materials
 
-import com.willfp.eco.core.config.interfaces.Config
-import com.willfp.eco.core.config.toPlainValues
-import com.willfp.eco.core.items.legacyToComponentValue
-import com.willfp.eco.util.formatEco
 import com.willfp.ecoitems.ext.minimumMiningTier
 import com.willfp.ecoitems.ext.modularMaterials
 import com.willfp.ecoitems.ext.partMaterial
 import com.willfp.ecoitems.items.EcoItem
+import org.bukkit.inventory.ItemStack
+import wiki.ecohub.config.Config
+import wiki.ecohub.config.toPlainValues
+import wiki.ecohub.game.item.component.legacyToComponentValue
+import wiki.ecohub.ui.text.formatEco
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.CopyOnWriteArrayList
-import org.bukkit.inventory.ItemStack
 
 private const val FALLBACK_COLOR = 0xFFFFFF
 private const val MATERIAL_LORE = "%materials_lore%"

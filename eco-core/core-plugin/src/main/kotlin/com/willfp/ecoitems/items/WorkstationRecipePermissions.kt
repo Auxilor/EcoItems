@@ -1,6 +1,5 @@
 package com.willfp.ecoitems.items
 
-import com.willfp.eco.core.recipe.workstation.WorkstationRecipe
 import com.willfp.ecoitems.plugin
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -9,6 +8,7 @@ import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.inventory.ItemStack
+import wiki.ecohub.modules.recipe.workstation.WorkstationRecipe
 import java.util.concurrent.CopyOnWriteArrayList
 
 /**

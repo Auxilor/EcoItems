@@ -1,20 +1,20 @@
 package com.willfp.ecoitems.items
 
-import com.willfp.eco.core.config.interfaces.Config
-import com.willfp.eco.core.items.Items
-import com.willfp.eco.core.items.TestableItem
-import com.willfp.eco.core.recipe.parts.EmptyTestableItem
-import com.willfp.eco.core.recipe.workstation.AnvilRecipe
-import com.willfp.eco.core.recipe.workstation.BrewingRecipe
-import com.willfp.eco.core.recipe.workstation.SmeltingRecipe
-import com.willfp.eco.core.recipe.workstation.SmeltingType
-import com.willfp.eco.core.recipe.workstation.SmithingRecipe
-import com.willfp.eco.core.recipe.workstation.StonecuttingRecipe
-import com.willfp.eco.core.recipe.workstation.WorkstationRecipe
 import com.willfp.ecoitems.materials.Materials
 import com.willfp.ecoitems.plugin
 import org.bukkit.NamespacedKey
 import org.bukkit.inventory.ItemStack
+import wiki.ecohub.config.Config
+import wiki.ecohub.game.item.Items
+import wiki.ecohub.game.item.lookup.EmptyTestableItem
+import wiki.ecohub.game.item.lookup.TestableItem
+import wiki.ecohub.modules.recipe.workstation.AnvilRecipe
+import wiki.ecohub.modules.recipe.workstation.BrewingRecipe
+import wiki.ecohub.modules.recipe.workstation.SmeltingRecipe
+import wiki.ecohub.modules.recipe.workstation.SmeltingType
+import wiki.ecohub.modules.recipe.workstation.SmithingRecipe
+import wiki.ecohub.modules.recipe.workstation.StonecuttingRecipe
+import wiki.ecohub.modules.recipe.workstation.WorkstationRecipe
 
 /**
  * Non-crafting-table recipes, registered against eco's shared workstation recipe

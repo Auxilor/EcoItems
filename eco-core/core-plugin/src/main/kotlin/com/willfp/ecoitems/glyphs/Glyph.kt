@@ -1,8 +1,8 @@
 package com.willfp.ecoitems.glyphs
 
-import com.willfp.eco.core.config.interfaces.Config
-import com.willfp.eco.core.registry.KRegistrable
 import com.willfp.ecoitems.plugin
+import wiki.ecohub.config.Config
+import wiki.ecohub.core.registry.KRegistrable
 import java.util.Objects
 
 class Glyph(

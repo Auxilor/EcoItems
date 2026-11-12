@@ -1,6 +1,5 @@
 package com.willfp.ecoitems.furniture
 
-import com.willfp.eco.core.integrations.antigrief.AntigriefManager
 import com.willfp.ecoitems.blocks.BlockListener
 import com.willfp.ecoitems.blocks.EcoBlocks
 import com.willfp.ecoitems.items.ecoItem
@@ -27,6 +26,7 @@ import org.bukkit.event.player.PlayerInteractEntityEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.util.BoundingBox
+import wiki.ecohub.provider.protection.ExternalAntigriefService
 import kotlin.math.roundToInt
 
 object FurnitureListener : Listener {
@@ -93,7 +93,7 @@ object FurnitureListener : Listener {
             return
         }
 
-        if (!AntigriefManager.canPlaceBlock(player, target)) {
+        if (!ExternalAntigriefService.canPlaceBlock(player, target)) {
             return
         }
 
@@ -169,7 +169,7 @@ object FurnitureListener : Listener {
     private fun breakFurniture(placed: PlacedFurniture, player: Player) {
         val block = placed.base.location.block
 
-        if (!AntigriefManager.canBreakBlock(player, block)) {
+        if (!ExternalAntigriefService.canBreakBlock(player, block)) {
             return
         }
 

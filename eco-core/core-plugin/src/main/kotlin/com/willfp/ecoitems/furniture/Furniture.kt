@@ -1,9 +1,5 @@
 package com.willfp.ecoitems.furniture
 
-import com.willfp.eco.core.config.interfaces.Config
-import com.willfp.eco.core.items.Items
-import com.willfp.eco.core.items.TestableItem
-import com.willfp.eco.core.recipe.parts.EmptyTestableItem
 import com.willfp.ecoitems.blocks.BlockDrops
 import com.willfp.ecoitems.blocks.BlockSounds
 import com.willfp.ecoitems.libreforge.ContentEffects
@@ -14,6 +10,10 @@ import org.bukkit.Particle
 import org.bukkit.Sound
 import org.bukkit.entity.Display
 import org.bukkit.entity.ItemDisplay
+import wiki.ecohub.config.Config
+import wiki.ecohub.game.item.Items
+import wiki.ecohub.game.item.lookup.EmptyTestableItem
+import wiki.ecohub.game.item.lookup.TestableItem
 
 /**
  * The furniture half of an item config's `furniture:` section. Furniture is

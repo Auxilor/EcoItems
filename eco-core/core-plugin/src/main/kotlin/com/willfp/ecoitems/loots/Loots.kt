@@ -1,11 +1,11 @@
 package com.willfp.ecoitems.loots
 
 import com.google.common.collect.ImmutableList
-import com.willfp.eco.core.config.interfaces.Config
-import com.willfp.eco.core.registry.Registry
-import com.willfp.libreforge.loader.LibreforgePlugin
-import com.willfp.libreforge.loader.configs.ConfigCategory
-import com.willfp.libreforge.separatorAmbivalent
+import wiki.ecohub.config.Config
+import wiki.ecohub.config.category.NativeConfigCategory
+import wiki.ecohub.config.section.separatorAmbivalent
+import wiki.ecohub.core.plugin.EcoPlugin
+import wiki.ecohub.core.registry.Registry
 
 object Loots : ConfigCategory("loot", "loots") {
     private val registry = Registry<Loot>()

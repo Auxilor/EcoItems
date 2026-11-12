@@ -1,8 +1,5 @@
 package com.willfp.ecoitems.furniture
 
-import com.willfp.eco.util.asAudience
-import com.willfp.eco.util.formatEco
-import com.willfp.eco.util.toComponent
 import com.willfp.ecoitems.EcoItemsPlugin
 import com.willfp.ecoitems.items.EcoItems
 import com.willfp.ecoitems.plugin
@@ -15,6 +12,9 @@ import org.bukkit.Location
 import org.bukkit.entity.ArmorStand
 import org.bukkit.entity.ItemDisplay
 import org.bukkit.entity.Player
+import wiki.ecohub.game.entity.player.asAudience
+import wiki.ecohub.ui.text.formatEco
+import wiki.ecohub.ui.text.toComponent
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.math.cos

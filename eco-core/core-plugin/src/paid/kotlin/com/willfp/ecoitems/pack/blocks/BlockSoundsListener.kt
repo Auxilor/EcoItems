@@ -1,6 +1,5 @@
 package com.willfp.ecoitems.pack.blocks
 
-import com.willfp.eco.core.scheduling.EcoTask
 import com.willfp.ecoitems.blocks.BlockListener
 import com.willfp.ecoitems.blocks.BlockSoundState
 import com.willfp.ecoitems.blocks.EcoBlocks
@@ -21,6 +20,7 @@ import org.bukkit.event.block.BlockDamageEvent
 import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.event.world.GenericGameEvent
+import wiki.ecohub.core.scheduler.EcoTask
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
 

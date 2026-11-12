@@ -1,9 +1,5 @@
 package com.willfp.ecoitems.dialogs
 
-import com.willfp.eco.core.config.interfaces.Config
-import com.willfp.eco.core.registry.KRegistrable
-import com.willfp.eco.util.StringUtils
-import com.willfp.eco.util.formatEco
 import com.willfp.ecoitems.plugin
 import com.willfp.ecoitems.util.dispatchAsConsole
 import com.willfp.ecoitems.util.dispatchAsPlayer
@@ -15,6 +11,10 @@ import io.papermc.paper.registry.data.dialog.body.DialogBody
 import io.papermc.paper.registry.data.dialog.type.DialogType
 import net.kyori.adventure.text.event.ClickCallback
 import org.bukkit.entity.Player
+import wiki.ecohub.config.Config
+import wiki.ecohub.core.registry.KRegistrable
+import wiki.ecohub.ui.text.StringUtils
+import wiki.ecohub.ui.text.formatEco
 import java.util.Objects
 
 /**

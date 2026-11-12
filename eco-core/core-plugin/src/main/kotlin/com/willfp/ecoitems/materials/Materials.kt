@@ -1,12 +1,12 @@
 package com.willfp.ecoitems.materials
 
-import com.willfp.eco.core.config.interfaces.Config
-import com.willfp.eco.core.registry.Registry
 import com.willfp.ecoitems.premium.PremiumFeature
 import com.willfp.ecoitems.premium.PremiumFeatures
-import com.willfp.libreforge.loader.LibreforgePlugin
-import com.willfp.libreforge.loader.configs.ConfigCategory
 import org.bukkit.inventory.ItemStack
+import wiki.ecohub.config.Config
+import wiki.ecohub.config.category.NativeConfigCategory
+import wiki.ecohub.core.plugin.EcoPlugin
+import wiki.ecohub.core.registry.Registry
 
 object Materials : ConfigCategory("material", "materials") {
     private val registry = Registry<Material>()

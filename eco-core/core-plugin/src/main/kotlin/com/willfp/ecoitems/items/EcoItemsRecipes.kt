@@ -1,13 +1,13 @@
 package com.willfp.ecoitems.items
 
-import com.willfp.eco.core.config.interfaces.Config
-import com.willfp.eco.core.items.Items
-import com.willfp.eco.core.recipe.Recipes
 import com.willfp.ecoitems.premium.PremiumFeature
 import com.willfp.ecoitems.premium.PremiumFeatures
-import com.willfp.libreforge.loader.LibreforgePlugin
-import com.willfp.libreforge.loader.configs.ConfigCategory
-import com.willfp.libreforge.loader.configs.LegacyLocation
+import wiki.ecohub.config.Config
+import wiki.ecohub.config.LegacyLocation
+import wiki.ecohub.config.category.NativeConfigCategory
+import wiki.ecohub.core.plugin.EcoPlugin
+import wiki.ecohub.game.item.Items
+import wiki.ecohub.modules.recipe.Recipes
 import java.util.concurrent.ConcurrentHashMap
 
 /**

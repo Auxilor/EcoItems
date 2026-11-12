@@ -2,12 +2,12 @@ package com.willfp.ecoitems.premium
 
 import com.willfp.ecoitems.BuildConfig
 import com.willfp.ecoitems.plugin
-import java.util.concurrent.ConcurrentHashMap
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
+import java.util.concurrent.ConcurrentHashMap
 
 /** A feature that only works on the paid version of EcoItems. */
 enum class PremiumFeature(val displayName: String) {

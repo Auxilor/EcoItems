@@ -1,12 +1,9 @@
 package com.willfp.ecoitems.materials
 
-import com.willfp.eco.core.drops.DropQueue
 import com.willfp.ecoitems.ext.madeFrom
 import com.willfp.ecoitems.items.ItemRepairs
 import com.willfp.ecoitems.items.ecoItem
 import com.willfp.ecoitems.plugin
-import java.util.UUID
-import java.util.concurrent.ConcurrentHashMap
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -22,6 +19,9 @@ import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.inventory.AnvilInventory
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.view.AnvilView
+import wiki.ecohub.game.drop.DropQueue
+import java.util.UUID
+import java.util.concurrent.ConcurrentHashMap
 
 /**
  * Runs after eco's workstation and crafting listeners, which set the plain recipe output, and

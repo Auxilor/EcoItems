@@ -1,6 +1,5 @@
 package com.willfp.ecoitems.items
 
-import com.willfp.eco.core.fast.fast
 import com.willfp.ecoitems.ext.withMaterialsOf
 import com.willfp.ecoitems.plugin
 import com.willfp.ecoitems.util.runFor
@@ -17,6 +16,7 @@ import org.bukkit.inventory.meta.ArmorMeta
 import org.bukkit.inventory.meta.Damageable
 import org.bukkit.inventory.meta.ItemMeta
 import org.bukkit.persistence.PersistentDataType
+import wiki.ecohub.game.item.fast
 
 /**
  * Rebuilds items in player inventories from their current configs on join,

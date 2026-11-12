@@ -1,7 +1,7 @@
 package com.willfp.ecoitems.materials
 
-import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.ecoitems.plugin
+import wiki.ecohub.config.Config
 
 private val SLOT_ID = Regex("[a-z0-9_]+")
 

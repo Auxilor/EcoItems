@@ -1,6 +1,5 @@
 package com.willfp.ecoitems.ext
 
-import com.willfp.eco.core.items.Items
 import com.willfp.ecoitems.items.EcoItem
 import com.willfp.ecoitems.items.ecoItem
 import com.willfp.ecoitems.materials.Material
@@ -9,6 +8,7 @@ import com.willfp.ecoitems.materials.materialComponents
 import com.willfp.ecoitems.plugin
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
+import wiki.ecohub.game.item.Items
 
 internal val PART_MATERIAL_KEY = plugin.createNamespacedKey("part_material")
 internal val MODULAR_MATERIALS_KEY = plugin.createNamespacedKey("modular_materials")

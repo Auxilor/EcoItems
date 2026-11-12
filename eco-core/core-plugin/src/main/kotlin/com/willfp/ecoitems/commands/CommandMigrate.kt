@@ -1,8 +1,8 @@
 package com.willfp.ecoitems.commands
 
 import com.willfp.eco.core.command.impl.Subcommand
-import com.willfp.ecoitems.migration.Migrations
 import com.willfp.ecoitems.EcoItemsPlugin
+import com.willfp.ecoitems.migration.Migrations
 import com.willfp.ecoitems.plugin
 import org.bukkit.command.CommandSender
 import org.bukkit.util.StringUtil

@@ -1,28 +1,28 @@
 package com.willfp.ecoitems.items
 
-import com.willfp.eco.core.drops.DropQueue
-import com.willfp.eco.core.gui.addCustomSlots
-import com.willfp.eco.core.gui.addPageChanger
-import com.willfp.eco.core.gui.component.ConfigButton
-import com.willfp.eco.core.gui.component.PagedAreaComponent
-import com.willfp.eco.core.gui.component.addComponent
-import com.willfp.eco.core.gui.component.addPagedArea
-import com.willfp.eco.core.gui.component.closeButton
-import com.willfp.eco.core.gui.getSlotArea
-import com.willfp.eco.core.gui.getSlotLocations
-import com.willfp.eco.core.gui.menu
-import com.willfp.eco.core.gui.menu.Menu
-import com.willfp.eco.core.gui.menu.MenuBuilder
-import com.willfp.eco.core.gui.page.PageChanger
-import com.willfp.eco.core.gui.setMask
-import com.willfp.eco.core.gui.slot
-import com.willfp.eco.core.gui.slot.Slot
-import com.willfp.eco.core.items.Items
-import com.willfp.eco.core.items.builder.ItemStackBuilder
-import com.willfp.eco.core.sound.PlayableSound
 import com.willfp.ecoitems.pack.PackFeatures
 import com.willfp.ecoitems.plugin
 import org.bukkit.entity.Player
+import wiki.ecohub.game.drop.DropQueue
+import wiki.ecohub.game.item.Items
+import wiki.ecohub.game.item.builder.ItemStackBuilder
+import wiki.ecohub.game.sound.PlayableSound
+import wiki.ecohub.modules.menus.addCustomSlots
+import wiki.ecohub.modules.menus.addPageChanger
+import wiki.ecohub.modules.menus.component.ConfigButton
+import wiki.ecohub.modules.menus.component.PagedAreaComponent
+import wiki.ecohub.modules.menus.component.addComponent
+import wiki.ecohub.modules.menus.component.addPagedArea
+import wiki.ecohub.modules.menus.component.closeButton
+import wiki.ecohub.modules.menus.getSlotLocations
+import wiki.ecohub.modules.menus.menu
+import wiki.ecohub.modules.menus.menu.Menu
+import wiki.ecohub.modules.menus.menu.MenuBuilder
+import wiki.ecohub.modules.menus.page.PageChanger
+import wiki.ecohub.modules.menus.setMask
+import wiki.ecohub.modules.menus.slot
+import wiki.ecohub.modules.menus.slot.Slot
+import wiki.ecohub.modules.menus.slot.getSlotArea
 
 /**
  * The /ecoitems gui. Folders under items/ are categories: with more than one,

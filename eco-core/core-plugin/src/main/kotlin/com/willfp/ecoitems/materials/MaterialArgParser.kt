@@ -1,7 +1,5 @@
 package com.willfp.ecoitems.materials
 
-import com.willfp.eco.core.items.args.LookupArgParser
-import com.willfp.eco.util.namespacedKeyOf
 import com.willfp.ecoitems.ext.MODULAR_MATERIALS_KEY
 import com.willfp.ecoitems.ext.PART_MATERIAL_KEY
 import com.willfp.ecoitems.ext.materialArgs
@@ -10,11 +8,13 @@ import com.willfp.ecoitems.ext.partMaterial
 import com.willfp.ecoitems.ext.withMaterialArgs
 import com.willfp.ecoitems.items.EcoItem
 import com.willfp.ecoitems.items.EcoItems
-import java.util.function.Predicate
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.Damageable
 import org.bukkit.inventory.meta.ItemMeta
 import org.bukkit.persistence.PersistentDataType
+import wiki.ecohub.core.platform.namespacedKeyOf
+import wiki.ecohub.game.item.lookup.LookupArgParser
+import java.util.function.Predicate
 
 /**
  * Lets item lookups name materials: `ecoitems:<part> material:<id>` and

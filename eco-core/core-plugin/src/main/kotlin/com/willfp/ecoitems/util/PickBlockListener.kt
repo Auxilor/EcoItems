@@ -1,6 +1,5 @@
 package com.willfp.ecoitems.util
 
-import com.willfp.eco.core.Prerequisite
 import com.willfp.ecoitems.blocks.EcoBlocks
 import com.willfp.ecoitems.furniture.PlacedFurniture
 import com.willfp.ecoitems.items.EcoItems
@@ -12,6 +11,7 @@ import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.inventory.ItemStack
+import wiki.ecohub.core.plugin.startup.Prerequisite
 
 /**
  * Creative pick-block on custom content grabs the backing block's item

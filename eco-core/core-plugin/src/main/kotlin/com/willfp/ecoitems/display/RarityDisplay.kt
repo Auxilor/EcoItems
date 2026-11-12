@@ -1,12 +1,12 @@
 package com.willfp.ecoitems.display
 
-import com.willfp.eco.core.display.DisplayContext
-import com.willfp.eco.core.display.DisplayModule
-import com.willfp.eco.core.display.DisplayPriority
 import com.willfp.ecoitems.plugin
 import com.willfp.ecoitems.rarity.Rarities
 import com.willfp.ecoitems.rarity.ecoItemRarity
 import net.kyori.adventure.text.Component
+import wiki.ecohub.ui.display.DisplayContext
+import wiki.ecohub.ui.display.DisplayModule
+import wiki.ecohub.ui.display.DisplayPriority
 
 object RarityDisplay : DisplayModule(plugin, DisplayPriority.HIGHEST.weight + 1) {
     override fun display(context: DisplayContext) {

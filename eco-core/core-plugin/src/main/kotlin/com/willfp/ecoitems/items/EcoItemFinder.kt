@@ -1,8 +1,8 @@
 package com.willfp.ecoitems.items
 
-import com.willfp.libreforge.slot.ItemHolderFinder
-import com.willfp.libreforge.slot.SlotType
 import org.bukkit.inventory.ItemStack
+import wiki.ecohub.rules.holder.slot.ItemHolderFinder
+import wiki.ecohub.rules.holder.slot.SlotType
 
 object EcoItemFinder : ItemHolderFinder<EcoItem>() {
     override fun find(item: ItemStack): List<EcoItem> {

@@ -1,16 +1,16 @@
 package com.willfp.ecoitems.items
 
 import com.google.common.collect.ImmutableList
-import com.willfp.eco.core.config.interfaces.Config
-import com.willfp.eco.core.recipe.Recipes
-import com.willfp.eco.core.recipe.workstation.WorkstationRecipes
-import com.willfp.eco.core.registry.Registry
 import com.willfp.ecoitems.premium.PremiumFeature
 import com.willfp.ecoitems.premium.PremiumFeatures
-import com.willfp.libreforge.loader.LibreforgePlugin
-import com.willfp.libreforge.loader.configs.ConfigCategory
-import com.willfp.libreforge.loader.configs.LegacyLocation
-import com.willfp.libreforge.separatorAmbivalent
+import wiki.ecohub.config.Config
+import wiki.ecohub.config.LegacyLocation
+import wiki.ecohub.config.category.NativeConfigCategory
+import wiki.ecohub.config.section.separatorAmbivalent
+import wiki.ecohub.core.plugin.EcoPlugin
+import wiki.ecohub.core.registry.Registry
+import wiki.ecohub.modules.recipe.Recipes
+import wiki.ecohub.modules.recipe.workstation.WorkstationRecipes
 
 object EcoItems : ConfigCategory("item", "items") {
     /** Registered items. */
