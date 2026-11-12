@@ -13,6 +13,7 @@ import org.bukkit.inventory.meta.Damageable
 import org.bukkit.inventory.meta.ItemMeta
 import org.bukkit.persistence.PersistentDataType
 import wiki.ecohub.core.platform.namespacedKeyOf
+import wiki.ecohub.game.item.getPersistentData
 import wiki.ecohub.game.item.lookup.LookupArgParser
 import java.util.function.Predicate
 
@@ -25,7 +26,7 @@ object MaterialArgParser : LookupArgParser {
     private val ITEM_KEY = namespacedKeyOf(namespace = "ecoitems", key = "item")
 
     override fun parseArguments(args: Array<out String>, item: ItemStack): Predicate<ItemStack>? {
-        val ecoItem = EcoItems.getByID(item.persistentDataContainer.get(ITEM_KEY, PersistentDataType.STRING))
+        val ecoItem = EcoItems.getByID(item.getPersistentData(ITEM_KEY, PersistentDataType.STRING))
             ?.takeIf { it.requestsMaterials(args) }
             ?: return null
 
@@ -46,9 +47,8 @@ object MaterialArgParser : LookupArgParser {
     }
 
     override fun serializeBack(item: ItemStack): String? {
-        val data = item.persistentDataContainer
-        val part = data.get(PART_MATERIAL_KEY, PersistentDataType.STRING)?.let { "material:$it" }
-        val modular = data.get(MODULAR_MATERIALS_KEY, PersistentDataType.STRING)
+        val part = item.getPersistentData(PART_MATERIAL_KEY, PersistentDataType.STRING)?.let { "material:$it" }
+        val modular = item.getPersistentData(MODULAR_MATERIALS_KEY, PersistentDataType.STRING)
             ?.run { replace(oldValue = "=", newValue = ":").replace(oldValue = ",", newValue = " ") }
 
         return part ?: modular
