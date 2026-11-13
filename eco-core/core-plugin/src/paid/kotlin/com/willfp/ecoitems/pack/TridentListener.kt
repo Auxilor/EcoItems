@@ -45,7 +45,7 @@ object TridentListener : Listener {
     }
 
     private fun swapModel(trident: Trident, model: (String) -> String?) {
-        val stack = runCatching { trident.itemStack }.getOrNull() ?: return
+        val stack = runCatching { trident.item }.getOrNull() ?: return
         val id = stack.ecoItem?.id?.key ?: return
         val key = model(id) ?: return
 
@@ -55,6 +55,6 @@ object TridentListener : Listener {
             plugin.logger.warning("Could not swap thrown trident model for $id: $error")
         }
 
-        runCatching { trident.itemStack = result.item }
+        runCatching { trident.item = result.item }
     }
 }

@@ -135,7 +135,7 @@ object MaterialsListener : Listener {
     fun onPrepareSmithing(event: PrepareSmithingEvent) {
         val result = event.result
         if (result?.ecoItem?.part != null) {
-            event.result = Materials.forItem(event.inventory.inputMineral)?.let { result.madeFrom(it) }
+            event.result = Materials.forItem(event.inventory.getItem(2))?.let { result.madeFrom(it) }
         }
     }
 

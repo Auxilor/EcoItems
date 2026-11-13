@@ -6,8 +6,7 @@ import com.willfp.ecoitems.plugin
 import com.willfp.ecoitems.util.PlayerTickers
 import com.willfp.ecoitems.util.WorldGuardFlags
 import com.willfp.ecoitems.util.ownsRegion
-import com.willfp.ecoitems.util.teleportSafely
-import io.papermc.paper.entity.TeleportFlag
+import com.willfp.ecoitems.util.teleportWithPassengers
 import org.bukkit.Location
 import org.bukkit.entity.ArmorStand
 import org.bukkit.entity.ItemDisplay
@@ -142,7 +141,10 @@ object VehicleTicker {
             if (entity is ItemDisplay) {
                 to.yaw = yaw + 180f
             }
-            entity.teleportSafely(to, TeleportFlag.EntityState.RETAIN_PASSENGERS)
+            entity.teleportWithPassengers(to).exceptionally { error ->
+                plugin.logger.warning("Could not move vehicle part: $error")
+                false
+            }
         }
     }
 

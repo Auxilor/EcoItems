@@ -372,6 +372,6 @@ class FurnitureDoor(furnitureId: String, config: Config) {
         null
     }
 
-    val openSound = config.getStringOrNull("open-sound") ?: Sound.BLOCK_WOODEN_DOOR_OPEN.key().toString()
-    val closeSound = config.getStringOrNull("close-sound") ?: Sound.BLOCK_WOODEN_DOOR_CLOSE.key().toString()
+    val openSound = config.getStringOrNull("open-sound") ?: Sound.BLOCK_WOODEN_DOOR_OPEN.key.toString()
+    val closeSound = config.getStringOrNull("close-sound") ?: Sound.BLOCK_WOODEN_DOOR_CLOSE.key.toString()
 }

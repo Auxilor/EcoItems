@@ -120,7 +120,7 @@ object FurnitureListener : Listener {
         }
         player.swingMainHand()
         furniture.effects.dispatch(ContentEvent.PLACE, player, origin.location.add(0.5, 0.5, 0.5))
-        playSound(origin, furniture, furniture.sounds?.place ?: Sound.BLOCK_WOOD_PLACE.key().toString())
+        playSound(origin, furniture, furniture.sounds?.place ?: Sound.BLOCK_WOOD_PLACE.key.toString())
     }
 
     /** Attacking the furniture (via its interaction hitbox) breaks it. */
@@ -185,7 +185,11 @@ object FurnitureListener : Listener {
         }
 
         placed.furniture?.effects?.dispatch(ContentEvent.BREAK, player, placed.base.location)
-        playSound(block, placed.furniture, placed.furniture?.sounds?.breakSound ?: Sound.BLOCK_WOOD_BREAK.key().toString())
+        playSound(
+            block,
+            placed.furniture,
+            placed.furniture?.sounds?.breakSound ?: Sound.BLOCK_WOOD_BREAK.key.toString()
+        )
         placed.remove(player, drop = true)
     }
 

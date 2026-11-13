@@ -13,6 +13,8 @@ import org.bukkit.inventory.meta.Damageable
 import org.bukkit.inventory.meta.ItemMeta
 import org.bukkit.persistence.PersistentDataType
 import wiki.ecohub.core.platform.namespacedKeyOf
+import wiki.ecohub.core.plugin.startup.Prerequisite
+import wiki.ecohub.game.item.editItemMeta
 import wiki.ecohub.game.item.getPersistentData
 import wiki.ecohub.game.item.lookup.LookupArgParser
 import java.util.function.Predicate
@@ -39,7 +41,7 @@ object MaterialArgParser : LookupArgParser {
     }
 
     private fun matching(built: ItemStack, item: ItemStack): Predicate<ItemStack> {
-        built.itemMeta?.let { from -> item.editMeta { copyMaterialData(from = from, to = it) } }
+        built.itemMeta?.let { from -> item.editItemMeta<ItemMeta> { copyMaterialData(from = from, to = it) } }
 
         val partMaterial = built.partMaterial
         val modularMaterials = built.modularMaterials
@@ -61,10 +63,17 @@ object MaterialArgParser : LookupArgParser {
     private fun copyMaterialData(from: ItemMeta, to: ItemMeta) {
         from.persistentDataContainer.copyTo(to.persistentDataContainer, true)
 
-        if (from.hasItemName()) {
-            to.itemName(from.itemName())
+        if (Prerequisite.HAS_PAPER.isMet) {
+            if (from.hasItemName()) {
+                to.itemName(from.itemName())
+            }
+            to.lore(from.lore())
+        } else {
+            if (from.hasItemName()) {
+                to.setItemName(from.itemName)
+            }
+            to.lore = from.lore
         }
-        to.lore(from.lore())
 
         if (from.hasCustomModelDataComponent()) {
             to.setCustomModelDataComponent(from.customModelDataComponent)

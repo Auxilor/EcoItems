@@ -51,13 +51,13 @@ object BlockSoundsListener : Listener {
             placed != null -> {
                 val custom = if (fall) placed.block.sounds?.fall else placed.block.sounds?.step
                 custom ?: if (placed.block.backing.material == Material.NOTE_BLOCK) {
-                    (if (fall) Sound.BLOCK_WOOD_FALL else Sound.BLOCK_WOOD_STEP).key().toString()
+                    (if (fall) Sound.BLOCK_WOOD_FALL else Sound.BLOCK_WOOD_STEP).key.toString()
                 } else {
                     return
                 }
             }
 
-            isWood(block) -> (if (fall) Sound.BLOCK_WOOD_FALL else Sound.BLOCK_WOOD_STEP).key().toString()
+            isWood(block) -> (if (fall) Sound.BLOCK_WOOD_FALL else Sound.BLOCK_WOOD_STEP).key.toString()
 
             else -> return
         }
@@ -75,7 +75,7 @@ object BlockSoundsListener : Listener {
         val block = event.blockPlaced
         if (EcoBlocks.at(block) != null || !isWood(block)) return
 
-        play(block, Sound.BLOCK_WOOD_PLACE.key().toString(), 1.0, 0.8)
+        play(block, Sound.BLOCK_WOOD_PLACE.key.toString(), 1.0, 0.8)
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -84,7 +84,7 @@ object BlockSoundsListener : Listener {
         val block = event.block
         if (EcoBlocks.at(block) != null || !isWood(block)) return
 
-        play(block, Sound.BLOCK_WOOD_BREAK.key().toString(), 1.0, 0.8)
+        play(block, Sound.BLOCK_WOOD_BREAK.key.toString(), 1.0, 0.8)
     }
 
     /** The client's mining hit loop is silenced too - replay it. */
@@ -97,10 +97,10 @@ object BlockSoundsListener : Listener {
         val sound = when {
             placed != null ->
                 placed.block.sounds?.hit
-                    ?: Sound.BLOCK_WOOD_HIT.key().toString().takeIf { placed.block.backing.material == Material.NOTE_BLOCK }
+                    ?: Sound.BLOCK_WOOD_HIT.key.toString().takeIf { placed.block.backing.material == Material.NOTE_BLOCK }
                     ?: return
 
-            isWood(block) -> Sound.BLOCK_WOOD_HIT.key().toString()
+            isWood(block) -> Sound.BLOCK_WOOD_HIT.key.toString()
 
             else -> return
         }

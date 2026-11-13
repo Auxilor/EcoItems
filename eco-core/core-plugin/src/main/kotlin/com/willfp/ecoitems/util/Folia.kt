@@ -1,12 +1,11 @@
 package com.willfp.ecoitems.util
 
-import io.papermc.paper.entity.TeleportFlag
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
-import org.bukkit.event.player.PlayerTeleportEvent
 import wiki.ecohub.core.Eco
+import wiki.ecohub.core.platform.ownsGlobal
 import wiki.ecohub.core.plugin.EcoPlugin
 import wiki.ecohub.core.plugin.startup.Prerequisite
 import java.util.concurrent.CompletableFuture
@@ -54,16 +53,22 @@ fun ownsRegion(entity: Entity): Boolean =
     Eco.get().isOwnedByCurrentRegion(entity)
 
 /**
- * Teleports, completing with whether it worked. Folia only allows async
- * teleports; elsewhere this is the plain synchronous teleport, already
- * complete when it returns.
+ * Teleports with any passengers still riding, completing with whether it
+ * worked. Folia only allows async teleports; elsewhere this is a synchronous
+ * teleport, already complete when it returns. Spigot refuses to teleport an
+ * entity that has passengers, so they get off and back on around it there.
  */
-fun Entity.teleportSafely(location: Location, vararg flags: TeleportFlag): CompletableFuture<Boolean> {
-    if (isFolia) {
-        return teleportAsync(location, PlayerTeleportEvent.TeleportCause.PLUGIN, *flags)
+@Suppress("F004")
+fun Entity.teleportWithPassengers(location: Location): CompletableFuture<Boolean> {
+    if (Prerequisite.HAS_PAPER.isMet) {
+        return PaperTeleports.teleportWithPassengers(this, location)
     }
 
-    return CompletableFuture.completedFuture(teleport(location, *flags))
+    val riders = passengers
+    riders.forEach { removePassenger(it) }
+    val teleported = teleport(location)
+    riders.forEach { addPassenger(it) }
+    return CompletableFuture.completedFuture(teleported)
 }
 
 /** Runs a command as [player], on the thread that owns them. */
@@ -73,7 +78,7 @@ fun EcoPlugin.dispatchAsPlayer(player: Player, command: String) {
 
 /** Runs a command as the console, which Folia only allows on the global region. */
 fun EcoPlugin.dispatchAsConsole(command: String) {
-    if (isFolia && !Bukkit.isGlobalTickThread()) {
+    if (isFolia && !Bukkit.getServer().ownsGlobal()) {
         scheduler.global().run { Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command) }
     } else {
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command)

@@ -36,6 +36,7 @@ import org.bukkit.util.BoundingBox
 import wiki.ecohub.game.drop.DropQueue
 import wiki.ecohub.game.drop.LibreforgeDrops
 import wiki.ecohub.game.entity.player.useItemOn
+import wiki.ecohub.game.item.isEmptyStack
 import wiki.ecohub.provider.protection.ExternalAntigriefService
 import wiki.ecohub.rules.trigger.DropCause
 import wiki.ecohub.rules.trigger.DropContext
@@ -111,7 +112,9 @@ object BlockListener : Listener {
         }
 
         val inventory = event.player.inventory
-        if (event.player.isSneaking && !(inventory.itemInMainHand.isEmpty && inventory.itemInOffHand.isEmpty)) {
+        if (event.player.isSneaking &&
+            !(inventory.itemInMainHand.isEmptyStack && inventory.itemInOffHand.isEmptyStack)
+        ) {
             return
         }
 
@@ -336,7 +339,7 @@ object BlockListener : Listener {
             SaplingGrowth.add(target)
         }
 
-        val sound = block.sounds?.place ?: Sound.BLOCK_WOOD_PLACE.key().toString()
+        val sound = block.sounds?.place ?: Sound.BLOCK_WOOD_PLACE.key.toString()
         target.world.playSound(
             target.location.add(0.5, 0.5, 0.5),
             remapSilencedSound(sound),
@@ -384,7 +387,7 @@ object BlockListener : Listener {
             worldBlock
         )
 
-        val sound = block.sounds?.place ?: Sound.BLOCK_WOOD_PLACE.key().toString()
+        val sound = block.sounds?.place ?: Sound.BLOCK_WOOD_PLACE.key.toString()
         worldBlock.world.playSound(
             worldBlock.location.add(0.5, 0.5, 0.5),
             remapSilencedSound(sound),
@@ -403,7 +406,7 @@ object BlockListener : Listener {
 
         val block = placed.block
         block.effects.dispatch(ContentEvent.BREAK, event.player, event.block.location.add(0.5, 0.5, 0.5), event.block)
-        val sound = block.sounds?.breakSound ?: Sound.BLOCK_WOOD_BREAK.key().toString()
+        val sound = block.sounds?.breakSound ?: Sound.BLOCK_WOOD_BREAK.key.toString()
         event.block.world.playSound(
             event.block.location.add(0.5, 0.5, 0.5),
             remapSilencedSound(sound),

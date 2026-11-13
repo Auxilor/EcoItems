@@ -14,13 +14,16 @@ import org.bukkit.event.block.BlockDamageAbortEvent
 import org.bukkit.event.block.BlockDamageEvent
 import org.bukkit.event.player.PlayerItemHeldEvent
 import org.bukkit.event.player.PlayerQuitEvent
+import org.bukkit.inventory.EquipmentSlotGroup
 import org.bukkit.inventory.ItemStack
+import wiki.ecohub.core.plugin.startup.Prerequisite
 
 /**
  * Custom hardness. The backing block has a fixed client-side break time, so
  * a transient block_break_speed attribute modifier rescales the player's
  * mining speed while they dig - the attribute syncs to the client, keeping
- * the crack animation honest.
+ * the crack animation honest. Spigot has no transient modifiers, so there
+ * the modifier is a saved one, taken off again before the player can save.
  *
  * String blocks are insta-mine in vanilla, which no attribute can slow down,
  * so hardness only applies to noteblock and chorus backings.
@@ -56,9 +59,17 @@ object BlockBreakSpeed : Listener {
 
         val attribute = event.player.getAttribute(Attribute.BLOCK_BREAK_SPEED) ?: return
         remove(event.player)
-        attribute.addTransientModifier(
-            AttributeModifier(key, factor - 1.0, AttributeModifier.Operation.MULTIPLY_SCALAR_1)
+        val modifier = AttributeModifier(
+            key,
+            factor - 1.0,
+            AttributeModifier.Operation.MULTIPLY_SCALAR_1,
+            EquipmentSlotGroup.ANY
         )
+        if (Prerequisite.HAS_PAPER.isMet) {
+            attribute.addTransientModifier(modifier)
+        } else {
+            attribute.addModifier(modifier)
+        }
     }
 
     @EventHandler
