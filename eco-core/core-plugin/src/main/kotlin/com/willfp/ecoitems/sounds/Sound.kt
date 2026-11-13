@@ -107,7 +107,7 @@ class HornInstrument(sound: Sound, config: Config) {
     /** How long the horn plays and stays on cooldown, in seconds. */
     val useDuration: Double = (config.getDoubleOrNull("use-duration") ?: 7.0).coerceAtLeast(0.0).let {
         // Before 26.3 the instrument codec rejects 0, which fails the whole pack.
-        if (it == 0.0 && !Prerequisite.HAS_26_3.isMet) {
+        if (it == 0.0 && !Prerequisite.hasVersion(26, 3, 0).isMet) {
             plugin.logger.warning("Sound ${sound.id} has instrument use-duration 0, which needs 26.3+; using 0.05 instead")
             0.05
         } else {
@@ -120,7 +120,7 @@ class HornInstrument(sound: Sound, config: Config) {
 
     /** Durability lost per use, 26.3+. */
     val durabilityDamage: Int = (config.getIntOrNull("durability-damage") ?: 0).coerceAtLeast(0).let {
-        if (it > 0 && !Prerequisite.HAS_26_3.isMet) {
+        if (it > 0 && !Prerequisite.hasVersion(26, 3, 0).isMet) {
             plugin.logger.warning("Sound ${sound.id} has instrument durability-damage, which needs 26.3+; it will be ignored")
             0
         } else {
