@@ -79,9 +79,13 @@ object BlockPhysicsListener : Listener {
         // With note block updates disabled the server never recalculates the
         // instrument from the block below, so vanilla note blocks would stay
         // on harp forever - recompute it for the sound.
-        // Like vanilla, a mob head directly above takes priority over the block below.
-        event.instrument = HEAD_INSTRUMENTS[event.block.getRelative(BlockFace.UP).type]
-            ?: instrumentFor(event.block.getRelative(BlockFace.DOWN))
+        // A mob head directly above takes priority over the block below, and
+        // vanilla has already picked its instrument - leave it alone.
+        if (event.block.getRelative(BlockFace.UP).type in HEAD_MATERIALS) {
+            return
+        }
+
+        event.instrument = instrumentFor(event.block.getRelative(BlockFace.DOWN))
     }
 
     /**
@@ -277,15 +281,10 @@ object BlockPhysicsListener : Listener {
     private val sand = Material.SAND.createBlockData().soundGroup.placeSound
     private val glass = Material.GLASS.createBlockData().soundGroup.placeSound
 
-    private val HEAD_INSTRUMENTS = mapOf(
-        "SKELETON_SKULL" to Instrument.SKELETON,
-        "WITHER_SKELETON_SKULL" to Instrument.WITHER_SKELETON,
-        "ZOMBIE_HEAD" to Instrument.ZOMBIE,
-        "CREEPER_HEAD" to Instrument.CREEPER,
-        "DRAGON_HEAD" to Instrument.DRAGON,
-        "PIGLIN_HEAD" to Instrument.PIGLIN,
-        "PLAYER_HEAD" to Instrument.CUSTOM_HEAD
-    ).mapNotNull { (name, instrument) -> Material.getMaterial(name)?.let { it to instrument } }.toMap()
+    private val HEAD_MATERIALS = setOf(
+        "SKELETON_SKULL", "WITHER_SKELETON_SKULL", "ZOMBIE_HEAD", "CREEPER_HEAD",
+        "DRAGON_HEAD", "PIGLIN_HEAD", "PLAYER_HEAD"
+    ).mapNotNull { Material.getMaterial(it) }.toSet()
 
     private val COPPER_INSTRUMENTS: Map<Material, Instrument> = listOf(
         "" to "TRUMPET",
