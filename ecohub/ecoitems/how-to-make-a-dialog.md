@@ -6,7 +6,7 @@ sidebar_position: 12
 Dialogs are real client **GUI screens**, using the same native system vanilla uses for server links. Each dialog is one config with a **title**, **body text**, and **buttons** that run commands. This page covers making a dialog and the ways to open one.
 
 :::info
-Dialogs use the native Minecraft dialog system: they need a **Paper 1.21.6+** server, and every player sees them with no resource pack involved.
+Dialogs use the native Minecraft dialog system: they need a **Paper 1.21.7+** server, and every player sees them with no resource pack involved.
 :::
 
 ## Quick start
