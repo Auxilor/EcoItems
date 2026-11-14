@@ -2,9 +2,6 @@ package com.willfp.ecoitems.pack
 
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
-import com.willfp.eco.core.datapack.DatapackContributor
-import com.willfp.eco.core.datapack.DatapackDraft
-import com.willfp.eco.util.formatEco
 import com.willfp.ecoitems.EcoItemsPlugin
 import com.willfp.ecoitems.paintings.Painting
 import com.willfp.ecoitems.paintings.Paintings
@@ -14,6 +11,9 @@ import com.willfp.ecoitems.sounds.Sound
 import com.willfp.ecoitems.sounds.Sounds
 import org.bukkit.Bukkit
 import org.bukkit.NamespacedKey
+import wiki.ecohub.modules.datapack.DatapackContributor
+import wiki.ecohub.modules.datapack.DatapackDraft
+import wiki.ecohub.ui.text.formatEco
 import java.io.File
 import java.util.Properties
 

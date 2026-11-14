@@ -1,11 +1,11 @@
 package com.willfp.ecoitems.huds
 
-import com.willfp.eco.core.config.interfaces.Config
-import com.willfp.eco.core.registry.KRegistrable
 import com.willfp.ecoitems.plugin
-import com.willfp.libreforge.ViolationContext
-import com.willfp.libreforge.conditions.Conditions
 import net.kyori.adventure.bossbar.BossBar
+import wiki.ecohub.config.Config
+import wiki.ecohub.config.ViolationContext
+import wiki.ecohub.core.registry.KRegistrable
+import wiki.ecohub.rules.condition.Conditions
 import java.util.Objects
 
 enum class HudType {

@@ -1,13 +1,13 @@
 package com.willfp.ecoitems.pack.delivery
 
-import com.willfp.eco.util.formatEco
 import com.willfp.ecoitems.pack.PackSettings
 import com.willfp.ecoitems.pack.publisher.PublishedPack
 import com.willfp.ecoitems.plugin
 import com.willfp.ecoitems.util.runFor
-import java.util.UUID
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
+import wiki.ecohub.ui.text.formatEco
+import java.util.UUID
 
 /**
  * Sends the published pack to players.

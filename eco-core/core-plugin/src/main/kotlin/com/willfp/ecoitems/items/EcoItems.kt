@@ -1,18 +1,18 @@
 package com.willfp.ecoitems.items
 
 import com.google.common.collect.ImmutableList
-import com.willfp.eco.core.config.interfaces.Config
-import com.willfp.eco.core.recipe.Recipes
-import com.willfp.eco.core.recipe.workstation.WorkstationRecipes
-import com.willfp.eco.core.registry.Registry
 import com.willfp.ecoitems.premium.PremiumFeature
 import com.willfp.ecoitems.premium.PremiumFeatures
-import com.willfp.libreforge.loader.LibreforgePlugin
-import com.willfp.libreforge.loader.configs.ConfigCategory
-import com.willfp.libreforge.loader.configs.LegacyLocation
-import com.willfp.libreforge.separatorAmbivalent
+import wiki.ecohub.config.Config
+import wiki.ecohub.config.LegacyLocation
+import wiki.ecohub.config.category.NativeConfigCategory
+import wiki.ecohub.config.section.separatorAmbivalent
+import wiki.ecohub.core.plugin.EcoPlugin
+import wiki.ecohub.core.registry.Registry
+import wiki.ecohub.modules.recipe.Recipes
+import wiki.ecohub.modules.recipe.workstation.WorkstationRecipes
 
-object EcoItems : ConfigCategory("item", "items") {
+object EcoItems : NativeConfigCategory("items", "item") {
     /** Registered items. */
     private val registry = Registry<EcoItem>()
 
@@ -33,18 +33,18 @@ object EcoItems : ConfigCategory("item", "items") {
         return ImmutableList.copyOf(registry.values())
     }
 
-    override fun clear(plugin: LibreforgePlugin) {
+    override fun clear(plugin: EcoPlugin) {
         for (item in registry.values()) {
             item.craftingRecipe?.let { Recipes.unregister(it) }
         }
         registry.clear()
     }
 
-    override fun beforeReload(plugin: LibreforgePlugin) {
+    override fun beforeReload(plugin: EcoPlugin) {
         ItemTemplates.load()
     }
 
-    override fun acceptConfig(plugin: LibreforgePlugin, id: String, config: Config) {
+    override fun acceptConfig(plugin: EcoPlugin, id: String, config: Config) {
         if (registry.values().size >= PremiumFeatures.FREE_LIMIT &&
             PremiumFeatures.isLocked(PremiumFeature.ITEM_LIMIT, id)
         ) {
@@ -53,7 +53,7 @@ object EcoItems : ConfigCategory("item", "items") {
         registry.register(EcoItem(id, ItemTemplates.resolve(id, config).separatorAmbivalent()))
     }
 
-    override fun afterReload(plugin: LibreforgePlugin) {
+    override fun afterReload(plugin: EcoPlugin) {
         // Recipes are registered after all items have been loaded so that
         // ingredients referring to other EcoItems can be resolved regardless
         // of load order.

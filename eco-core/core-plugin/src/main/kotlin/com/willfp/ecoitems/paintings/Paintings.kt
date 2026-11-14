@@ -1,17 +1,17 @@
 package com.willfp.ecoitems.paintings
 
-import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.ecoitems.premium.PremiumFeature
 import com.willfp.ecoitems.premium.PremiumFeatures
-import com.willfp.libreforge.loader.LibreforgePlugin
-import com.willfp.libreforge.loader.configs.RegistrableCategory
+import wiki.ecohub.config.Config
+import wiki.ecohub.config.category.RegistrableCategory
+import wiki.ecohub.core.plugin.EcoPlugin
 
 object Paintings : RegistrableCategory<Painting>("painting", "paintings") {
-    override fun clear(plugin: LibreforgePlugin) {
+    override fun clear(plugin: EcoPlugin) {
         registry.clear()
     }
 
-    override fun acceptConfig(plugin: LibreforgePlugin, id: String, config: Config) {
+    override fun acceptConfig(plugin: EcoPlugin, id: String, config: Config) {
         PremiumFeatures.report(PremiumFeature.PAINTINGS, id)
         registry.register(Painting(id, config))
     }

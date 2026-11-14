@@ -1,9 +1,5 @@
 package com.willfp.ecoitems.dialogs
 
-import com.willfp.eco.core.config.interfaces.Config
-import com.willfp.eco.core.registry.KRegistrable
-import com.willfp.eco.util.StringUtils
-import com.willfp.eco.util.formatEco
 import com.willfp.ecoitems.plugin
 import com.willfp.ecoitems.util.dispatchAsConsole
 import com.willfp.ecoitems.util.dispatchAsPlayer
@@ -15,12 +11,23 @@ import io.papermc.paper.registry.data.dialog.body.DialogBody
 import io.papermc.paper.registry.data.dialog.type.DialogType
 import net.kyori.adventure.text.event.ClickCallback
 import org.bukkit.entity.Player
+import wiki.ecohub.config.Config
+import wiki.ecohub.core.plugin.startup.Prerequisite
+import wiki.ecohub.core.registry.KRegistrable
+import wiki.ecohub.ui.text.StringUtils
+import wiki.ecohub.ui.text.formatEco
 import java.util.Objects
 
 /**
- * A native Minecraft dialog screen (1.21.6+ clients, Paper servers): a
- * title, body text, and action buttons that run commands. Configs load
- * everywhere; opening quietly refuses where the API doesn't exist.
+ * Paper added the dialog API in 1.21.7, and Spigot has none.
+ */
+private val isSupported: Boolean
+    get() = Prerequisite.HAS_PAPER.isMet && Prerequisite.hasVersion(1, 21, 7).isMet
+
+/**
+ * A native Minecraft dialog screen (Paper 1.21.7+ servers): a title, body
+ * text, and action buttons that run commands. Configs load everywhere;
+ * opening refuses where the API doesn't exist.
  */
 class EcoDialog(
     override val id: String,
@@ -42,12 +49,14 @@ class EcoDialog(
     }
 
     /** Opens the dialog; false when the platform can't show dialogs. */
-    fun open(player: Player): Boolean = runCatching {
+    fun open(player: Player): Boolean {
+        if (!isSupported) {
+            plugin.logger.warning("Dialogs need Paper 1.21.7+")
+            return false
+        }
+
         Paper.open(this, player)
-        true
-    }.getOrElse {
-        plugin.logger.warning("Dialogs need Paper 1.21.6+ ($it)")
-        false
+        return true
     }
 
     class DialogButton(

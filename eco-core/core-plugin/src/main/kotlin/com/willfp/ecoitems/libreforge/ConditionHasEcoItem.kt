@@ -1,18 +1,18 @@
 package com.willfp.ecoitems.libreforge
 
-import com.willfp.eco.core.config.interfaces.Config
-import com.willfp.eco.util.containsIgnoreCase
 import com.willfp.ecoitems.items.EcoItem
-import com.willfp.libreforge.ArgType
-import com.willfp.libreforge.Dispatcher
-import com.willfp.libreforge.NoCompileData
-import com.willfp.libreforge.ProvidedHolder
-import com.willfp.libreforge.arguments
-import com.willfp.libreforge.conditions.Condition
-import com.willfp.libreforge.get
-import com.willfp.libreforge.getHoldersOfType
-import com.willfp.libreforge.toDispatcher
 import org.bukkit.entity.LivingEntity
+import wiki.ecohub.config.ArgType
+import wiki.ecohub.config.Config
+import wiki.ecohub.config.arguments
+import wiki.ecohub.core.registry.NoCompileData
+import wiki.ecohub.game.entity.toDispatcher
+import wiki.ecohub.rules.condition.Condition
+import wiki.ecohub.rules.holder.Dispatcher
+import wiki.ecohub.rules.holder.ProvidedHolder
+import wiki.ecohub.rules.holder.get
+import wiki.ecohub.rules.holder.holders
+import wiki.ecohub.ui.text.containsIgnoreCase
 
 object ConditionHasEcoItem : Condition<NoCompileData>("has_ecoitem") {
     override val description = "Passes when the player has the specified EcoItem in a slot the item is active in."
@@ -36,7 +36,8 @@ object ConditionHasEcoItem : Condition<NoCompileData>("has_ecoitem") {
     ): Boolean {
         val entity = dispatcher.get<LivingEntity>() ?: return false
 
-        return entity.toDispatcher().getHoldersOfType<EcoItem>()
+        return entity.toDispatcher().holders
+            .mapNotNull { it.holder as? EcoItem }
             .map { it.id.key }
             .containsIgnoreCase(config.getString("item"))
     }

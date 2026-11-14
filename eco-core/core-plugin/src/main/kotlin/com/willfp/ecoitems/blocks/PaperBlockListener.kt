@@ -1,9 +1,9 @@
 package com.willfp.ecoitems.blocks
 
-import com.willfp.eco.core.Prerequisite
 import io.papermc.paper.event.entity.EntityInsideBlockEvent
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
+import wiki.ecohub.core.plugin.startup.Prerequisite
 
 /**
  * Paper-only guards. Only instantiate on Paper - registering this on Spigot

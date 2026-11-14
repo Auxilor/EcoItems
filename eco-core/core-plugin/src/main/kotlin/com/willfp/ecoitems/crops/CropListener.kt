@@ -1,6 +1,5 @@
 package com.willfp.ecoitems.crops
 
-import com.willfp.eco.core.integrations.antigrief.AntigriefManager
 import com.willfp.ecoitems.blocks.BlockListener
 import com.willfp.ecoitems.blocks.EcoBlocks
 import com.willfp.ecoitems.items.ecoItem
@@ -19,6 +18,7 @@ import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.EquipmentSlot
+import wiki.ecohub.provider.protection.ExternalAntigriefService
 
 /**
  * Planting, bonemealing, and cleanup for custom crops. Growth itself runs in
@@ -65,7 +65,7 @@ object CropListener : Listener {
             return
         }
 
-        if (!AntigriefManager.canPlaceBlock(player, target)) {
+        if (!ExternalAntigriefService.canPlaceBlock(player, target)) {
             return
         }
         if (!BlockListener.passesPlacementCooldown(player)) {

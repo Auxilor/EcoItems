@@ -1,10 +1,10 @@
 package com.willfp.ecoitems.materials
 
-import com.willfp.eco.core.EcoPlugin
-import com.willfp.eco.core.placeholder.RegistrablePlaceholder
-import com.willfp.eco.core.placeholder.context.PlaceholderContext
 import com.willfp.ecoitems.BuildConfig
 import com.willfp.ecoitems.ext.modularMaterials
+import wiki.ecohub.core.plugin.EcoPlugin
+import wiki.ecohub.ui.placeholder.PlaceholderContext
+import wiki.ecohub.ui.placeholder.RegistrablePlaceholder
 import java.util.regex.Pattern
 
 /**

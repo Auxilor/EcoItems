@@ -1,38 +1,41 @@
 package com.willfp.ecoitems.commands
 
-import com.willfp.eco.core.command.impl.Subcommand
-import com.willfp.eco.core.drops.DropQueue
 import com.willfp.ecoitems.ext.withMaterialArgs
 import com.willfp.ecoitems.items.EcoItems
-import com.willfp.ecoitems.plugin
 import com.willfp.ecoitems.util.runFor
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
-import org.bukkit.util.StringUtil
+import wiki.ecohub.core.command.CommandBuilder
+import wiki.ecohub.game.drop.DropQueue
 
-object CommandGive : Subcommand(plugin, "give", "ecoitems.command.give", false) {
-    private val numbers = listOf(
-        "1",
-        "2",
-        "3",
-        "4",
-        "5",
-        "10",
-        "32",
-        "64"
-    )
+private const val AMOUNT_ARGUMENT_COUNT = 3
 
-    override fun onExecute(sender: CommandSender, args: List<String>) {
-        val player = notifyPlayerRequired(args.getOrNull(0), "invalid-player")
+private val numbers = listOf(
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "10",
+    "32",
+    "64"
+)
 
-        val ecoItem = notifyNull(EcoItems.getByID(args.getOrNull(1)), "invalid-item")
+internal fun CommandBuilder<CommandSender>.giveCommand() = subcommand(
+    name = "give",
+    permission = "ecoitems.command.give"
+) {
+    executes {
+        val player = argument(0, missingKey = "invalid-player", invalidKey = "invalid-player") { Bukkit.getPlayer(it) }
+
+        val ecoItem = EcoItems.getByID(args.getOrNull(1)) ?: fail("invalid-item")
 
         val amountArg = args.getOrNull(2)?.toIntOrNull()
         val amount = amountArg?.takeIf { it > 0 } ?: 1
 
         val message = plugin.langYml.getMessage("give-success")
-            .replace("%item%", ecoItem.id.key)
-            .replace("%recipient%", player.name)
+            .replace(oldValue = "%item%", newValue = ecoItem.id.key)
+            .replace(oldValue = "%recipient%", newValue = player.name)
 
         sender.sendMessage(message)
 
@@ -48,35 +51,12 @@ object CommandGive : Subcommand(plugin, "give", "ecoitems.command.give", false) 
         }
     }
 
-    override fun tabComplete(sender: CommandSender, args: List<String>): List<String> {
-        val completions = mutableListOf<String>()
-
-        if (args.isEmpty()) {
-            return Bukkit.getOnlinePlayers().map { it.name }
+    completes {
+        when (args.size) {
+            1 -> playerNames()
+            2 -> EcoItems.values().filterNot { it.excludeFromCommands }.map { it.id.key }
+            AMOUNT_ARGUMENT_COUNT -> numbers
+            else -> emptyList()
         }
-
-        if (args.size == 1) {
-            StringUtil.copyPartialMatches(
-                args[0],
-                Bukkit.getOnlinePlayers().map { it.name },
-                completions
-            )
-            return completions
-        }
-
-        if (args.size == 2) {
-            val itemNames = EcoItems.values().filterNot { it.excludeFromCommands }.map { it.id.key }
-
-            StringUtil.copyPartialMatches(args[1], itemNames, completions)
-            completions.sort()
-            return completions
-        }
-
-        if (args.size == 3) {
-            StringUtil.copyPartialMatches(args[2], numbers, completions)
-            return completions
-        }
-
-        return emptyList()
     }
 }

@@ -3,7 +3,7 @@ package com.willfp.ecoitems.pack
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import com.willfp.eco.core.config.toPlainValues
+import wiki.ecohub.config.toPlainValues
 
 /**
  * Composes the item definition node tree (the "model" value of

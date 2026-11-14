@@ -1,6 +1,5 @@
 package com.willfp.ecoitems.pack
 
-import com.willfp.eco.core.items.Items
 import com.willfp.ecoitems.items.ecoItem
 import com.willfp.ecoitems.plugin
 import org.bukkit.entity.Trident
@@ -8,6 +7,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.ProjectileHitEvent
 import org.bukkit.event.entity.ProjectileLaunchEvent
+import wiki.ecohub.game.item.withComponents
 
 /**
  * Custom trident models: there's no client-side "is thrown" property, so a
@@ -45,16 +45,16 @@ object TridentListener : Listener {
     }
 
     private fun swapModel(trident: Trident, model: (String) -> String?) {
-        val stack = runCatching { trident.itemStack }.getOrNull() ?: return
+        val stack = runCatching { trident.item }.getOrNull() ?: return
         val id = stack.ecoItem?.id?.key ?: return
         val key = model(id) ?: return
 
-        val result = Items.withComponents(stack, mapOf("minecraft:item_model" to key))
+        val result = stack.withComponents(mapOf("minecraft:item_model" to key))
 
         for (error in result.errors) {
             plugin.logger.warning("Could not swap thrown trident model for $id: $error")
         }
 
-        runCatching { trident.itemStack = result.item }
+        runCatching { trident.item = result.item }
     }
 }

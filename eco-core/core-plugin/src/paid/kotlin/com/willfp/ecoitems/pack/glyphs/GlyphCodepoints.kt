@@ -1,8 +1,8 @@
 package com.willfp.ecoitems.pack.glyphs
 
-import com.willfp.eco.core.config.readConfig
 import com.willfp.ecoitems.EcoItemsPlugin
 import com.willfp.ecoitems.glyphs.Glyph
+import wiki.ecohub.config.readConfig
 
 /**
  * A glyph with its assigned codepoints: one frame for static glyphs, several

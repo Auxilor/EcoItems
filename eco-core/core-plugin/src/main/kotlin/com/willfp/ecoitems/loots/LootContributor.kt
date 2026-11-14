@@ -1,14 +1,14 @@
 package com.willfp.ecoitems.loots
 
-import com.willfp.libreforge.drops.DropContribution
-import com.willfp.libreforge.drops.DropContributor
-import com.willfp.libreforge.triggers.event.DropCause
-import com.willfp.libreforge.triggers.event.DropContext
 import org.bukkit.GameMode
 import org.bukkit.Location
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
+import wiki.ecohub.game.drop.DropContribution
+import wiki.ecohub.game.drop.DropContributor
+import wiki.ecohub.rules.trigger.DropCause
+import wiki.ecohub.rules.trigger.DropContext
 import kotlin.random.Random
 
 /**

@@ -1,17 +1,11 @@
 package com.willfp.ecoitems.blocks
 
-import com.willfp.eco.core.integrations.antigrief.AntigriefManager
-import com.willfp.eco.core.drops.DropQueue
-import com.willfp.eco.util.useItemOn
 import com.willfp.ecoitems.api.event.EcoBlockDropEvent
-import com.willfp.ecoitems.libreforge.ContentEvent
-import com.willfp.libreforge.drops.LibreforgeDrops
-import com.willfp.libreforge.triggers.event.DropCause
-import com.willfp.libreforge.triggers.event.DropContext
 import com.willfp.ecoitems.items.EcoItems
 import com.willfp.ecoitems.items.KeepWhenBrokenListener
 import com.willfp.ecoitems.items.KeepWhenBrokenListener.isBroken
 import com.willfp.ecoitems.items.ecoItem
+import com.willfp.ecoitems.libreforge.ContentEvent
 import com.willfp.ecoitems.plugin
 import com.willfp.ecoitems.util.WorldGuardFlags
 import org.bukkit.Bukkit
@@ -39,6 +33,13 @@ import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.Damageable
 import org.bukkit.util.BoundingBox
+import wiki.ecohub.game.drop.DropQueue
+import wiki.ecohub.game.drop.LibreforgeDrops
+import wiki.ecohub.game.entity.player.useItemOn
+import wiki.ecohub.game.item.isEmptyStack
+import wiki.ecohub.provider.protection.ExternalAntigriefService
+import wiki.ecohub.rules.trigger.DropCause
+import wiki.ecohub.rules.trigger.DropContext
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.random.Random
@@ -111,7 +112,9 @@ object BlockListener : Listener {
         }
 
         val inventory = event.player.inventory
-        if (event.player.isSneaking && !(inventory.itemInMainHand.isEmpty && inventory.itemInOffHand.isEmpty)) {
+        if (event.player.isSneaking &&
+            !(inventory.itemInMainHand.isEmptyStack && inventory.itemInOffHand.isEmptyStack)
+        ) {
             return
         }
 
@@ -191,7 +194,7 @@ object BlockListener : Listener {
         val target = placed.block.stripsTo?.let { EcoBlocks[it] } ?: return
         val player = event.player
 
-        if (!AntigriefManager.canBreakBlock(player, block)) {
+        if (!ExternalAntigriefService.canBreakBlock(player, block)) {
             return
         }
 
@@ -309,7 +312,7 @@ object BlockListener : Listener {
 
         // Claim plugins integrate two ways: eco's antigrief wrappers and
         // listening to the (synthetic) place event below.
-        if (!AntigriefManager.canPlaceBlock(player, target)) {
+        if (!ExternalAntigriefService.canPlaceBlock(player, target)) {
             return
         }
 
@@ -336,7 +339,7 @@ object BlockListener : Listener {
             SaplingGrowth.add(target)
         }
 
-        val sound = block.sounds?.place ?: Sound.BLOCK_WOOD_PLACE.key().toString()
+        val sound = block.sounds?.place ?: "minecraft:block.wood.place"
         target.world.playSound(
             target.location.add(0.5, 0.5, 0.5),
             remapSilencedSound(sound),
@@ -357,7 +360,7 @@ object BlockListener : Listener {
     ) {
         val data = EcoBlocks.blockData(block, newOrientation) ?: return
 
-        if (!AntigriefManager.canPlaceBlock(player, worldBlock)) {
+        if (!ExternalAntigriefService.canPlaceBlock(player, worldBlock)) {
             return
         }
         if (!passesPlacementCooldown(player)) {
@@ -384,7 +387,7 @@ object BlockListener : Listener {
             worldBlock
         )
 
-        val sound = block.sounds?.place ?: Sound.BLOCK_WOOD_PLACE.key().toString()
+        val sound = block.sounds?.place ?: "minecraft:block.wood.place"
         worldBlock.world.playSound(
             worldBlock.location.add(0.5, 0.5, 0.5),
             remapSilencedSound(sound),
@@ -403,7 +406,7 @@ object BlockListener : Listener {
 
         val block = placed.block
         block.effects.dispatch(ContentEvent.BREAK, event.player, event.block.location.add(0.5, 0.5, 0.5), event.block)
-        val sound = block.sounds?.breakSound ?: Sound.BLOCK_WOOD_BREAK.key().toString()
+        val sound = block.sounds?.breakSound ?: "minecraft:block.wood.break"
         event.block.world.playSound(
             event.block.location.add(0.5, 0.5, 0.5),
             remapSilencedSound(sound),

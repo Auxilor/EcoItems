@@ -1,10 +1,10 @@
 package com.willfp.ecoitems.pack.glyphs
 
-import com.willfp.eco.core.EcoPlugin
-import com.willfp.eco.core.placeholder.RegistrablePlaceholder
-import com.willfp.eco.core.placeholder.context.PlaceholderContext
-import com.willfp.ecoitems.plugin as ecoItemsPlugin
+import wiki.ecohub.core.plugin.EcoPlugin
+import wiki.ecohub.ui.placeholder.PlaceholderContext
+import wiki.ecohub.ui.placeholder.RegistrablePlaceholder
 import java.util.regex.Pattern
+import com.willfp.ecoitems.plugin as ecoItemsPlugin
 
 /** `%ecoitems_glyph_<id>%` - the glyph's characters (legacy-colored for animated). */
 object GlyphPlaceholder : RegistrablePlaceholder {

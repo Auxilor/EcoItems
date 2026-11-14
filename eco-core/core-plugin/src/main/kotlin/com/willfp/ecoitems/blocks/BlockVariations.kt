@@ -1,7 +1,7 @@
 package com.willfp.ecoitems.blocks
 
-import com.willfp.eco.core.config.readConfig
 import com.willfp.ecoitems.EcoItemsPlugin
+import wiki.ecohub.config.readConfig
 
 /**
  * Assigns each block a stable variation (or one per orientation for

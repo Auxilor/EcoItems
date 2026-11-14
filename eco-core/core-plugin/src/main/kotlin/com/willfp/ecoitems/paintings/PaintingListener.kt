@@ -1,6 +1,5 @@
 package com.willfp.ecoitems.paintings
 
-import com.willfp.eco.core.items.Items
 import com.willfp.ecoitems.items.EcoItems
 import com.willfp.ecoitems.plugin
 import org.bukkit.GameMode
@@ -14,6 +13,8 @@ import org.bukkit.event.Listener
 import org.bukkit.event.hanging.HangingBreakByEntityEvent
 import org.bukkit.event.hanging.HangingBreakEvent
 import org.bukkit.inventory.ItemStack
+import wiki.ecohub.core.registry.keyOf
+import wiki.ecohub.game.item.withComponents
 
 /**
  * Vanilla drops a plain painting item when a painting breaks, losing the
@@ -24,7 +25,7 @@ object PaintingListener : Listener {
     @EventHandler(ignoreCancelled = true)
     fun onBreak(event: HangingBreakEvent) {
         val painting = event.entity as? Painting ?: return
-        val key = painting.art.key
+        val key = keyOf(painting.art)
         if (key.namespace != "ecoitems" || Paintings[key.key] == null) {
             return
         }
@@ -53,10 +54,8 @@ object PaintingListener : Listener {
             }
         }
 
-        return Items.withComponents(
-                ItemStack(Material.PAINTING),
-                mapOf("minecraft:painting/variant" to variant.toString())
-            )
+        return ItemStack(Material.PAINTING)
+            .withComponents(mapOf("minecraft:painting/variant" to variant.toString()))
             .item
     }
 }

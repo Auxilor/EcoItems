@@ -1,6 +1,5 @@
 package com.willfp.ecoitems.libreforge
 
-import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.ecoitems.BuildConfig
 import com.willfp.ecoitems.ext.minimumMiningTier
 import com.willfp.ecoitems.ext.withMaterials
@@ -8,12 +7,13 @@ import com.willfp.ecoitems.items.ecoItem
 import com.willfp.ecoitems.materials.MiningTiers
 import com.willfp.ecoitems.premium.PremiumFeature
 import com.willfp.ecoitems.premium.PremiumFeatures
-import com.willfp.libreforge.ArgType
-import com.willfp.libreforge.NoCompileData
-import com.willfp.libreforge.ViolationContext
-import com.willfp.libreforge.arguments
-import com.willfp.libreforge.effects.Effect
-import com.willfp.libreforge.triggers.TriggerData
+import wiki.ecohub.config.ArgType
+import wiki.ecohub.config.Config
+import wiki.ecohub.config.ViolationContext
+import wiki.ecohub.config.arguments
+import wiki.ecohub.core.registry.NoCompileData
+import wiki.ecohub.rules.effect.Effect
+import wiki.ecohub.rules.trigger.TriggerData
 
 object EffectRaiseMiningTier : Effect<NoCompileData>("raise_mining_tier") {
     override val description = "Raises the mining tier of the found modular item to at least the given tier."

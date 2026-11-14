@@ -1,6 +1,5 @@
 package com.willfp.ecoitems.furniture
 
-import com.willfp.eco.util.formatEco
 import com.willfp.ecoitems.plugin
 import com.willfp.ecoitems.util.runFor
 import org.bukkit.Bukkit
@@ -17,6 +16,7 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
 import org.bukkit.util.io.BukkitObjectInputStream
 import org.bukkit.util.io.BukkitObjectOutputStream
+import wiki.ecohub.ui.text.formatEco
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.util.UUID
