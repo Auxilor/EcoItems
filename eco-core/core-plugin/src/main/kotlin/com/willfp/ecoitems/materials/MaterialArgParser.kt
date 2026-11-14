@@ -14,6 +14,7 @@ import org.bukkit.inventory.meta.ItemMeta
 import org.bukkit.persistence.PersistentDataType
 import wiki.ecohub.core.platform.namespacedKeyOf
 import wiki.ecohub.core.plugin.startup.Prerequisite
+import wiki.ecohub.game.item.copyModelDataFrom
 import wiki.ecohub.game.item.editItemMeta
 import wiki.ecohub.game.item.getPersistentData
 import wiki.ecohub.game.item.lookup.LookupArgParser
@@ -75,9 +76,7 @@ object MaterialArgParser : LookupArgParser {
             to.lore = from.lore
         }
 
-        if (from.hasCustomModelDataComponent()) {
-            to.setCustomModelDataComponent(from.customModelDataComponent)
-        }
+        to.copyModelDataFrom(from)
 
         if (from is Damageable && to is Damageable && from.hasMaxDamage()) {
             to.setMaxDamage(from.maxDamage)
