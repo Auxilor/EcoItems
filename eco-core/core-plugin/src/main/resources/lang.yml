@@ -37,7 +37,7 @@ messages:
   durability-set: "Durability set to &a%durability%&f/&a%max%&f!"
   no-furniture-nearby: "&cNo furniture nearby!"
   invalid-dialog: "&cUnknown dialog!"
-  dialogs-unsupported: "&cDialogs need a Paper 1.21.6+ server!"
+  dialogs-unsupported: "&cDialogs need a Paper 1.21.7+ server!"
   hitbox-shown: "Showing furniture barriers (&cred&f) and hitboxes (&eyellow&f) for a few seconds."
   glyph-picker-title: "Glyphs"
   glyph-picker-hover: "&f%glyph%\n&7%placeholder%\n&eClick to copy"
