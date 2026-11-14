@@ -7,7 +7,6 @@ import com.willfp.ecoitems.plugin
 import com.willfp.ecoitems.premium.PremiumFeature
 import com.willfp.ecoitems.premium.PremiumFeatures
 import org.bukkit.Particle
-import org.bukkit.Sound
 import org.bukkit.entity.Display
 import org.bukkit.entity.ItemDisplay
 import wiki.ecohub.config.Config
@@ -372,6 +371,6 @@ class FurnitureDoor(furnitureId: String, config: Config) {
         null
     }
 
-    val openSound = config.getStringOrNull("open-sound") ?: Sound.BLOCK_WOODEN_DOOR_OPEN.key.toString()
-    val closeSound = config.getStringOrNull("close-sound") ?: Sound.BLOCK_WOODEN_DOOR_CLOSE.key.toString()
+    val openSound = config.getStringOrNull("open-sound") ?: "minecraft:block.wooden_door.open"
+    val closeSound = config.getStringOrNull("close-sound") ?: "minecraft:block.wooden_door.close"
 }

@@ -13,6 +13,7 @@ import org.bukkit.event.Listener
 import org.bukkit.event.hanging.HangingBreakByEntityEvent
 import org.bukkit.event.hanging.HangingBreakEvent
 import org.bukkit.inventory.ItemStack
+import wiki.ecohub.core.registry.keyOf
 import wiki.ecohub.game.item.withComponents
 
 /**
@@ -24,7 +25,7 @@ object PaintingListener : Listener {
     @EventHandler(ignoreCancelled = true)
     fun onBreak(event: HangingBreakEvent) {
         val painting = event.entity as? Painting ?: return
-        val key = painting.art.key
+        val key = keyOf(painting.art)
         if (key.namespace != "ecoitems" || Paintings[key.key] == null) {
             return
         }

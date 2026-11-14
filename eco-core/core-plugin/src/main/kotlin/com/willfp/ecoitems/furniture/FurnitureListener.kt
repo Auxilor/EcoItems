@@ -8,7 +8,6 @@ import com.willfp.ecoitems.plugin
 import com.willfp.ecoitems.util.WorldGuardFlags
 import org.bukkit.GameMode
 import org.bukkit.Material
-import org.bukkit.Sound
 import org.bukkit.SoundCategory
 import org.bukkit.block.Block
 import org.bukkit.block.BlockFace
@@ -120,7 +119,7 @@ object FurnitureListener : Listener {
         }
         player.swingMainHand()
         furniture.effects.dispatch(ContentEvent.PLACE, player, origin.location.add(0.5, 0.5, 0.5))
-        playSound(origin, furniture, furniture.sounds?.place ?: Sound.BLOCK_WOOD_PLACE.key.toString())
+        playSound(origin, furniture, furniture.sounds?.place ?: "minecraft:block.wood.place")
     }
 
     /** Attacking the furniture (via its interaction hitbox) breaks it. */
@@ -188,7 +187,7 @@ object FurnitureListener : Listener {
         playSound(
             block,
             placed.furniture,
-            placed.furniture?.sounds?.breakSound ?: Sound.BLOCK_WOOD_BREAK.key.toString()
+            placed.furniture?.sounds?.breakSound ?: "minecraft:block.wood.break"
         )
         placed.remove(player, drop = true)
     }

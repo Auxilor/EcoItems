@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemStack
 import wiki.ecohub.config.Config
 import wiki.ecohub.config.ViolationContext
 import wiki.ecohub.core.registry.KRegistrable
+import wiki.ecohub.core.registry.keyOf
 import wiki.ecohub.game.block.Blocks
 import wiki.ecohub.game.block.lookup.EmptyTestableBlock
 import wiki.ecohub.game.block.lookup.TestableBlock
@@ -173,7 +174,7 @@ class Loot(
         if (worlds.isNotEmpty() && world.name.lowercase() !in worlds) {
             return false
         }
-        if (biomes.isNotEmpty() && biome.key.key !in biomes) {
+        if (biomes.isNotEmpty() && keyOf(biome).key !in biomes) {
             return false
         }
         if (!conditions.areMet(player.toDispatcher(), EmptyProvidedHolder)) {

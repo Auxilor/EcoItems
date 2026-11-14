@@ -339,7 +339,7 @@ object BlockListener : Listener {
             SaplingGrowth.add(target)
         }
 
-        val sound = block.sounds?.place ?: Sound.BLOCK_WOOD_PLACE.key.toString()
+        val sound = block.sounds?.place ?: "minecraft:block.wood.place"
         target.world.playSound(
             target.location.add(0.5, 0.5, 0.5),
             remapSilencedSound(sound),
@@ -387,7 +387,7 @@ object BlockListener : Listener {
             worldBlock
         )
 
-        val sound = block.sounds?.place ?: Sound.BLOCK_WOOD_PLACE.key.toString()
+        val sound = block.sounds?.place ?: "minecraft:block.wood.place"
         worldBlock.world.playSound(
             worldBlock.location.add(0.5, 0.5, 0.5),
             remapSilencedSound(sound),
@@ -406,7 +406,7 @@ object BlockListener : Listener {
 
         val block = placed.block
         block.effects.dispatch(ContentEvent.BREAK, event.player, event.block.location.add(0.5, 0.5, 0.5), event.block)
-        val sound = block.sounds?.breakSound ?: Sound.BLOCK_WOOD_BREAK.key.toString()
+        val sound = block.sounds?.breakSound ?: "minecraft:block.wood.break"
         event.block.world.playSound(
             event.block.location.add(0.5, 0.5, 0.5),
             remapSilencedSound(sound),
