@@ -79,7 +79,9 @@ object BlockPhysicsListener : Listener {
         // With note block updates disabled the server never recalculates the
         // instrument from the block below, so vanilla note blocks would stay
         // on harp forever - recompute it for the sound.
-        event.instrument = instrumentFor(event.block.getRelative(BlockFace.DOWN))
+        // Like vanilla, a mob head directly above takes priority over the block below.
+        event.instrument = HEAD_INSTRUMENTS[event.block.getRelative(BlockFace.UP).type]
+            ?: instrumentFor(event.block.getRelative(BlockFace.DOWN))
     }
 
     /**
@@ -275,7 +277,34 @@ object BlockPhysicsListener : Listener {
     private val sand = Material.SAND.createBlockData().soundGroup.placeSound
     private val glass = Material.GLASS.createBlockData().soundGroup.placeSound
 
-    private val MATERIAL_INSTRUMENTS = mapOf(
+    private val HEAD_INSTRUMENTS = mapOf(
+        "SKELETON_SKULL" to Instrument.SKELETON,
+        "WITHER_SKELETON_SKULL" to Instrument.WITHER_SKELETON,
+        "ZOMBIE_HEAD" to Instrument.ZOMBIE,
+        "CREEPER_HEAD" to Instrument.CREEPER,
+        "DRAGON_HEAD" to Instrument.DRAGON,
+        "PIGLIN_HEAD" to Instrument.PIGLIN,
+        "PLAYER_HEAD" to Instrument.CUSTOM_HEAD
+    ).mapNotNull { (name, instrument) -> Material.getMaterial(name)?.let { it to instrument } }.toMap()
+
+    private val COPPER_INSTRUMENTS: Map<Material, Instrument> = listOf(
+        "" to "TRUMPET",
+        "EXPOSED_" to "TRUMPET_EXPOSED",
+        "WEATHERED_" to "TRUMPET_WEATHERED",
+        "OXIDIZED_" to "TRUMPET_OXIDIZED"
+    ).mapNotNull { (oxidation, name) ->
+        // Trumpets only exist on newer server versions than we compile against.
+        runCatching { Instrument.valueOf(name) }.getOrNull()?.let { oxidation to it }
+    }.flatMap { (oxidation, instrument) ->
+        listOf("", "WAXED_").flatMap { waxed ->
+            // Per the wiki: only these five block types, and nothing else copper.
+            listOf(if (oxidation.isEmpty()) "COPPER_BLOCK" else "COPPER", "CHISELED_COPPER", "CUT_COPPER", "CUT_COPPER_SLAB", "CUT_COPPER_STAIRS").mapNotNull { base ->
+                Material.getMaterial("$waxed$oxidation$base")?.let { it to instrument }
+            }
+        }
+    }.toMap()
+
+    private val MATERIAL_INSTRUMENTS = COPPER_INSTRUMENTS + mapOf(
         Material.GOLD_BLOCK to Instrument.BELL,
         Material.CLAY to Instrument.FLUTE,
         Material.PACKED_ICE to Instrument.CHIME,
