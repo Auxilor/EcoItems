@@ -227,7 +227,7 @@ private class ItemScrollPane(private val items: List<EcoItem>) :
 
                 DropQueue(event.whoClicked as Player)
                     .addItem(itemStack)
-                    .forceTelekinesis()
+                    .giveDirectly()
                     .push()
             }
         }

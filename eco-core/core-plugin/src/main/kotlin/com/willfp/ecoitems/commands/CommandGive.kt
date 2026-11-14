@@ -43,7 +43,7 @@ object CommandGive : Subcommand(plugin, "give", "ecoitems.command.give", false) 
         plugin.runFor(player) {
             DropQueue(player)
                 .addItem(item)
-                .forceTelekinesis()
+                .giveDirectly()
                 .push()
         }
     }
