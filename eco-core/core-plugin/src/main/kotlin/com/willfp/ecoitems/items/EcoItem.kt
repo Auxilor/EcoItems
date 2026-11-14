@@ -18,6 +18,7 @@ import org.bukkit.persistence.PersistentDataType
 import wiki.ecohub.config.Config
 import wiki.ecohub.config.ViolationContext
 import wiki.ecohub.config.toPlainValues
+import wiki.ecohub.core.plugin.startup.Prerequisite
 import wiki.ecohub.core.registry.Registrable
 import wiki.ecohub.game.item.CustomItem
 import wiki.ecohub.game.item.Items
@@ -256,7 +257,8 @@ class EcoItem(
             PremiumFeatures.report(PremiumFeature.TEXTURES, this@EcoItem.id.key)
         }
 
-        if (!BuildConfig.FREE_VERSION && needsItemModel(itemConfig)) {
+        // The item_model component was added in 1.21.2.
+        if (!BuildConfig.FREE_VERSION && needsItemModel(itemConfig) && Prerequisite.hasVersion(1, 21, 2).isMet) {
             // The pack system generates the matching assets on reload.
             components.putIfAbsent("minecraft:item_model", "ecoitems:${this@EcoItem.id.key}")
         }
