@@ -2,7 +2,6 @@ package com.willfp.ecoitems.blocks
 
 import com.willfp.ecoitems.plugin
 import org.bukkit.NamespacedKey
-import org.bukkit.attribute.Attribute
 import org.bukkit.attribute.AttributeModifier
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Player
@@ -17,6 +16,7 @@ import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.inventory.EquipmentSlotGroup
 import org.bukkit.inventory.ItemStack
 import wiki.ecohub.core.plugin.startup.Prerequisite
+import wiki.ecohub.game.entity.getAttribute
 
 /**
  * Custom hardness. The backing block has a fixed client-side break time, so
@@ -57,7 +57,7 @@ object BlockBreakSpeed : Listener {
 
         val factor = (backingHardness / block.hardness) * (desiredSpeed / actualSpeed)
 
-        val attribute = event.player.getAttribute(Attribute.BLOCK_BREAK_SPEED) ?: return
+        val attribute = event.player.getAttribute("minecraft:block_break_speed") ?: return
         remove(event.player)
         val modifier = AttributeModifier(
             key,
@@ -85,7 +85,7 @@ object BlockBreakSpeed : Listener {
     fun onQuit(event: PlayerQuitEvent) = remove(event.player)
 
     private fun remove(player: Player) {
-        val attribute = player.getAttribute(Attribute.BLOCK_BREAK_SPEED) ?: return
+        val attribute = player.getAttribute("minecraft:block_break_speed") ?: return
         attribute.modifiers.filter { it.key == key }.forEach { attribute.removeModifier(it) }
     }
 
