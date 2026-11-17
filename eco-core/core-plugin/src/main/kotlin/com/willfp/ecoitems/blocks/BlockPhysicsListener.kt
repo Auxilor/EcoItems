@@ -79,6 +79,12 @@ object BlockPhysicsListener : Listener {
         // With note block updates disabled the server never recalculates the
         // instrument from the block below, so vanilla note blocks would stay
         // on harp forever - recompute it for the sound.
+        // A mob head directly above takes priority over the block below, and
+        // vanilla has already picked its instrument - leave it alone.
+        if (event.block.getRelative(BlockFace.UP).type in HEAD_MATERIALS) {
+            return
+        }
+
         event.instrument = instrumentFor(event.block.getRelative(BlockFace.DOWN))
     }
 
@@ -275,7 +281,29 @@ object BlockPhysicsListener : Listener {
     private val sand = Material.SAND.createBlockData().soundGroup.placeSound
     private val glass = Material.GLASS.createBlockData().soundGroup.placeSound
 
-    private val MATERIAL_INSTRUMENTS = mapOf(
+    private val HEAD_MATERIALS = setOf(
+        "SKELETON_SKULL", "WITHER_SKELETON_SKULL", "ZOMBIE_HEAD", "CREEPER_HEAD",
+        "DRAGON_HEAD", "PIGLIN_HEAD", "PLAYER_HEAD"
+    ).mapNotNull { Material.getMaterial(it) }.toSet()
+
+    private val COPPER_INSTRUMENTS: Map<Material, Instrument> = listOf(
+        "" to "TRUMPET",
+        "EXPOSED_" to "TRUMPET_EXPOSED",
+        "WEATHERED_" to "TRUMPET_WEATHERED",
+        "OXIDIZED_" to "TRUMPET_OXIDIZED"
+    ).mapNotNull { (oxidation, name) ->
+        // Trumpets only exist on newer server versions than we compile against.
+        runCatching { Instrument.valueOf(name) }.getOrNull()?.let { oxidation to it }
+    }.flatMap { (oxidation, instrument) ->
+        listOf("", "WAXED_").flatMap { waxed ->
+            // Per the wiki: only these five block types, and nothing else copper.
+            listOf(if (oxidation.isEmpty()) "COPPER_BLOCK" else "COPPER", "CHISELED_COPPER", "CUT_COPPER", "CUT_COPPER_SLAB", "CUT_COPPER_STAIRS").mapNotNull { base ->
+                Material.getMaterial("$waxed$oxidation$base")?.let { it to instrument }
+            }
+        }
+    }.toMap()
+
+    private val MATERIAL_INSTRUMENTS = COPPER_INSTRUMENTS + mapOf(
         Material.GOLD_BLOCK to Instrument.BELL,
         Material.CLAY to Instrument.FLUTE,
         Material.PACKED_ICE to Instrument.CHIME,
