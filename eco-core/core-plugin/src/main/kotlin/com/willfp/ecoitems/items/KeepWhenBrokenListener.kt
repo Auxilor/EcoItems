@@ -1,10 +1,5 @@
 package com.willfp.ecoitems.items
 
-import com.willfp.eco.core.Prerequisite
-import com.willfp.eco.util.asAudience
-import com.willfp.eco.util.formatEco
-import com.willfp.eco.util.namespacedKeyOf
-import com.willfp.eco.util.toComponent
 import com.willfp.ecoitems.plugin
 import org.bukkit.entity.AbstractArrow
 import org.bukkit.entity.Entity
@@ -20,6 +15,11 @@ import org.bukkit.event.player.PlayerItemDamageEvent
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.Damageable
 import org.bukkit.persistence.PersistentDataType
+import wiki.ecohub.core.platform.namespacedKeyOf
+import wiki.ecohub.core.plugin.startup.Prerequisite
+import wiki.ecohub.game.entity.player.asAudience
+import wiki.ecohub.ui.text.formatEco
+import wiki.ecohub.ui.text.toComponent
 
 /**
  * Items with keep-when-broken stop at their last point of durability instead of breaking. While

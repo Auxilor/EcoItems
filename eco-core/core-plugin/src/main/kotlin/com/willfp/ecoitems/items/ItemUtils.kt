@@ -1,15 +1,15 @@
 package com.willfp.ecoitems.items
 
-import com.willfp.eco.core.fast.FastItemStack
-import com.willfp.eco.core.fast.fast
-import com.willfp.eco.util.namespacedKeyOf
-import com.willfp.eco.util.toComponent
-import com.willfp.eco.util.toLegacy
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.trim.ArmorTrim
 import org.bukkit.persistence.PersistentDataType
+import wiki.ecohub.core.platform.namespacedKeyOf
+import wiki.ecohub.game.item.FastItemStack
+import wiki.ecohub.game.item.fast
+import wiki.ecohub.ui.text.toComponent
+import wiki.ecohub.ui.text.toLegacy
 
 private val legacyKey = namespacedKeyOf("ecoweapons", "weapon")
 private val key = namespacedKeyOf("ecoitems", "item")

@@ -1,22 +1,7 @@
 package com.willfp.ecoitems.loots
 
-import com.willfp.eco.core.blocks.Blocks
-import com.willfp.eco.core.blocks.TestableBlock
-import com.willfp.eco.core.blocks.impl.EmptyTestableBlock
-import com.willfp.eco.core.config.interfaces.Config
-import com.willfp.eco.core.entities.Entities
-import com.willfp.eco.core.entities.TestableEntity
-import com.willfp.eco.core.entities.impl.EmptyTestableEntity
-import com.willfp.eco.core.items.Items
-import com.willfp.eco.core.items.TestableItem
-import com.willfp.eco.core.recipe.parts.EmptyTestableItem
-import com.willfp.eco.core.registry.KRegistrable
 import com.willfp.ecoitems.blocks.parseIntRange
 import com.willfp.ecoitems.plugin
-import com.willfp.libreforge.EmptyProvidedHolder
-import com.willfp.libreforge.ViolationContext
-import com.willfp.libreforge.conditions.Conditions
-import com.willfp.libreforge.toDispatcher
 import org.bukkit.Material
 import org.bukkit.World
 import org.bukkit.block.Biome
@@ -24,6 +9,22 @@ import org.bukkit.block.Block
 import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
+import wiki.ecohub.config.Config
+import wiki.ecohub.config.ViolationContext
+import wiki.ecohub.core.registry.KRegistrable
+import wiki.ecohub.core.registry.keyOf
+import wiki.ecohub.game.block.Blocks
+import wiki.ecohub.game.block.lookup.EmptyTestableBlock
+import wiki.ecohub.game.block.lookup.TestableBlock
+import wiki.ecohub.game.entity.Entities
+import wiki.ecohub.game.entity.lookup.EmptyTestableEntity
+import wiki.ecohub.game.entity.lookup.TestableEntity
+import wiki.ecohub.game.entity.toDispatcher
+import wiki.ecohub.game.item.Items
+import wiki.ecohub.game.item.lookup.EmptyTestableItem
+import wiki.ecohub.game.item.lookup.TestableItem
+import wiki.ecohub.rules.condition.Conditions
+import wiki.ecohub.rules.holder.EmptyProvidedHolder
 import java.util.Objects
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.random.Random
@@ -173,7 +174,7 @@ class Loot(
         if (worlds.isNotEmpty() && world.name.lowercase() !in worlds) {
             return false
         }
-        if (biomes.isNotEmpty() && biome.key.key !in biomes) {
+        if (biomes.isNotEmpty() && keyOf(biome).key !in biomes) {
             return false
         }
         if (!conditions.areMet(player.toDispatcher(), EmptyProvidedHolder)) {
@@ -222,6 +223,6 @@ class LootItem(
             return null
         }
 
-        return testable.item.takeIf { it.type != Material.AIR }
+        return testable.getItem().takeIf { it.type != Material.AIR }
     }
 }

@@ -1,6 +1,5 @@
 package com.willfp.ecoitems.commands
 
-import com.willfp.eco.core.command.impl.Subcommand
 import com.willfp.ecoitems.items.EcoItem
 import com.willfp.ecoitems.items.EcoItems
 import com.willfp.ecoitems.plugin
@@ -9,62 +8,52 @@ import org.bukkit.Bukkit
 import org.bukkit.EntityEffect
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
-import org.bukkit.util.StringUtil
+import wiki.ecohub.core.command.CommandBuilder
 
-object CommandTotem : Subcommand(plugin, "totem", "ecoitems.command.totem", false) {
-    override fun onExecute(sender: CommandSender, args: List<String>) {
-        val ecoItem = notifyNull(EcoItems.getByID(args.getOrNull(0)), "invalid-item")
+internal fun CommandBuilder<CommandSender>.totemCommand() = subcommand(
+    name = "totem",
+    permission = "ecoitems.command.totem"
+) {
+    executes {
+        val ecoItem = EcoItems.getByID(args.getOrNull(0)) ?: fail("invalid-item")
 
-        val player = args.getOrNull(1)?.let { notifyPlayerRequired(it, "invalid-player") }
-            ?: (sender as? Player ?: run {
-                sender.sendMessage(plugin.langYml.getMessage("invalid-player"))
-                return
-            })
+        val player = if (args.size > 1) {
+            argument(1, missingKey = "invalid-player", invalidKey = "invalid-player") { Bukkit.getPlayer(it) }
+        } else {
+            sender as? Player ?: fail("invalid-player")
+        }
 
         plugin.runFor(player) { playTotemAnimation(player, ecoItem) }
 
         sender.sendMessage(
             plugin.langYml.getMessage("totem-played")
-                .replace("%item%", ecoItem.id.key)
-                .replace("%recipient%", player.name)
+                .replace(oldValue = "%item%", newValue = ecoItem.id.key)
+                .replace(oldValue = "%recipient%", newValue = player.name)
         )
     }
 
-    /**
-     * The client renders the totem pop with whatever sits in the offhand, so
-     * the item goes there for a tick around the effect and is put back after.
-     */
-    fun playTotemAnimation(player: Player, item: EcoItem) {
-        val previous = player.inventory.itemInOffHand
-
-        player.inventory.setItemInOffHand(item.itemStack)
-        player.playEffect(EntityEffect.TOTEM_RESURRECT)
-
-        plugin.scheduler.on(player).run {
-            if (player.isOnline) {
-                player.inventory.setItemInOffHand(previous)
-            }
+    completes {
+        when (args.size) {
+            1 -> EcoItems.values().filterNot { it.excludeFromCommands }.map { it.id.key }
+            2 -> playerNames()
+            else -> emptyList()
         }
     }
+}
 
-    override fun tabComplete(sender: CommandSender, args: List<String>): List<String> {
-        val completions = mutableListOf<String>()
+/**
+ * The client renders the totem pop with whatever sits in the offhand, so
+ * the item goes there for a tick around the effect and is put back after.
+ */
+fun playTotemAnimation(player: Player, item: EcoItem) {
+    val previous = player.inventory.itemInOffHand
 
-        if (args.size == 1) {
-            StringUtil.copyPartialMatches(
-                args[0],
-                EcoItems.values().filterNot { it.excludeFromCommands }.map { it.id.key },
-                completions
-            )
-            completions.sort()
-            return completions
+    player.inventory.setItemInOffHand(item.itemStack)
+    player.playEffect(EntityEffect.TOTEM_RESURRECT)
+
+    plugin.scheduler.on(player).run {
+        if (player.isOnline) {
+            player.inventory.setItemInOffHand(previous)
         }
-
-        if (args.size == 2) {
-            StringUtil.copyPartialMatches(args[1], Bukkit.getOnlinePlayers().map { it.name }, completions)
-            return completions
-        }
-
-        return emptyList()
     }
 }

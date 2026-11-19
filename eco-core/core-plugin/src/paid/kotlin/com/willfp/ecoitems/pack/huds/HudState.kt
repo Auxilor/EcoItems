@@ -1,13 +1,13 @@
 package com.willfp.ecoitems.pack.huds
 
-import com.willfp.eco.core.data.keys.PersistentDataKey
-import com.willfp.eco.core.data.keys.PersistentDataKeyType
-import com.willfp.eco.core.data.profile
-import com.willfp.eco.util.namespacedKeyOf
 import com.willfp.ecoitems.huds.Hud
 import com.willfp.ecoitems.huds.HudType
 import com.willfp.ecoitems.huds.Huds
 import org.bukkit.entity.Player
+import wiki.ecohub.core.platform.namespacedKeyOf
+import wiki.ecohub.data.PersistentDataKey
+import wiki.ecohub.data.PersistentDataKeyType
+import wiki.ecohub.game.entity.player.profile
 
 /**
  * Per-player HUD choices, persisted through eco profiles.

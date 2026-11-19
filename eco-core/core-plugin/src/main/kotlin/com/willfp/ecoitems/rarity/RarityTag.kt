@@ -1,8 +1,8 @@
 package com.willfp.ecoitems.rarity
 
-import com.willfp.eco.core.items.tag.CustomItemTag
 import com.willfp.ecoitems.plugin
 import org.bukkit.inventory.ItemStack
+import wiki.ecohub.game.item.lookup.CustomItemTag
 
 class RarityTag(
     private val rarity: Rarity
@@ -11,7 +11,5 @@ class RarityTag(
         return p0.ecoItemRarity == rarity
     }
 
-    override fun getExampleItem(): ItemStack? {
-        return rarity.items.randomOrNull()?.item
-    }
+    override fun getExampleItem(): ItemStack? = rarity.items.randomOrNull()?.getItem()
 }

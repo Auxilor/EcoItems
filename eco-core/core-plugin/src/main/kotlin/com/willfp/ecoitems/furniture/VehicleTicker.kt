@@ -1,20 +1,20 @@
 package com.willfp.ecoitems.furniture
 
-import com.willfp.eco.util.asAudience
-import com.willfp.eco.util.formatEco
-import com.willfp.eco.util.toComponent
 import com.willfp.ecoitems.EcoItemsPlugin
 import com.willfp.ecoitems.items.EcoItems
 import com.willfp.ecoitems.plugin
 import com.willfp.ecoitems.util.PlayerTickers
 import com.willfp.ecoitems.util.WorldGuardFlags
 import com.willfp.ecoitems.util.ownsRegion
-import com.willfp.ecoitems.util.teleportSafely
-import io.papermc.paper.entity.TeleportFlag
+import com.willfp.ecoitems.util.teleportWithPassengers
 import org.bukkit.Location
 import org.bukkit.entity.ArmorStand
 import org.bukkit.entity.ItemDisplay
 import org.bukkit.entity.Player
+import wiki.ecohub.core.plugin.startup.Prerequisite
+import wiki.ecohub.game.entity.player.asAudience
+import wiki.ecohub.ui.text.formatEco
+import wiki.ecohub.ui.text.toComponent
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.math.cos
@@ -22,17 +22,16 @@ import kotlin.math.sin
 
 /**
  * Drives vehicle furniture. The player in the first seat steers with their
- * look direction and WASD (read from Paper's input API - vehicles need Paper
- * 1.21.2+ and quietly stay parked elsewhere). The whole entity stack
+ * look direction and WASD (read from the player input API - vehicles need
+ * 1.21.3+ and stay parked elsewhere). The whole entity stack
  * (display, hitboxes, seats) translates together each tick.
  */
 object VehicleTicker {
     private const val GRAVITY = 0.4
     private const val BACKWARD_FACTOR = 0.4
 
-    private val supported = runCatching {
-        Player::class.java.getMethod("getCurrentInput")
-    }.isSuccess
+    private val supported: Boolean
+        get() = Prerequisite.hasVersion(1, 21, 3).isMet
 
     private val fuelClock = ConcurrentHashMap<UUID, Long>()
     private val lastFuelWarning = ConcurrentHashMap<UUID, Long>()
@@ -44,7 +43,7 @@ object VehicleTicker {
         }
 
         if (!supported) {
-            plugin.logger.warning("Vehicle furniture needs Paper 1.21.2+ for player input; vehicles stay parked")
+            plugin.logger.warning("Vehicle furniture needs 1.21.3+ for player input; vehicles stay parked")
             return
         }
 
@@ -142,7 +141,10 @@ object VehicleTicker {
             if (entity is ItemDisplay) {
                 to.yaw = yaw + 180f
             }
-            entity.teleportSafely(to, TeleportFlag.EntityState.RETAIN_PASSENGERS)
+            entity.teleportWithPassengers(to).exceptionally { error ->
+                plugin.logger.warning("Could not move vehicle part: $error")
+                false
+            }
         }
     }
 

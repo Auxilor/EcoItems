@@ -206,7 +206,7 @@ Counter-style corners work too. `inner:` and `outer:` apply when a piece joins a
 
 ## Vehicles
 
-A `vehicle:` section makes the furniture driveable: the player in the **first seat** steers with their look direction and W/S, and passengers in the other seats ride along. Vehicles need **Paper 1.21.2+** (elsewhere they stay parked) and can't have `barriers:` or `lights:`, since blocks can't move.
+A `vehicle:` section makes the furniture driveable: the player in the **first seat** steers with their look direction and W/S, and passengers in the other seats ride along. Vehicles need **1.21.3+**, on Paper or Spigot (older servers leave them parked) and can't have `barriers:` or `lights:`, since blocks can't move.
 
 ```yaml
 furniture:

@@ -1,14 +1,14 @@
 package com.willfp.ecoitems.libreforge
 
-import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.ecoitems.plugin
-import com.willfp.libreforge.ViolationContext
-import com.willfp.libreforge.effects.Effects
-import com.willfp.libreforge.toDispatcher
-import com.willfp.libreforge.triggers.TriggerData
 import org.bukkit.Location
 import org.bukkit.block.Block
 import org.bukkit.entity.Player
+import wiki.ecohub.config.Config
+import wiki.ecohub.config.ViolationContext
+import wiki.ecohub.game.entity.toDispatcher
+import wiki.ecohub.rules.effect.Effects
+import wiki.ecohub.rules.trigger.TriggerData
 
 /** Player interactions with placed blocks and furniture. */
 enum class ContentEvent(val key: String) {

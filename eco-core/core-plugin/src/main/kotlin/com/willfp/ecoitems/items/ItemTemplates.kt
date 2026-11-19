@@ -1,10 +1,10 @@
 package com.willfp.ecoitems.items
 
-import com.willfp.eco.core.config.config
-import com.willfp.eco.core.config.interfaces.Config
-import com.willfp.eco.core.config.readConfig
-import com.willfp.eco.core.config.toPlainValues
 import com.willfp.ecoitems.plugin
+import wiki.ecohub.config.Config
+import wiki.ecohub.config.config
+import wiki.ecohub.config.readConfig
+import wiki.ecohub.config.toPlainValues
 
 /**
  * Item templates: any _-prefixed yml under items/ can be referenced from an

@@ -1,10 +1,10 @@
 package com.willfp.ecoitems.crops
 
-import com.willfp.eco.core.config.config
-import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.ecoitems.blocks.BlockDrops
 import com.willfp.ecoitems.blocks.EcoBlock
 import com.willfp.ecoitems.plugin
+import wiki.ecohub.config.Config
+import wiki.ecohub.config.config
 
 /**
  * The crop half of an item config's `crop:` section. The item is the seed;

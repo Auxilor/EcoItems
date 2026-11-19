@@ -1,18 +1,5 @@
 package com.willfp.ecoitems.items
 
-import com.willfp.eco.core.config.interfaces.Config
-import com.willfp.eco.core.config.toPlainValues
-import com.willfp.eco.core.display.Display
-import com.willfp.eco.core.fast.fast
-import com.willfp.eco.core.items.CustomItem
-import com.willfp.eco.core.items.Items
-import com.willfp.eco.core.items.TestableItem
-import com.willfp.eco.core.items.builder.ItemStackBuilder
-import com.willfp.eco.core.items.legacyToComponentValue
-import com.willfp.eco.core.recipe.Recipes
-import com.willfp.eco.core.recipe.parts.EmptyTestableItem
-import com.willfp.eco.core.recipe.recipes.CraftingRecipe
-import com.willfp.eco.core.registry.Registrable
 import com.willfp.ecoitems.BuildConfig
 import com.willfp.ecoitems.blocks.EcoBlock
 import com.willfp.ecoitems.crops.EcoCrop
@@ -25,16 +12,31 @@ import com.willfp.ecoitems.premium.PremiumFeature
 import com.willfp.ecoitems.premium.PremiumFeatures
 import com.willfp.ecoitems.rarity.Rarities
 import com.willfp.ecoitems.sounds.Sounds
-import com.willfp.libreforge.Holder
-import com.willfp.libreforge.ViolationContext
-import com.willfp.libreforge.conditions.Conditions
-import com.willfp.libreforge.effects.Effects
-import com.willfp.libreforge.slot.SlotTypes
-import com.willfp.libreforge.slot.impl.SlotTypeMainhand
-import java.util.Objects
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ArmorMeta
 import org.bukkit.persistence.PersistentDataType
+import wiki.ecohub.config.Config
+import wiki.ecohub.config.ViolationContext
+import wiki.ecohub.config.toPlainValues
+import wiki.ecohub.core.plugin.startup.Prerequisite
+import wiki.ecohub.core.registry.Registrable
+import wiki.ecohub.game.item.CustomItem
+import wiki.ecohub.game.item.Items
+import wiki.ecohub.game.item.builder.ItemStackBuilder
+import wiki.ecohub.game.item.component.legacyToComponentValue
+import wiki.ecohub.game.item.fast
+import wiki.ecohub.game.item.lookup.EmptyTestableItem
+import wiki.ecohub.game.item.lookup.TestableItem
+import wiki.ecohub.game.item.withComponents
+import wiki.ecohub.modules.recipe.Recipes
+import wiki.ecohub.modules.recipe.crafting.CraftingRecipe
+import wiki.ecohub.rules.condition.Conditions
+import wiki.ecohub.rules.effect.Effects
+import wiki.ecohub.rules.holder.Holder
+import wiki.ecohub.rules.holder.slot.SlotTypeMainhand
+import wiki.ecohub.rules.holder.slot.SlotTypes
+import wiki.ecohub.ui.display.Display
+import java.util.Objects
 
 class EcoItem(
     id: String,
@@ -124,7 +126,7 @@ class EcoItem(
 
         val lore = itemConfig.getFormattedStrings("lore").map { "${Display.PREFIX}$it" }
 
-        val built = ItemStackBuilder(base.item).apply {
+        val built = ItemStackBuilder(base.getItem()).apply {
             if (displayName != null) {
                 setDisplayName(displayName)
             }
@@ -135,7 +137,7 @@ class EcoItem(
             ecoItem = this@EcoItem
         }
 
-        val loreComponents = built.fast().loreComponents.encoded()
+        val loreComponents = built.fast().getLoreComponents().encoded()
 
         built.itemMeta = built.itemMeta?.apply {
             if (displayName != null) {
@@ -255,7 +257,8 @@ class EcoItem(
             PremiumFeatures.report(PremiumFeature.TEXTURES, this@EcoItem.id.key)
         }
 
-        if (!BuildConfig.FREE_VERSION && needsItemModel(itemConfig)) {
+        // The item_model component was added in 1.21.2.
+        if (!BuildConfig.FREE_VERSION && needsItemModel(itemConfig) && Prerequisite.hasVersion(1, 21, 2).isMet) {
             // The pack system generates the matching assets on reload.
             components.putIfAbsent("minecraft:item_model", "ecoitems:${this@EcoItem.id.key}")
         }
@@ -264,7 +267,7 @@ class EcoItem(
             return this
         }
 
-        val result = Items.withComponents(this, components)
+        val result = withComponents(components)
 
         for (error in result.errors) {
             val pending = pendingRegistration(error)

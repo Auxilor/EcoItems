@@ -1,6 +1,5 @@
 package com.willfp.ecoitems.pack.glyphs
 
-import com.willfp.eco.core.integrations.placeholder.PlaceholderIntegration
 import com.willfp.ecoitems.glyphs.Glyph
 import com.willfp.ecoitems.pack.PackSettings
 import net.kyori.adventure.key.Key
@@ -11,6 +10,7 @@ import net.kyori.adventure.text.format.ShadowColor
 import net.kyori.adventure.text.format.TextColor
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player
+import wiki.ecohub.provider.PlaceholderProvider
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
@@ -262,12 +262,9 @@ object GlyphText {
         return component
     }
 
-    object GlyphPlaceholderIntegration : PlaceholderIntegration {
-        override fun getPluginName(): String = "EcoItemsGlyphs"
-
-        override fun registerIntegration() {
-            // Registration is handled by PlaceholderManager.addIntegration.
-        }
+    object GlyphPlaceholderIntegration : PlaceholderProvider {
+        /** Registration is handled by ExternalPlaceholderService.registerProvider. */
+        override fun registerIntegration() = Unit
 
         override fun translate(text: String, player: Player?): String {
             return replaceLegacy(text, player, checkPermissions = false)

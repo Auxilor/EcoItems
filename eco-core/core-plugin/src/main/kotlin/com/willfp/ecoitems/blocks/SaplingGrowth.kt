@@ -1,6 +1,5 @@
 package com.willfp.ecoitems.blocks
 
-import com.willfp.eco.util.namespacedKeyOf
 import com.willfp.ecoitems.EcoItemsPlugin
 import com.willfp.ecoitems.plugin
 import com.willfp.ecoitems.util.ChunkSweeps
@@ -19,6 +18,7 @@ import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.persistence.PersistentDataType
+import wiki.ecohub.core.platform.namespacedKeyOf
 import java.util.concurrent.ConcurrentHashMap
 
 /**

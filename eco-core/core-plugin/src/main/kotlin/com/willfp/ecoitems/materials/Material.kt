@@ -1,17 +1,17 @@
 package com.willfp.ecoitems.materials
 
-import com.willfp.eco.core.config.interfaces.Config
-import com.willfp.eco.core.items.Items
-import com.willfp.eco.core.items.TestableItem
-import com.willfp.eco.core.recipe.parts.EmptyTestableItem
-import com.willfp.eco.core.registry.Registrable
 import com.willfp.ecoitems.plugin
-import com.willfp.libreforge.ViolationContext
-import com.willfp.libreforge.conditions.ConditionList
-import com.willfp.libreforge.conditions.Conditions
-import com.willfp.libreforge.effects.EffectList
-import com.willfp.libreforge.effects.Effects
 import org.bukkit.inventory.ItemStack
+import wiki.ecohub.config.Config
+import wiki.ecohub.config.ViolationContext
+import wiki.ecohub.core.registry.Registrable
+import wiki.ecohub.game.item.Items
+import wiki.ecohub.game.item.lookup.EmptyTestableItem
+import wiki.ecohub.game.item.lookup.TestableItem
+import wiki.ecohub.rules.condition.ConditionList
+import wiki.ecohub.rules.condition.Conditions
+import wiki.ecohub.rules.effect.EffectList
+import wiki.ecohub.rules.effect.Effects
 import java.util.Objects
 import java.util.concurrent.ConcurrentHashMap
 

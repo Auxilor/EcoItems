@@ -1,24 +1,24 @@
 package com.willfp.ecoitems.loots
 
 import com.google.common.collect.ImmutableList
-import com.willfp.eco.core.config.interfaces.Config
-import com.willfp.eco.core.registry.Registry
-import com.willfp.libreforge.loader.LibreforgePlugin
-import com.willfp.libreforge.loader.configs.ConfigCategory
-import com.willfp.libreforge.separatorAmbivalent
+import wiki.ecohub.config.Config
+import wiki.ecohub.config.category.NativeConfigCategory
+import wiki.ecohub.config.section.separatorAmbivalent
+import wiki.ecohub.core.plugin.EcoPlugin
+import wiki.ecohub.core.registry.Registry
 
-object Loots : ConfigCategory("loot", "loots") {
+object Loots : NativeConfigCategory("loots", "loot") {
     private val registry = Registry<Loot>()
 
     fun values(): List<Loot> {
         return ImmutableList.copyOf(registry.values())
     }
 
-    override fun clear(plugin: LibreforgePlugin) {
+    override fun clear(plugin: EcoPlugin) {
         registry.clear()
     }
 
-    override fun acceptConfig(plugin: LibreforgePlugin, id: String, config: Config) {
+    override fun acceptConfig(plugin: EcoPlugin, id: String, config: Config) {
         registry.register(Loot(id, config.separatorAmbivalent()))
     }
 }

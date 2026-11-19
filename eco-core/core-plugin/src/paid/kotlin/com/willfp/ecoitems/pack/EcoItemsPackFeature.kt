@@ -1,8 +1,5 @@
 package com.willfp.ecoitems.pack
 
-import com.willfp.eco.core.datapack.Datapacks
-import com.willfp.eco.core.integrations.placeholder.PlaceholderManager
-import com.willfp.eco.core.items.Items
 import com.willfp.ecoitems.EcoItemsPlugin
 import com.willfp.ecoitems.blocks.BlockBacking
 import com.willfp.ecoitems.blocks.BlockSoundState
@@ -32,6 +29,10 @@ import com.willfp.ecoitems.sounds.Sounds
 import org.bukkit.entity.Player
 import org.bukkit.event.Listener
 import org.bukkit.inventory.ItemStack
+import wiki.ecohub.game.item.withComponents
+import wiki.ecohub.modules.datapack.Datapacks
+import wiki.ecohub.provider.ExternalPlaceholderService
+import wiki.ecohub.ui.placeholder.PlaceholderManager
 
 object EcoItemsPackFeature : PackFeature {
     private var packYml: PackYml? = null
@@ -48,7 +49,7 @@ object EcoItemsPackFeature : PackFeature {
     }
 
     override fun handleEnable(plugin: EcoItemsPlugin) {
-        PlaceholderManager.addIntegration(GlyphText.GlyphPlaceholderIntegration)
+        ExternalPlaceholderService.registerProvider(GlyphText.GlyphPlaceholderIntegration)
         PlaceholderManager.registerPlaceholder(GlyphPlaceholder)
         PlaceholderManager.registerPlaceholder(ShiftPlaceholder)
     }
@@ -138,7 +139,7 @@ object EcoItemsPackFeature : PackFeature {
     ): ItemStack {
         if (model == null) return item
 
-        val result = Items.withComponents(item, mapOf("minecraft:item_model" to model))
+        val result = item.withComponents(mapOf("minecraft:item_model" to model))
 
         for (error in result.errors) {
             plugin.logger.warning("Invalid GUI item model '$model': $error")
