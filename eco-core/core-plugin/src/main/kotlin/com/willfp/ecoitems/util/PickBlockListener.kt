@@ -1,6 +1,5 @@
 package com.willfp.ecoitems.util
 
-import com.willfp.eco.core.Prerequisite
 import com.willfp.ecoitems.blocks.EcoBlocks
 import com.willfp.ecoitems.furniture.PlacedFurniture
 import com.willfp.ecoitems.items.EcoItems
@@ -12,14 +11,15 @@ import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.inventory.ItemStack
+import wiki.ecohub.core.plugin.startup.Prerequisite
 
 /**
  * Creative pick-block on custom content grabs the backing block's item
  * (note block, string, barrier...) - hand over the real item instead.
  *
- * Only instantiate on Paper - registering this on Spigot would fail
- * reflection. Pick block is resolved server-side, so there is no
- * platform-neutral event to hook.
+ * Only instantiate on Paper 1.21.5+, where pick block is resolved
+ * server-side and these events exist. Spigot has no such event, and
+ * older versions pick on the client, so there is nothing to hook.
  */
 class PickBlockListener : Listener {
     /** Custom blocks, and furniture picked by its barriers. */
@@ -81,6 +81,6 @@ class PickBlockListener : Listener {
 
     companion object {
         fun createIfSupported(): Listener? =
-            if (Prerequisite.HAS_PAPER.isMet) PickBlockListener() else null
+            if (Prerequisite.HAS_PAPER.isMet && Prerequisite.hasVersion(1, 21, 5).isMet) PickBlockListener() else null
     }
 }

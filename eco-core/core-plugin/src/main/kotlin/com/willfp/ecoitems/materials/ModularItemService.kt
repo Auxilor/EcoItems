@@ -51,7 +51,7 @@ object ModularItemService {
 
         return slotId?.let { swappedSlot ->
             PartSwap(
-                result = item.builtFrom(materials + (swappedSlot to newMaterial)).asOne(),
+                result = item.builtFrom(materials + (swappedSlot to newMaterial)).singleCopy(),
                 returnedPart = returnedPart(modular, shape, materials[swappedSlot]),
                 cost = modular.swapCost
             )
@@ -82,5 +82,5 @@ object ModularItemService {
         }
     }
 
-    private fun ItemStack.asOne(): ItemStack = also { it.amount = 1 }
+    private fun ItemStack.singleCopy(): ItemStack = clone().apply { amount = 1 }
 }

@@ -1,20 +1,11 @@
 package com.willfp.ecoitems.pack.huds
 
-import com.willfp.eco.core.actionbar.PersistentActionBar
-import com.willfp.eco.core.actionbar.PersistentActionBars
-import com.willfp.eco.core.placeholder.context.placeholderContext
-import com.willfp.eco.util.NumberUtils
-import com.willfp.eco.util.asAudience
-import com.willfp.eco.util.formatEco
-import com.willfp.eco.util.toComponent
 import com.willfp.ecoitems.EcoItemsPlugin
 import com.willfp.ecoitems.huds.Hud
 import com.willfp.ecoitems.huds.HudType
 import com.willfp.ecoitems.huds.Huds
 import com.willfp.ecoitems.util.PlayerTickers
 import com.willfp.ecoitems.util.runFor
-import com.willfp.libreforge.EmptyProvidedHolder
-import com.willfp.libreforge.toDispatcher
 import net.kyori.adventure.bossbar.BossBar
 import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
@@ -23,6 +14,15 @@ import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerQuitEvent
+import wiki.ecohub.game.entity.player.asAudience
+import wiki.ecohub.game.entity.toDispatcher
+import wiki.ecohub.math.NumberUtils
+import wiki.ecohub.rules.holder.EmptyProvidedHolder
+import wiki.ecohub.ui.display.actionbar.PersistentActionBar
+import wiki.ecohub.ui.display.actionbar.PersistentActionBars
+import wiki.ecohub.ui.placeholder.placeholderContext
+import wiki.ecohub.ui.text.formatEco
+import wiki.ecohub.ui.text.toComponent
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.math.roundToInt

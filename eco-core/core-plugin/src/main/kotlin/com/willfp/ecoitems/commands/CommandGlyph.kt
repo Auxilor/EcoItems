@@ -1,48 +1,29 @@
 package com.willfp.ecoitems.commands
 
-import com.willfp.eco.core.command.impl.Subcommand
 import com.willfp.ecoitems.glyphs.Glyphs
 import com.willfp.ecoitems.pack.PackFeatures
-import com.willfp.ecoitems.plugin
 import org.bukkit.command.CommandSender
-import org.bukkit.util.StringUtil
+import wiki.ecohub.core.command.CommandBuilder
 
-object CommandGlyph : Subcommand(
-    plugin,
-    "glyph",
-    "ecoitems.command.glyph",
-    false
+internal fun CommandBuilder<CommandSender>.glyphCommand() = subcommand(
+    name = "glyph",
+    permission = "ecoitems.command.glyph"
 ) {
-    override fun onExecute(sender: CommandSender, args: List<String>) {
-        val feature = PackFeatures.instance
-        if (feature == null) {
-            sender.sendMessage(plugin.langYml.getMessage("glyphs-require-paid"))
-            return
-        }
+    executes {
+        val feature = PackFeatures.instance ?: fail("glyphs-require-paid")
 
-        val id = args.firstOrNull()?.lowercase() ?: run {
-            sender.sendMessage(plugin.langYml.getMessage("invalid-glyph"))
-            return
-        }
+        val id = args.firstOrNull()?.lowercase() ?: fail("invalid-glyph")
 
-        val chars = feature.glyphChars(id)
-        if (chars == null) {
-            sender.sendMessage(plugin.langYml.getMessage("invalid-glyph"))
-            return
-        }
+        val chars = feature.glyphChars(id) ?: fail("invalid-glyph")
 
         sender.sendMessage(
             plugin.langYml.getMessage("glyph-message")
-                .replace("%glyph%", id)
-                .replace("%char%", chars)
+                .replace(oldValue = "%glyph%", newValue = id)
+                .replace(oldValue = "%char%", newValue = chars)
         )
     }
 
-    override fun tabComplete(sender: CommandSender, args: List<String>): List<String> {
-        if (args.size == 1) {
-            return StringUtil.copyPartialMatches(args[0], Glyphs.values().map { it.id }, mutableListOf())
-        }
-
-        return emptyList()
+    completes {
+        if (args.size == 1) Glyphs.values().map { it.id } else emptyList()
     }
 }

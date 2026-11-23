@@ -1,20 +1,20 @@
 package com.willfp.ecoitems.blocks
 
-import com.willfp.eco.core.blocks.Blocks
-import com.willfp.eco.core.blocks.CustomBlock
-import com.willfp.eco.core.blocks.TestableBlock
-import com.willfp.eco.core.blocks.provider.BlockProvider
 import com.willfp.ecoitems.EcoItemsPlugin
 import com.willfp.ecoitems.items.EcoItems
 import com.willfp.ecoitems.pack.PackFeatures
-import com.willfp.ecoitems.plugin as ecoItemsPlugin
 import org.bukkit.Location
 import org.bukkit.NamespacedKey
 import org.bukkit.World
 import org.bukkit.block.Block
 import org.bukkit.block.data.BlockData
+import wiki.ecohub.game.block.BlockProvider
+import wiki.ecohub.game.block.Blocks
+import wiki.ecohub.game.block.CustomBlock
+import wiki.ecohub.game.block.lookup.TestableBlock
 import java.util.EnumMap
 import java.util.concurrent.ConcurrentHashMap
+import com.willfp.ecoitems.plugin as ecoItemsPlugin
 
 /**
  * The runtime block registry, rebuilt on every reload from items with a
@@ -88,7 +88,7 @@ object EcoBlocks {
             stale -= key
         }
         for (key in stale) {
-            Blocks.removeCustomBlock(key)
+            Blocks.removeCustom(key)
             registeredKeys -= key
         }
     }
@@ -100,7 +100,7 @@ object EcoBlocks {
         assignments = emptyMap()
 
         for (key in registeredKeys) {
-            Blocks.removeCustomBlock(key)
+            Blocks.removeCustom(key)
         }
         registeredKeys.clear()
     }

@@ -1,14 +1,14 @@
 package com.willfp.ecoitems.pack.glyphs
 
-import com.willfp.eco.util.asAudience
-import com.willfp.eco.util.formatEco
-import com.willfp.eco.util.toComponent
 import com.willfp.ecoitems.plugin
 import net.kyori.adventure.inventory.Book
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.event.ClickEvent
 import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.entity.Player
+import wiki.ecohub.game.entity.player.asAudience
+import wiki.ecohub.ui.text.formatEco
+import wiki.ecohub.ui.text.toComponent
 
 /**
  * The glyph picker: a virtual book of every glyph the player may use.

@@ -1,13 +1,11 @@
 package com.willfp.ecoitems.pack.blocks
 
-import com.willfp.eco.core.scheduling.EcoTask
 import com.willfp.ecoitems.blocks.BlockListener
 import com.willfp.ecoitems.blocks.BlockSoundState
 import com.willfp.ecoitems.blocks.EcoBlocks
 import com.willfp.ecoitems.plugin
 import org.bukkit.GameEvent
 import org.bukkit.Material
-import org.bukkit.Sound
 import org.bukkit.SoundCategory
 import org.bukkit.block.Block
 import org.bukkit.block.BlockFace
@@ -21,6 +19,7 @@ import org.bukkit.event.block.BlockDamageEvent
 import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.event.world.GenericGameEvent
+import wiki.ecohub.core.scheduler.EcoTask
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
 
@@ -51,13 +50,13 @@ object BlockSoundsListener : Listener {
             placed != null -> {
                 val custom = if (fall) placed.block.sounds?.fall else placed.block.sounds?.step
                 custom ?: if (placed.block.backing.material == Material.NOTE_BLOCK) {
-                    (if (fall) Sound.BLOCK_WOOD_FALL else Sound.BLOCK_WOOD_STEP).key().toString()
+                    (if (fall) "minecraft:block.wood.fall" else "minecraft:block.wood.step")
                 } else {
                     return
                 }
             }
 
-            isWood(block) -> (if (fall) Sound.BLOCK_WOOD_FALL else Sound.BLOCK_WOOD_STEP).key().toString()
+            isWood(block) -> (if (fall) "minecraft:block.wood.fall" else "minecraft:block.wood.step")
 
             else -> return
         }
@@ -75,7 +74,7 @@ object BlockSoundsListener : Listener {
         val block = event.blockPlaced
         if (EcoBlocks.at(block) != null || !isWood(block)) return
 
-        play(block, Sound.BLOCK_WOOD_PLACE.key().toString(), 1.0, 0.8)
+        play(block, "minecraft:block.wood.place", 1.0, 0.8)
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -84,7 +83,7 @@ object BlockSoundsListener : Listener {
         val block = event.block
         if (EcoBlocks.at(block) != null || !isWood(block)) return
 
-        play(block, Sound.BLOCK_WOOD_BREAK.key().toString(), 1.0, 0.8)
+        play(block, "minecraft:block.wood.break", 1.0, 0.8)
     }
 
     /** The client's mining hit loop is silenced too - replay it. */
@@ -97,10 +96,10 @@ object BlockSoundsListener : Listener {
         val sound = when {
             placed != null ->
                 placed.block.sounds?.hit
-                    ?: Sound.BLOCK_WOOD_HIT.key().toString().takeIf { placed.block.backing.material == Material.NOTE_BLOCK }
+                    ?: "minecraft:block.wood.hit".takeIf { placed.block.backing.material == Material.NOTE_BLOCK }
                     ?: return
 
-            isWood(block) -> Sound.BLOCK_WOOD_HIT.key().toString()
+            isWood(block) -> "minecraft:block.wood.hit"
 
             else -> return
         }

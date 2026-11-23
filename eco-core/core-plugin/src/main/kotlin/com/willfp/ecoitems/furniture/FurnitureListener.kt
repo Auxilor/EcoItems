@@ -1,6 +1,5 @@
 package com.willfp.ecoitems.furniture
 
-import com.willfp.eco.core.integrations.antigrief.AntigriefManager
 import com.willfp.ecoitems.blocks.BlockListener
 import com.willfp.ecoitems.blocks.EcoBlocks
 import com.willfp.ecoitems.items.ecoItem
@@ -9,7 +8,6 @@ import com.willfp.ecoitems.plugin
 import com.willfp.ecoitems.util.WorldGuardFlags
 import org.bukkit.GameMode
 import org.bukkit.Material
-import org.bukkit.Sound
 import org.bukkit.SoundCategory
 import org.bukkit.block.Block
 import org.bukkit.block.BlockFace
@@ -27,6 +25,7 @@ import org.bukkit.event.player.PlayerInteractEntityEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.util.BoundingBox
+import wiki.ecohub.provider.protection.ExternalAntigriefService
 import kotlin.math.roundToInt
 
 object FurnitureListener : Listener {
@@ -93,7 +92,7 @@ object FurnitureListener : Listener {
             return
         }
 
-        if (!AntigriefManager.canPlaceBlock(player, target)) {
+        if (!ExternalAntigriefService.canPlaceBlock(player, target)) {
             return
         }
 
@@ -120,7 +119,7 @@ object FurnitureListener : Listener {
         }
         player.swingMainHand()
         furniture.effects.dispatch(ContentEvent.PLACE, player, origin.location.add(0.5, 0.5, 0.5))
-        playSound(origin, furniture, furniture.sounds?.place ?: Sound.BLOCK_WOOD_PLACE.key().toString())
+        playSound(origin, furniture, furniture.sounds?.place ?: "minecraft:block.wood.place")
     }
 
     /** Attacking the furniture (via its interaction hitbox) breaks it. */
@@ -169,7 +168,7 @@ object FurnitureListener : Listener {
     private fun breakFurniture(placed: PlacedFurniture, player: Player) {
         val block = placed.base.location.block
 
-        if (!AntigriefManager.canBreakBlock(player, block)) {
+        if (!ExternalAntigriefService.canBreakBlock(player, block)) {
             return
         }
 
@@ -185,7 +184,11 @@ object FurnitureListener : Listener {
         }
 
         placed.furniture?.effects?.dispatch(ContentEvent.BREAK, player, placed.base.location)
-        playSound(block, placed.furniture, placed.furniture?.sounds?.breakSound ?: Sound.BLOCK_WOOD_BREAK.key().toString())
+        playSound(
+            block,
+            placed.furniture,
+            placed.furniture?.sounds?.breakSound ?: "minecraft:block.wood.break"
+        )
         placed.remove(player, drop = true)
     }
 

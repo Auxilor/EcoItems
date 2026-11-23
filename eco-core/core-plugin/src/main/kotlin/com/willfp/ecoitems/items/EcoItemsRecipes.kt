@@ -1,13 +1,13 @@
 package com.willfp.ecoitems.items
 
-import com.willfp.eco.core.config.interfaces.Config
-import com.willfp.eco.core.items.Items
-import com.willfp.eco.core.recipe.Recipes
 import com.willfp.ecoitems.premium.PremiumFeature
 import com.willfp.ecoitems.premium.PremiumFeatures
-import com.willfp.libreforge.loader.LibreforgePlugin
-import com.willfp.libreforge.loader.configs.ConfigCategory
-import com.willfp.libreforge.loader.configs.LegacyLocation
+import wiki.ecohub.config.Config
+import wiki.ecohub.config.LegacyLocation
+import wiki.ecohub.config.category.NativeConfigCategory
+import wiki.ecohub.core.plugin.EcoPlugin
+import wiki.ecohub.game.item.Items
+import wiki.ecohub.modules.recipe.Recipes
 import java.util.concurrent.ConcurrentHashMap
 
 /**
@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap
  *
  * Give the item its own config with a recipe instead; see WorkstationRecipeLoader.
  */
-object EcoItemsRecipes : ConfigCategory("recipe", "recipes") {
+object EcoItemsRecipes : NativeConfigCategory("recipes", "recipe") {
     private val registeredIds: MutableSet<String> = ConcurrentHashMap.newKeySet()
 
     val size: Int get() = registeredIds.size
@@ -28,14 +28,14 @@ object EcoItemsRecipes : ConfigCategory("recipe", "recipes") {
         "recipes"
     )
 
-    override fun clear(plugin: LibreforgePlugin) {
+    override fun clear(plugin: EcoPlugin) {
         for (id in registeredIds) {
             Recipes.unregister(plugin.createNamespacedKey(id))
         }
         registeredIds.clear()
     }
 
-    override fun acceptConfig(plugin: LibreforgePlugin, id: String, config: Config) {
+    override fun acceptConfig(plugin: EcoPlugin, id: String, config: Config) {
         if (id !in registeredIds && registeredIds.size >= PremiumFeatures.FREE_LIMIT &&
             PremiumFeatures.isLocked(PremiumFeature.RECIPE_LIMIT, id)
         ) {
@@ -43,7 +43,7 @@ object EcoItemsRecipes : ConfigCategory("recipe", "recipes") {
         }
         registeredIds.add(id)
         val result = Items.lookup(config.getString("result"))
-        val item = result.item.clone()
+        val item = result.getItem().clone()
 
         if (config.has("recipe-give-amount")) {
             item.amount = config.getInt("recipe-give-amount") // Legacy

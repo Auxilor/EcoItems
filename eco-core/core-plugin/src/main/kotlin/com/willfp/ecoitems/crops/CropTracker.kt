@@ -1,6 +1,5 @@
 package com.willfp.ecoitems.crops
 
-import com.willfp.eco.util.namespacedKeyOf
 import com.willfp.ecoitems.blocks.BlockListener
 import com.willfp.ecoitems.blocks.EcoBlocks
 import com.willfp.ecoitems.util.ChunkSweeps
@@ -9,6 +8,7 @@ import org.bukkit.Material
 import org.bukkit.block.Block
 import org.bukkit.block.BlockFace
 import org.bukkit.persistence.PersistentDataType
+import wiki.ecohub.core.platform.namespacedKeyOf
 
 /**
  * Planted crop positions, stored per chunk in its PDC as "x,y,z|epochSec"

@@ -1,9 +1,9 @@
 package com.willfp.ecoitems.pack
 
-import com.willfp.eco.core.config.BaseConfig
-import com.willfp.eco.core.config.ConfigType
-import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.ecoitems.EcoItemsPlugin
+import wiki.ecohub.config.Config
+import wiki.ecohub.config.ConfigType
+import wiki.ecohub.config.file.BaseConfig
 
 class PackYml(plugin: EcoItemsPlugin) : BaseConfig("pack", plugin, true, ConfigType.YAML)
 

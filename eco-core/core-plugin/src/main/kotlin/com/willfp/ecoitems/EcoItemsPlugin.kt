@@ -1,17 +1,12 @@
 package com.willfp.ecoitems
 
-import com.willfp.eco.core.blocks.Blocks
-import com.willfp.eco.core.bstats.EcoMetricsChart
-import com.willfp.eco.core.command.impl.PluginCommand
-import com.willfp.eco.core.display.DisplayModule
-import com.willfp.eco.core.items.Items
 import com.willfp.ecoitems.blocks.BlockBreakSpeed
 import com.willfp.ecoitems.blocks.BlockListener
 import com.willfp.ecoitems.blocks.BlockPhysicsListener
 import com.willfp.ecoitems.blocks.EcoBlocks
 import com.willfp.ecoitems.blocks.PaperBlockListener
 import com.willfp.ecoitems.blocks.SaplingGrowth
-import com.willfp.ecoitems.commands.CommandEcoItems
+import com.willfp.ecoitems.commands.ecoItemsCommand
 import com.willfp.ecoitems.crops.CropListener
 import com.willfp.ecoitems.crops.CropTracker
 import com.willfp.ecoitems.dialogs.Dialogs
@@ -38,9 +33,9 @@ import com.willfp.ecoitems.loots.LootContributor
 import com.willfp.ecoitems.loots.LootFishingListener
 import com.willfp.ecoitems.loots.Loots
 import com.willfp.ecoitems.materials.MaterialArgParser
+import com.willfp.ecoitems.materials.MaterialCountPlaceholder
 import com.willfp.ecoitems.materials.MaterialFinder
 import com.willfp.ecoitems.materials.Materials
-import com.willfp.ecoitems.materials.MaterialCountPlaceholder
 import com.willfp.ecoitems.materials.MaterialsListener
 import com.willfp.ecoitems.migration.Migrations
 import com.willfp.ecoitems.pack.PackFeatures
@@ -56,19 +51,24 @@ import com.willfp.ecoitems.util.PickBlockListener
 import com.willfp.ecoitems.util.PlayerTickers
 import com.willfp.ecoitems.util.WorldEditIntegration
 import com.willfp.ecoitems.util.WorldGuardFlags
-import com.willfp.libreforge.conditions.Conditions
-import com.willfp.libreforge.effects.Effects
-import com.willfp.libreforge.drops.LibreforgeDrops
-import com.willfp.libreforge.loader.LibreforgePlugin
-import com.willfp.libreforge.loader.configs.ConfigCategory
-import com.willfp.libreforge.registerHolderProvider
-import java.io.File
 import org.bukkit.event.Listener
+import wiki.ecohub.config.category.NativeConfigCategory
+import wiki.ecohub.core.command.EcoCommand
+import wiki.ecohub.core.plugin.EcoPlugin
+import wiki.ecohub.game.block.Blocks
+import wiki.ecohub.game.drop.LibreforgeDrops
+import wiki.ecohub.game.item.Items
+import wiki.ecohub.provider.metrics.EcoMetricsChart
+import wiki.ecohub.rules.condition.Conditions
+import wiki.ecohub.rules.effect.Effects
+import wiki.ecohub.rules.holder.registerHolderProvider
+import wiki.ecohub.ui.display.DisplayModule
+import java.io.File
 
 internal lateinit var plugin: EcoItemsPlugin
     private set
 
-class EcoItemsPlugin : LibreforgePlugin() {
+class EcoItemsPlugin : EcoPlugin() {
     init {
         plugin = this
     }
@@ -94,7 +94,7 @@ class EcoItemsPlugin : LibreforgePlugin() {
         registerHolderProvider(EcoItemFinder.toHolderProvider())
         registerHolderProvider(MaterialFinder.toHolderProvider())
 
-        Blocks.registerBlockProvider(EcoBlocks.Provider)
+        Blocks.registerProvider(EcoBlocks.Provider)
 
         LibreforgeDrops.registerContributor(LootContributor)
 
@@ -124,7 +124,7 @@ class EcoItemsPlugin : LibreforgePlugin() {
         PackFeatures.instance?.handleDisable(this)
     }
 
-    override fun loadConfigCategories(): List<ConfigCategory> {
+    override fun loadConfigCategories(): List<NativeConfigCategory> {
         // Sounds and paintings load before items so component warnings can
         // recognise references to entries pending datapack registration.
         return listOf(
@@ -169,9 +169,9 @@ class EcoItemsPlugin : LibreforgePlugin() {
             (PackFeatures.instance?.listeners(this) ?: emptyList())
     }
 
-    override fun loadPluginCommands(): List<PluginCommand> {
+    override fun loadPluginCommands(): List<EcoCommand> {
         return listOf(
-            CommandEcoItems
+            ecoItemsCommand()
         )
     }
 

@@ -1,10 +1,10 @@
 package com.willfp.ecoitems.pack
 
-import com.willfp.eco.core.config.interfaces.Config
-import com.willfp.eco.core.config.toPlainValues
 import com.willfp.ecoitems.furniture.Furniture
 import com.willfp.ecoitems.furniture.FurnitureState
 import com.willfp.ecoitems.items.EcoItem
+import wiki.ecohub.config.Config
+import wiki.ecohub.config.toPlainValues
 
 /**
  * A state's models: either explicit model locations or textures to generate

@@ -1,65 +1,30 @@
 package com.willfp.ecoitems.commands
 
-import com.willfp.eco.core.command.impl.Subcommand
 import com.willfp.ecoitems.huds.Huds
 import com.willfp.ecoitems.pack.PackFeatures
-import com.willfp.ecoitems.plugin
 import org.bukkit.command.CommandSender
-import org.bukkit.entity.Player
-import org.bukkit.util.StringUtil
+import wiki.ecohub.core.command.CommandBuilder
 
-object CommandHud : Subcommand(
-    plugin,
-    "hud",
-    "ecoitems.command.hud",
-    true
+internal fun CommandBuilder<CommandSender>.hudCommand() = playerSubcommand(
+    name = "hud",
+    permission = "ecoitems.command.hud"
 ) {
-    init {
-        this.addSubcommand(CommandHudToggle)
-    }
+    subcommand(name = "toggle", permission = "ecoitems.command.hud.toggle") {
+        executes {
+            val feature = PackFeatures.instance ?: fail("huds-require-paid")
 
-    override fun onExecute(sender: CommandSender, args: List<String>) {
-        sender.sendMessage(plugin.langYml.getMessage("invalid-command"))
-    }
-}
+            val id = args.firstOrNull()?.lowercase() ?: fail("invalid-hud")
 
-object CommandHudToggle : Subcommand(
-    plugin,
-    "toggle",
-    "ecoitems.command.hud.toggle",
-    true
-) {
-    override fun onExecute(sender: CommandSender, args: List<String>) {
-        val player = sender as Player
+            val enabled = feature.toggleHud(sender, id) ?: fail("invalid-hud")
 
-        val feature = PackFeatures.instance
-        if (feature == null) {
-            player.sendMessage(plugin.langYml.getMessage("huds-require-paid"))
-            return
+            sender.sendMessage(
+                plugin.langYml.getMessage(if (enabled) "hud-toggled-on" else "hud-toggled-off")
+                    .replace(oldValue = "%hud%", newValue = id)
+            )
         }
 
-        val id = args.firstOrNull()?.lowercase() ?: run {
-            player.sendMessage(plugin.langYml.getMessage("invalid-hud"))
-            return
+        completes {
+            if (args.size == 1) Huds.values().map { it.id } else emptyList()
         }
-
-        val enabled = feature.toggleHud(player, id)
-        if (enabled == null) {
-            player.sendMessage(plugin.langYml.getMessage("invalid-hud"))
-            return
-        }
-
-        player.sendMessage(
-            plugin.langYml.getMessage(if (enabled) "hud-toggled-on" else "hud-toggled-off")
-                .replace("%hud%", id)
-        )
-    }
-
-    override fun tabComplete(sender: CommandSender, args: List<String>): List<String> {
-        if (args.size == 1) {
-            return StringUtil.copyPartialMatches(args[0], Huds.values().map { it.id }, mutableListOf())
-        }
-
-        return emptyList()
     }
 }

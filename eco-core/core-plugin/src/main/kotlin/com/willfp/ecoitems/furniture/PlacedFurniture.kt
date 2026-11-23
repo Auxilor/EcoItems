@@ -1,14 +1,9 @@
 package com.willfp.ecoitems.furniture
 
-import com.willfp.eco.core.items.Items
 import com.willfp.ecoitems.blocks.BlockListener
 import com.willfp.ecoitems.items.EcoItem
 import com.willfp.ecoitems.items.EcoItems
 import com.willfp.ecoitems.plugin
-import java.util.UUID
-import kotlin.math.cos
-import kotlin.math.roundToInt
-import kotlin.math.sin
 import org.bukkit.Bukkit
 import org.bukkit.GameMode
 import org.bukkit.Location
@@ -16,7 +11,6 @@ import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.SoundCategory
 import org.bukkit.block.Block
-import org.bukkit.block.data.type.Light as LightData
 import org.bukkit.entity.ArmorStand
 import org.bukkit.entity.Display
 import org.bukkit.entity.Entity
@@ -28,7 +22,13 @@ import org.bukkit.util.BoundingBox
 import org.bukkit.util.Transformation
 import org.joml.Quaternionf
 import org.joml.Vector3f
+import wiki.ecohub.game.item.withComponents
+import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
+import kotlin.math.cos
+import kotlin.math.roundToInt
+import kotlin.math.sin
+import org.bukkit.block.data.type.Light as LightData
 
 /**
  * A furniture instance in the world: a persistent ItemDisplay carrying the
@@ -166,7 +166,7 @@ class PlacedFurniture(
     internal fun applyModel(modelKey: String?) {
         val stack = item?.itemStack ?: return
         base.setItemStack(modelKey?.let { model ->
-            Items.withComponents(stack, mapOf("minecraft:item_model" to model)).item
+            stack.withComponents(mapOf("minecraft:item_model" to model)).item
         } ?: stack)
     }
 

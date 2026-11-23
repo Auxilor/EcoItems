@@ -1,11 +1,11 @@
 package com.willfp.ecoitems.rarity
 
-import com.willfp.eco.core.config.interfaces.Config
-import com.willfp.eco.core.items.Items
-import com.willfp.eco.core.recipe.parts.EmptyTestableItem
-import com.willfp.eco.core.registry.KRegistrable
-import com.willfp.eco.util.formatEcoRich
 import org.bukkit.inventory.ItemStack
+import wiki.ecohub.config.Config
+import wiki.ecohub.core.registry.KRegistrable
+import wiki.ecohub.game.item.Items
+import wiki.ecohub.game.item.lookup.EmptyTestableItem
+import wiki.ecohub.ui.text.StringUtils
 
 class Rarity(
     override val id: String,
@@ -19,7 +19,7 @@ class Rarity(
 
     val lore = config.getFormattedStrings("lore")
 
-    val loreComponents = config.getStrings("lore").formatEcoRich()
+    val loreComponents = config.getStrings("lore").map { StringUtils.formatToRichComponent(it) }
 
     val tag = RarityTag(this)
 
