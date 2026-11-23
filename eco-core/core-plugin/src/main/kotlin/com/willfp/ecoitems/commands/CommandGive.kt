@@ -46,7 +46,7 @@ internal fun CommandBuilder<CommandSender>.giveCommand() = subcommand(
         plugin.runFor(player) {
             DropQueue(player)
                 .addItem(item)
-                .forceTelekinesis()
+                .giveDirectly()
                 .push()
         }
     }
