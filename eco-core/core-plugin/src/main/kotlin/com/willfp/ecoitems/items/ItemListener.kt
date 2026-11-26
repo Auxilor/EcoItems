@@ -39,6 +39,7 @@ object ItemListener : Listener {
 
         if (event.action == Action.RIGHT_CLICK_BLOCK) {
             event.setUseItemInHand(Event.Result.DENY)
+            event.player.updateInventory()
         }
     }
 
