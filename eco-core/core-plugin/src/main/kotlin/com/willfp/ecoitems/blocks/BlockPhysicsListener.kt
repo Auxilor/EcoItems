@@ -32,6 +32,11 @@ import org.bukkit.event.world.StructureGrowEvent
  * listeners are the belt-and-braces fallback that also covers Spigot.
  */
 object BlockPhysicsListener : Listener {
+    private val HEAD_MATERIALS = setOf(
+        "SKELETON_SKULL", "WITHER_SKELETON_SKULL", "ZOMBIE_HEAD", "CREEPER_HEAD",
+        "DRAGON_HEAD", "PIGLIN_HEAD", "PLAYER_HEAD"
+    ).mapNotNull { Material.getMaterial(it) }.toSet()
+
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     fun onPhysics(event: BlockPhysicsEvent) {
         val block = event.block
@@ -281,11 +286,6 @@ object BlockPhysicsListener : Listener {
     private val sand = Material.SAND.createBlockData().soundGroup.placeSound
     private val glass = Material.GLASS.createBlockData().soundGroup.placeSound
 
-    private val HEAD_MATERIALS = setOf(
-        "SKELETON_SKULL", "WITHER_SKELETON_SKULL", "ZOMBIE_HEAD", "CREEPER_HEAD",
-        "DRAGON_HEAD", "PIGLIN_HEAD", "PLAYER_HEAD"
-    ).mapNotNull { Material.getMaterial(it) }.toSet()
-
     private val COPPER_INSTRUMENTS: Map<Material, Instrument> = listOf(
         "" to "TRUMPET",
         "EXPOSED_" to "TRUMPET_EXPOSED",
@@ -297,7 +297,13 @@ object BlockPhysicsListener : Listener {
     }.flatMap { (oxidation, instrument) ->
         listOf("", "WAXED_").flatMap { waxed ->
             // Per the wiki: only these five block types, and nothing else copper.
-            listOf(if (oxidation.isEmpty()) "COPPER_BLOCK" else "COPPER", "CHISELED_COPPER", "CUT_COPPER", "CUT_COPPER_SLAB", "CUT_COPPER_STAIRS").mapNotNull { base ->
+            listOf(
+                if (oxidation.isEmpty()) "COPPER_BLOCK" else "COPPER",
+                "CHISELED_COPPER",
+                "CUT_COPPER",
+                "CUT_COPPER_SLAB",
+                "CUT_COPPER_STAIRS"
+            ).mapNotNull { base ->
                 Material.getMaterial("$waxed$oxidation$base")?.let { it to instrument }
             }
         }
